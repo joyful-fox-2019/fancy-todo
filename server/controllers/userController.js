@@ -23,21 +23,6 @@ class UserControllers{
     }
   }
 
-  // static async addCreator(req,res,next){
-  //   try {
-  //     let {username,email,password} = req.body
-  //     const user = await User.create({username,email,password,creator:true})
-  //     let payload = {
-  //       id : user._id,
-  //       creator: user.creator
-  //     }
-  //     let token = getToken(payload)
-  //     res.status(201).json({token})
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
-
   static async findAll(req,res,next){
     try {
       const users = await User.find().populate('todos')
@@ -72,6 +57,13 @@ class UserControllers{
     }
   }
 
+  static async loginOAuth(req,res,next){
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
 
 }
 

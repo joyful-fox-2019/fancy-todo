@@ -68,7 +68,37 @@ class ProjectCont{
       next(error)
     }
   }
+  static async updateTodo(req,res,next){
+    try {
+      let _id = req.params.todoid
+      let arr = ['title','desc','status']
+      let fields = req.body
+      let obj = {}
+      arr.forEach((el)=>{
+        for(let key in fields){
+          if (el === key){
+            obj[el] = fields[key]
+          }
+        }
+      })
+      const updated = await Todo.updateOne({_id},obj)
+      res.status(200).json(updated)
+    } catch (error){
+      next(error)
+    }
+  }
 
+  static async removeTodo(req,res,next){
+    try {
+      let _id = req.params.todoid
+      let projectId = req.params._id
+      const updatedProject = await Project.updateOne({_id : projectId},{$pull:{ todos : _id}})
+      const deleteTodo = await Todo.deleteOne({_id})
+      res.status(200).json({updatedProject,deleteTodo})
+    } catch (error) {
+      next(error)
+    }
+  }
 
 }
 module.exports = ProjectCont
