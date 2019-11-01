@@ -11,7 +11,7 @@ module.exports = {
       if(req.headers.token) {
   
         const decode = decodeToken(req.headers.token);
-        User.findById({ _id: decode.id })
+        User.findOne({ email: decode.email })
           .then(user => {
             if(!user) throw {msg: 'IToken'}
             else {
@@ -74,7 +74,7 @@ module.exports = {
               if(project.Members[i] == req.loggedUser.id) pass = true
             }
           }
-          if(!pass) throw {msg: 'authorMember'}
+          if(!pass) throw {msg: 'member'}
           else {
             next()
           }
@@ -89,8 +89,13 @@ module.exports = {
     try{
       User.findById({_id: req.loggedUser.id})
         .then(user => {
+          console.log('masuk dalam user auth')
+          console.log(user)
           user.Invitation.forEach((el, i) => {
             if(el == req.params.id) {
+              console.log(el)
+              console.log(req.params.id)
+              console.log('masuk kedalam if')
               next()
             }
           })

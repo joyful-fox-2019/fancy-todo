@@ -17,7 +17,7 @@ module.exports = (err, req, res, next) => {
   } else if(err.code == 11000) {
     res.status(403).json({msg: 'Duplicate Detected'})
   } else if(err.msg === 'member') {
-    res.status(403).json({msg: 'You are not a Member for this Project !'})
+    res.status(403).json({msg: 'You are not a member of this project!'})
   } else if(err.name == 'JsonWebTokenError') {
     res.status(403).json({msg: err.message})
   } else if(err.msg == 'ready') {
