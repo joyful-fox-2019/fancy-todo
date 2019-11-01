@@ -1,0 +1,89 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  color: #02685C;
+}
+.brand-logo {
+  font-size: 25px !important;
+}
+.logo {
+  width: 64px;
+  height: 64px;
+}
+.has-shadow {
+  box-shadow: 0px 0px 20px 1px rgba(217,217,217,1)
+}
+strong {
+  font-size: 18px;
+}
+li {
+  border: none;
+}
+.row {
+  margin: 0;
+}
+.right-text {
+  text-align: right;
+}
+.left-text {
+  text-align: left;
+}
+.center-text {
+  text-align: center;
+}
+.no-padding {
+  padding: 0;
+}
+.has-padding {
+  padding: 20px;
+}
+.has-margin {
+  margin: 20px;
+}
+.material-icons {
+  font-size: 20px;
+  margin-right: 5px;
+}
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+.auth-form-container {
+  max-width: 500px;
+  margin-top: 50px;
+}
+.full-width {
+  width: 100%;
+}
+.toast {
+  background-color: #ED6E73;
+}
+.clickable {
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+.modal-input {
+  height: 500px;
+}
+.check-circle {
+  cursor: pointer;
+}
+.add-button {
+  margin-right: 20vw;
+  margin-bottom: 10vh;
+}
+@media (max-width: 600px) {
+  .modal {
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+  }
+  .collection-item {
+    padding: 10px !important;
+  }
+  .add-button {
+    margin: 0;
+  }
+}
