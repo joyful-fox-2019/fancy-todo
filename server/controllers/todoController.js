@@ -6,30 +6,23 @@ class TodoCont{
 
   static async findAll(req,res,next){
     try {
-      const todos = await Todo.find()
+      let userId = req.loggedUser.data.id
+      const { todos } = await User.findOne({_id:userId},'todos').populate('todos')
       res.status(200).json(todos)
     } catch (error) {
       next(error)
     }
   }
 
-  // static async add(req,res,next){
-  //   try {
-  //     let { id } = req.loggedUser.data
-  //     let { title,desc,dueDate } = req.body
-  //     // const { projectId }= await User.findOne({_id:id},'projectId')
-  //     const created = await Todo.create({
-  //       title,
-  //       desc,
-  //       dueDate
-  //     })
-  //     const updateUserId = await Todo.updateOne({_id:created.id},{$push:{userId : id}})
-  //     const updateTodoId = await Project.updateOne({_id:projectId},{$push:{todos : created._id}})
-  //     res.status(201).json({updateUserId,updateTodoId})
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
+  static async findOne(req,res,next){
+    try {
+      let { _id } = req.params
+      const todo = await Todo.findOne({_id})
+      res.status(200).json(todo)
+    } catch (error) {
+      next(error)
+    }
+  }
 
   static async add(req,res,next){
     try {
@@ -47,14 +40,14 @@ class TodoCont{
     }
   }
 
+  
   static async remove(req,res,next){
     try {
       let { _id } = req.params
       let userId = req.loggedUser.data.id
-      let { projectId } = await User.findById({_id:userId},'projectId')
-      const updateProject = await Project.updateOne({_id:projectId},{$pull:{todos : _id}})
+      const updatedUser = await User.updateOne({_id : userId},{$pull:{ todos : _id}})
       const deleteTodo = await Todo.deleteOne({_id})
-      res.status(200).json({updateProject,deleteTodo})
+      res.status(200).json({updatedUser,deleteTodo})
     } catch (error) {
       next(error)
     }
