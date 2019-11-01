@@ -7,7 +7,7 @@ module.exports = (err, req, res, next) => {
   } else if(err.msg == 'zero'){
     res.status(404).json({msg: 'Not Found!'});
   } else if(err.msg == 'IToken') {
-    res.status(403).json({msg: 'Invalid Token / Exp Token'});
+    res.status(401).json({msg: 'Invalid Token / Exp Token'});
   } else if(err.msg == 'wmail') {
     res.status(403).json({msg: 'Email/password Wrong'})
   } else if(err.name == 'ValidationError'){

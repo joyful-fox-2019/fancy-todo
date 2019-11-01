@@ -62,8 +62,8 @@ module.exports = {
     const { title, description } = req.body;
     const _id = req.params.id;
     Todo.findByIdAndUpdate({ _id }, { title, description })
-      .then( () => {
-        res.status(201).json({msg: 'Success Updated!'});
+      .then( (data) => {
+        res.status(201).json({msg: 'Success Updated!', data});
       })
       .catch(next)
   },

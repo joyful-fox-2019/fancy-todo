@@ -25,7 +25,7 @@ module.exports = {
             email: user.email
           }
           const serverToken = signToken(payload);
-          res.status(200).json({ token: serverToken});
+          res.status(200).json({ token: serverToken });
         } else {
           throw {msg: 'wmail'}
         }
@@ -73,8 +73,8 @@ module.exports = {
   register (req, res, next) {
     const { username, password, email } = req.body;
     User.create({ username, password, email })
-      .then( () => {
-        res.status(201).json({msg: 'success register!'})
+      .then( (data) => {
+        res.status(201).json({msg: 'success register!', data})
       })
       .catch(next)
   },
