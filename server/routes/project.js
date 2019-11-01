@@ -2,6 +2,7 @@ const project = require('express').Router()
 const {findOne,findAll,createProject,addMember,addTodo} = require('../controllers/projectController')
 const auth = require('../middlewares/auth').authentication
 const authz = require('../middlewares/auth').authorization
+const authzCRUD = require('../middlewares/auth').authorizationCRUD
 const authzCreate = require('../middlewares/auth').authorizationCreator
 
 project.get('/',findAll)
@@ -10,6 +11,6 @@ project.get('/getproject',auth,findOne)
 // project.post('/addmember',auth,authzCreate,addMember)
 project.post('/create',auth,createProject)
 project.post('/addmember/:_id',auth,authzCreate,addMember)
-project.post('/addtodo/:_id',auth,addTodo)
+project.post('/addtodo/:_id',auth,authzCRUD,addTodo)
 
 module.exports = project

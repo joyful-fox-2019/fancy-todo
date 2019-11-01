@@ -13,19 +13,35 @@ class TodoCont{
     }
   }
 
+  // static async add(req,res,next){
+  //   try {
+  //     let { id } = req.loggedUser.data
+  //     let { title,desc,dueDate } = req.body
+  //     // const { projectId }= await User.findOne({_id:id},'projectId')
+  //     const created = await Todo.create({
+  //       title,
+  //       desc,
+  //       dueDate
+  //     })
+  //     const updateUserId = await Todo.updateOne({_id:created.id},{$push:{userId : id}})
+  //     const updateTodoId = await Project.updateOne({_id:projectId},{$push:{todos : created._id}})
+  //     res.status(201).json({updateUserId,updateTodoId})
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
+
   static async add(req,res,next){
     try {
       let { id } = req.loggedUser.data
       let { title,desc,dueDate } = req.body
-      // const { projectId }= await User.findOne({_id:id},'projectId')
       const created = await Todo.create({
         title,
         desc,
         dueDate
       })
-      const updateUserId = await Todo.updateOne({_id:created.id},{$push:{userId : id}})
-      const updateTodoId = await Project.updateOne({_id:projectId},{$push:{todos : created._id}})
-      res.status(201).json({updateUserId,updateTodoId})
+      const updateUser = await User.updateOne({ _id:id },{ $push: { todos : created._id }})
+      res.status(201).json({created,updateUser})
     } catch (error) {
       next(error)
     }

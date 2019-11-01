@@ -36,6 +36,22 @@ async function authorizationCreator(req,res,next){
   }
 } 
 
+async function authorizationCRUD(req,res,next){
+  try {
+    let projectId = req.params._id
+    let userId = req.loggedUser.data.id
+    const user = await User.findOne({_id : userId})
+    if (projectId == user.project){
+      next()
+    } else {
+      next({status: 403, message: 'You are not authorize to perform this action'})
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 async function authorization(req,res,next){
   try {
     let {id} = req.loggedUser.data
@@ -59,4 +75,4 @@ async function authorization(req,res,next){
   }
 }
 
-module.exports = {authentication,authorization,authorizationCreator}
+module.exports = {authentication,authorization,authorizationCreator,authorizationCRUD}
