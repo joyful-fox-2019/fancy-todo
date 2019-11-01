@@ -1,6 +1,8 @@
 const User = require('../models/User')
 const {getToken} = require('../helpers/jwt')
 const {compareHash} = require('../helpers/bcrypt')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 class UserControllers{
 
@@ -59,7 +61,12 @@ class UserControllers{
 
   static async loginOAuth(req,res,next){
     try {
-      
+      let { id_token } = req.body
+      const ticket = await client.verifyIdToken({
+        idToken: id_token,
+        audience: CLIENT_ID,
+        });
+    const payload = ticket.getPayload();
     } catch (error) {
       
     }
