@@ -97,7 +97,7 @@ module.exports = {
         else {
           let pass = false;
           for(let i=0; i<project.Members.length; i++) {
-            if(project.Members[i] == UserId) {
+            if(project.Members[i] == UserId || project.owner == UserId) {
               pass = true;
             }
           }

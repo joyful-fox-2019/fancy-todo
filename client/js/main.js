@@ -1,5 +1,4 @@
-const baseUrl = 'http://localhost:3000'
-
+const baseUrl = 'http://todoserver.dreamcarofficial.com'
 
 
 const Toast = Swal.mixin({
@@ -16,7 +15,6 @@ const swalWithBootstrapButtons = Swal.mixin({
   buttonsStyling: false
 })
 
-
 $(document).ready( function () {
   $('#login').hide()
   $('#project').hide()
@@ -32,12 +30,79 @@ $(document).ready( function () {
   $('.social').hide()
   $('#todoListProject').hide();
   checkLogin()
+
+
+
+  $('#flogin').click( function () {
+    login()
+  })
+  $('#fhome').click( function () {
+    home()
+  })
+  $('.fgoLogin').click(function () {
+    goLogin()
+  })
+  $('.fgoLogout').click(function () {
+    goLogout()
+  })
+  $('#fgoregister').click(function () {
+    goRegister()
+  })
+  $('#fgobacklogin').click(function () {
+    goLogin()
+  })
+  $('#fregisterclick').click(function () {
+    registerClick()
+  })
+  $('#ftodohome').click(function () {
+    home()
+  })
+  $('#fgoproject').click(function () {
+    goProject()
+  })
+  $('#fgonotification').click(function () {
+    goNotification()
+  })
+  $('#fshowportfolio').click(function () {
+    showPortFolio()
+  })
+  $('.finvitelistmember').click(function () {
+    inviteListMember()
+  })
+  $('#createTodo').click(function () {
+    goCreateTodo()
+  })
+  $('#createProject').click(function () {
+    goCreateProject()
+  })
+  $('#fcancelback').click(function () {
+    cancelBack()
+  })
+  $('#save').click(function () {
+    createTodo()
+  })
+  $('#fcancelbackproject').click(function () {
+    cancelBackProject()
+  })
+  $('#saveProject').click(function () {
+    triggerCreateProject()
+  })
+  $('#createTodoProject').click(function () {
+    goCreateTodoProject()
+  })
+  $('#fcancelbackk').click(function () {
+    cancelBack()
+  })
+  $('#saveTodoProject').click(function () {
+    createTodoProject()
+  })
 })
 
 //=================================================== HOME ================================================
 
 
 function home () {
+  checkLogin()
   focusTodo()
   showTodo()
   $('.progress').show();
@@ -82,6 +147,39 @@ function checkLogin () {
     $('#islogin').hide()
     $('#logout').show()
     lengthNotif()
+    quotee()
+      .then(({data}) => {
+        setTimeout(() => {
+          Toast.fire({
+            type: 'success',
+            title: data.quoteAuthor,
+            text: data.quoteText
+          })
+        }, 3000);
+      })
+    takeDataUser()
+      .then(invitation => {
+        if(invitation.length > 0) {
+          setTimeout(() => {
+            Toast.fire({
+              type: 'info',
+              title: `You have ${invitation.length} Invitation, check and accept now !`
+            })
+          }, 8000);
+        } else {
+          throw {msg: 'emptyy'}
+        }
+      })
+      .catch(err => {
+        if(err.msg == 'emptyy') {
+          setTimeout(() => {
+            Toast.fire({
+              type: 'info',
+              title: 'Welcome back, 0 Invitation today!'
+            })
+          }, 8000);
+        }
+      })
     showTodo()
   } else {
     $('#islogin').show()
@@ -104,6 +202,8 @@ function lengthNotif () {
       type: 'error',
       title: err.responseJSON.msg
     })
+    $('.mainMain').hide()
+    $('#login').show()
   })
 }
 
@@ -265,11 +365,14 @@ function fetchMember () {
       data.forEach((el, i) => {
         $('.list-item').prepend(`
         <div class="item">
-          <input type="checkbox" class='${el.username}' onclick='checkboxClick("${el.username}")'>
+          <input type="checkbox" class='${el.username}' id='${el.username}'>
           <label for="">${el.username}</label>
           <span><i class="fas fa-bell"></i></span>
         </div>
         `)
+        $(`#${el.username}`).click(function () {
+          checkboxClick(el.username)
+        })
       })
     })
     .fail(err => {
@@ -307,10 +410,13 @@ function fetchMemberPROJECT () {
       data.forEach((el, i) => {
         $('.invitemember').prepend(`
         <div class="item2">
-          <input type="checkbox"  onclick='checkboxClickProject("${el.username}")'>
+          <input type="checkbox" id='fcheckboxproject'>
           <label for="">${el.username}</label>
         </div>
         `)
+        $('#fcheckboxproject').click(function () {
+          checkboxClickProject(el.username)
+        })
       })
     })
     .fail(err => {
@@ -319,6 +425,8 @@ function fetchMemberPROJECT () {
         title: 'Woops',
         text: err.responseJSON.msg
       })
+      $('.mainMain').hide()
+      $('#login').show()
     })
 }
 
@@ -363,12 +471,18 @@ function fetchNotification () {
               <h5 class="card-title">${el.name}</h5>
               <h6 class="card-subtitle mb-2 text-muted"></h6>
               <p class="card-text">Member ${el.Members.length}<br> Todo ${el.Todo.length}</p>
-              <a href="#" class="card-link" onclick='acceptProject("${el._id}")'>Accept</a>
-              <a href="#" class="card-link" onclick='declineProject("${el._id}")'>Decline</a>
+              <a href="#" class="card-link" id='facceptproject${el._id}'>Accept</a>
+              <a href="#" class="card-link" id='fdeclineproject${el._id}'>Decline</a>
             </div>
           </div>
         </div>
         `)
+        $(`#facceptproject${el._id}`).click(function () {
+          acceptProject(el._id)
+        })
+        $(`#fdeclineproject${el._id}`).click(function () {
+          declineProject(el._id)
+        })
       })
     }
   })
@@ -395,6 +509,8 @@ function getDataLogin () {
         title: 'wooppps',
         text: err.responseJSON.msg
       })
+      $('.mainMain').hide()
+      $('#login').show()
     })
 }
 
@@ -431,7 +547,7 @@ function declineProject (id) {
             'success'
           )
         })
-        .catch(err => {
+        .fail(err => {
           swal.fire({
             type: 'info',
             title: 'oops',
@@ -557,26 +673,10 @@ function triggerCreateProject () {
     .then(data => {
       showProject()
       focusProject()
+      $('#newNameProject').val('');
       temp.forEach((el, i) => {
         sendInvited(el, data.data._id)
       })
-      const project = data.data
-      $('#myList').prepend(`
-      <div class="card card22">
-        <div class="card-header">
-          <p style='font-size: 25px'>${project.name}</p>
-        </div>
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>Owner ${data.msg}</p>
-            <footer class="blockquote-footer">${el.Members.length} Member & ${el.Todo.length} Todo <cite title="Source Title"></cite></footer>
-            <button class='btn btn-outline-success btn-sm' onclick="">Join</button>
-            <button class='btn btn-outline-danger btn-sm' onclick="">Delete</button>
-          </blockquote>
-        </div>
-      </div>
-      `)
-      $('#newNameProject').val('');
     })
     .fail(err => {
       swal.fire({
@@ -643,15 +743,21 @@ function showProject () {
             <blockquote class="blockquote mb-0">
               <p>Owner ${el.owner.username}</p>
               <footer class="blockquote-footer">${el.Members.length} Member & ${el.Todo.length} Todo <cite title="Source Title"></cite></footer>
-              <button class='btn btn-outline-success btn-sm' onclick="goTodoProject('${el._id}')">Go</button>
-              <button class='btn btn-outline-danger btn-sm' onclick="deleteProject('${el._id}')">Delete</button>
+              <button class='btn btn-outline-success btn-sm' id='fgotodoproject${el._id}'>Go</button>
+              <button class='btn btn-outline-danger btn-sm' id='fdeleteProject${el._id}'>Delete</button>
             </blockquote>
           </div>
         </div>
         `)
+        $(`#fgotodoproject${el._id}`).click(function () {
+          goTodoProject(el._id)
+        })
+        $(`#fdeleteProject${el._id}`).click(function () {
+          deleteProject(el._id)
+        })
       })
     })
-    .catch(err => {
+    .fail(err => {
       swal.fire({
         type: 'error',
         title: 'woops',
@@ -708,16 +814,22 @@ function goTodoProject (id) {
               <blockquote class="blockquote mb-0">
                 <p>${el.description}</p>
                 <footer class="blockquote-footer">Created At <cite title="Source Title">${el.UserId}</cite></footer>
-                <button class='btn btn-outline-success' onclick="checkListProject('${el._id}')">Check Done</button>
-                <button class='btn btn-outline-danger' onclick="deleteTodoProject('${el._id}')">Delete</button>
+                <button class='btn btn-outline-success' id='fchecklistproject${el._id}'>Check Done</button>
+                <button class='btn btn-outline-danger' id='fdeletetodoproject${el._id}'>Delete</button>
               </blockquote>
             </div>
           </div>
           `)
+          $(`#fchecklistproject${el._id}`).click(function () {
+            checkListProject(el._id)
+          })
+          $(`#fdeletetodoproject${el._id}`).click(function () {
+            deleteTodoProject(el._id)
+          })
         })
       }
     })
-    .catch(err => {
+    .fail(err => {
       $('#todo-side-bar').show()
       swal.fire({
         type: 'warning',
@@ -807,7 +919,7 @@ function deleteProject(id) {
             'success'
           )
         })
-        .catch(err => {
+        .fail(err => {
           swal.fire({
             type: 'info',
             title: 'oops',
@@ -850,7 +962,7 @@ function registerClick () {
       $('#register').hide();
       $('#login').show()
     })
-    .catch(err => {
+    .fail(err => {
       swal.fire({
         type: 'error',
         title: 'woops',
@@ -860,6 +972,24 @@ function registerClick () {
 }
 
 //=================================================== SIGN IN MANUAL ================================================
+
+function quotee () {
+  return new Promise ((resolve, reject) => {
+    $.ajax({
+      method: 'get',
+      url: `${baseUrl}/quote`,
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+      .then(quote => {
+        resolve(quote)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
 
 
 function login () {
@@ -881,22 +1011,38 @@ function login () {
       localStorage.setItem('token', data.token)
       fetchMember()
       showTodo()
+      takeDataUser()
+        .then(invitation => {
+          if(invitation.length > 0) {
+            setTimeout(() => {
+              Toast.fire({
+                type: 'info',
+                title: `You have ${invitation.length} Invitation, check and accept now !`
+              })
+            }, 8000);
+          } else {
+            throw {msg: 'emptyy'}
+          }
+        })
+        .catch(err => {
+          if(err.msg == 'emptyy') {
+            setTimeout(() => {
+              Toast.fire({
+                type: 'info',
+                title: 'Welcome back, 0 Notification today'
+              })
+            }, 8000);
+          }
+        })
       $('#login').hide()
       $('#islogin').hide()
       $('#logout').show()
       $('.mainMain').show()
       $('#email').val('')
       $('#password').val('')
-      return $.ajax({
-        method: 'get',
-        url: `${baseUrl}/quote`,
-        headers: {
-          token: localStorage.getItem('token')
-        }
-      })
+      return quotee()
     })
     .then(data => {
-      const username = data.username;
       const quote = data.data.quoteText;
       const author = data.data.quoteAuthor;
       setTimeout(() => {
@@ -907,7 +1053,7 @@ function login () {
         })
       }, 1200);
     })
-    .catch(err => {
+    .fail(err => {
       swal.fire({
         type: 'error',
         title: 'wooops',
@@ -929,22 +1075,40 @@ function onSignIn(googleUser) {
     }
   })
     .then(data => {
+      showTodo()
       setTimeout(() => {
         lengthNotif()
       }, 1500);
       localStorage.setItem('token', data.token);
-      swal.fire({
-        type: 'success',
-        title: 'Success Login',
-        text: 'Welcome'
-      })
       $('#login').hide();
       $('#islogin').hide()
       $('.mainMain').show();
       $('#logout').show();
-      showTodo()
+      takeDataUser()
+        .then(invitation => {
+          if(invitation.length > 0) {
+            setTimeout(() => {
+              Toast.fire({
+                type: 'info',
+                title: `You have ${invitation.length} Invitation, check and accept now !`
+              })
+            }, 8000);
+          } else {
+            throw {msg: 'emptyy'}
+          }
+        })
+        .catch(err => {
+          if(err.msg == 'emptyy') {
+            setTimeout(() => {
+              Toast.fire({
+                type: 'info',
+                title: 'Welcome back, 0 Notification today'
+              })
+            }, 8000);
+          }
+        })
     })
-    .catch(err => {
+    .fail(err => {
       swal.fire({
         type: 'error',
         title: 'something wrong',
@@ -994,12 +1158,18 @@ function showTodo () {
             <blockquote class="blockquote mb-0">
               <p>${el.description}</p>
               <footer class="blockquote-footer">Created By <cite title="Source Title">${el.UserId.username}</cite></footer>
-              <button class='btn btn-outline-success' onclick="checkList('${el._id}')">Check Done</button>
-              <button class='btn btn-outline-danger' onclick="deleteTodo('${el._id}')">Delete</button>
+              <button class='btn btn-outline-success' id='fchecklist${el._id}'>Check Done</button>
+              <button class='btn btn-outline-danger' id='fdeletetodo${el._id}'>Delete</button>
             </blockquote>
           </div>
         </div>
         `)
+        $(`#fchecklist${el._id}`).click(function () {
+          checkList(el._id)
+        })
+        $(`#fdeletetodo${el._id}`).click(function () {
+          deleteTodo(el._id)
+        })
       })
 
       persentase = 0;
@@ -1016,6 +1186,8 @@ function showTodo () {
         title: 'wooops',
         text: err.responseJSON.msg
       })
+      $('.mainMain').hide()
+      $('#login').show()
     })
 }
 
@@ -1032,6 +1204,7 @@ function checkListProject(id) {
     }
   })
     .then(data => {
+      goTodoProject(id)
       swal.fire({
         type: 'success',
         title: 'Yeah',
@@ -1087,7 +1260,7 @@ function deleteTodoProject(id) {
             'success'
           )
         })
-        .catch(err => {
+        .fail(err => {
           if(err.responseJSON.msg == 'Authorization Error!'){
             swal.fire({
               type: 'warning',
@@ -1180,7 +1353,7 @@ function deleteTodo(id) {
             'success'
           )
         })
-        .catch(err => {
+        .fail(err => {
           if(err.responseJSON.msg == 'Authorization Error!'){
             swal.fire({
               type: 'warning',
@@ -1246,22 +1419,6 @@ function createTodo () {
       $('#description').val('')
       $('#createTodo1').hide()
       $('#todo-side-bar').show()
-      const todo = data.todo
-      $('#myList').prepend(`
-      <div class="card card22">
-        <div class="card-header bg-${statusColor}">
-          ${todo.title}
-        </div>
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>${todo.description}</p>
-            <footer class="blockquote-footer">Created By <cite title="Source Title">${todo.UserId.username}</cite></footer>
-            <button class='btn btn-outline-success' onclick="checkList('${todo._id}')">Check Done</button>
-            <button class='btn btn-outline-danger' onclick="deleteTodo('${todo._id}')">Delete</button>
-          </blockquote>
-        </div>
-      </div>
-      `)
     })
     .fail(err => {
       swal.fire({

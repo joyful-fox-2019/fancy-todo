@@ -8,12 +8,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href='./style//main.css' rel='stylesheet'>
-    <meta name="google-signin-client_id" content="794756949310-h1ap03grjr8dm6l6tjav91b4r98skds4.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="794756949310-dbmbo98qs4g5rmhqj8ogqmrmu7b77jn7.apps.googleusercontent.com">
     <title>Fancy Todo</title>
   </head>
   <body>
     <nav class="navbar navbar-light bg-secondary">
-      <a href='#' class="navbar-brand" onclick='home()'>Fancy Todo</a>
+      <a href='#' class="navbar-brand" id='fhome'>Fancy Todo</a>
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><small>by DreamCar</small></a>
@@ -23,8 +23,8 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> | 
       </form>
-      <button class='btn btn-outline-success my-2 my-sm-o' id='islogin' onclick='goLogin()'>Login</button>
-      <button class='btn btn-outline-success my-2 my-sm-o' id='logout' onclick='goLogout()'>Sign out</button>
+      <button class='btn btn-outline-success my-2 my-sm-o fgoLogin' id='islogin'>Login</button>
+      <button class='btn btn-outline-success my-2 my-sm-o fgoLogout' id='logout'>Sign out</button>
     </nav>
 
 
@@ -46,8 +46,8 @@
           </tr>
           <tr>
             <td><div class="g-signin2" data-onsuccess="onSignIn"></div></td>
-            <td> OR <input type="button" value="Login" onclick='login()'>
-            <input type='button' value='Register' onclick='goRegister()'></td>
+            <td> OR <input type="button" value="Login" id='flogin'>
+            <input type='button' value='Register' id='fgoregister'></td>
           </tr>
         </table>
       </div>
@@ -68,8 +68,8 @@
           </tr>
           <tr>
             <td></td>
-            <td><input type="button" value="Login" onclick='goLogin()'>
-            <input type='button' value='Register' onclick='registerClick()'>
+            <td><input type="button" value="Login" id='fgobacklogin'>
+            <input type='button' value='Register' id='fregisterclick'>
           </tr>
         </table>
       </div>
@@ -91,16 +91,16 @@
               </div>
 
               <div class="col">
-                <button class='btn btn-outline-info' onclick="home()">Todo</button>
+                <button class='btn btn-outline-info' id='ftodohome'>Todo</button>
               </div>
               <div class="col">
-                <button class='btn btn-outline-info' onclick='goProject()'>Project</button>
+                <button class='btn btn-outline-info' id='fgoproject'>Project</button>
               </div>
               <div class="col">
-                <button class='btn btn-outline-info notrow' onclick='goNotification()'>Notification | <div class='lengthNotif'></div></button>
+                <button class='btn btn-outline-info notrow' id='fgonotification'>Notification | <div class='lengthNotif'></div></button>
               </div>
               <div class="col">
-                <button class='btn btn-outline-info' onclick='showPortFolio()'>Other PortFolio</button>
+                <button class='btn btn-outline-info' id='fshowportfolio'>Other PortFolio</button>
               </div>
 
 
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="container2">
-                  <a href="#" class="button2" id="button-1" onclick='inviteListMember()'>Invite New Member</a>
+                  <a href="#" class="button2 finvitelistmember" id="button-1">Invite New Member</a>
                 </div>
               </div>
 
@@ -128,8 +128,8 @@
                 <hr>
               </div>
               <div class="main-header">
-                <button class='btn btn-outline-secondary' id='createTodo' onclick='goCreateTodo()'>Create New Todo</button>
-                <button class='btn btn-outline-secondary' id='createProject' onclick='goCreateProject()'>Create New Project</button>
+                <button class='btn btn-outline-secondary' id='createTodo'>Create New Todo</button>
+                <button class='btn btn-outline-secondary' id='createProject'>Create New Project</button>
               </div>
               <div class="progress">
               </div>
@@ -166,8 +166,8 @@
                 </div>
                 <div class="modal-footer">
                     <a id='text-errorTodo' style = 'color:red'></a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick='cancelBack()'>Close</button>
-                    <button type="button" class="btn btn-primary" id='save' onclick='createTodo()'>Save</button>                 
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelback'>Close</button>
+                    <button type="button" class="btn btn-primary" id='save'>Save</button>                 
                 </div>
               </div>
             </div>
@@ -193,8 +193,8 @@
                 </div>
                 <div class="modal-footer">
                     <a id='text-errorTodo' style = 'color:red'></a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick='cancelBackProject()'>Close</button>
-                    <button type="button" class="btn btn-primary" id='saveProject' onclick='triggerCreateProject()'>Create Project</button>                 
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelbackproject'>Close</button>
+                    <button type="button" class="btn btn-primary" id='saveProject'>Create Project</button>                 
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@
               <div class="headerProject">
                 
               </div>
-              <button class='btn btn-outline-secondary' id='createTodo' onclick='goCreateTodoProject()'>Create Project Todo</button>
+              <button class='btn btn-outline-secondary' id='createTodoProject'>Create Project Todo</button>
               <div class="main-header">
                 <div class="modal-body">
                   <div class="bodyMainProject">
@@ -231,8 +231,8 @@
                 <div class="modal-footer">
                   <div class="footProject">
                     <a id='text-errorTodo' style = 'color:red'></a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick='cancelBack()'>Close</button>
-                    <button type="button" class="btn btn-primary" id='save' onclick='createTodoProject()'>Save</button>  
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelbackk'>Close</button>
+                    <button type="button" class="btn btn-primary" id='saveTodoProject'>Save</button>  
                   </div>
                 </div>
               </div>
@@ -254,6 +254,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src='./js/main.js'></script>
+    <script src="./js/main.js">
+    </script>
   </body>
 </html>
