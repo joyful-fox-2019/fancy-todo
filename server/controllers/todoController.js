@@ -95,12 +95,17 @@ module.exports = {
       .then(project => {
         if(!project) throw {msg: 'noProject'}
         else {
+          console.log(project)
           let pass = false;
-          for(let i=0; i<project.Members.length; i++) {
-            if(project.Members[i] == UserId || project.owner == UserId) {
-              pass = true;
+          if(project.owner == UserId) pass = true
+          else {
+            for(let i=0; i<project.Members.length; i++) {
+              if(project.Members[i] == UserId) {
+                pass = true;
+              }
             }
           }
+          console.log(pass)
           if(!pass) throw {msg: 'member'}
           else {
             return Todo.create({title, description, UserId, ProjectId})
