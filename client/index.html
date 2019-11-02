@@ -7,16 +7,69 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google-signin-client_id"
         content="1000751474591-9m7fanmd02romjni4ljj649qo209q5m7.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
     <title>Fancy Todo</title>
 </head>
 
 <body>
+    <!-- 
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <a href="#" onclick="signOut();">Sign out</a>
+    -->
+    <div class="form-wrap">
+        <div class="tabs">
+            <h3 class="signup-tab"><a class="active" href="#signup-tab-content">Sign Up</a></h3>
+            <h3 class="login-tab"><a href="#login-tab-content">Login</a></h3>
+        </div>
+        <!--.tabs-->
+
+        <div class="tabs-content">
+            <div id="signup-tab-content" class="active">
+                <form class="signup-form" action="" method="post">
+                    <input type="email" class="input" id="user_email" autocomplete="off" placeholder="Email">
+                    <input type="text" class="input" id="user_name" autocomplete="off" placeholder="Username">
+                    <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password">
+                    <input type="submit" class="button" id="register_submit" value="Sign Up">
+                </form>
+                <!--.login-form-->
+                <div class="help-text">
+                    <p>or login with</p>
+                    <div class="g-signin2" id="my-signin2" data-onsuccess="onSignIn" data-theme="dark"
+                        data-width="272px"></div>
+                </div>
+                <!--.help-text-->
+            </div>
+            <!--.signup-tab-content-->
+
+            <div id="login-tab-content">
+                <form class="login-form" action="" method="post">
+                    <input type="text" class="input" id="user_login_email" autocomplete="off" placeholder="Email or Username">
+                    <input type="password" class="input" id="user_login_pass" autocomplete="off" placeholder="Password">
+                    <!-- 
+                    <input type="checkbox" class="checkbox" id="remember_me">
+                    <label for="remember_me">Remember me</label>
+                    -->
+
+                    <input type="submit" class="button" id="login_submit" value="Login">
+                </form>
+                <!--.login-form-->
+                <div class="help-text">
+                    <!--
+                        <p><a href="#">Forget your password?</a></p>
+                    -->
+                </div>
+                <!--.help-text-->
+            </div>
+            <!--.login-tab-content-->
+        </div>
+        <!--.tabs-content-->
+    </div>
+    <!--.form-wrap-->
 </body>
-<script src="googleOAuth.js"></script>
+<script src="./scripts/googleOAuth.js"></script>
+<script src="./scripts/main.js"></script>
 
 </html>
