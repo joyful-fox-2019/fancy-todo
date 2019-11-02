@@ -10,7 +10,7 @@ class UserController {
 			User.findById(payload.id)
 				.then(user => {
 					if (user) {
-						res.status(200).json({});
+						res.status(200).json(payload);
 					} else {
 						throw 'tokenFailed';
 					}
@@ -22,7 +22,8 @@ class UserController {
 	}
 
 	static getUser(req, res, next) {
-		User.findById(req.body.id)
+		console.log(req.params.id);
+		User.findById(req.params.id)
 			.populate('todos')
 			.then(user => {
 				if (user) res.status(200).json(user);

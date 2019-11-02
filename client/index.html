@@ -15,10 +15,50 @@
 		<title>Fancy Todo</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-light bg-light d-none" id="nav-brand">
+		<!-- Todo Detail Modal -->
+
+		<div
+			class="modal fade"
+			id="todo-detail-modal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="todo-detail-modal-title"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="todo-detail-modal-title">Todo Detail</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h3 id="m-todo-title">Todo name</h3>
+						<h5 class="mb-2" id="m-todo-due">
+							<small class="text-muted">Todo due_time</small>
+						</h5>
+						<p id="m-todo-desc">Todo description</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Header -->
+
+		<header class="jumbotron jumbotron-fluid d-none d-lg-block">
+			<div class="container text-center">
+				<h1>Fancy Todo</h1>
+			</div>
+		</header>
+		<!-- <nav class="navbar navbar-light bg-light d-none" id="nav-brand">
 			<a class="navbar-brand mx-auto" href="#">Fancy Todo</a>
-		</nav>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+		</nav> -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mt-lg-n5">
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -55,12 +95,7 @@
 			</div>
 		</nav>
 
-		<header class="jumbotron jumbotron-fluid">
-			<div class="container text-center">
-				<h1>Fancy Todo</h1>
-			</div>
-		</header>
-		<main class="container">
+		<main class="container pt-5">
 			<!-- SIGN IN SECTION -->
 
 			<section class="container col-4 justify-content-center" id="signin-section">
@@ -103,25 +138,11 @@
 			</section>
 
 			<!-- TODOS SECTION -->
-			<section class="container card-deck" id="todos-section">
-				<div class="col-3">
-					<div class="card">
-						<div class="card-header">
-							Todo
-						</div>
-						<div class="card-body">
-							<div class="card-title">Doing thing</div>
-							<div class="card-text">blabla</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
+			<section class="container" id="todos-section">
+				<div class="card-deck"></div>
 			</section>
 		</main>
+
 		<footer></footer>
 
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
