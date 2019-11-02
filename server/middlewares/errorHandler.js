@@ -1,5 +1,4 @@
 module.exports = (err, req, res, next) => {
-  console.log(err)
   if(err.msg == 'authen') {
     res.status(403).json({msg: 'Authentication Error'});
   } else if(err.msg == 'author') {
@@ -22,6 +21,8 @@ module.exports = (err, req, res, next) => {
     res.status(403).json({msg: err.message})
   } else if(err.msg == 'ready') {
     res.status(400).json({msg: 'This Todo allready Done!'})
+  } else if(err.msg == 'self') {
+    res.status(403).json({msg: 'Cannot invite yourself'})
   } else {
     res.status(500).json('Internal Server Error');
   }

@@ -89,13 +89,8 @@ module.exports = {
     try{
       User.findById({_id: req.loggedUser.id})
         .then(user => {
-          console.log('masuk dalam user auth')
-          console.log(user)
           user.Invitation.forEach((el, i) => {
             if(el == req.params.id) {
-              console.log(el)
-              console.log(req.params.id)
-              console.log('masuk kedalam if')
               next()
             }
           })

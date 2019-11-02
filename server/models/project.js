@@ -36,10 +36,5 @@ ProjectSchema.pre('save', function(next) {
 
 const Project = Mongoose.model('projects', ProjectSchema);
 
-Project.createCollection()
-  .then(_ => {
-    console.log('Project Collection Created!');
-  })
-  .catch(console.log)
 
 module.exports = Project;

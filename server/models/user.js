@@ -30,10 +30,5 @@ UserSchema.pre('save', function(next) {
 
 const User = Mongoose.model('users', UserSchema);
 
-User.createCollection()
-  .then(() => {
-    console.log('User Collection success created!')
-  })
-  .catch(console.log);
 
 module.exports = User;

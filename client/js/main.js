@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3000'
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: 'top-start',
   showConfirmButton: false,
   timer: 3000
 })
@@ -28,7 +28,8 @@ $(document).ready( function () {
   $('#register').hide()
   $('#createTodo1').hide();
   $('#showNotif').hide()
-  $('.container2').hide()
+  $('.container2').hide();
+  $('.social').hide()
   $('#todoListProject').hide();
   checkLogin()
 })
@@ -46,6 +47,10 @@ function home () {
   $('#login').hide();
   $('#createTodo1').hide();
   $('#todo-side-bar').show()
+}
+
+function showPortFolio() {
+  $('.social').show()
 }
 
 //=================================================== TAKE DATA USER ================================================
@@ -95,7 +100,10 @@ function lengthNotif () {
     $('.lengthNotif').append(`${invitation.length} Invitation`)
   })
   .catch(err => {
-    console.log(err)
+    Toast.fire({
+      type: 'error',
+      title: err.responseJSON.msg
+    })
   })
 }
 
@@ -139,6 +147,8 @@ function goCreateTodo() {
   $('#todo-side-bar').hide();
   $('#createTodo1').show();
   $('.list-item').empty();
+
+  $('.social').hide()
   $('.invitemember').hide()
   $('.container2').hide()
 
@@ -150,6 +160,7 @@ function goProject () {
   $('.progress').empty().hide()
   $('#createProject1').hide()
   $('.invitemember').hide()
+  $('.social').hide()
   $('.container2').hide()
   showProject()
 
@@ -162,6 +173,7 @@ function goCreateProject () {
   $('.invitemember').hide()
   $('#createProject1').show();
   $('.container2').hide()
+  $('.social').hide()
   focusProject()
   fetchMember()
   showProject()
@@ -170,6 +182,7 @@ function goNotification () {
   focusNotif()
   $('#createProject1').hide()
   $('.invitemember').hide()
+  $('.social').hide()
   $('#myList').empty()
   $('.progress').empty().hide()
   $('.container2').hide()
@@ -192,11 +205,13 @@ function focusTodo() {
   $('#createProject1').hide()
 
   $('#notif').hide()
+  $('.social').hide()
   $('.invitemember').hide()
   $('#other').hide()
 }
 function focusProject() {
   $('#project').show()
+  $('.social').hide()
   $('#createProject').show()
   $('#createProject1').show()
 
@@ -212,6 +227,7 @@ function focusNotif() {
   $('#notif').show()
   $('#showNotif').show()
   $('.invitemember').hide()
+  $('.social').hide()
 
   $('#todo').hide()
   $('#createTodo').hide()
@@ -224,6 +240,7 @@ function focusNotif() {
 function focusOther() {
   $('#other').show()
 
+  $('.social').show()
   $('.invitemember').hide()
   $('#todo').hide()
   $('#notif').hide()
@@ -287,7 +304,6 @@ function fetchMemberPROJECT () {
     }
   })
     .then(data => {
-      console.log(data)
       data.forEach((el, i) => {
         $('.invitemember').prepend(`
         <div class="item2">
@@ -309,7 +325,6 @@ function fetchMemberPROJECT () {
 
 function checkboxClickProject (username) {
   tempCheckProject.push(username)
-  console.log(tempCheckProject)
 }
 
 
@@ -319,12 +334,13 @@ function checkboxClickProject (username) {
 
 
 function fetchNotification () {
+  $('.social').hide()
   $('.rowcard').empty()
   getDataLogin()
   let timerInterval
   Swal.fire({
     title: 'Wait get your Invitation',
-    html: 'I will close in <b></b> milliseconds.',
+    html: 'Fetching Data in <b></b>',
     timer: 1500,
     onBeforeOpen: () => {
       Swal.showLoading()
@@ -493,7 +509,9 @@ function inviteListMember () {
       tempProject.splice(i,2)
     }
   }
-  console.log(tempProject)
+  tempProject.forEach(el => {
+    sendInvited(el, projectId)
+  })
 }
 
 //=================================================== CREATE PROJECT ================================================
@@ -558,6 +576,7 @@ function triggerCreateProject () {
         </div>
       </div>
       `)
+      $('#newNameProject').val('');
     })
     .fail(err => {
       swal.fire({
@@ -565,6 +584,7 @@ function triggerCreateProject () {
         title: 'Woops',
         text: err.responseJSON.msg
       })
+      $('#newNameProject').val('');
     })
 }
 
@@ -651,6 +671,7 @@ function goTodoProject (id) {
   $('.progress').empty();
   $('.headerProject').empty();
   $('#button-1').hide()
+  $('#createProject1').hide()
   $('.bodyMainProject').empty();
   fetchMemberPROJECT()
   $.ajax({
@@ -687,7 +708,7 @@ function goTodoProject (id) {
               <blockquote class="blockquote mb-0">
                 <p>${el.description}</p>
                 <footer class="blockquote-footer">Created At <cite title="Source Title">${el.UserId}</cite></footer>
-                <button class='btn btn-outline-success' onclick="checkList('${el._id}')">Check Done</button>
+                <button class='btn btn-outline-success' onclick="checkListProject('${el._id}')">Check Done</button>
                 <button class='btn btn-outline-danger' onclick="deleteTodoProject('${el._id}')">Delete</button>
               </blockquote>
             </div>
@@ -828,11 +849,6 @@ function registerClick () {
       $('#passwordRegister').val('');
       $('#register').hide();
       $('#login').show()
-      swal.fire({
-        type: 'success',
-        title: 'Yeah',
-        text: data.msg
-      })
     })
     .catch(err => {
       swal.fire({
@@ -849,7 +865,6 @@ function registerClick () {
 function login () {
   const email = $('#email').val();
   const password = $('#password').val();
-  console.log(email, password)
   $('.list-item').empty()
   $.ajax({
     method: 'post',
@@ -863,10 +878,6 @@ function login () {
       setTimeout(() => {
         lengthNotif() // asyn wait login success and get token
       }, 1500);
-      Toast.fire({
-        type: 'success',
-        title: 'Signed in successfully'
-      })
       localStorage.setItem('token', data.token)
       fetchMember()
       showTodo()
@@ -876,6 +887,25 @@ function login () {
       $('.mainMain').show()
       $('#email').val('')
       $('#password').val('')
+      return $.ajax({
+        method: 'get',
+        url: `${baseUrl}/quote`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+    })
+    .then(data => {
+      const username = data.username;
+      const quote = data.data.quoteText;
+      const author = data.data.quoteAuthor;
+      setTimeout(() => {
+        Toast.fire({
+          type: 'success',
+          title: author,
+          text: quote
+        })
+      }, 1200);
     })
     .catch(err => {
       swal.fire({
@@ -909,6 +939,7 @@ function onSignIn(googleUser) {
         text: 'Welcome'
       })
       $('#login').hide();
+      $('#islogin').hide()
       $('.mainMain').show();
       $('#logout').show();
       showTodo()
@@ -1001,7 +1032,6 @@ function checkListProject(id) {
     }
   })
     .then(data => {
-      goTodoProject()
       swal.fire({
         type: 'success',
         title: 'Yeah',
@@ -1009,11 +1039,19 @@ function checkListProject(id) {
       })
     })
     .fail(err => {
-      swal.fire({
-        type: 'info',
-        title: 'Oops',
-        text: err.responseJSON.msg
-      })
+      if(err.responseJSON.msg == 'Authorization Error!'){
+        swal.fire({
+          type: 'warning',
+          title: err.responseJSON.msg,
+          text: 'Can\'t change other people\'s data'
+        })
+      } else {
+        swal.fire({
+          type: 'info',
+          title: 'Oops',
+          text: err.responseJSON.msg
+        })
+      }
     })
 }
 
@@ -1043,7 +1081,6 @@ function deleteTodoProject(id) {
         }
       })
         .then(data => {
-          goTodoProject()
           swalWithBootstrapButtons.fire(
             'Deleted!',
             data.msg,
@@ -1051,11 +1088,19 @@ function deleteTodoProject(id) {
           )
         })
         .catch(err => {
-          swal.fire({
-            type: 'info',
-            title: 'oops',
-            text: err.responseJSON.msg
-          })
+          if(err.responseJSON.msg == 'Authorization Error!'){
+            swal.fire({
+              type: 'warning',
+              title: err.responseJSON.msg,
+              text: 'Can\'t change other people\'s data'
+            })
+          } else {
+            swal.fire({
+              type: 'info',
+              title: 'Oops',
+              text: err.responseJSON.msg
+            })
+          }
         })
     } else if (
       /* Read more about handling dismissals below */
@@ -1090,11 +1135,19 @@ function checkList(id) {
       })
     })
     .fail(err => {
-      swal.fire({
-        type: 'info',
-        title: 'Oops',
-        text: err.responseJSON.msg
-      })
+      if(err.responseJSON.msg == 'Authorization Error!'){
+        swal.fire({
+          type: 'warning',
+          title: err.responseJSON.msg,
+          text: 'Can\'t change other people\'s data'
+        })
+      } else {
+        swal.fire({
+          type: 'info',
+          title: 'Oops',
+          text: err.responseJSON.msg
+        })
+      }
     })
 }
 
@@ -1128,11 +1181,19 @@ function deleteTodo(id) {
           )
         })
         .catch(err => {
-          swal.fire({
-            type: 'info',
-            title: 'oops',
-            text: err.responseJSON.msg
-          })
+          if(err.responseJSON.msg == 'Authorization Error!'){
+            swal.fire({
+              type: 'warning',
+              title: err.responseJSON.msg,
+              text: 'Can\'t change other people\'s data'
+            })
+          } else {
+            swal.fire({
+              type: 'info',
+              title: 'Oops',
+              text: err.responseJSON.msg
+            })
+          }
         })
     } else if (
       /* Read more about handling dismissals below */

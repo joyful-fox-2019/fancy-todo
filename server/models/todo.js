@@ -33,11 +33,5 @@ TodoSchema.pre('save', function(next) {
 
 const Todo = Mongoose.model('todos', TodoSchema);
 
-Todo.createCollection()
-  .then( () => {
-    console.log('Todo Collection Success Created!');
-  })
-  .catch(console.log)
-
 
 module.exports = Todo;

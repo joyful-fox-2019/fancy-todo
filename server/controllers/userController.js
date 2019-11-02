@@ -37,18 +37,12 @@ module.exports = {
     let username
     let email
     let password = ''
-    let serverToken
     client.verifyIdToken({
         idToken : req.body.id_token,
         audience : process.env.GOOGLE_CLIENT_ID
     })
     .then((ticket) => {
         const payload = ticket.getPayload() //get username,email dari google
-        const load = {
-          username: payload.name,
-          email: payload.email
-        }
-        serverToken = signToken(load);
         username = payload.name;
         email = payload.email;
         for(let i=0; i<5; i++ ) {
@@ -60,12 +54,18 @@ module.exports = {
     })
     .then(user => {
       if(user) {
-        res.status(200).json({token: serverToken});
+        return user
       }else {
         return User.create({ username, password, email })
       }
     })
-    .then(() => {
+    .then((user) => {
+      const payloadd = {
+        id: user._id,
+        username,
+        email
+      }
+      const serverToken = signToken(payloadd)
       res.status(200).json({token: serverToken})
     })
     .catch(next)
@@ -101,7 +101,14 @@ module.exports = {
   pushInvite (req, res, next) {
     const projectId = req.params.id;
     const { username } = req.body;
-    User.findOneAndUpdate({ username }, {$push: {Invitation: projectId}})
+    const _id = req.loggedUser.id
+    User.findById({ _id })
+      .then(user => {
+        if(user.username == username) throw {msg: 'self'}
+        else {
+          return User.findOneAndUpdate({ username }, {$push: {Invitation: projectId}})
+        }
+      })
       .then( (a) => {
         if(!a) throw {msg: 'zero'}
         else{
