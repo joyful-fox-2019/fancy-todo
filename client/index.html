@@ -13,7 +13,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
     />
+    <meta name="google-signin-client_id" content="650288641106-co9vif4sf0068c20lt4kr5nq8mvlfsea.apps.googleusercontent.com">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link href="./styles.css" rel="stylesheet">
     <title>myFancyTodo</title>
   </head>
@@ -23,6 +25,7 @@
       <div class="ui segment">
           <p>My Fancy Todo</p>
         </div>
+        <a class="nav-link" href="#" onclick="signOut();" >Sign out</a>
       <div class="ui top attached tabular menu">
         <a class="item active" id="loginTab">
           Login
@@ -47,30 +50,33 @@
             <div class="ui error message"></div>
           </form>
           <h4>Or try using</h4>
-          <button class="ui blue google button">
+          <!-- <button class="ui blue google button">
             <i class="google icon"></i>
             Google 
-          </button>
-          <button class="ui black github button">
-            <i class="github icon"></i>
-            Github 
-          </button>
+          </button> -->
+          <div style="display: flex; flex-direction: row">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <button class="ui black github button" style="margin-left: 15px">
+              <i class="github icon"></i>
+              Github 
+            </button>
+          </div>
         </div>
 
         <!-- register card -->
         <div id="registerCard">
-          <form class="ui form">
+          <form class="ui form"  id="registerSubmit">
             <div class="required field">
               <label>Username</label>
-              <input type="text" name="username" placeholder="Username" />
+              <input type="text" name="username" placeholder="Username" id="usernameReg"/>
             </div>
             <div class="required field">
               <label>Email</label>
-              <input type="email" name="email" placeholder="Email" />
+              <input type="email" name="email" placeholder="Email" id="emailReg" />
             </div>
             <div class="required field">
               <label>Password</label>
-              <input type="password" name="password" placeholder="Password" />
+              <input type="password" name="password" placeholder="Password" id="passReg"/>
             </div>
             <button class="ui button" type="submit">Submit</button>
             <div class="ui error message"></div>

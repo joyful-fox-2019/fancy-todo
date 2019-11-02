@@ -98,20 +98,20 @@ $('#loginSubmit').on('submit',(e)=>{
       // getCards()
     })
     .fail((err)=>{
-      setLoginError(err.responseJSON)
+      setLoginError(err.responseJSON,"Login")
       setTimeout(()=>{
         $('#loginError').empty()
-      },3000)
+      },4000)
     })
   }
 })
 
-function setLoginError(err){
+function setLoginError(err,type){
   $('#loginError').append(`
   <div class="ui negative message transition">
     <i class="close icon" id="close"></i>
     <div class="header">
-      Login Failed
+      ${type} Failed
     </div>
     <p>${err.message}</p>
     </div>
@@ -119,4 +119,62 @@ function setLoginError(err){
   $('#close').click(()=>{
     $('#loginError').empty()
   })
+}
+
+$('#registerSubmit').on('submit',(e)=>{
+  e.preventDefault()
+  let username = $('#usernameReg').val()
+  let email = $('#emailReg').val()
+  let password = $('#passReg').val()
+  if (email.length === 0 || password.length === 0 || username.length === 0){
+  } else {
+    $.ajax({
+      method : 'post',
+      url : 'http://localhost:3000/users/register',
+      data : {
+        email,password,username
+      }
+    })
+    .done((data)=>{
+      localStorage.setItem('token',data.token)
+      localStorage.setItem('name',data.name)
+      // $('#navname').append(`${data.name}`)
+      // getCards()
+    })
+    .fail((err)=>{
+      setLoginError(err.responseJSON,"Register")
+      setTimeout(()=>{
+        $('#loginError').empty()
+      },4000)
+    })
+  }
+})
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  // console.log('Name: ' + profile.getName());
+  // console.log('Image URL: ' + profile.getImageUrl());
+  // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  var id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+  method : 'post',
+  url : 'http://localhost:3000/users/OAuth',
+  data : {
+    id_token
+  }
+  })
+  .done((token)=>{
+    let name = profile.getName()
+    // $('#navname').append(`${name}`)
+    localStorage.setItem('token',token)
+    localStorage.setItem('name',name)
+  
+    // getCards()
+  })
+  .fail((msg)=>{
+    console.log(msg);
+   
+  })
+  .always()
 }
