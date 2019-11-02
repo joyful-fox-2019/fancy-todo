@@ -51,10 +51,10 @@ class UserControllers{
           let name = user.username
           res.status(200).json({token,name})
         } else {
-          next({status: 401, message: 'email/password wrong'})
+          next({status: 401, message: 'invalid username or password'})
         }
       } else {
-        next({status: 401, message: 'email/password wrong'})
+        next({status: 401, message: 'invalid username or password'})
       }
     } catch (error) {
       next(error)
@@ -62,13 +62,30 @@ class UserControllers{
   }
 
   static async loginOAuth(req,res,next){
+    let { id_token } = req.body
+    let payloadJWT
     try {
-      let { id_token } = req.body
       const ticket = await client.verifyIdToken({
         idToken: id_token,
-        audience: CLIENT_ID,
+        audience: process.env.CLIENT_ID,
         });
     const payload = ticket.getPayload();
+    const { email,name } = payload
+    const emailFind = await userModel.findOne({email})
+    if(emailFind){
+      let id = emailFind._id
+      payloadJWT = { id }
+      let token = generateToken(payloadJWT)
+      res.status(200).json(token)
+    } else {
+      let password = process.env.OAUTH_PASSWORD
+      const user = await userModel.create({name,email,password})
+      let id = user._id
+      payloadJWT = { email,name,_id:id }
+      let token = generateToken(payloadJWT)
+      res.status(200).json(token)
+      // next({status : 500, msg : 'email not found'})
+    }
     } catch (error) {
       
     }
