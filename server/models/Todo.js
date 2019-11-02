@@ -15,4 +15,4 @@ const todoSchema = new Schema({
 	}
 });
 
-module.exports = model('User', todoSchema);
+module.exports = model('Todo', todoSchema);
