@@ -1,6 +1,8 @@
 const User = require('../models/user')
 const {hashPassword, verifyPassword} = require('../helpers/hashPassword')
-const {getToken, verifyToken} = require('../helpers/tokenGenerator')
+const {generateToken, verifyToken} = require('../helpers/tokenGenerator')
+const {OAuth2Client} = require("google-auth-library")
+const client = new OAuth2Client(process.env.CLIENT_ID)
 
 class UserController {
 
@@ -49,15 +51,15 @@ class UserController {
 
     static signin(req,res){
         User.findOne({
-            email : req.body.email
+            username : req.body.username
         })
         .then(user => {
             if(user && verifyPassword(req.body.password,user.password)){
                 let payloads = {
                     username : user.username,
-                    email : user.password
+                    email : user.email
                 }
-               let token = getToken(payloads)
+               let token = generateToken(payloads)
                res.status(200).json(token)
             }else{
                 res.status(500).json({message : "invalid username/password"})
@@ -67,9 +69,58 @@ class UserController {
             res.status(500).json({message : "invalid username/password"})
             console.log(err)
         })
-
     }
 
+
+    static signinGoogle(req,res){
+        let id_token = req.body.id_token
+        let payloadJWT
+        let Email
+        let Username
+        let password = "qwerty"
+
+        client.verifyIdToken({
+            idToken : id_token,
+            audience : process.env.CLIENT_ID
+        })
+        .then(ticket=>{
+            const payload = ticket.getPayload()
+            Email = payload.email
+            Username = payload.email.split('@')[0]
+            
+            // console.log(Email)
+            return User.findOne({ email : Email })
+        })
+        .then(user => {
+            console.log(Username)
+            if(user){
+                payloadJWT = {
+                    username : user.username,
+                    id : user._id
+                }
+                let token = generateToken(payloadJWT)
+                res.status(200).json(token)
+            }else{
+                User.create({
+                    username : Username,
+                    email : Email,
+                    password: password
+                })
+                .then(newUser => {
+                    payloadJWT = {
+                        username : newUser.username,
+                        id : newUser._id
+                    }
+                    let token = generateToken(payloadJWT)
+                    res.status(200).json(token)
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+   
+    }
 }
 
 module.exports = UserController
