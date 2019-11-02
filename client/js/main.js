@@ -1,6 +1,5 @@
 const baseUrl = 'http://todoserver.dreamcarofficial.com'
 
-
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-start',
@@ -1075,38 +1074,56 @@ function onSignIn(googleUser) {
     }
   })
     .then(data => {
+      localStorage.setItem('token', data.token);
       showTodo()
       setTimeout(() => {
         lengthNotif()
       }, 1500);
-      localStorage.setItem('token', data.token);
       $('#login').hide();
       $('#islogin').hide()
       $('.mainMain').show();
       $('#logout').show();
-      takeDataUser()
-        .then(invitation => {
-          if(invitation.length > 0) {
-            setTimeout(() => {
+      setTimeout(() => {
+        setTimeout(() => {
+          quotee()
+            .then(({data}) => {
               Toast.fire({
-                type: 'info',
-                title: `You have ${invitation.length} Invitation, check and accept now !`
+                type: 'success',
+                title: data.quoteAuthor,
+                text: data.quoteText
               })
-            }, 8000);
-          } else {
-            throw {msg: 'emptyy'}
-          }
-        })
-        .catch(err => {
-          if(err.msg == 'emptyy') {
-            setTimeout(() => {
+            })
+            .catch(err => {
               Toast.fire({
-                type: 'info',
-                title: 'Welcome back, 0 Notification today'
+                type: 'warning',
+                title: 'something wrong'
               })
-            }, 8000);
-          }
-        })
+            })
+        }, 10000);
+        takeDataUser()
+          .then(invitation => {
+            if(invitation.length > 0) {
+              setTimeout(() => {
+                Toast.fire({
+                  type: 'info',
+                  title: `You have ${invitation.length} Invitation, check and accept now !`
+                })
+              }, 5000);
+            } else {
+              throw {msg: 'emptyy'}
+            }
+          })
+          .catch(err => {
+            if(err.msg == 'emptyy') {
+              setTimeout(() => {
+                Toast.fire({
+                  type: 'info',
+                  title: 'Welcome back, 0 Notification today'
+                })
+              }, 5000);
+            }
+          })
+      }, 2000);
     })
     .fail(err => {
       swal.fire({
