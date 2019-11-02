@@ -4,19 +4,21 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com" />
 		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 			crossorigin="anonymous"
 		/>
-		<title>Document</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Fancy Todo</title>
 	</head>
 	<body>
-		<div class="navbar navbar-light bg-light d-none d-lg-flex">
+		<nav class="navbar navbar-light bg-light d-none ">
 			<a class="navbar-brand mx-auto" href="#">Fancy Todo</a>
-		</div>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+		</nav>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top hide">
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -52,70 +54,58 @@
 				</form>
 			</div>
 		</nav>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione harum tempore numquam aut,
-			eligendi nesciunt dignissimos. Ipsa ipsam repellat ea tenetur est nihil molestiae illo nostrum
-			ipsum, libero dolorem officia!
-		</p>
-		<header></header>
-		<main></main>
+
+		<header class="jumbotron jumbotron-fluid">
+			<div class="container text-center">
+				<h1>Fancy Todo</h1>
+			</div>
+		</header>
+		<main>
+			<!-- Sign In Section -->
+
+			<section class="container col-4 justify-content-center signin-section">
+				<form class="card card-body">
+					<div class="form-group">
+						<label for="l-username">Email address</label>
+						<input
+							type="username"
+							class="form-control"
+							id="l-username"
+							aria-describedby="email"
+							placeholder="Enter email"
+							required
+						/>
+						<div class="valid-feedback">
+							Looks good
+						</div>
+						<div class="invalid-feedback">
+							Looks bad
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="l-password">Password</label>
+						<input type="password" class="form-control" id="l-password" placeholder="Password" />
+						<div class="valid-feedback">
+							Looks good
+						</div>
+						<div class="invalid-feedback">
+							Looks bad
+						</div>
+					</div>
+
+					<button type="submit" class="btn btn-primary btn-lg" id="l-submit">Sign In</button>
+					<div class="mx-auto my-1">OR</div>
+					<div class="g-signin2 d-flex mx-auto" data-onsuccess="onSignIn"></div>
+					<div class="d-flex mt-3">
+						<small class="">Dont have account? <a class="" href="register"> Sign Up</a></small>
+					</div>
+				</form>
+			</section>
+		</main>
 		<footer></footer>
 
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.min.js"
 			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
