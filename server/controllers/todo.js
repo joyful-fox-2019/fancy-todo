@@ -1,4 +1,6 @@
-class UserController {
+const { Todo } = require('../models');
+
+class TodoController {
 	static postNewTodo(req, res, next) {}
 	static getUserTodos(req, res, next) {}
 	static getOneUserTodo(req, res, next) {}
@@ -6,4 +8,4 @@ class UserController {
 	static deleteTodo(req, res, next) {}
 }
 
-module.exports = UserController;
+module.exports = TodoController;
