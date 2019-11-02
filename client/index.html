@@ -25,7 +25,6 @@
       <div class="ui segment">
           <p>My Fancy Todo</p>
         </div>
-        <a class="nav-link" href="#" onclick="signOut();" >Sign out</a>
       <div class="ui top attached tabular menu">
         <a class="item active" id="loginTab">
           Login
@@ -50,10 +49,6 @@
             <div class="ui error message"></div>
           </form>
           <h4>Or try using</h4>
-          <!-- <button class="ui blue google button">
-            <i class="google icon"></i>
-            Google 
-          </button> -->
           <div style="display: flex; flex-direction: row">
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
             <button class="ui black github button" style="margin-left: 15px">
@@ -111,13 +106,13 @@
               <div class="item">
                 <div class="header">Profile</div>
                 <div class="menu">
-                  <a class="item">Logout</a>
+                  <a class="item" onclick="signOut();">Logout</a>
                 </div>
               </div>
             </div>
         </div>
         <div class="twelve wide column">
-            <button class="fluid ui button" id="addtodo" style="margin: 10px auto"> Create new Todo </button>
+            <button class="fluid ui button" id="addpersonaltodo" style="margin: 10px auto"> Create new Todo </button>
             <div class="ui styled fluid accordion">
                 <div class="title active">
                   <i class="dropdown icon"></i>
@@ -125,24 +120,14 @@
                 </div>
                 <div class="content active">
                   <!-- card -->
-                  <div class="ui fluid card">
-                    <a class="content" id="card">
-                      <div class="header">Title</div>
-                      <div class="meta">2 days ago</div>
-                        <div class="description">
-                          <p>Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size.</p>
-                        </div>
-                      </a>
-                  </div>
+                  <div id="todoCard1"></div>
                 </div>
-
                 <div class="title active">
                   <i class="dropdown icon"></i>
                   On Progress
                 </div>
-
                 <div class="content active">
-                  <p class="transition visible">There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+                    <div id="todoCard2"></div>
                 </div>
 
                 <div class="title active">
@@ -150,91 +135,40 @@
                   Done
                 </div>
                 <div class="content active">
-                  <p class="transition visible">There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+                    <div id="todoCard3"></div>
                 </div>
               </div>
         </div>
         <!-- modal detail -->
-        <div class="ui tiny modal detail">
-            <i class="close icon"></i>
-            <div class="header">
-              Title
-            </div>
-            <div class="content">
-              <div class="description">
-                <p>Status: This is status</p>
-                <p>Due date: This is due date</p>
-                <p>Desc: This is desc todo</p>
-              </div>
-            </div>
-            <div class="actions">
-              <button class="ui button" id="editTodo">
-                  edit
-              </button>
-              <button class="ui button">
-                  delete
-              </button>
-            </div>
-          </div>
-        <!-- modal create -->
-        <div class="ui tiny modal add">
+          <div id="cardDetail"></div>
+        <!-- modal create personal todo -->
+        <div class="ui tiny modal addPersonal">
             <i class="close icon"></i>
             <div class="header">
               Create new todo
             </div>
             <div class="content">
-                <form class="ui form" id="submitTodo">
+                <form class="ui form" id="submitPersonalTodo">
                   <div class="field">
                     <label>Title</label>
-                    <input type="text" name="title" placeholder="Title" id="submitTitle">
+                    <input type="text" name="title" placeholder="Title" id="submitPersonalTitle">
                   </div>
                   <div class="field">
                     <label>Desc</label>
                     <!-- <input type="textarea" name="desc" placeholder="Description"> -->
-                    <textarea rows="2" id="submitDesc"></textarea>
+                    <textarea rows="2" id="submitPersonalDesc"></textarea>
                   </div>
                   <div class="field">
                       <label>Due Date</label>
-                      <input type="date" name="date" id="submitDueDate">
+                      <input type="date" name="date" id="submitPersonalDueDate">
                     </div>
                   <button class="ui button" type="submit">Save</button>
                 </form>
             </div>
         </div>
+        <!-- modal create project todo -->
         <!-- modal edit -->
-        <div class="ui tiny modal edit">
-            <i class="close icon"></i>
-            <div class="header">
-              Edit this todo
-            </div>
-            <div class="content">
-                <form class="ui form" id="submitEdit">
-                  <div class="field">
-                    <label>Title</label>
-                    <input type="text" name="title" placeholder="Title" id="editTitle">
-                  </div>
-                  <div class="field">
-                    <label>Desc</label>
-                    <!-- <input type="textarea" name="desc" placeholder="Description"> -->
-                    <textarea rows="2" id="editDesc"></textarea>
-                  </div>
-                  <div class="field">
-                      <label>Status</label>
-                        <div class="ui selection dropdown">
-                            <input type="hidden" name="status" id="editStatus">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Current Status</div>
-                            <div class="menu">
-                                <div class="item" data-value="To-do">To-do</div>
-                                <div class="item" data-value="Doing">Doing</div>
-                                <div class="item" data-value="Done">Done</div>
-                            </div>
-                        </div>
-                    </div>
-                  <button class="ui button" type="submit">Save</button>
-                </form>
-            </div>
-        </div>
+        <div id="editCard"> </div>
       </div>      
     </div>
     <script src="./main.js"></script>
