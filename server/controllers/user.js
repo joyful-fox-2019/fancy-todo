@@ -5,6 +5,7 @@ const googleVerify = require('../helpers/googleVerify');
 
 class UserController {
 	static getUser(req, res, next) {}
+
 	static signin(req, res, next) {
 		User.findOne({ username: req.body.username }).then(user => {
 			if (user) {
@@ -27,6 +28,7 @@ class UserController {
 			}
 		});
 	}
+
 	static register(req, res, next) {
 		User.create({
 			username: req.body.username,
@@ -39,6 +41,7 @@ class UserController {
 			})
 			.catch(next);
 	}
+
 	static googleSigning(req, res, next) {
 		googleVerify(req.body.token)
 			.then(payload => {
