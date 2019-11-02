@@ -36,7 +36,28 @@ class UserController {
     }
 
     static googleSignin(req, res) {
-
+        User.findOne({
+            email: req.decoded.email
+        })
+            .then(user => {
+                if (user) {
+                    return user;
+                }
+                else {
+                    return User.create({
+                        email: req.decoded.email,
+                        username: req.decoded.name,
+                        password: process.env.DEFAULT_PASSWORD
+                    })
+                }
+            })
+            .then(user => {
+                let token = jwtHelper.generate(user.email);
+                res.status(200).json({ token });
+            })
+            .catch(err=>{
+                res.status(500).json(err)
+            })
     }
 }
 
