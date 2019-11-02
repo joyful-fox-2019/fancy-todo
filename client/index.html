@@ -86,11 +86,8 @@
         <div class="three wide column">
             <div class="ui fluid secondary vertical pointing menu" style="height: 97vh">
               <div class="item" style="cursor: pointer">
-                <!-- asdas -->
-                <!-- <button class="ui black github button" style="margin-left: 15px">
-                </button> -->
                     <i class="user outline icon"></i>
-                    <div id="myName"><b>My Name</b></div> 
+                    <div id="myName"></div> 
               </div>
               <hr>
               <div class="active item">
@@ -99,8 +96,9 @@
               <div class="item">
                 <div class="header">My Project</div>
                 <div class="menu">
-                  <a class="item">Project's to-do</a>
-                  <a class="item">Project detail</a>
+                  <a class="item" id="createProject">Create new project</a>
+                  <a class="item" id="projectTodo">Project's to-do</a>
+                  <a class="item" id="projectDetail">Project detail</a>
                 </div>
               </div>
               <div class="item">
@@ -112,32 +110,37 @@
             </div>
         </div>
         <div class="twelve wide column">
+          <div id="personalPage">
             <button class="fluid ui button" id="addpersonaltodo" style="margin: 10px auto"> Create new Todo </button>
             <div class="ui styled fluid accordion">
-                <div class="title active">
+                <div class="title active"   style="padding: 10px 10px 0px 10px">
                   <i class="dropdown icon"></i>
                   To-do
                 </div>
-                <div class="content active">
+                <div class="content active"   style="padding: 10px">
                   <!-- card -->
                   <div id="todoCard1"></div>
                 </div>
-                <div class="title active">
+                <div class="title active" style="padding: 10px 10px 0px 10px">
                   <i class="dropdown icon"></i>
                   On Progress
                 </div>
-                <div class="content active">
+                <div class="content active"   style="padding: 10px">
                     <div id="todoCard2"></div>
                 </div>
 
-                <div class="title active">
+                <div class="title active" style="padding: 10px 10px 0px 10px">
                   <i class="dropdown icon"></i>
                   Done
                 </div>
-                <div class="content active">
+                <div class="content active"   style="padding: 10px">
                     <div id="todoCard3"></div>
                 </div>
               </div>
+          </div>
+          <div id="projectPage">
+            aS:LDmaS:DLasmd:ALSdkasodjasdlkshd.
+          </div>
         </div>
         <!-- modal detail -->
           <div id="cardDetail"></div>
@@ -149,19 +152,20 @@
             </div>
             <div class="content">
                 <form class="ui form" id="submitPersonalTodo">
-                  <div class="field">
+                  <div class="required field">
                     <label>Title</label>
                     <input type="text" name="title" placeholder="Title" id="submitPersonalTitle">
                   </div>
-                  <div class="field">
+                  <div class="required field">
                     <label>Desc</label>
                     <!-- <input type="textarea" name="desc" placeholder="Description"> -->
-                    <textarea rows="2" id="submitPersonalDesc"></textarea>
+                    <textarea rows="2" name="desc" id="submitPersonalDesc"></textarea>
                   </div>
                   <div class="field">
                       <label>Due Date</label>
                       <input type="date" name="date" id="submitPersonalDueDate">
                     </div>
+                    <div class="ui error message"></div>
                   <button class="ui button" type="submit">Save</button>
                 </form>
             </div>
@@ -169,6 +173,8 @@
         <!-- modal create project todo -->
         <!-- modal edit -->
         <div id="editCard"> </div>
+        <!-- modal delete -->
+        <div id="deleteCard"></div>
       </div>      
     </div>
     <script src="./main.js"></script>

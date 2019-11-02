@@ -1,8 +1,9 @@
 $(document).ready(()=>{
   console.log('DOM is ready');
   // loginCard()
-  
   if(localStorage.getItem('token')){
+    console.log('--------->>>');
+    setMyName()
     homePage()
   } else {
     startPage()
@@ -11,6 +12,8 @@ $(document).ready(()=>{
 })
 
 function startPage(){
+  $('#emailLog').val('')
+  $('#passLog').val('')
   show('#startPage')
   show('#loginCard')
   hide('#registerCard')
@@ -21,6 +24,7 @@ function homePage(){
   hide('#startPage')
   show('#homePage')
   getMyTodo()
+  getMyDetail()
 }
 
 function show(element){
@@ -29,6 +33,19 @@ function show(element){
 function hide(element){
   $(element).hide()
 }
+
+function setMyName(){
+  $('#myName').empty()
+  let name = localStorage.getItem('name')
+  $('#myName').append(`
+  <b>${name}</b>
+  `)
+}
+
+$('.ui.accordion')
+  .accordion({
+    exclusive : false
+  })
 
 $('#loginTab').click(()=>{
   $('#loginTab').addClass('active')
@@ -94,6 +111,7 @@ $('#loginSubmit').on('submit',(e)=>{
       localStorage.setItem('name',data.name)
       $('#emailLog').empty()
       $('#passLog').empty()
+      setMyName()
       // $('#navname').append(`${data.name}`)
       // getCards()
       homePage()
@@ -127,6 +145,8 @@ $('#registerSubmit').on('submit',(e)=>{
       $('#usernameReg').empty()
       $('#emailReg').empty()
       $('#passReg').empty()
+      setMyName()
+      homePage()
       // $('#navname').append(`${data.name}`)
       // getCards()
     })
@@ -139,11 +159,35 @@ $('#registerSubmit').on('submit',(e)=>{
   }
 })
 
-
-
 $('#addpersonaltodo').click(()=>{
+
   $('.ui.modal.addPersonal')
   .modal('show')
+  $('form')
+  .form({
+    on: 'blur',
+    fields: {
+      title: {
+        identifier  : 'title',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter the title'
+          }
+        ]
+      },
+      desc: {
+        identifier  : 'desc',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter the description'
+          }
+        ]
+      }
+    }
+  })
+
 })
 
 $('#submitPersonalTodo').on('submit',(e)=>{
@@ -155,8 +199,7 @@ $('#submitPersonalTodo').on('submit',(e)=>{
   console.log(desc)
   console.log(dueDate)
   createNewPersonalTodo(title,desc,dueDate)
-  $('.ui.modal.addPersonal')
-  .modal('hide')
+
 })
 
 function loginCard(){
@@ -208,6 +251,7 @@ function onSignIn(googleUser) {
     // $('#navname').append(`${name}`)
     localStorage.setItem('token',token)
     localStorage.setItem('name',name)
+    setMyName()
     console.log(token);
     // getCards()
     homePage()
@@ -226,12 +270,40 @@ function signOut() {
     localStorage.removeItem('name')
   });
   startPage()
+  
+}
+
+function getMyDetail(){
+  console.log('masuk');
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url : `http://localhost:3000/users/${token}`,
+    method : 'get'
+  })
+    .done((user)=>{
+      console.log(user);
+      if(user.project){
+        console.log('ada-==-=-=-=')
+        hide('#createProject')
+        show('#projectDetail')
+        show('#projectTodo')
+      } else {
+        console.log('ga adasdajs;odiyo7')
+        show('#createProject')
+        hide('#projectDetail')
+        hide('#projectTodo')
+      }
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
 }
 
 function getMyTodo(){
   $('#todoCard1').empty()
   $('#todoCard2').empty()
   $('#todoCard3').empty()
+ 
   let token = localStorage.getItem('token')
   $.ajax({
     method: 'get',
@@ -245,7 +317,6 @@ function getMyTodo(){
       if(todos.length >=1){
         todos.forEach((el)=>{
           if(el.status === "To-do"){
-            console.log('masukss')
             setMyTodo(el,'#todoCard1')
           } else if (el.status === "On Progress"){
             setMyTodo(el,'#todoCard2')
@@ -263,7 +334,7 @@ function getMyTodo(){
 function setMyTodo(todo,element){
   $(element).append(`
   <div class="ui fluid card">
-    <a class="content" id="card">
+    <a class="content" id="card${todo._id}"  style="padding: 5px">
       <div class="header">${todo.title}</div>
       <div class="meta">${todo.createdAt}</div>
         <div class="description">
@@ -272,7 +343,8 @@ function setMyTodo(todo,element){
       </a>
   </div>
   `)
-  $('#card').click(()=>{
+  $(`#card${todo._id}`).click(()=>{
+    $('#cardDetail').empty()
     setModalDetail(todo)
   })
 }
@@ -280,8 +352,8 @@ function setMyTodo(todo,element){
 
 function setModalDetail(todo){
   $('#cardDetail').append(`
-  <div class="ui tiny modal detail">
-    <i class="close icon"></i>
+  <div class="ui tiny modal detail ${todo._id}">
+    <i class="close icon" id="close"></i>
       <div class="header"> ${todo.title} </div>
       <div class="content">
         <div class="description">
@@ -291,27 +363,78 @@ function setModalDetail(todo){
         </div>
       </div>
       <div class="actions">
-        <button class="ui button" id="editTodo">
+        <button class="ui button" id="editTodo${todo._id}">
             edit
         </button>
-        <button class="ui button">
+        <button class="ui button" id="deleteTodo${todo._id}">
             delete
         </button>
       </div>
   </div>
   `)
-  $('.ui.modal.detail')
+
+  $(`.ui.modal.detail.${todo._id}`).modal({
+    closable:false
+  })
   .modal('show')
-  $('#editTodo').click(()=>{
-    console.log('triger');
+
+  $(`#editTodo${todo._id}`).click(()=>{
     setModalEdit(todo)
+    $(`.ui.modal.detail.${todo._id}`)
+    .modal('hide').empty()
+  })
+
+  $('#close').click(()=>{
+    $(`.ui.modal.detail.${todo._id}`)
+    .modal('hide').empty()
+  })
+  
+  $(`#deleteTodo${todo._id}`).click(()=>{
+    console.log('trigres');
+    setModalConfirm(todo._id)
+    $(`.ui.modal.detail.${todo._id}`)
+    .modal('hide').empty()
+    
+  })
+}
+
+function setModalConfirm(id){
+  $('#deleteCard').append(`
+  <div class="ui mini modal ${id}">
+      <div class="header"> Delete To-do </div>
+      <div class="content">
+        <div class="description">
+          <p>Are you sure you want to delete your to-do</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="ui button" id="noConfirm">
+            no
+        </button>
+        <button class="ui button" id="deleteTodo">
+            yes
+        </button>
+      </div>
+  </div>
+  `)
+  $(`.ui.mini.modal.${id}`).modal({
+    closable:false
+  })
+  .modal('show')
+  $('#noConfirm').click(()=>{
+    $(`.ui.mini.modal.${id}`)
+    .modal('hide').empty()
+  })
+  $(`#deleteTodo`).click(()=>{
+    deletePersonalTodo(id)
+ 
   })
 }
 
 function setModalEdit(todo){
   $('#editCard').append(`
-  <div class="ui tiny modal edit">
-      <i class="close icon"></i>
+  <div class="ui tiny modal edit ${todo._id}">
+      <i class="close icon" id="closeEdit"></i>
       <div class="header">
         Edit this todo
       </div>
@@ -344,7 +467,9 @@ function setModalEdit(todo){
       </div>
   </div>
   `)
-  $('.ui.modal.edit')
+  $(`.ui.modal.edit.${todo._id}` ).modal({
+    closable:false
+  })
   .modal('show')
   $('.ui.selection.dropdown')
   .dropdown()
@@ -352,17 +477,18 @@ function setModalEdit(todo){
     e.preventDefault()
     let title = $('#editTitle').val()
     let desc = $('#editDesc').val()
-    let dueDate = $('#editStatus').val()
-    console.log(title)
-    console.log(desc)
-    console.log(dueDate)
-    $('.ui.modal.edit')
-    .modal('hide')
+    let status = $('#editStatus').val()
+    editPersonalTodo(todo._id,title,desc,status)
+    $(`.ui.modal.edit.${todo._id}`)
+    .modal('hide').empty()
+  })
+  $('#closeEdit').click(()=>{
+    $(`.ui.modal.edit.${todo._id}`)
+    .modal('hide').empty()
   })
 }
 
 function createNewPersonalTodo(title,desc,dueDate){
-  console.log('masuukkk');
   let token = localStorage.getItem('token')
  $.ajax({
    url : 'http://localhost:3000/todos',
@@ -376,9 +502,54 @@ function createNewPersonalTodo(title,desc,dueDate){
  })
   .done((report)=>{
     console.log(report);
+    $('.ui.modal.addPersonal')
+    .modal('hide')
+    $('#submitPersonalTitle').val('')
+    $('#submitPersonalDesc').val('')
+    $('#submitPersonalDueDate').val('')
     getMyTodo()
   })
   .fail((err)=>{
     console.log(err);
   })
 }
+
+function editPersonalTodo(id,title,desc,status){
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url : `http://localhost:3000/todos/${id}`,
+    method : 'patch',
+    headers : {
+      token
+    },
+    data : {
+      title,desc,status
+    }
+  })
+    .done((report)=>{
+      console.log(report);
+      getMyTodo()
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+
+function deletePersonalTodo(id){
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url: `http://localhost:3000/todos/${id}`,
+    method : 'delete',
+    headers : {token}
+  })
+    .done((report)=>{
+      console.log(report)
+      $(`.ui.mini.modal.${id}`)
+      .modal('hide').empty()
+      getMyTodo()
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+

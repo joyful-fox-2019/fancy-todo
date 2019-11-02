@@ -12,7 +12,7 @@ const todo = new Schema({
   },
   status : {
     type : String,
-    default : 'todo'
+    default : 'To-do'
   },
   // userId : [{
   //   type: Schema.Types.ObjectId,
@@ -30,6 +30,12 @@ const todo = new Schema({
   timestamps : true
 })
 
+todo.pre('save',function(next){
+  if (this.dueDate === null){
+    this.dueDate = new Date(+new Date() + 14*24*60*60*1000)
+    next()
+  }
+})
 
 const Todo = mongoose.model('Todo',todo)
 module.exports = Todo

@@ -3,6 +3,7 @@ const {getToken} = require('../helpers/jwt')
 const {compareHash} = require('../helpers/bcrypt')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
+const verifyToken = require('../helpers/jwt').verifyToken
 
 class UserControllers{
 
@@ -30,6 +31,18 @@ class UserControllers{
     try {
       const users = await User.find().populate('todos')
       res.status(200).json(users)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  static async findOne(req,res,next){
+    let token = req.params._id
+    let decoded = verifyToken(token)
+    let _id = decoded.data.id
+    try {
+      const user = await User.findOne({_id})
+      res.status(200).json(user)
     } catch (error) {
       next(error)
     }
