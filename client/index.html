@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="291856601506-pctu3kf6427nn8527jqa0a9tlv5i1s7f.apps.googleusercontent.com">
+    <title>Fancy ToDo</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="NavBarStart">
+        <a class="navbar-brand" href="#">ToDo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <button class="btn btn-primary ml-2" onclick="showRegisterForm()">Register</button>
+            <button class="btn btn-primary ml-2" onclick="showLoginForm()">Login</button>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="NavBarHome">
+        <a class="navbar-brand" href="#">ToDo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" id="searchToDo">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchTitle">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <button onclick="signOut();" class="btn btn-danger" id="logout">Sign out</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div style="text-align: center; ">
+            <form id="FormRegister">
+                <div class="form-group">
+                    <label for="nameRegister">Name</label>
+                    <input type="text" class="form-control" id="nameRegister" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="emailRegister">Email address</label>
+                    <input type="email" class="form-control" id="emailRegister" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="passwordRegister">Password</label>
+                    <input type="password" class="form-control" id="passwordRegister" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div style="text-align: center; ">
+            <form id="FormLogin">
+                <div class="form-group">
+                    <label for="emailLogin">Email address</label>
+                    <input type="email" class="form-control" id="emailLogin" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="passwordLogin">Password</label>
+                    <input type="password" class="form-control" id="passwordLogin" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <br>
+                <small>Sign in with your accounts</small>
+                <div>
+                    <button class="g-signin2 btn-default btn" data-onsuccess="onSignIn" data-theme="dark"></button>
+                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="content">
+        <div class="text-center">    
+            <div class="row justify-content-center">
+                <div class="col-4 mt-2 d-flex  justify-content-center"
+                    style="height: 90vh; ">
+                    <div class="card p-0" style="min-width: 80%;">
+                        <div class="card p-1 m-3 overflow-auto">
+                            <div class="card-header">
+                                Weather Today
+                            </div>
+                            <div class="card-body">
+                                <form id="FormWeather" style="width: 100%;">
+                                    <select id="location">
+                                        <option>Bandung</option>
+                                        <option>Jakarta</option>
+                                        <option>Padang</option>
+                                        <option>Surabaya</option>
+                                        <option>Palangkaraya</option>
+                                        <option>Palu</option>
+                                        <option>Lhokseumawe</option>
+                                        <option>Medan</option>
+                                        <option>Denpasar</option>
+                                        <option>Pekanbaru</option>
+                                        <option>Jayapura</option>
+                                    </select>
+                                    <br>
+                                    <br>
+                                    <button type="submit" class="btn btn-secondary">Search Today's Weather Condition</button>
+                                </form>
+                                <div id="weatherCondition">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Create
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" style="cursor: pointer;" id="showToDoForm">ToDo</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" style="cursor: pointer;" id="showProjectForm">Project</a>
+                                </div>
+                            </div>
+                            <br>
+                            <a class="card-text mb-4" id="user" id="showToDoList" style="cursor:pointer" onclick="generateToDoList()">Show ToDo List</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 text-left mt-2">
+                    <div class="card text-center" style="width: 100%;">
+                        <div class="card-body overflow-auto" style="max-height: 85vh;">
+                            <form id="FormToDo" style="width: 100%;">
+                                <div class="form-title">
+                                    <h1>Create Your ToDo</h1>
+                                </div>
+                                <div class="form-group">
+                                    <label for="titleToDo">Title</label>
+                                    <input type="text" class="form-control" id="titleToDo" placeholder="Enter title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="descriptionToDo">Description</label>
+                                    <input type="text" class="form-control" id="descriptionToDo" placeholder="Enter Description">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dueDateToDo">Due Date</label>
+                                    <input type="date" class="form-control" id="dueDateToDo">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                            <div id="all-content"></div>
+                        </div>
+                    </div>    
+                </div>
+        </div>  
+    </div>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v5.0&appId=773092189808471&autoLogAppEvents=1"></script>
+    <script src="main.js"></script>
+</body>
+
+<style>
+body {
+    width: 100%;
+}
+form {
+    width: 600px;
+}
+</style>
+</html>
