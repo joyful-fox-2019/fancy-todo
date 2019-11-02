@@ -71,7 +71,6 @@ class UserController {
         })
     }
 
-
     static signinGoogle(req,res){
         let id_token = req.body.id_token
         let payloadJWT
@@ -87,12 +86,10 @@ class UserController {
             const payload = ticket.getPayload()
             Email = payload.email
             Username = payload.email.split('@')[0]
-            
             // console.log(Email)
             return User.findOne({ email : Email })
         })
         .then(user => {
-            console.log(Username)
             if(user){
                 payloadJWT = {
                     username : user.username,
@@ -119,7 +116,6 @@ class UserController {
         .catch(err => {
             console.log(err)
         })
-   
     }
 }
 

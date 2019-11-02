@@ -23,10 +23,7 @@ app.set('view engine','ejs')
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
-
 app.use('/', routes)
-
-
 //kalau pakai router => app.use('/routerlink',router)
 app.listen(port,()=>{
 console.log(`listening from port`,port)
