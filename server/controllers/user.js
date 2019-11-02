@@ -2,29 +2,46 @@ const { User } = require('../models');
 const passwordHandler = require('../helpers/passwordHandler');
 const tokenHandler = require('../helpers/tokenHandler');
 const googleVerify = require('../helpers/googleVerify');
+const mongoose = require('mongoose');
 
 class UserController {
+	static verifyToken(req, res, next) {
+		try {
+			const payload = tokenHandler.decode(req.body.jwt_token);
+			User.findOne({ _id: new mongoose.Types.ObjectId(payload.id) })
+				.then(user => {
+					if (user) {
+						res.status(200).json({});
+					} else {
+						next('tokenFailed');
+					}
+				})
+				.catch(err => {
+					next(err);
+				});
+		} catch (err) {
+			next('tokenFailed');
+		}
+	}
+
 	static getUser(req, res, next) {}
 
 	static signin(req, res, next) {
 		User.findOne({ username: req.body.username }).then(user => {
 			if (user) {
-				try {
-					if (passwordHandler.verify(req.body.password, user.password)) {
-						const token = tokenHandler.encode({
-							username: user.username
-						});
-						res.status(200).json({
-							jws_token: token
-						});
-					} else {
-						next('Invalid Username/Password');
-					}
-				} catch (err) {
-					next(err);
+				if (passwordHandler.verify(req.body.password, user.password)) {
+					const token = tokenHandler.encode({
+						id: user.id,
+						username: user.username
+					});
+					res.status(200).json({
+						jwt_token: token
+					});
+				} else {
+					next('invalidSignin');
 				}
 			} else {
-				next('Invalid Username/Password');
+				next('invalidSignin');
 			}
 		});
 	}
