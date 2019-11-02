@@ -26,7 +26,7 @@ todoSchema.post('save', function(doc, next) {
 		{ $push: { todos: doc.id } },
 		{ useFindAndModify: false }
 	)
-		.then(user => {
+		.then(() => {
 			next();
 		})
 		.catch(err => {

@@ -2,9 +2,8 @@ const todos = require('express').Router();
 const { TodoController } = require('../controllers');
 
 todos.post('/', TodoController.postNewTodo);
-todos.put('/', TodoController.updateTodo);
+todos.put('/:id', TodoController.updateTodo);
 todos.delete('/:id', TodoController.deleteTodo);
-todos.get('/:username', TodoController.getUserTodos);
-todos.get('/:username/:id', TodoController.getOneUserTodo);
+todos.get('/:id', TodoController.getOneTodo);
 
 module.exports = todos;
