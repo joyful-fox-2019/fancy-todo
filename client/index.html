@@ -19,6 +19,10 @@
   </head>
   <body>
     <div id="startPage" class="ui middle aligned center aligned">
+      <div id="loginError"></div>
+      <div class="ui segment">
+          <p>My Fancy Todo</p>
+        </div>
       <div class="ui top attached tabular menu">
         <a class="item active" id="loginTab">
           Login
@@ -26,39 +30,37 @@
         <a class="item" id="registerTab">
           Register
         </a>
-        <a class="item" id="registerCreatorTab">
-          Register as a Creator
-        </a>
-        <a class="item" id="googleTab">
-          <i class="google icon"></i>
-        </a>
-        <a class="item" id="googleTab">
-            <i class="github icon"></i>
-          </a>
       </div>
       <div class="ui bottom attached segment">
         <!-- login card -->
         <div id="loginCard">
-          <form class="ui form">
+          <form class="ui form" id="loginSubmit">
             <div class="required field">
-              <h4>Login</h4>
               <label>Email</label>
-              <input type="email" placeholder="Email" name="email"/>
+              <input type="email" placeholder="Email" name="email" id="emailLog"/>
             </div>
             <div class="required field">
               <label>Password</label>
-              <input type="password" placeholder="Password" name="password"/>
+              <input type="password" placeholder="Password" name="password" id="passLog"/>
             </div>
             <button class="ui button" type="submit">Submit</button>
             <div class="ui error message"></div>
           </form>
+          <h4>Or try using</h4>
+          <button class="ui blue google button">
+            <i class="google icon"></i>
+            Google 
+          </button>
+          <button class="ui black github button">
+            <i class="github icon"></i>
+            Github 
+          </button>
         </div>
 
         <!-- register card -->
         <div id="registerCard">
           <form class="ui form">
             <div class="required field">
-              <h4>Register</h4>
               <label>Username</label>
               <input type="text" name="username" placeholder="Username" />
             </div>
@@ -75,29 +77,11 @@
           </form>
         </div>
 
-        <!-- registerCreator card -->
-        <div id="registerCreatorCard">
-          <form class="ui form">
-            <div class="required field">
-              <h4>Register as a Creator</h4>
-              <label>Username</label>
-              <input type="text" name="username" placeholder="Username" />
-            </div>
-            <div class="required field">
-              <label>Email</label>
-              <input type="email" name="email" placeholder="Email" />
-            </div>
-            <div class="required field">
-              <label>Password</label>
-              <input type="password" name="password" placeholder="Password" />
-            </div>
-            <button class="ui button" type="submit">Submit</button>
-            <div class="ui error message"></div>
-          </form>
-        </div>
       </div>
     </div>
     <!-- batas startPage -->
     <script src="./main.js"></script>
   </body>
 </html>
+
+

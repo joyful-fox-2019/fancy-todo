@@ -20,40 +20,28 @@ function hide(element){
 $('#loginTab').click(()=>{
   $('#loginTab').addClass('active')
   $('#registerTab').removeClass('active')
-  $('#registerCreatorTab').removeClass('active')
   loginCard()
 })
 
 $('#registerTab').click(()=>{
   $('#loginTab').removeClass('active')
   $('#registerTab').addClass('active')
-  $('#registerCreatorTab').removeClass('active')
   registerCard()
-})
-
-$('#registerCreatorTab').click(()=>{
-  $('#loginTab').removeClass('active')
-  $('#registerTab').removeClass('active')
-  $('#registerCreatorTab').addClass('active')
-  registerCreatorCard()
 })
 
 function loginCard(){
   show('#loginCard')
   hide('#registerCard')
-  hide('#registerCreatorCard')
 }
 
 function registerCard(){
   hide('#loginCard')
   show('#registerCard')
-  hide('#registerCreatorCard')
 }
 
 function registerCreatorCard(){
   hide('#loginCard')
   hide('#registerCard')
-  show('#registerCreatorCard')
 }
 
 $('form')
@@ -89,3 +77,46 @@ $('form')
       }
     }
   })
+
+$('#loginSubmit').on('submit',(e)=>{
+  e.preventDefault()
+  let email = $('#emailLog').val()
+  let password = $('#passLog').val()
+  if (email.length === 0 || password.length === 0){
+  } else {
+    $.ajax({
+      method : 'post',
+      url : 'http://localhost:3000/users/login',
+      data : {
+        email,password
+      }
+    })
+    .done((data)=>{
+      localStorage.setItem('token',data.token)
+      localStorage.setItem('name',data.name)
+      // $('#navname').append(`${data.name}`)
+      // getCards()
+    })
+    .fail((err)=>{
+      setLoginError(err.responseJSON)
+      setTimeout(()=>{
+        $('#loginError').empty()
+      },3000)
+    })
+  }
+})
+
+function setLoginError(err){
+  $('#loginError').append(`
+  <div class="ui negative message transition">
+    <i class="close icon" id="close"></i>
+    <div class="header">
+      Login Failed
+    </div>
+    <p>${err.message}</p>
+    </div>
+  `)
+  $('#close').click(()=>{
+    $('#loginError').empty()
+  })
+}

@@ -1,4 +1,10 @@
 #startPage{
-  width: 80%;
-  margin: 0 auto
+  width: 50%;
+  /* margin: 0 auto; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* height: 1000px; */
+  margin-right: -50%;
+  transform: translate(-50%, -50%) 
 }

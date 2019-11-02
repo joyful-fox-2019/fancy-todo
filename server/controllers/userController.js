@@ -18,7 +18,8 @@ class UserControllers{
           id : user._id,
         }
         let token = getToken(payload)
-        res.status(201).json({token})
+        let name = user.username
+        res.status(201).json({token,name})
       }
     } catch (error) {
       next(error)
@@ -47,7 +48,8 @@ class UserControllers{
             id : user._id,
           }
           let token = getToken(payload)
-          res.status(200).json({token})
+          let name = user.username
+          res.status(200).json({token,name})
         } else {
           next({status: 401, message: 'email/password wrong'})
         }
