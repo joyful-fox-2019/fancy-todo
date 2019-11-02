@@ -1,9 +1,34 @@
 const User = require('../models/User')
 const { generateToken } = require('../helpers/jwt')
 const { compare } = require('../helpers/passwordHandler')
+const jwt = require('jsonwebtoken')
 
 
 class UserController {
+
+
+  static googleSignIn(req, res) {
+    User.findOne({
+      email : req.decoded.email
+    })
+    .then(user => {
+      if (user) {
+        return user
+      } else {
+        return user.create({
+          email: req.decoded.email,
+          password : process.env.DEFAULT_PASSWORD
+        })
+      }
+    })
+    .then(user => {
+      const jwtToken = jwt.sign({
+        _id : user._id
+      }, process.env.JWT_SECRET)
+      res.status(200).json(jwtToken)
+    })
+  }
+
   static register(req, res, next) {
     User.create({
       email : req.body.email,
@@ -14,6 +39,7 @@ class UserController {
     })
     .catch(next)
   }
+
 
   static login(req, res, next) {
     User.findOne({
@@ -41,6 +67,8 @@ class UserController {
     })
     .catch(next)
   }
+
+ 
 }
 
 module.exports = UserController

@@ -1,0 +1,180 @@
+base url = http://localhost:3000
+
+
+USER
+
+1. register
+
+endpoint : POST/ {base url}/user/register
+parameters :
+  body :
+    email type string, required
+    password type string, required
+
+sukses
+  status 201
+  msg created
+  content 
+  {
+    "_id": "5dbd527e90191c715d019075",
+    "email": "nath@mail.com",
+    "password": "$2a$10$H0L2B1BYVXzyqwrqURr4y.QoCViLpQqlmUkvxTH1NplyINw.8wcOq",
+    "__v": 0
+}
+
+
+
+
+2. login
+
+endpoint : POST/ {base url}/user/login
+parameters :
+  body : 
+   email type string, required
+    password type string, required
+
+sukses
+  status 200
+  msg ok
+  content 
+ {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYmQ1MjdlOTAxOTFjNzE1ZDAxOTA3NSIsImVtYWlsIjoibmF0aEBtYWlsLmNvbSIsImlhdCI6MTU3MjY4ODU0NX0.7CbmkHpAyjKYKP_7wg5OO2U8L7ut8MvyUj6-NOTJH2Y"
+}
+
+
+TODO
+
+
+1. findall. get all todos per userId
+
+  endpoint : GET/ {base url}/todo?userId=
+parameters : none
+
+sukses
+  status 200
+  msg ok
+  content 
+ {
+    "todos": [
+        {
+            "Status": false,
+            "_id": "5dbd538c3345af722fc6f8bf",
+            "title": "call a prince",
+            "description": "ask the price to bring you some snacks!",
+            "userId": "5dbd527e90191c715d019075",
+            "dueDate": "2019-11-02T17:00:00.000Z",
+            "__v": 0
+        },
+        {
+            "Status": false,
+            "_id": "5dbd54b33345af722fc6f8c1",
+            "title": "fitting the dress",
+            "description": "make sure the waist section is looking good",
+            "userId": "5dbd527e90191c715d019075",
+            "dueDate": "2019-10-02T17:00:00.000Z",
+            "__v": 0
+        },
+        {
+            "Status": false,
+            "_id": "5dbd5d07d53cb77d1c446a19",
+            "title": "buy sheet mask at watson",
+            "description": "colagen mask 10pcs, brightening mask 11pcs",
+            "userId": "5dbd527e90191c715d019075",
+            "dueDate": "2019-11-14T17:00:00.000Z",
+            "__v": 0
+        }
+    ]
+}
+
+
+2. findOne
+
+endpoint : GET/ {base url}/todo:id
+parameters : none
+
+sukses
+  status 200
+  msg ok
+  content 
+{
+    "todo": {
+        "Status": false,
+        "_id": "5dbd55543345af722fc6f8c2",
+        "title": "attend maxwell bday party",
+        "description": "9 oct 2019, Saturday 8pm, Rosovelt Street",
+        "userId": "5dbd3f33e57986668543b7d1",
+        "dueDate": "2019-11-07T17:00:00.000Z",
+        "__v": 0
+    }
+}
+
+3. create 
+
+endpoint : POST/ {base url}/todo
+parameters : 
+  body : 
+    title type string, required
+    description type string, required
+    userId type string, required
+    dueDate type string, required
+
+sukses
+  status 201
+  msg created
+  content 
+
+{
+    "Status": false,
+    "_id": "5dbd627c62811e05b0453fed",
+    "title": "repair the plumbing",
+    "description": "follow the red sign",
+    "userId": "5dbd3f33e57986668543b7d1",
+    "dueDate": "2020-02-29T17:00:00.000Z",
+    "__v": 0
+}
+
+4. delete
+endpoint : DELETE/ {base url}/todo:id
+parameters : none
+
+sukses
+  status 200
+  msg ok
+  content
+{
+    "Status": false,
+    "_id": "5dbd55543345af722fc6f8c2",
+    "title": "attend maxwell bday party",
+    "description": "9 oct 2019, Saturday 8pm, Rosovelt Street",
+    "userId": "5dbd3f33e57986668543b7d1",
+    "dueDate": "2019-11-07T17:00:00.000Z",
+    "__v": 0
+}
+
+5. update
+endpoint : PUT/ {base url}/todo:id
+parameters :
+*optional field
+ {
+title
+description
+dueDate
+status
+}
+
+
+sukses
+  status 200
+  msg ok
+  content
+{
+    "todo": {
+        "Status": false,
+        "_id": "5dbd627c62811e05b0453fed",
+        "title": "repair the plumbing",
+        "description": "follow the red sign and remove the rust",
+        "userId": "5dbd3f33e57986668543b7d1",
+        "dueDate": "2019-12-08T17:00:00.000Z",
+        "__v": 0
+    }
+}

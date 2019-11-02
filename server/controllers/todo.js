@@ -49,9 +49,7 @@ class TodoController {
     .catch(console.log)
   }
 
-  static updateField(req, res, next) {
-
-  }
+  
 }
 
 module.exports = TodoController

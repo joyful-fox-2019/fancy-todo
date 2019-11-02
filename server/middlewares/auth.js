@@ -15,16 +15,20 @@ const authentication = (req, res, next) => {
 }
 
 const authorization = (req, res, next) => {
-  let { id } = req.params
+  let { id } = req.params //id todo
   console.log(req.params);
   
   Todo.findById(id)
   .then(todo => {
     if (!todo) {
       next({status : 404, message : `to-do not found`})
-    } else if (todo.userId === req.loggedUser.id) {
+    } else if (todo.userId == req.loggedUser.id) {
+      
       next()
     } else {
+      console.log(typeof todo.userId, todo.userId);
+      console.log(typeof req.loggedUser.id, req.loggedUser.id);
+      
       next({ status : 401, message : `not authorized`})
     }
   })
