@@ -1,7 +1,7 @@
-$(document).ready(function($) {
+$(document).ready(function ($) {
 	tab = $('.tabs h3 a');
 
-	tab.on('click', function(event) {
+	tab.on('click', function (event) {
 		event.preventDefault();
 		tab.removeClass('active');
 		$(this).addClass('active');
@@ -11,46 +11,59 @@ $(document).ready(function($) {
 		$(tab_content).addClass('active');
 	});
 
-	if(localStorage.getItem('ft_token')){
+	if (localStorage.getItem('ft_token')) {
 		$('.form-wrap').hide();
 	}
 });
 
-$('#register_submit').click(function(event){
+$('#register_submit').click(function (event) {
 	event.preventDefault();
 	$.ajax({
 		method: 'post',
 		url: 'http://localhost:3000/register',
-		data:{
+		data: {
 			email: $('#user_email').val(),
 			username: $('#user_name').val(),
 			password: $('#user_pass').val()
 		}
 	})
-	.done(response=>{
-		console.log(response);
-	})
-	.fail(err=>{
-		console.log(err);
-	})
+		.done(response => {
+			console.log(response);
+			Swal.fire({
+				title: `Welcome, ${response.msg}!`,
+				text: `You can now enter Fancy Todo from Login tab`,
+				type: 'success',
+				confirmButtonText: `Wait, it's not automatic?`
+			})
+		})
+		.fail(err => {
+			console.log(err);
+			if (err.responseJSON.code == '11000') {
+				Swal.fire({
+					title: `That email is already registered!`,
+					type: 'error',
+					confirmButtonText: `Close`
+				})
+			}
+		})
 });
 
-$('#login_submit').click(function(event){
+$('#login_submit').click(function (event) {
 	event.preventDefault();
 	$.ajax({
 		method: 'post',
 		url: 'http://localhost:3000/signin',
-		data:{
+		data: {
 			email: $('#user_login_email').val(),
 			password: $('#user_login_pass').val()
 		}
 	})
-	.done(response=>{
-		console.log(response.token);
-		localStorage.setItem('ft_token', response.token);
-		$('.form-wrap').hide();
-	})
-	.fail(err=>{
-		console.log(err)
-	})
+		.done(response => {
+			console.log(response.token);
+			localStorage.setItem('ft_token', response.token);
+			$('.form-wrap').hide();
+		})
+		.fail(err => {
+			console.log(err)
+		})
 });

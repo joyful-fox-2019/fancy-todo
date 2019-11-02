@@ -10,7 +10,7 @@ class UserController {
             password: req.body.password
         })
             .then(user => {
-                res.status(201).json({ msg: "Register successful" })
+                res.status(201).json({ msg: user.username })
             })
             .catch(err => {
                 res.status(500).json(err)
