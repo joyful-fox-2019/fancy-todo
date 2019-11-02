@@ -1,3 +1,5 @@
+const { User } = require('../models');
+
 class UserController {
 	static getUser(req, res, next) {}
 	static signin(req, res, next) {}
