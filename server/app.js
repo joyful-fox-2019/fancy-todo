@@ -17,7 +17,7 @@ app.use(cors())
 
 mongoose.set('runValidators', true)
 mongoose.connect(process.env.MONGOOSE_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false },
   err => {
   if(err) {
     console.log('db connection failed')

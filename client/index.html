@@ -69,7 +69,7 @@
               <ul class="right hide-on-med-and-down">
                 <li><a href="" onclick="showProjects(); return false" class="teal-text text-accent-4">Projects</a></li>
                 <li><a href="" class="teal-text text-accent-4">Tags</a></li>
-                <li><a href="" onclick="logout(); return false" class="grey-text text-ligthen-1">Sign Out</a></li>
+                <li><a href="" onclick="logout(event)" class="grey-text text-ligthen-1">Sign Out</a></li>
               </ul>
             </div>
           </div>
@@ -78,9 +78,9 @@
   
       <!-- Sidenav -->
       <ul class="sidenav" id="mobile-nav">
-        <li><a href="" onclick="showProjects(); return false" class="teal-text text-accent-4">Projects</a></li>
+        <li><a href="" onclick="showProjects()" class="teal-text text-accent-4">Projects</a></li>
         <li><a href="" class="teal-text text-accent-4">Tags</a></li>
-        <li><a href="" onclick="logout(); return false" class="grey-text text-ligthen-1">Sign Out</a></li>
+        <li><a href="" onclick="logout(event)" class="grey-text text-ligthen-1">Sign Out</a></li>
       </ul>
   
       <div class="container">
@@ -99,44 +99,92 @@
   
       <div class="fixed-action-btn">
         <div class="container">
-          <a href="#modal-today" class="modal-trigger add-button btn-floating btn-large waves-effect waves-light btn full-width teal accent-4">
+          <a href="#modal-add" class="modal-trigger add-button btn-floating btn-large waves-effect waves-light btn full-width teal accent-4">
             <i class="large material-icons">add</i>
           </a>
         </div>
       </div>
       <!-- Modal Structure -->
-      <div id="modal-today" class="modal modal-input">
+      <div id="modal-add" class="modal modal-input">
         <form id="add-task">
         <div class="modal-content">
-            <div class="input-field">
-              <input id="add-task-name" type="text" class="teal-text text-darken-3">
-              <label for="add-task-name" class="teal-text text-accent-4">I want to...</label>
-            </div>
-            <div class="input-field">
-              <input id="add-task-date" type="text" class="datepicker">
-              <label for="add-task-date" class="teal-text text-accent-4">Date</label>
-            </div>
-            <div class="input-field">
-              <input id="add-task-time" type="text" class="timepicker">
-              <label for="add-task-time" class="teal-text text-accent-4">Time</label>
-            </div>
+          <div class="input-field">
+            <input id="add-task-name" type="text" class="teal-text text-darken-3">
+            <label for="add-task-name" class="teal-text text-accent-4">Name</label>
+          </div>
+          <div class="input-field">
+            <input id="add-task-description" type="text" class="teal-text text-darken-3">
+            <label for="add-task-description" class="teal-text text-accent-4">Notes</label>
+          </div>
+          <div class="input-field">
+            <input id="add-task-date" type="text" class="datepicker">
+            <label for="add-task-date" class="teal-text text-accent-4">Date</label>
+          </div>
+          <div class="input-field">
+            <input id="add-task-time" type="text" class="timepicker">
+            <label for="add-task-time" class="teal-text text-accent-4">Time</label>
+          </div>
+          </div>
+          <div class="has-padding">
+            <button type="submit" class="waves-effect waves-light btn teal accent-4 full-width">
+              ADD NEW TASK
+            </button>
+          </div>
+          </form>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="waves-effect waves-green btn-flat">
-            <i class="material-icons">add</i>
+      </div>
+
+      <div id="modal-update" class="modal modal-input">
+        <form id="update-task">
+        <div class="modal-content">
+          <div class="input-field">
+            <input id="update-task-id" type="hidden" class="teal-text text-darken-3">
+          </div>
+          <div class="input-field">
+            <input id="update-task-name" type="text" class="teal-text text-darken-3">
+            <label for="update-task-name" class="update-label teal-text text-accent-4">Name</label>
+          </div>
+          <div class="input-field">
+            <input id="update-task-description" type="text" class="teal-text text-darken-3">
+            <label for="update-task-description" class="update-label teal-text text-accent-4">Notes</label>
+          </div>
+          <div class="input-field">
+            <input id="update-task-date" type="text" class="datepicker">
+            <label for="update-task-date" class="update-label teal-text text-accent-4">Date</label>
+          </div>
+          <div class="input-field">
+            <input id="update-task-time" type="text" class="timepicker">
+            <label for="update-task-time" class="update-label teal-text text-accent-4">Time</label>
+          </div>
+        </div>
+        <div class="has-padding">
+          <button type="submit" class="waves-effect waves-light btn teal accent-4 full-width">
+            UPDATE TASK
           </button>
         </div>
         </form>
+        <div class="has-padding">
+          <button href="#modal-confirm-delete" class="modal-trigger waves-effect waves-light btn red accent-2 full-width">
+            DELETE TASK
+          </button>
+        </div>
       </div>
-  </div>
+
+      <div id="modal-confirm-delete" class="modal modal-confirm has-margin-t has-padding center-text">
+        Delete this task?
+        <hr>
+        <button class="modal-close waves-effect waves-green btn-flat full-width">
+          KEEP EDITING
+        </button>
+        <button id="delete-from-update" class="modal-close waves-effect waves-light btn red accent-2 full-width">
+          DELETE
+        </button>
+      </div>
 
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script>
-    </script>
-    <script src="index.js"></script>
     <script>
     function onSuccess(googleUser) {
       onSignIn(googleUser)
@@ -157,5 +205,6 @@
     }
     </script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <script src="index.js"></script>
   </body>
 </html>

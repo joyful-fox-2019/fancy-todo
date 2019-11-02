@@ -8,6 +8,13 @@ module.exports = {
       })
       .catch(next)
   },
+  findOne: (req, res, next) => {
+    Task.findById(req.params.id)
+      .then(task => {
+        res.status(200).json(task)
+      })
+      .catch(next)
+  },
   add: (req, res, next) => {
     const { name, description, dueDate } = req.body
     const user = req.loggedUser.id
