@@ -23,7 +23,7 @@ class UserController {
         })
             .then(user => {
                 if (hashHelper.compare(req.body.password, user.password)) {
-                    let token = jwtHelper.generate(user.email);
+                    let token = jwtHelper.generate(user.id);
                     res.status(200).json({ token });
                 }
                 else {
@@ -52,7 +52,7 @@ class UserController {
                 }
             })
             .then(user => {
-                let token = jwtHelper.generate(user.email);
+                let token = jwtHelper.generate(user.id);
                 res.status(200).json({ token });
             })
             .catch(err=>{
