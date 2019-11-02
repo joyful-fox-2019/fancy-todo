@@ -69,25 +69,25 @@ class UserControllers{
         idToken: id_token,
         audience: process.env.CLIENT_ID,
         });
-    const payload = ticket.getPayload();
-    const { email,name } = payload
-    const emailFind = await userModel.findOne({email})
-    if(emailFind){
-      let id = emailFind._id
-      payloadJWT = { id }
-      let token = generateToken(payloadJWT)
-      res.status(200).json(token)
-    } else {
-      let password = process.env.OAUTH_PASSWORD
-      const user = await userModel.create({name,email,password})
-      let id = user._id
-      payloadJWT = { email,name,_id:id }
-      let token = generateToken(payloadJWT)
-      res.status(200).json(token)
-      // next({status : 500, msg : 'email not found'})
-    }
+      const payload = ticket.getPayload();
+      const { email,name } = payload
+      const emailFind = await User.findOne({email})
+      if(emailFind){
+        let id = emailFind._id
+        payloadJWT = { id }
+        let token = getToken(payloadJWT)
+        res.status(200).json(token)
+      } else {
+        let username = name
+        let password = process.env.OAUTH_PASSWORD
+        const user = await User.create({username,email,password, OAuth: true})
+        let id = user._id
+        payloadJWT = { email,name,_id:id }
+        let token = getToken(payloadJWT)
+        res.status(200).json(token)
+      }
     } catch (error) {
-      
+      next(error)
     }
   }
 

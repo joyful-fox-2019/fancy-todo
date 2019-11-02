@@ -1,7 +1,8 @@
 $(document).ready(()=>{
   console.log('DOM is ready');
-  loginCard()
-
+  // loginCard()
+  hide('#startPage')
+  show('#homePage')
   if(localStorage.getItem('token')){
 
   } else {
@@ -28,21 +29,6 @@ $('#registerTab').click(()=>{
   $('#registerTab').addClass('active')
   registerCard()
 })
-
-function loginCard(){
-  show('#loginCard')
-  hide('#registerCard')
-}
-
-function registerCard(){
-  hide('#loginCard')
-  show('#registerCard')
-}
-
-function registerCreatorCard(){
-  hide('#loginCard')
-  hide('#registerCard')
-}
 
 $('form')
   .form({
@@ -94,6 +80,8 @@ $('#loginSubmit').on('submit',(e)=>{
     .done((data)=>{
       localStorage.setItem('token',data.token)
       localStorage.setItem('name',data.name)
+      $('#emailLog').empty()
+      $('#passLog').empty()
       // $('#navname').append(`${data.name}`)
       // getCards()
     })
@@ -105,21 +93,6 @@ $('#loginSubmit').on('submit',(e)=>{
     })
   }
 })
-
-function setLoginError(err,type){
-  $('#loginError').append(`
-  <div class="ui negative message transition">
-    <i class="close icon" id="close"></i>
-    <div class="header">
-      ${type} Failed
-    </div>
-    <p>${err.message}</p>
-    </div>
-  `)
-  $('#close').click(()=>{
-    $('#loginError').empty()
-  })
-}
 
 $('#registerSubmit').on('submit',(e)=>{
   e.preventDefault()
@@ -138,6 +111,9 @@ $('#registerSubmit').on('submit',(e)=>{
     .done((data)=>{
       localStorage.setItem('token',data.token)
       localStorage.setItem('name',data.name)
+      $('#usernameReg').empty()
+      $('#emailReg').empty()
+      $('#passReg').empty()
       // $('#navname').append(`${data.name}`)
       // getCards()
     })
@@ -149,6 +125,82 @@ $('#registerSubmit').on('submit',(e)=>{
     })
   }
 })
+
+$('#card').click(()=>{
+  console.log('card triggered');
+  console.log('it will show card detail ');
+  $('.ui.modal.detail')
+  .modal('show')
+})
+
+$('#addtodo').click(()=>{
+  console.log('triger');
+  $('.ui.modal.add')
+  .modal('show')
+})
+
+$('#submitTodo').on('submit',(e)=>{
+  e.preventDefault()
+  let title = $('#submitTitle').val()
+  let desc = $('#submitDesc').val()
+  let dueDate = $('#submitDueDate').val()
+  console.log(title)
+  console.log(desc)
+  console.log(dueDate)
+  $('.ui.modal.add')
+  .modal('hide')
+})
+
+$('#editTodo').click(()=>{
+  console.log('triger');
+  $('.ui.modal.edit')
+  .modal('show')
+})
+
+$('#submitEdit').on('submit',(e)=>{
+  e.preventDefault()
+  let title = $('#editTitle').val()
+  let desc = $('#editDesc').val()
+  let dueDate = $('#editStatus').val()
+  console.log(title)
+  console.log(desc)
+  console.log(dueDate)
+  $('.ui.modal.edit')
+  .modal('hide')
+})
+
+$('.ui.selection.dropdown')
+  .dropdown()
+
+function loginCard(){
+  show('#loginCard')
+  hide('#registerCard')
+}
+
+function registerCard(){
+  hide('#loginCard')
+  show('#registerCard')
+}
+
+function registerCreatorCard(){
+  hide('#loginCard')
+  hide('#registerCard')
+}
+
+function setLoginError(err,type){
+  $('#loginError').append(`
+  <div class="ui negative message transition">
+    <i class="close icon" id="close"></i>
+    <div class="header">
+      ${type} Failed
+    </div>
+    <p>${err.message}</p>
+    </div>
+  `)
+  $('#close').click(()=>{
+    $('#loginError').empty()
+  })
+}
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
@@ -169,12 +221,21 @@ function onSignIn(googleUser) {
     // $('#navname').append(`${name}`)
     localStorage.setItem('token',token)
     localStorage.setItem('name',name)
-  
+    console.log(token);
     // getCards()
   })
   .fail((msg)=>{
     console.log(msg);
    
   })
-  .always()
 }
+
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+    localStorage.removeItem('token')
+    localStorage.removeItem('name')
+  });
+}
+

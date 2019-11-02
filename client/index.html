@@ -86,6 +86,157 @@
       </div>
     </div>
     <!-- batas startPage -->
+    <div id="homePage">
+      <div class="ui grid">
+        <div class="three wide column">
+            <div class="ui fluid secondary vertical pointing menu" style="height: 97vh">
+              <div class="item" style="cursor: pointer">
+                <!-- asdas -->
+                <!-- <button class="ui black github button" style="margin-left: 15px">
+                </button> -->
+                    <i class="user outline icon"></i>
+                    <div id="myName"><b>My Name</b></div> 
+              </div>
+              <hr>
+              <div class="active item">
+                <div class="header">My To-Do list</div>
+              </div>
+              <div class="item">
+                <div class="header">My Project</div>
+                <div class="menu">
+                  <a class="item">Project's to-do</a>
+                  <a class="item">Project detail</a>
+                </div>
+              </div>
+              <div class="item">
+                <div class="header">Profile</div>
+                <div class="menu">
+                  <a class="item">Logout</a>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="twelve wide column">
+            <button class="fluid ui button" id="addtodo" style="margin: 10px auto"> Create new Todo </button>
+            <div class="ui styled fluid accordion">
+                <div class="title active">
+                  <i class="dropdown icon"></i>
+                  To-do
+                </div>
+                <div class="content active">
+                  <!-- card -->
+                  <div class="ui fluid card">
+                    <a class="content" id="card">
+                      <div class="header">Title</div>
+                      <div class="meta">2 days ago</div>
+                        <div class="description">
+                          <p>Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size.</p>
+                        </div>
+                      </a>
+                  </div>
+                </div>
+
+                <div class="title active">
+                  <i class="dropdown icon"></i>
+                  On Progress
+                </div>
+
+                <div class="content active">
+                  <p class="transition visible">There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+                </div>
+
+                <div class="title active">
+                  <i class="dropdown icon"></i>
+                  Done
+                </div>
+                <div class="content active">
+                  <p class="transition visible">There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+                </div>
+              </div>
+        </div>
+        <!-- modal detail -->
+        <div class="ui tiny modal detail">
+            <i class="close icon"></i>
+            <div class="header">
+              Title
+            </div>
+            <div class="content">
+              <div class="description">
+                <p>Status: This is status</p>
+                <p>Due date: This is due date</p>
+                <p>Desc: This is desc todo</p>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="ui button" id="editTodo">
+                  edit
+              </button>
+              <button class="ui button">
+                  delete
+              </button>
+            </div>
+          </div>
+        <!-- modal create -->
+        <div class="ui tiny modal add">
+            <i class="close icon"></i>
+            <div class="header">
+              Create new todo
+            </div>
+            <div class="content">
+                <form class="ui form" id="submitTodo">
+                  <div class="field">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Title" id="submitTitle">
+                  </div>
+                  <div class="field">
+                    <label>Desc</label>
+                    <!-- <input type="textarea" name="desc" placeholder="Description"> -->
+                    <textarea rows="2" id="submitDesc"></textarea>
+                  </div>
+                  <div class="field">
+                      <label>Due Date</label>
+                      <input type="date" name="date" id="submitDueDate">
+                    </div>
+                  <button class="ui button" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+        <!-- modal edit -->
+        <div class="ui tiny modal edit">
+            <i class="close icon"></i>
+            <div class="header">
+              Edit this todo
+            </div>
+            <div class="content">
+                <form class="ui form" id="submitEdit">
+                  <div class="field">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Title" id="editTitle">
+                  </div>
+                  <div class="field">
+                    <label>Desc</label>
+                    <!-- <input type="textarea" name="desc" placeholder="Description"> -->
+                    <textarea rows="2" id="editDesc"></textarea>
+                  </div>
+                  <div class="field">
+                      <label>Status</label>
+                        <div class="ui selection dropdown">
+                            <input type="hidden" name="status" id="editStatus">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Current Status</div>
+                            <div class="menu">
+                                <div class="item" data-value="To-do">To-do</div>
+                                <div class="item" data-value="Doing">Doing</div>
+                                <div class="item" data-value="Done">Done</div>
+                            </div>
+                        </div>
+                    </div>
+                  <button class="ui button" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+      </div>      
+    </div>
     <script src="./main.js"></script>
   </body>
 </html>
