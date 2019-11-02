@@ -60,15 +60,42 @@ class UserController {
 			todos: []
 		})
 			.then(user => {
-				res.status(201).json(user);
+				const token = tokenHandler.encode({
+					id: user.id,
+					username: user.username
+				});
+				res.status(201).json({
+					jwt_token: token
+				});
 			})
 			.catch(next);
 	}
 
 	static googleSigning(req, res, next) {
-		googleVerify(req.body.token)
+		googleVerify(req.body.g_token)
 			.then(payload => {
-				console.log(payload);
+				if (payload) {
+					req.body.email = payload.email;
+					return User.findOne({ email: payload.email });
+				}
+				throw 'googleSigninFailed.';
+			})
+			.then(user => {
+				if (user) {
+					const token = tokenHandler.encode({
+						id: user.id,
+						username: user.username
+					});
+					res.status(200).json({
+						jwt_token: token
+					});
+				} else {
+					req.body = {
+						email: req.body.email,
+						todos: []
+					};
+					UserController.register(req, res, next);
+				}
 			})
 			.catch(next);
 	}

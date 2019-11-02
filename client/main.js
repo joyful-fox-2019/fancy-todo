@@ -1,4 +1,17 @@
-$(document).ready(isSignIn);
+$(document).ready(function() {
+	$('#todo-create-modal').on('shown.bs.modal', function(event) {
+		$('[data-toggle="datepicker"]').datepicker({ zIndex: 2000, format: 'yyyy/mm/dd' });
+	});
+	addScroll();
+	isSignIn();
+});
+
+function addScroll() {
+	$('.to-top').click(function() {
+		$('html,body').animate({ scrollTop: $('#top').offset().top }, '1000');
+		return false;
+	});
+}
 
 function isSignIn() {
 	jwt_token = localStorage.getItem('jwt_token');
@@ -28,8 +41,21 @@ function verifyToken(jwt_token) {
 function showSignIn() {
 	$('.navbar').hide();
 	$('#todos-section').hide();
+	$('.l-submit').click(loadingSignIn);
 	$('#l-form').submit(signIn);
 	$('.form-control').focusin(formReset);
+}
+
+function loadingSignIn(event) {
+	event.preventDefault();
+	$('#l-submit-loading').empty();
+	$('#l-submit-loading').append(`
+		<span class="spinner-border" role="status" aria-hidden="true"></span>
+  Loading...
+	`);
+	$('#l-submit-loading')
+		.parent()
+		.addClass('disabled');
 }
 
 function formReset() {
@@ -70,13 +96,52 @@ function signIn(event) {
 		});
 }
 
+function googleSignin(googleUser) {
+	const g_token = googleUser.getAuthResponse().id_token;
+	$.ajax({
+		method: 'POST',
+		url: 'http://localhost:3000/user/google-signing',
+		data: {
+			g_token
+		}
+	}).done(response => {
+		console.log('sukses');
+		localStorage.setItem('jwt_token', response.jwt_token);
+		showTodos();
+	});
+}
+
+function addSignOut() {
+	$('#btn-signout').click(function(event) {
+		// event.preventDefault();
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function() {
+			console.log('User signed out.');
+		});
+		localStorage.removeItem('jwt_token');
+	});
+}
+
 async function showTodos() {
 	$('.navbar').show();
 	$('#nav-brand').addClass('d-lg-flex');
 	$('#signin-section').hide();
 	$('#todos-section').show();
+	addSignOut();
 	const user = await getUserTodos().catch(err => console.log(err));
 	if (!user) return;
+	if (user.todos.length < 1) {
+		$('.card-deck').empty();
+		$('.card-deck').append(`
+			<div class="card mb-3 col-3" id="">
+			<div class="card-body">
+				<p class="card-title">Click to Create new Todo!</p>
+			</div>
+			<small><a style="cursor: pointer;" class="btn stretched-link" data-toggle="modal" data-target="#todo-create-modal"></a></small>
+      </div>
+		`);
+		return;
+	}
 	$('.card-deck').empty();
 	let counter = 0;
 	for (const todo of user.todos) {
@@ -115,6 +180,8 @@ async function showTodos() {
 	}
 	$('#todo-detail-modal').on('show.bs.modal', getTodoDetail);
 }
+
+function todoCreateCloseConfirmation() {}
 
 async function getUserTodos() {
 	let payload = await verifyToken(localStorage.getItem('jwt_token'));
