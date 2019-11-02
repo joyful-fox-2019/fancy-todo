@@ -18,7 +18,6 @@ module.exports = {
       .catch(next)
   },
   update: (req, res, next) => {
-    console.log(req.body)
     const { name, description, status, dueDate } = req.body
     Task.findByIdAndUpdate(req.params.id,
       { name, description, status, dueDate },
@@ -29,12 +28,11 @@ module.exports = {
       })
       .catch(next)
   },
-  check: (req, res, next) => {
-    Task.findById(req.params.id)
+  delete: (req, res, next) => {
+    Task.findByIdAndDelete(req.params.id)
       .then(task => {
-        task.status = true
-        task.save()
+        res.status(200).json(task)
       })
       .catch(next)
-  },
+  }
 }

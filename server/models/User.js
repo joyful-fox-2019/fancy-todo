@@ -16,9 +16,22 @@ const userSchema = new Schema({
     }
   },
   password: {
-    type: String,
-    required: [true, 'Password cannot be empty'],
-    minlength: [6, 'Password should at least has 6 characters']
+    type: String
+  },
+  isGoogle: {
+    type: Boolean,
+    default: false,
+    validate: {
+      validator: function(isGoogle) {
+        if(!isGoogle) {
+          if(!this.password || this.password.length < 6) {
+            return false
+          }
+        }
+        return true
+      },
+      message: props => `Password have to be at least 6 characters`
+    }
   }
 }, {
   versionKey: false
@@ -26,7 +39,13 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function(next) {
   try {
-    this.password = hashPassword(this.password)
+    if(!this.isGoogle) {
+      this.password = hashPassword(this.password)
+    } else {
+      if(this.password || this.password === '') {
+        throw {status: 400, msg: 'Cannot set password when using google sign in'}
+      }
+    }
     next()
   } catch (err) {
     next(err)

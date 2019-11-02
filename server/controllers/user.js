@@ -28,5 +28,28 @@ module.exports = {
       }
     })
     .catch(next)
+  },
+  googleSignIn: (req, res, next) => {
+    User.findOne({
+      email: req.googleEmail
+    })
+    .then(user => {
+      if(!user) {
+        return User.create({
+          email: req.googleEmail,
+          isGoogle: true
+        })
+      } else {
+        return user
+      }
+    })
+    .then(user => {
+      const access_token = generateToken({
+        id: user._id,
+        email: user.email
+      })
+      res.status(200).json({ access_token })
+    })
+    .catch(next)
   }
 }

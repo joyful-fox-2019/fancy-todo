@@ -1,17 +1,4 @@
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
-
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-  });
-}
+const baseUrl = 'http://localhost:3000'
 
 showAlert = (err) => {
   if(err.responseJSON) {
@@ -44,26 +31,66 @@ hideAllPages = () => {
   $('#main-page').hide()
 }
 
+function onSignIn(googleUser) {
+  const id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    url: `${baseUrl}/users/g-signin`,
+    type: 'post',
+    data: {
+      id_token
+    }
+  })
+    .done(data => {
+      console.log(data)
+      localStorage.setItem('access_token', data.access_token)
+      showMainPage()
+    })
+    .catch(showAlert)
+}
+
+formatDate = (strDate) => {
+  const date = new Date(strDate)
+  return `${date.getDate()} ${date.toLocaleString('default', { month: 'long' }).substring(0, 3)} ${date.toLocaleTimeString().substring(0, 5)} AM`
+}
+
 appendTasks = (tasks) => {
   console.log(tasks)
   $('#today-items').empty()
   tasks.forEach(task => {
-    $('#today-items').append(`
-      <a class="collection-item teal-text text-darken-4">
-        <div class="row">
-          <div class="col s1">
-            <i onclick="check('${task._id}')" class="check-circle material-icons teal-text text-darken-4">${task.status ? 'check_circle' : 'radio_button_unchecked'}</i>
+    if(task.status) {
+      $('#today-items').append(`
+        <a class="collection-item teal-text text-darken-4">
+          <div class="row">
+            <div class="col s1">
+              <i onclick="check('${task._id}')" class="check-circle material-icons grey-text">check_circle</i>
+            </div>
+            <div class="col s10 grey-text">
+              <span class="striked">${task.name}</span>
+            </div>
+            <div class="col s1">
+              <i onclick="check('${task._id}')" class="check-circle material-icons grey-text">clear</i>
+            </div>
           </div>
-          <div class="col s11">
-            <span>${task.name}</span>
+        </a>
+      `)
+    } else {
+      $('#today-items').append(`
+        <a class="collection-item teal-text text-darken-4">
+          <div class="row">
+            <div class="col s1">
+              <i onclick="check('${task._id}')" class="check-circle material-icons teal-text text-darken-4">radio_button_unchecked</i>
+            </div>
+            <div class="col s11 teal-text text-darken-4">
+              <span>${task.name}</span>
+              <span class="time-badge badge">${formatDate(task.dueDate)}</span>
+            </div>
           </div>
-        </div>
-      </a>
-    `)
+        </a>
+      `)
+    }
+    
   })
 }
-
-const baseUrl = 'http://localhost:3000'
 
 getTasks = () => {
   $.ajax({
@@ -93,6 +120,10 @@ if(localStorage.getItem('access_token')) {
 }
 
 logout = () => {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
   localStorage.clear()
   showAuthPage()
 }
@@ -113,6 +144,7 @@ check = (id) => {
     })
     .fail(showAlert)
 }
+
 $(document).ready(() => {
   M.Sidenav.init($('.sidenav'))
   M.Modal.init($('.modal'))

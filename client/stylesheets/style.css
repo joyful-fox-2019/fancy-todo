@@ -39,6 +39,9 @@ li {
 .has-margin {
   margin: 20px;
 }
+.has-margin-b {
+  margin-bottom: 20px;
+}
 .material-icons {
   font-size: 20px;
   margin-right: 5px;
@@ -72,6 +75,16 @@ li {
 .add-button {
   margin-right: 20vw;
   margin-bottom: 10vh;
+}
+.striked {
+  text-decoration: line-through;
+}
+.time-badge {
+  border: solid 1px;
+  border-color: rgb(207, 207, 207);
+  color: rgb(170, 170, 170) !important;
+  border-radius: 20px;
+  font-size: 10px !important;
 }
 @media (max-width: 600px) {
   .modal {

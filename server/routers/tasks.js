@@ -7,6 +7,6 @@ router.get('/', TaskController.find)
 router.post('/', TaskController.add)
 router.use('/:id', authorization)
 router.patch('/:id', TaskController.update)
-router.patch('/:id/status', TaskController.check)
+router.delete('/:id', TaskController.delete)
 
 module.exports = router

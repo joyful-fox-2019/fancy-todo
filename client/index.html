@@ -28,10 +28,10 @@
               <input id="register-password" type="password" class="teal-text text-darken-3">
               <label for="register-password" class="teal-text text-accent-4">Password</label>
             </div>
-            <button type="submit" class="waves-effect waves-light btn full-width teal accent-4">SIGN UP</button>
-            <hr>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-            <a href="#" onclick="signOut();">Sign out</a>
+            <button type="submit" class="waves-effect waves-light btn full-width teal accent-4 has-margin-b">SIGN UP</button>
+            <div class="container centered" style="width: 250px;">
+              <div id="my-signin2" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
           </form>
           <div class="center-text has-margin">
             <span>Already have an account? <span class="teal-text text-accent-4 clickable" onclick="showLogin()">Sign In</span></span>
@@ -137,5 +137,25 @@
     <script>
     </script>
     <script src="index.js"></script>
+    <script>
+    function onSuccess(googleUser) {
+      onSignIn(googleUser)
+    }
+    function onFailure(error) {
+      showAlert(error);
+    }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 250,
+        'height': 40,
+        'longtitle': true,
+        'theme': 'light',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+    </script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   </body>
 </html>
