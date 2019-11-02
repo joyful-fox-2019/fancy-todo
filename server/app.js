@@ -5,6 +5,7 @@ if (process.env.NODE_ENV === 'development') {
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT;
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 mongoose.connect(
 	process.env.MONGODB_URI,
@@ -21,6 +22,7 @@ mongoose.connect(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(morgan('dev'));
 
 app.use('/', require('./routes'));
 
