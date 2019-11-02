@@ -4,4 +4,4 @@ const userRouter = require('./user')
 routes.use('/user', userRouter)
 
 
-module.exports = route
+module.exports = routes
