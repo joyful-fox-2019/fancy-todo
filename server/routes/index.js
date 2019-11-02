@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const UserController = require('../controllers/userController');
-const googleVerify = require('../helpers/googleVerify');
+const googleVerify = require('../middlewares/googleVerify');
 
 router.get('/', (req, res)=>{
     res.send('hello from server')
