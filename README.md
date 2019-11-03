@@ -299,19 +299,19 @@
         ```
 
 #### Installation
-Make sure you have Node.js and npm installed on your computer, clone the repo then run this:
+Make sure you have Node.js and npm installed on your computer then run:
 ````
-$ cd fancy-todo/client && npm install
+$ git clone https://github.com/palewing/fancy-todo.git && cd fancy-todo/client 
+$ npm install
 $ cd ../server && npm install
 ````
 
 #### Usage
+Make sure you have nodemon installed. Then run this on `server` directory
+```
+$ npm run dev
+```
+Next, make sure you have live-server installed. Then run this on `client` directory
 ````
-$
-$ cd ../server && npm install
-````
-
-#### Environment Variables
-````
-JWT_SECRET = to-do-api
+$ live-server --host=localhost
 ````
