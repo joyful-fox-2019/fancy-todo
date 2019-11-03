@@ -1,4 +1,5 @@
 $(document).ready(function ($) {
+	$('#todo_date').attr("placeholder", new Date().toLocaleDateString('en-CA'));
 	tab = $('.tabs h3 a');
 
 	tab.on('click', function (event) {
@@ -25,6 +26,9 @@ $(document).ready(function ($) {
 				$('#ft_username').html(localStorage.getItem('ft_username'));
 				if (localStorage.getItem('ft_picture') !== 'undefined') {
 					$('#ft_picture').attr('src', `data:image/png;base64,${localStorage.getItem('ft_picture')}`)
+				}
+				else{
+					$('#ft_picture').attr('src', `./images/img_avatar5.png`)
 				}
 				printTodos(todos);
 
@@ -118,6 +122,9 @@ $('#login_submit').click(function (event) {
 			if (localStorage.getItem('ft_picture') !== 'undefined') {
 				$('#ft_picture').attr('src', `data:image/png;base64,${localStorage.getItem('ft_picture')}`)
 			}
+			else{
+				$('#ft_picture').attr('src', `./images/img_avatar5.png`)
+			}
 			Swal.fire({
 				title: `Welcome, ${localStorage.getItem('ft_username')}!`,
 				type: 'success',
@@ -188,7 +195,8 @@ function addPicture(event) {
 		})
 }
 
-function addTodo() {
+function addTodo(event) {
+	event.preventDefault();
 	$.ajax({
 		method: 'post',
 		url: 'http://localhost:3000/todos',
@@ -223,7 +231,7 @@ function addTodo() {
 				})
 		})
 		.fail(err => {
-			console.log(err.responseJSON.errors.due_date.message)
+			console.log(err)
 			if (err.responseJSON.errors.due_date.message == `Please don't enter past date`) {
 				Swal.fire({
 					title: `Can't do that, chief`,
