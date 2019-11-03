@@ -9,16 +9,124 @@
         content="220814266651-8taprggpt281q2nl2oudu3hcdt67daeq.apps.googleusercontent.com">
 
     <!--  CSS -->
-    <link rel="stylesheet" href="./style/loginStyle.css">
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <title>Hello, world!</title>
+    <link rel="stylesheet" type="text/css" href="./style/style.css">
+    <link rel="stylesheet" href="./style/loginStyle.css">
 </head>
 
 <body style="background-image: url('./img/glitch.png');">
+    <div id="afterLogin">
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #2c3e50;">
+            <a class="navbar-brand text-white" href="#">Fancy Todo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item btn" data-toggle="modal" data-target="#createModal">Create Todo</a>
+                            <a class="dropdown-item btn" data-toggle="modal" data-target="#updateModal">Update Todo</a>
+                            <a class="dropdown-item btn deleteTodoClass" id="" onclick="deleteTodo(this.id)">Delete
+                                Todo</a>
+                        </div>
+                    </li>
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <div id="avatar" class="mr-3">
+
+                    </div>
+                    <div class="text-white mr-5" id="user-login-name">
+
+                    </div>
+                    <button class="btn btn-danger my-2 my-sm-0" onclick="signOut();" type="button">Sign Out</button>
+                </form>
+            </div>
+        </nav>
+        <div class="row ml-5 mr-1" id="todoItem">
+
+        </div>
+
+        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create A Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputTitle">Title</label>
+                                <input type="text" class="form-control" id="titleCreate" placeholder="Enter Title">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputTitle">Description</label>
+                                <input type="text" class="form-control" id="descriptionCreate"
+                                    placeholder="Enter Description">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputTitle">Due Date</label>
+                                <input type="text" class="form-control" id="dueDateCreate" placeholder="Enter Due Date">
+                                <small id="dateHelp" class="form-text text-muted">Format must be yy-mm-dd</small>
+                            </div>
+
+
+
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            onclick="createTodo();">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="updateModalBody">
+                        <h1>Select Todo First</h1>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
     <div id="beforeLogin">
 
         <div class="col-md-5 col-md-offset-3 col-xs-12" style="margin-left: 370px;">
@@ -65,8 +173,6 @@
                             <div class="col-sm-5  text-center">
                                 <div class="g-signin2" style="width: 150px; height: 46px; border-radius: 20px ;"
                                     data-onsuccess="onSignIn"></div>
-                                <!-- <a href="#" onclick="signOut();">Sign out</a> -->
-
                             </div>
                         </div>
                         <br />
@@ -109,11 +215,10 @@
 
         </div>
 
+    </div>
 
-        <div id="afterLogin">
 
 
-        </div>
     </div>
 
     <!-- Optional JavaScript -->

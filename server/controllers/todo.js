@@ -4,6 +4,7 @@ const User = require("../models/user");
 
 class TodoController {
     static findAll(req, res, next) {
+        console.log(req.body)
         User.findOne({
                 name: req.body.username
             })
@@ -22,12 +23,17 @@ class TodoController {
         const {
             title,
             description,
-            username
+            status,
+            dueDate,
+            username,
+
         } = req.body
         Todo.create({
-                title,
-                description,
-                username
+                title: title,
+                description: description,
+                status: status,
+                dueDate: dueDate,
+                username: username
             })
             .then((todo) => {
                 res.status(201).json(todo);
@@ -38,14 +44,16 @@ class TodoController {
     static update(req, res, next) {
         const {
             title,
-            description
+            description,
+            dueDate
         } = req.body
 
         Todo.update({
                 _id: req.body.id
             }, {
                 title,
-                description
+                description,
+                dueDate
             })
             .then((todo) => {
                 res.status(200).json(todo);
@@ -56,6 +64,28 @@ class TodoController {
     static delete(req, res, next) {
         Todo.deleteOne({
                 _id: req.body.id
+            })
+            .then((todo) => {
+                res.status(200).json(todo);
+            })
+            .catch(next);
+    }
+
+    static findById(req, res, next) {
+        Todo.findById({
+                _id: req.body.id
+            })
+            .then((todo) => {
+                res.status(200).json(todo);
+            })
+            .catch(next);
+    }
+
+    static selected(req, res, next) {
+        Todo.updateOne({
+                _id: req.body.id
+            }, {
+                status: req.body.status
             })
             .then((todo) => {
                 res.status(200).json(todo);

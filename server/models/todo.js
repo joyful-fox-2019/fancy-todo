@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 const todoSchema = new Schema({
     title: String,
     description: String,
+    status: String,
+    dueDate: Date,
     username: String
 });
 
