@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Google-->
+    <meta name="google-signin-client_id"
+        content="546223979661-lkqpobb5o5atl3vfqi6caqrguiee522d.apps.googleusercontent.com">
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--CSS-->
+    <link rel="stylesheet" href="./style.css">
+
+    <title>Fancy Todo</title>
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:rgb(199, 227, 245);">
+        <img src="./Images/789b87b5-fe97-4059-98a5-46cd07a9b839_200x200.png" alt="logo"
+            style="height: 115px; width: 115px; margin-bottom: -40px; margin-top: -40px; margin-left: 45%;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <button type="button" class="btn btn-info loginbtn" data-toggle="modal"
+                        data-target="#exampleModalLong">
+                        Login
+                    </button>
+                    <span class="welcomeMSG"></span>
+                    <a href="#" id="googleout" onclick="signOut(event);">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Welcome to Fancy Todo!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBodyLogin">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="normalLogin(event)">Sign in</button>
+                        <span> Or </span>
+                        <button type="submit" class="btn btn-secondary" onclick="signUp(event)">Sign up</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="g-signin2 mr-auto" data-onsuccess="onSignIn"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Home Logo-->
+    <div class="home">
+        <img src="./Images/logo_transparent.png" alt="home"
+            style="width: 40%; height: 40%; display: block; margin: -5% auto;">
+        <h3 style="text-align: center;">Welcome to My Fancy Todo</h3>
+    </div>
+
+    <!--Create Modal-->
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" aria-labelledby="modalCreateTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCreateTitle">Create your new Todo!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalbodyCreate">
+                    <div class="createTodo">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputName">Name</label>
+                                    <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputDesc">Description</label>
+                                    <input type="text" class="form-control" id="inputDesc" placeholder="Description">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDate">Due Date</label>
+                                <input type="date" class="form-control" id="inputDate" placeholder="YYYY-MM-DD">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btnCreate">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Update Modal-->
+    <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdateTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalUpdateTitle">Todo's Update</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalUpdateBody">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Content-->
+    <div class="row" id="contentCard" style="width: 100%; margin-top: 5%;">
+        <div class="col-sm-4" style="margin-left: 5%;">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header" style="text-align: center;">
+                    Featured
+                </div>
+                <ul class="list-group list-group-flush" style="background-color:rgb(199, 227, 245);">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalCreate"
+                        style="margin-top: 10px; border-radius: 0px;">
+                        Create a new Todo
+                    </button>
+                    <div class="onoffswitch" style="margin-top: 10px; margin-left: 34%;">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                        <label class="onoffswitch-label" for="myonoffswitch"> <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch" style="margin-bottom: 14px; margin-top: 7px;"></span>
+                        </label>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <!-- <div class="todos">
+            </div> -->
+        </div>
+    </div>
+
+
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!--Google Oauth-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!--Bootstrap Script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <!--JS-->
+    <script src="./main.js"></script>
+</body>
+
+</html>
