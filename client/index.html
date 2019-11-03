@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id"
+        content="1000751474591-9m7fanmd02romjni4ljj649qo209q5m7.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    <title>Fancy Todo</title>
+</head>
+
+<body>
+    <!-- 
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
+    -->
+    <div class="form-wrap" style="display: none;">
+        <div class="tabs">
+            <h3 class="signup-tab"><a class="active" href="#signup-tab-content">Sign Up</a></h3>
+            <h3 class="login-tab"><a href="#login-tab-content">Login</a></h3>
+        </div>
+        <!--.tabs-->
+
+        <div class="tabs-content">
+            <div id="signup-tab-content" class="active">
+                <form class="signup-form" action="" method="post">
+                    <input type="email" class="input" id="user_email" autocomplete="off" placeholder="Email">
+                    <input type="text" class="input" id="user_name" autocomplete="off" placeholder="Username">
+                    <input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password">
+                    <input type="submit" class="button" id="register_submit" value="Sign Up">
+                </form>
+                <!--.login-form-->
+                <div class="help-text">
+                    <p>or login with</p>
+                    <div class="g-signin2" id="my-signin2" data-onsuccess="onSignIn" data-theme="dark"
+                        data-width="272px"></div>
+                </div>
+                <!--.help-text-->
+            </div>
+            <!--.signup-tab-content-->
+
+            <div id="login-tab-content">
+                <form class="login-form" action="" method="post">
+                    <input type="text" class="input" id="user_login_email" autocomplete="off"
+                        placeholder="Email or Username">
+                    <input type="password" class="input" id="user_login_pass" autocomplete="off" placeholder="Password">
+                    <!-- 
+                    <input type="checkbox" class="checkbox" id="remember_me">
+                    <label for="remember_me">Remember me</label>
+                    -->
+
+                    <input type="submit" class="button" id="login_submit" value="Login">
+                </form>
+                <!--.login-form-->
+                <div class="help-text">
+                    <!--
+                        <p><a href="#">Forget your password?</a></p>
+                    -->
+                </div>
+                <!--.help-text-->
+            </div>
+            <!--.login-tab-content-->
+        </div>
+        <!--.tabs-content-->
+    </div>
+    <!--.form-wrap-->
+
+    <div class="main_content" style="display: none;">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-4">
+                    <a href="#" onclick="signOut();">Logout</a>
+                    <!-- profile column -->
+                    <div class="card">
+                        <img class="card-img-top" src="./images/img_avatar5.png" alt="Card image" id="ft_picture">
+                        <div class="card-body">
+                            <h4 class="card-title" id="ft_username"></h4>
+                            <a href="#" data-toggle="modal"
+                            data-target="#pictureModal" class="card-text">Change picture</a>
+                        </div>
+                    </div>
+                    <!-- new todo-->
+                    <div class="new_todo mt-4">
+                        <button type="button" class="btn btn-primary w-100" data-toggle="modal"
+                            data-target="#exampleModal">Add todo</a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <!-- navbar -->
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Active</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Completed</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">All</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- todo list column -->
+                    <div class="row overflow-auto" style="height: 700px;" id="todo-list">
+                    </div>
+                    <!-- todo list column finish -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- fancy todo main content -->
+
+    <!-- Profile Picture Modal -->
+    <div class="modal fade" id="pictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Choose a picture</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id='avatar-form'>
+                        <div class="form-group">
+                            <label for="avatar"></label>
+                            <input type="file" accept="image/*" enctype="multipart/form-data" class="form-control" name='avatar' id="avatar" required>
+                            <small id="pictureHelp" class="form-text text-muted">Recommended dimension is 500 x 500</small>
+                        </div>
+                        <button onclick="addPicture(event)" type="submit" class="btn btn-primary" id="avatar_submit">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Todo Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">New Todo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="todo_name">Name</label>
+                            <input type="text" class="form-control" id="todo_name" placeholder="Enter todo name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="todo_desc">Description</label>
+                            <input type="text" class="form-control" id="todo_desc" placeholder="Give it a little description" required>
+                        </div>
+                        <div class="form-group">
+                                <label for="todo_date">Due date</label>
+                                <input type="date" class="form-control" id="todo_date" required">
+                        </div>
+                        <button onclick="addTodo()" type="submit" class="btn btn-primary" id="new_todo_submit">Add</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="./scripts/googleOAuth.js"></script>
+<script src="./scripts/main.js"></script>
+
+</html>
