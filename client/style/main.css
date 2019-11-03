@@ -2,7 +2,19 @@
   display: flex;
   margin-left: 125px
 }
-
+.headerProject{
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  display: flex;
+}
+.btn-editt{
+  margin-left: 20px;
+  margin-top: -10px;
+}
+.invitemember{
+  margin-top: 20px
+}
 body
 {
 	margin: 0;

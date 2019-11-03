@@ -144,6 +144,7 @@ function checkLogin () {
   if(localStorage.getItem('token')) {
     $('#islogin').hide()
     $('#logout').show()
+
     lengthNotif()
     quotee()
       .then(({data}) => {
@@ -235,6 +236,8 @@ function goLogout() {
   $('#myList').empty()
   $('.progress').empty()
   $('.mainMain').hide()
+  $('#button-1').hide()
+
   $('#islogin').show()
   $('.invitemember').hide()
   $('.container2').hide()
@@ -248,6 +251,8 @@ function goCreateTodo() {
 
   $('.social').hide()
   $('.invitemember').hide()
+  $('#button-1').hide()
+
   $('.container2').hide()
 
   $('#todoListProject').hide()
@@ -258,6 +263,8 @@ function goProject () {
   $('.progress').empty().hide()
   $('#createProject1').hide()
   $('.invitemember').hide()
+  $('#button-1').hide()
+
   $('.social').hide()
   $('.container2').hide()
   showProject()
@@ -305,6 +312,8 @@ function focusTodo() {
   $('#notif').hide()
   $('.social').hide()
   $('.invitemember').hide()
+  $('#button-1').hide()
+
   $('#other').hide()
 }
 function focusProject() {
@@ -312,6 +321,7 @@ function focusProject() {
   $('.social').hide()
   $('#createProject').show()
   $('#createProject1').show()
+  $('#button-1').hide()
 
   $('.invitemember').hide()
   $('#todo').hide()
@@ -325,6 +335,8 @@ function focusNotif() {
   $('#notif').show()
   $('#showNotif').show()
   $('.invitemember').hide()
+  $('#button-1').hide()
+
   $('.social').hide()
 
   $('#todo').hide()
@@ -340,6 +352,8 @@ function focusOther() {
 
   $('.social').show()
   $('.invitemember').hide()
+  $('#button-1').hide()
+
   $('#todo').hide()
   $('#notif').hide()
   $('#project').hide()
@@ -794,8 +808,8 @@ function goTodoProject (id) {
       $('.headerProject').append(`
       <h3>${data.name.toUpperCase()}</h3>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-        Edit Project Name
+        <button type="button" class="btn btn-outline-primary btn-editt btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+        Edit
         </button>
 
           <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
