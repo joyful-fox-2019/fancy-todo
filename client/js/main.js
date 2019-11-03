@@ -466,13 +466,15 @@ function showOngoingLists (responses) {
         let due_date = new Date(responses[i].due_date);
         let now = new Date();
         if ( due_date <= now) {
-            due += `<span class="del-btn" style="padding:5px; border-radius:0px;">Due</span>`;
+            due += `<span class="del-btn" style="padding:5px; width:45px; text-align:center; border-radius:0px;">Due</span>`;
+        } else {
+            due += `<span class="add-btn" style="padding:5px; width:45px; text-align:center; border-radius:0px;">ON</span>`;
         }
         $("#todo-list").append(
         `<div class="input-group mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
-                    <input type="checkbox" id="complete-${responses[i]._id}" onclick="complete('${responses[i]._id}')" aria-label="Checkbox for following text input">
+                    <input type="checkbox" id="complete-${responses[i]._id}" onclick="complete('${responses[i]._id}')" style="cursor:pointer" aria-label="Checkbox for following text input">
                 </div>
             </div>${due}
             <input type="text" class="form-control" value="${responses[i].name} [ Due : ${changeDate(due_date)} ]" readonly aria-label="Text input with checkbox">
@@ -494,9 +496,10 @@ function showCompletedLists (responses) {
         `<div class="input-group mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
-                    <input type="checkbox" id="uncomplete-${responses[i]._id}" onclick="uncomplete('${responses[i]._id}')" aria-label="Checkbox for following text input">
+                    <input type="checkbox" id="uncomplete-${responses[i]._id}" onclick="uncomplete('${responses[i]._id}')" style="cursor:pointer" aria-label="Checkbox for following text input">
                 </div>
             </div>
+            <span class="add-btn" style="padding:5px; width:45px; text-align:center; border-radius:0px;">OK</span>
             <input type="text" class="form-control" value="${responses[i].name}" style="text-decoration:line-through;" readonly aria-label="Text input with checkbox">
             <button class="edit-btn" href="#" id="show-edit-todo" onclick="loadData('${responses[i]._id}')" data-toggle="modal" data-target="#editModal">
                 <img src="./images/icons/edit.png" style="width:25px">
