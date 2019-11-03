@@ -1,0 +1,108 @@
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#home" style="margin-left: 30px;">Fancy Todo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-item float-right" style="width: 100%;">
+        <a class="del-btn" href="#" onclick="signOut();">Sign out</a>
+    </div>
+</nav>
+
+<div class="add-todo">
+    <button class="add-btn" href="#" id="show-add-todo" data-toggle="modal" data-target="#addModal">Add Todo</button>
+</div>
+
+<div class="row">
+    <div class="card" style="width: 20%;">
+        <h5 class="card-header">Categories</h5>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" id="ongoing-todo" style="cursor: pointer;">Ongoing Todo</li>
+                <li class="list-group-item" id="completed-todo" style="cursor: pointer;">Completed Todo</li>
+            </ul>
+        </div>
+    </div>
+    <div class="card" style="width: 70%;">
+        <h5 class="card-header">To Do Lists</h5>
+        <div class="card-body">
+            
+            <div id="todo-list"></div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Modal Page Add -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="addModalLabel">Add New Todo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <!-- Add Todo Form -->
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="add-todo-name">Name</label>
+                        <input type="text" class="form-control" id="add-todo-name" placeholder="Todo Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-todo-description">Description</label>
+                        <input type="text" class="form-control" id="add-todo-description" placeholder="Todo Description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-todo-due-date">Due Date</label>
+                        <input type="date" class="form-control" id="add-todo-due-date" required>
+                    </div>
+                    <button class="login100-form-btn" type="button" id="add-todo-btn">
+                        Add Todo
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Page Edit -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit New Todo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <!-- Edit Todo Form -->
+                <form method="POST" action="">
+                    <input type="hidden" id="edit-todo-id">
+                    <div class="form-group">
+                        <label for="edit-todo-name">Name</label>
+                        <input type="text" class="form-control" id="edit-todo-name" placeholder="Todo Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-todo-description">Description</label>
+                        <input type="text" class="form-control" id="edit-todo-description" placeholder="Todo Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-todo-due-date">Due Date</label>
+                        <input type="date" class="form-control" id="edit-todo-due-date">
+                    </div>
+                    <button class="login100-form-btn" type="button" id="edit-todo-btn">
+                        Edit Todo
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer-home">
+    <div class="footer-copyright text-center py-3">© 2019 Copyright by
+      <a href="https://www.linkedin.com/in/edison-zhou-512aaa11b/"> Edison</a>
+    </div>
+</footer>
