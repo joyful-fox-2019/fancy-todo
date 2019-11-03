@@ -1,12 +1,11 @@
 const router = require('express').Router()
 const TaskController = require('../controllers/task')
-const { authentication, authorization } = require('../middlewares/auth')
+const { taskAuthorization } = require('../middlewares/auth')
 
-router.use(authentication)
 router.get('/', TaskController.find)
 router.get('/:id', TaskController.findOne)
 router.post('/', TaskController.add)
-router.use('/:id', authorization)
+router.use('/:id', taskAuthorization)
 router.patch('/:id', TaskController.update)
 router.delete('/:id', TaskController.delete)
 

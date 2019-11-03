@@ -29,8 +29,20 @@ showRegister = () => {
 hideAllPages = () => {
   $('#auth-page').hide()
   $('#main-page').hide()
+  $('#projects-page').hide()
 }
 
+changeLogo = (str) => {
+  $('.brand-logo').empty()
+  $('.brand-logo').append(str)
+}
+
+showProjects = (e) => {
+  e.preventDefault()
+  hideAllPages()
+  $('#projects-page').show()
+  changeLogo('PROJECTS')
+}
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
   $.ajax({
@@ -134,11 +146,13 @@ getTasks = () => {
 
 showMainPage = () => {
   hideAllPages()
+  $('.navbar-fixed').show()
   $('#main-page').show()
   getTasks()
 }
 
 showAuthPage = () => {
+  $('.navbar-fixed').hide()
   hideAllPages()
   $('#auth-page').show()
 }
