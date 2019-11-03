@@ -58,6 +58,7 @@ function showSignIn(event) {
 	$('#signup-section').hide();
 	$('#todos-section').hide();
 	$('#create-todo-section').hide();
+	$('#todo-detail-section').hide();
 	$('#signin-section').show();
 	$('#l-form').submit(signIn);
 	$('.l-submit').click(loadingSignIn);
@@ -173,6 +174,7 @@ function showSignUp(event) {
 	$('#todos-section').hide();
 	$('#signin-section').hide();
 	$('#create-todo-section').hide();
+	$('#todo-detail-section').hide();
 	$('#signup-section').show();
 	$('#r-form').submit(signUp);
 	$('.r-submit').click(loadingSignUp);
@@ -326,6 +328,7 @@ async function showTodos() {
 	$('#signin-section').hide();
 	$('#signup-section').hide();
 	$('#create-todo-section').hide();
+	$('#todo-detail-section').hide();
 	$('#todos-section').show();
 	addSignOut();
 	$('#todo-list').empty().append(`
@@ -366,12 +369,12 @@ async function showTodos() {
 						}
 					)}</small></h6>
 					<p>${todo.description}</p>
-					<p><a href="" id="btn-todo-detail">Details</a></p>
+					<p><a href="" class="btn-todo-detail">Details</a></p>
 				</div>
 			</div>
     `);
 	}
-	$('#btn-todo-detail').click(showTodoDetail);
+	$('.btn-todo-detail').click(showTodoDetail);
 }
 
 async function getUserTodos() {
@@ -381,25 +384,6 @@ async function getUserTodos() {
 		url: `http://localhost:3000/user/${payload.id}`
 	});
 	return user;
-}
-
-async function getTodoDetail(event) {
-	const id = $(event.relatedTarget).parents('.card')[0].id;
-	const todo = await $.ajax({
-		method: 'GET',
-		url: `http://localhost:3000/todos/${id}`
-	});
-	if (!todo) return;
-	$('#m-todo-title').text(todo.name);
-	$('#m-todo-due').text(
-		new Date(todo.due_date).toLocaleDateString('id-ID', {
-			weekday: 'long',
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric'
-		})
-	);
-	$('#m-todo-desc').text(todo.description);
 }
 
 function showCreateTodo(event) {
@@ -466,11 +450,67 @@ function resetCreateTodoButton() {
 		.removeClass('disabled no-cursor');
 }
 
-function showTodoDetail(event) {
+async function showTodoDetail(event) {
 	if (event) event.preventDefault();
 	$('#todos-section').hide();
 	$('#create-todo-section').hide();
 	$('#todo-detail-section').show();
-	$('#c-form').submit(createTodo);
-	$('#c-submit').click(loadingCreateTodo);
+	await fillTodoDetail(event);
+	$('#d-edit').click(showEditTodo);
+	$('#d-back').click(showTodos);
+}
+
+async function fillTodoDetail(event) {
+	const id = $(event.target).parents('.fdb-box')[0].id;
+	const todo = await $.ajax({
+		method: 'GET',
+		url: `http://localhost:3000/todos/${id}`
+	});
+	if (!todo) return;
+	$('#d-name').text(todo.name);
+	$('#e-name').val(todo.name);
+	$('#d-due').text(
+		new Date(todo.due_date).toLocaleDateString('en-US', {
+			weekday: 'long',
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric'
+		})
+	);
+	$('#e-due').val(new Date(todo.due_date).toJSON().slice(0, 10));
+	$('#d-desc').text(todo.description);
+	$('#e-desc').val(todo.description);
+}
+
+function showEditTodo(event) {
+	event.preventDefault();
+	$('#d-edit').hide();
+	$('#d-back').hide();
+	$('#e-form').show();
+	$('#e-cancel').click(() => {
+		resetTodoDetail();
+		showTodos();
+	});
+	$('#e-form').submit(updateTodo);
+	$('#e-submit').click(loadingUpdateTodo);
+}
+
+function resetTodoDetail() {
+	$('#d-edit').show();
+	$('#d-back').show();
+	$('#e-form').hide();
+}
+
+function updateTodo(event) {
+	event.preventDefault();
+	
+}
+
+function loadingUpdateTodo() {
+	$('#e-submit').empty();
+	$('#e-submit').append(`
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Updating Todo...
+	`);
+	$('#e-submit').addClass('disabled no-cursor');
 }

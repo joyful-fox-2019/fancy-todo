@@ -342,7 +342,7 @@
 							<div class="row">
 								<div class="col mt-4">
 									<input type="text" class="form-control" placeholder="Todo Name" id="c-name" />
-									<div class="invalid-feedback text-left">Username cannot empty.</div>
+									<div class="invalid-feedback text-left">Todo name cannot empty.</div>
 								</div>
 							</div>
 							<div class="row">
@@ -378,26 +378,30 @@
 						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
 							<div class="row">
 								<div class="col">
-									<h1 id="d-name">Todo Detail</h1>
+									<div class="d-inline-flex">
+										<h1 id="d-name">Todo Detail</h1>
+									</div>
 									<p id="d-due">Due:</p>
 									<p class="lead" id="d-desc">
 										Welcome to create todo section! Fill free to add as many description as you
 										want, or just leave it blank if you like so. But at least you must set todo
 										name. The due date will be set to today if you leave it blank.
 									</p>
+									<button class="btn btn-secondary" type="button" id="d-back">Back</button>
+									<button class="btn btn-primary" type="button" id="d-edit">Edit Todo</button>
 								</div>
 							</div>
 						</div>
-						<form class="col-12 col-md-8 col-lg-7 col-xl-5 text-left hide" id="d-form">
+						<form class="col-12 col-md-8 col-lg-7 col-xl-5 text-left hide" id="e-form">
 							<div class="row">
 								<div class="col mt-4">
-									<input type="text" class="form-control" placeholder="Todo Name" id="d-name" />
-									<div class="invalid-feedback text-left">Username cannot empty.</div>
+									<input type="text" class="form-control" placeholder="Todo Name" id="e-name" />
+									<div class="invalid-feedback text-left">Todo name cannot empty.</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col mt-4">
-									<input type="date" class="form-control" id="d-due" />
+									<input type="date" class="form-control" id="e-due" />
 								</div>
 							</div>
 							<div class="row mt-4">
@@ -406,13 +410,14 @@
 										class="form-control"
 										rows="10"
 										placeholder="Description"
-										id="d-desc"
+										id="e-desc"
 									></textarea>
 								</div>
 							</div>
 							<div class="row mt-4">
 								<div class="col">
-									<button class="btn btn-primary" type="submit" id="d-submit">Update</button>
+									<button class="btn btn-secondary" type="button" id="e-cancel">Cancel</button>
+									<button class="btn btn-primary" type="submit" id="e-submit">Update</button>
 								</div>
 							</div>
 						</form>
