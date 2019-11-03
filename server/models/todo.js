@@ -4,7 +4,7 @@ const todoSchema = new Schema (
     {
         name: String,
         description: String,
-        status: Boolean,
+        status: String,
         dueDate: Date,
         UserId: String
     }

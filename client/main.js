@@ -26,7 +26,13 @@ function onSignIn(googleUser) {
             $('.login').hide()
         })
         .fail(err => {
-            console.log(err);
+            console.log(err)
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Maybe you forgot your password?',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
 }
 
@@ -49,12 +55,19 @@ function signIn(event) {
     })
         .done(token => {
             localStorage.setItem('token', token.token)
+            Swal.fire('welcome')
             showTodo()
             $('.homepage').show()
             $('.login').hide()
         })
         .fail(err => {
             console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong! Maybe you forgot your password?',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
 }
 function signUp(event) {
@@ -68,10 +81,16 @@ function signUp(event) {
         }
     })
         .done(user => {
-            console.log(user);
+            console.log(user)
         })
         .fail(err => {
-            console.log(err);
+            console.log(err)
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
     
 }
@@ -103,8 +122,10 @@ function showTodo() {
                         <hr>
                         <span>Due Date: ${new Date(todos[i].dueDate).getDate()}-${new Date(todos[i].dueDate).getMonth()+1}-${new Date(todos[i].dueDate).getFullYear()}<span>
                         <p class="card-text">${todos[i].description}</p>
+                        <span>Status: ${todos[i].status} </span>
+                        <br>
                         <button type="button" class="btn btn-primary" onclick="deleteTodo('${todos[i]._id}')">delete</button>
-                        <button type="button" class="btn btn-primary" onclick="showUpdateWindow()">update</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateTask" onclick="showUpdateWindow('${todos[i]._id}')">update</button>
                     </div>
                 </div>
                 `)
@@ -112,6 +133,12 @@ function showTodo() {
         })
         .fail(err => {
             console.log(err);
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
 }
 
@@ -126,36 +153,76 @@ function deleteTodo(id) {
         .done(()=> {
             showTodo()
             console.log('Successfully delete')
+            Swal.fire({
+                type: 'success',
+                title: 'Successfully deleted!',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .fail(err => {
             console.log(err)
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
 }
 
-function showUpdateWindow(){
-    $('#updateTask').modal('show')
-}
-function updateTodo(id) {
+let todoData = null // buat tampung id dari pas manggil modal
+function showUpdateWindow(id){
+    todoData = id
     $.ajax({
-        url: `http://localhost:3000/todos/:id`,
+        url: `http://localhost:3000/todos/${id}`,
+        method: "GET",
+        headers: {
+            token: localStorage.getItem('token')
+        }
+    })
+        .done(todo => {
+            $('#updateName').val(`${todo.name}`)
+            $('#updateDescription').val(`${todo.description}`)
+            $('#updateStatus').val(`${todo.status}`)
+        })
+}
+
+function updateTodo(id) {
+    id = todoData
+    $.ajax({
+        url: `http://localhost:3000/todos/${id}`,
         method: 'PUT',
         headers: {
             token: localStorage.getItem('token')
         },
         data: {
-            name: $('updateName').val(),
-            description: $('updateDescription').val(),
-            dueDate: $('updateDueData').val(),
-            status: $('updateStatus').val()
+            name: $('#updateName').val(),
+            description: $('#updateDescription').val(),
+            dueDate: $('#updateDueData').val(),
+            status: $('#updateStatus').val()
         }
     })
-        .done(()=> {
+        .done(data => {
+            console.log(data);
             $('#updateTask').modal('hide')
             showTodo()
             console.log('Successfully update todo')
+            Swal.fire({
+                type: 'success',
+                title: 'Successfully updated your task!',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .fail(err => {
             console.log(err)
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
 }
 
@@ -180,9 +247,21 @@ function addTask(){
             $('#addNewTask').modal('hide')
             showTodo()
             console.log('Success add new task')
+            Swal.fire({
+                type: 'success',
+                title: 'Success added a new task',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .fail(err => {
             console.log(err)
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href>Why do I have this issue?</a>'
+              })
         })
 }
 
