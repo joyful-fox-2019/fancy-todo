@@ -12,6 +12,8 @@ module.exports = (err, req, res, next) => {
     messages.push(`${field.charAt(0).toUpperCase()}${field.substring(1)} is already registered`)
   } else if(err.message === 'invalid signature') {
     messages.push(`You're session is expired. Please login.`)
+  } else if(err.name === 'CastError') {
+    messages.push(`Data not found`)
   } else if(err.msg) {
     messages.push(err.msg)
   }

@@ -98,6 +98,9 @@ hr {
 .adjusted-width {
   width: 80%;
 }
+.card-panel:hover {
+  background: rgb(92, 189, 179) !important;
+}
 @media (max-width: 600px) {
   .modal {
     width: 100%;

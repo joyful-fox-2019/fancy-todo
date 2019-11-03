@@ -30,6 +30,7 @@ hideAllPages = () => {
   $('#auth-page').hide()
   $('#main-page').hide()
   $('#projects-page').hide()
+  $('#project-page').hide()
 }
 
 changeLogo = (str) => {
@@ -39,9 +40,12 @@ changeLogo = (str) => {
 
 showProjects = (e) => {
   e.preventDefault()
+  M.Sidenav.getInstance($('.sidenav')).close()
   hideAllPages()
   $('#projects-page').show()
+  $('#add-project-id').val('')
   changeLogo('PROJECTS')
+  getProjects()
 }
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
@@ -95,10 +99,10 @@ formatTimePicker = (strDate) => {
 
 appendTasks = (tasks) => {
   console.log(tasks)
-  $('#today-items').empty()
+  $('#tasks').empty()
   tasks.forEach(task => {
     if(task.status) {
-      $('#today-items').append(`
+      $('#tasks').append(`
         <a class="collection-item teal-text text-darken-4">
           <div class="row">
             <div class="col s1">
@@ -114,7 +118,7 @@ appendTasks = (tasks) => {
         </a>
       `)
     } else {
-      $('#today-items').append(`
+      $('#tasks').append(`
         <a class="collection-item teal-text text-darken-4">
           <div class="row">
             <div class="col s1">
@@ -148,6 +152,7 @@ showMainPage = () => {
   hideAllPages()
   $('.navbar-fixed').show()
   $('#main-page').show()
+  changeLogo('ALL TASKS')
   getTasks()
 }
 
@@ -167,6 +172,7 @@ logout = (e) => {
   auth2.signOut().then(function () {
     console.log('User signed out.');
   });
+  M.Sidenav.getInstance($('.sidenav')).close()
   localStorage.clear()
   showAuthPage()
 }
@@ -183,7 +189,11 @@ check = (id) => {
     }
   })
     .done(_ => {
-      getTasks()
+      if($('#add-project-id').val()) {
+        getProjectTasks($('#add-project-id').val())
+      } else {
+        getTasks()
+      }
     })
     .fail(showAlert)
 }
@@ -217,9 +227,113 @@ remove = (id) => {
     }
   })
     .done(_ => {
-      getTasks()
+      if($('#add-project-id').val()) {
+        getProjectTasks($('#add-project-id').val())
+      } else {
+        getTasks()
+      }
     })
     .fail(showAlert)
+}
+
+appendProjects = (projects) => {
+  console.log(projects)
+  $('#projects-container').empty()
+  $('#projects-container').append(`
+    <div onclick="showMainPage()" class="card-panel teal accent-4 clickable">
+      <div>
+        <strong class="white-text">All Tasks</strong>
+      </div>
+      <span class="white-text">
+        7 items
+      </span>
+    </div>
+  `)
+  projects.forEach(project => {
+    $('#projects-container').append(`
+      <div onclick="showProjectPage('${project._id}')" class="card-panel teal accent-4 clickable">
+        <div>
+          <strong class="white-text">${project.name}</strong>
+        </div>
+        <span class="white-text">
+          ${project.tasks.length} items
+        </span>
+      </div>
+    `)
+  })
+}
+
+getProjects = () => {
+  $.ajax({
+    url: `${baseUrl}/projects`,
+    type: 'get',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(appendProjects)
+  .fail(showAlert)
+}
+
+appendProjectTasks = (tasks) => {
+  console.log(tasks)
+  $('#project-tasks').empty()
+  tasks.forEach(task => {
+    if(task.status) {
+      $('#project-tasks').append(`
+        <a class="collection-item teal-text text-darken-4">
+          <div class="row">
+            <div class="col s1">
+              <i onclick="check('${task._id}')" class="check-circle material-icons grey-text">check_circle</i>
+            </div>
+            <div class="col s10 grey-text">
+              <span class="striked">${task.name}</span>
+            </div>
+            <div class="col s1">
+              <i onclick="remove('${task._id}')" class="check-circle material-icons grey-text">clear</i>
+            </div>
+          </div>
+        </a>
+      `)
+    } else {
+      $('#project-tasks').append(`
+        <a class="collection-item teal-text text-darken-4">
+          <div class="row">
+            <div class="col s1">
+              <i onclick="check('${task._id}')" class="check-circle material-icons teal-text text-darken-4">radio_button_unchecked</i>
+            </div>
+            <div href="#modal-update" onclick="showUpdate('${task._id}')" class="modal-trigger col s11 teal-text text-darken-4 clickable">
+              <span>${task.name}</span>
+              <span class="time-badge badge">${formatDate(task.dueDate)}</span>
+            </div>
+          </div>
+        </a>
+      `)
+    }
+    
+  })
+}
+
+getProjectTasks = (projectId) => {
+  $.ajax({
+    url: `${baseUrl}/projects/${projectId}`,
+    type: 'get',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(project => {
+    changeLogo(project.name.toUpperCase())
+    $('#add-project-id').val(project._id)
+    appendProjectTasks(project.tasks)
+  })
+  .fail(showAlert)
+}
+
+showProjectPage = (projectId) => {
+  hideAllPages()
+  $('#project-page').show()
+  getProjectTasks(projectId)
 }
 
 $(document).ready(() => {
@@ -290,7 +404,11 @@ $(document).ready(() => {
     })
       .done(data => {
         console.log(data)
-        M.Modal.getInstance($('.modal')).close()
+        M.Modal.getInstance($('#modal-add')).close()
+        $('#add-task-name').val('')
+        $('#add-task-description').val('')
+        $('#add-task-date').val('')
+        $('#add-task-time').val('')
         getTasks()
       })
       .fail(showAlert)
@@ -299,7 +417,6 @@ $(document).ready(() => {
   $('#update-task').submit(e => {
     e.preventDefault()
     const id = $('#update-task-id').val()
-    console.log(id, 'ini id')
     const name = $('#update-task-name').val()
     const description = $('#update-task-description').val()
     const date = $('#update-task-date').val()
@@ -321,7 +438,11 @@ $(document).ready(() => {
       .done(data => {
         console.log(data)
         M.Modal.getInstance($('#modal-update')).close()
-        getTasks()
+        if($('#add-project-id').val()) {
+          getProjectTasks($('#add-project-id').val())
+        } else {
+          getTasks()
+        }
       })
       .fail(showAlert)
   })
@@ -337,7 +458,65 @@ $(document).ready(() => {
     })
       .done(_ => {
         M.Modal.getInstance($('#modal-update')).close()
-        getTasks()
+        if($('#add-project-id').val()) {
+          getProjectTasks($('#add-project-id').val())
+        } else {
+          getTasks()
+        }
+      })
+      .fail(showAlert)
+  })
+
+  $('#add-project').submit(e => {
+    e.preventDefault()
+    const name = $('#add-project-name').val()
+    $.ajax({
+      url: `${baseUrl}/projects`,
+      type: 'post',
+      data: {
+        name
+      },
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
+    })
+      .done(data => {
+        console.log(data)
+        M.Modal.getInstance($('#modal-add-project')).close()
+        getProjects()
+      })
+      .fail(showAlert)
+  })
+
+  $('#add-project-task').submit(e => {
+    e.preventDefault()
+    const projectId = $('#add-project-id').val()
+    const name = $('#add-project-task-name').val()
+    const description = $('#add-project-task-description').val()
+    const date = $('#add-project-task-date').val()
+    const time = $('#add-project-task-time').val()
+    let dueDate = null
+    if(date && time) {
+      dueDate = new Date(`${date} ${time}`)
+    }
+    $.ajax({
+      url: `${baseUrl}/tasks/${projectId}`,
+      type: 'post',
+      data: {
+        name, description, dueDate
+      },
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
+    })
+      .done(data => {
+        console.log(data)
+        M.Modal.getInstance($('#modal-add-by-project')).close()
+        $('#add-project-task-name').val('')
+        $('#add-project-task-description').val('')
+        $('#add-project-task-date').val('')
+        $('#add-project-task-time').val('')
+        getProjectTasks(projectId)
       })
       .fail(showAlert)
   })

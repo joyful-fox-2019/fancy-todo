@@ -3,6 +3,7 @@ const ProjectController = require('../controllers/project')
 const { projectAuthorization } = require('../middlewares/auth')
 
 router.get('/', ProjectController.find)
+router.get('/:id', ProjectController.findOne)
 router.post('/', ProjectController.add)
 router.use('/:id', projectAuthorization)
 router.patch('/:id', ProjectController.update)

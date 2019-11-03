@@ -1,4 +1,5 @@
 const Task = require('../models/Task')
+const Project = require('../models/Project')
 
 module.exports = {
   find: (req, res, next) => {
@@ -24,6 +25,25 @@ module.exports = {
       })
       .catch(next)
   },
+  addOnProject: (req, res, next) => {
+    const { name, description, dueDate } = req.body
+    const user = req.loggedUser.id
+    let addedTask = null
+    Task.create({ name, description, dueDate, user })
+      .then(task => {
+        addedTask = task
+        return Project.findByIdAndUpdate(req.params.projectId,
+          {
+            $addToSet: { tasks: task._id }
+          },
+          { omitUndefined: true }
+        )
+      })
+      .then(project => {
+        res.status(200).json(addedTask)
+      })
+      .catch(next)
+  },
   update: (req, res, next) => {
     const { name, description, status, dueDate } = req.body
     Task.findByIdAndUpdate(req.params.id,
@@ -38,7 +58,8 @@ module.exports = {
   delete: (req, res, next) => {
     Task.findByIdAndDelete(req.params.id)
       .then(task => {
-        res.status(200).json(task)
+        req.task = task
+        next()
       })
       .catch(next)
   }

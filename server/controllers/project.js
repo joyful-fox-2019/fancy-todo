@@ -8,6 +8,14 @@ module.exports = {
       })
       .catch(next)
   },
+  findOne: (req, res, next) => {
+    Project.findById(req.params.id)
+    .populate('members').populate('tasks')
+      .then(projects => {
+        res.status(200).json(projects)
+      })
+      .catch(next)
+  },
   add: (req, res, next) => {
     const { name } = req.body
     Project.create({
@@ -20,11 +28,11 @@ module.exports = {
       .catch(next)
   },
   update: (req, res, next) => {
-    const { name, member, task } = req.body
+    const { name, member } = req.body
     Project.findByIdAndUpdate(req.params.id,
       {
         name,
-        $addToSet: { members: member, tasks: task }
+        $addToSet: { members: member }
       },
       { omitUndefined: true }
     )
