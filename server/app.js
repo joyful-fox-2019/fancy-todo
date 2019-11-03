@@ -13,9 +13,16 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
-mongoose.connect('mongodb://localhost:27017/myfancyTodo', {useNewUrlParser: true,useUnifiedTopology:true,useCreateIndex:true},()=>{
-  console.log('connected on myfancyTodo')
-})
+// mongoose.connect('mongodb://localhost:27017/myfancyTodo', {useNewUrlParser: true,useUnifiedTopology:true,useCreateIndex:true},()=>{
+//   console.log('connected on myfancyTodo')
+// })
+
+mongoose.connect(process.env.MONGO_ATLAS,{useNewUrlParser:true,useUnifiedTopology:true})
+  .then(()=>{
+    console.log('connectedOnAtlas')
+  })
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use(morgan('dev'))
 app.use(cors())
