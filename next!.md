@@ -3,6 +3,62 @@
 
 Hi! This is a fancy to do web app. Let's get organized!
 
+# **Error**
+
+- **code**  : 400
+- **name** : Bad Request
+	- **error response :**
+
+```
+{
+  "message": "Email is already used"
+}
+```
+
+- **code**  : 401
+- **name** : unauthorized
+
+	- **error response :**
+
+```
+{
+  "message": "your session is expired"
+}
+```
+
+- **code**  : 403
+- **name** : forbidden
+
+	- **error response :**
+
+```
+{
+  "message": "Not authorized"
+}
+```
+
+- **code**  : 404
+- **name** : Not Found
+
+	- **error response :**
+
+```
+{
+  "message": "User not found" / "Todo not found"
+}
+```
+
+
+- **code**  : 500
+- **name** : Internal Server Error
+
+	- **error response :**
+
+```
+{
+  "message": "Internal Server Error"
+}
+```
 
 # **User**
 
@@ -119,7 +175,7 @@ body :
 > Find One Todo
 
 - **URL**
-`http://localhost:3000/todo/:id
+`http://localhost:3000/todo/:id`
 - **Method**
 `GET`
 - **Data Params :** none
@@ -182,7 +238,7 @@ body :
 > Delete
 
 - **URL**
-`http://localhost:3000/todo/:id
+`http://localhost:3000/todo/:id`
 - **Method**
 `DELETE`
 - **Data Params :** none

@@ -37,22 +37,6 @@ function register(event) {
   })
 }
 
-/*
-.done(todos => {
-    console.log(todos);
-    
-    todos.forEach(data => {
-      $('.alltodos').append(`
-
-    <li class="collection-item"><i class="material-icons">radio_button_unchecked</i></a>${data.title}<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></li>
-
-      `)
-    })
-  })
-  .fail(console.log)
-*/
-
-
 
 $('#addtodo').submit(e => {
   e.preventDefault()
@@ -75,19 +59,23 @@ $('#addtodo').submit(e => {
     
     console.log(`Adding new todo on your list`, todo);
     $(`#add-todo`).val('')
+
     $(`.alltodos`).append(`
 
     <li class="collection-item row">
     <div class="col s1">
       <i class="material-icons">radio_button_unchecked</i>
     </div>
-    <div class="col s10" >
+    <div class="col s9" >
         ${todo.title}
     </div>
+    <div class="col s1" >
+      <i class="clickable material-icons" style="color: #11978ce7 teal-text text-lighten-2 !important" >edit</i>
+    </div>
     <div class="col s1">
-        <a href="#!" class="secondary-content">
-        <i class="material-icons">delete</i>
-        </a>
+        <div class="secondary-content">
+        <i class="clickable material-icons" onclick="remove('${todo._id}')">delete</i>
+        </div>
     </div>
   </li>
 
@@ -101,7 +89,6 @@ $('#addtodo').submit(e => {
     console.log(`complete`);
   })
 })
-
 
 function login(event) {
   event.preventDefault()
@@ -180,8 +167,9 @@ function showTodoList() {
   })
   .done(todos => {
     console.log(todos);
-    
+    $('.alltodos').empty()
     todos.forEach(data => {
+
       $('.alltodos').append(`
 
 
@@ -189,13 +177,17 @@ function showTodoList() {
     <div class="col s1">
       <i class="material-icons">radio_button_unchecked</i>
     </div>
-    <div class="col s10" >
+    <div class="col s9" >
         ${data.title}
     </div>
+    <div class="col s1" >
+      <i class="clickable material-icons" style="color: #11978ce7 teal-text text-lighten-2 !important">edit</i>
+    </div>
     <div class="col s1">
-        <a href="#!" class="secondary-content">
-        <i class="material-icons">delete</i>
-        </a>
+      
+        <div class="secondary-content">
+        <i class="clickable material-icons" onclick="remove('${data._id}')">delete</i>
+        </div>
     </div>
   </li>
 
@@ -207,6 +199,28 @@ function showTodoList() {
 }
 
 
+
+
+function remove(id) {
+  $.ajax({
+    url: `${baseURL}/todo/${id}`,
+    method: `DELETE`,
+    headers : {
+      access_token: localStorage.getItem('jwtToken')
+    }
+  })
+  .done(() => {
+    console.log(`task successfuly deleted`);
+    showTodoList()
+  })
+  .fail(err => {
+    console.log(err);
+    console.log(`Delete failed`);
+  })
+  .always(() => {
+    console.log(`complete`);
+  })
+}
 
 
 /*

@@ -59,6 +59,8 @@ h4 {
 
 .collection-header {
   background-image: url(img/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   object-fit: fill;
   object-position: 50% 50;
 }
@@ -73,4 +75,14 @@ h4 {
 
 .add-todo {
   width: 100%;
+}
+
+.banner {
+  font-size: 20px;
+  padding-top: 7%;
+  padding-bottom: 0% ;
+}
+
+.clickable {
+  cursor: pointer;
 }
