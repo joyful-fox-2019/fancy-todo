@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+ body{
+	 height: 100vh;
+	 overflow: hidden;
+}
+
+.afterLogin {
+  /* background-image: url(https://hdqwalls.com/download/rock-mountains-landscape-colorful-illustration-minimalist-rz-1920x1080.jpg); */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* height: 100vh; */
+  /* width: 100vw;  */
+  font-family: 'Roboto', sans-serif;
+}
+ .dashboard {
+	 display: flex;
+   flex-direction: row;
+   height: 100vh;
+   /* width: 100vw; */
+}
+ .left-side-bar {
+	background-color: rgba(223, 230, 233,.9);
+	max-width: 300px;
+	min-width: 180px;
+	height: 100vh;
+	overflow: scroll;
+	overflow-x: hidden;   
+	-webkit-box-shadow: 6px 0px 18px -6px rgba(0,0,0,0.1);
+	box-shadow: 6px 0px 18px -6px rgba(0,0,0,0.1);
+}
+ .left-side-bar .menu {
+	 width: 100%;
+}
+ .left-side-bar .menu ul {
+	 padding: 0;
+	 margin-top: 60px;
+}
+ .left-side-bar .menu li {
+	 cursor: pointer;
+	 width: 100%;
+	 height: 60px;
+	 list-style: none;
+	 display: flex;
+	 flex-direction: row;
+	 align-items: center;
+	 justify-content: flex-start;
+	 transition: all 0.5s ease-in-out;
+}
+ .left-side-bar .menu li i {
+	 margin-left: 20px;
+	 margin-right: 16px;
+}
+ .left-side-bar .menu li:hover, .left-side-bar .menu li.active {
+	 background: #e37cfd21;
+	 color: #d243ff;
+	 transition: all 0.5s ease-in-out;
+}
+ .top-bar {
+	 display: flex;
+	 flex-direction: row;
+	 background: white;
+	 height: 60px;
+	 -webkit-box-shadow: 0px 6px 18px -6px rgba(0,0,0,0.1);
+	 box-shadow: 0px 6px 18px -6px rgba(0,0,0,0.1);
+	 padding-left: 20px;
+	 padding-right: 20px;
+}
+ .top-bar .top-bar-btn {
+	 padding-top: 12px;
+	 cursor: pointer;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 width: 300px;
+	 height: 100%;
+	 border-left: 1px solid #58585821;
+	 border-right: 1px solid #58585821;
+	 color: #000;
+	 font-size: 15px;
+	 transition: all 0.5s ease-in-out;
+}
+ .top-bar .top-bar-btn:hover {
+	 color: #d243ff;
+}
+ .top-bar .top-bar-profile {
+	 cursor: pointer;
+	 display: flex;
+	 justify-content: start;
+	 align-items: center;
+	 width: auto;
+	 height: 100%;
+	 font-size: 22px;
+}
+ .top-bar .top-bar-profile i {
+	 margin-left: 8px;
+}
+ .top-bar .top-bar-profile p {
+	 white-space: nowrap;
+}
+ .top-bar .top-bar-profile .profile-avatar {
+	 border-radius: 10px;
+	 border: 2px solid #58585863;
+	 overflow: hidden;
+	 width: 32px;
+	 height: 32px;
+	 margin-right: 16px;
+	 margin-left: 16px;
+	 transition: all 0.5s ease-in-out;
+}
+ .top-bar .top-bar-profile .profile-avatar img {
+	 width: 100%;
+	 height: 100%;
+	 object-fit: cover;
+}
+ .top-bar .top-bar-profile .profile-avatar:hover {
+	 border: 2px solid #d243ff;
+}
+ .search-input {
+	 display: flex;
+	 justify-content: flex-start;
+	 align-items: center;
+	 width: 100%;
+	 height: 100%;
+	 font-size: 20px;
+}
+ .search-input input {
+	 margin-left: 8px;
+	 height: 100%;
+	 border: 0;
+	 padding: 0;
+	 font-size: 24px;
+	 outline: none;
+}
+ .main-view {
+	 display: flex;
+	 flex-wrap: wrap;
+	 flex-direction: row;
+	 justify-content:center;
+	 padding: 20px;
+	 overflow: scroll;
+	overflow-x: hidden;
+	 height: 90vh;
+}
+
+
+
+ .main-view .d-card {
+	 background: -moz-linear-gradient(top,#f9532a 0%,#f9842a 45%);
+	 background: -webkit-linear-gradient(top,#f9532a 0%,#f9842a 45%);
+	 background: linear-gradient(to bottom,#f9532a 0%,#f9842a 45%);
+	 box-shadow: 6px 0px 18px -6px rgba(0,0,0,0.4);
+	 border: 6px solid white;
+	 border-radius: 10px;
+	 max-width: 200px;
+	 min-width: 200px;
+	 /* max-height: 300px; */
+	 height: 350px;
+	 transition: all 0.5s ease-in-out;
+	 margin: 8px;
+	 padding: 10px;
+}
+ .main-view .d-card.blue {
+	 background: -moz-linear-gradient(top,#2ad3f9 0%,#2a90f9 45%);
+	 background: -webkit-linear-gradient(top,#2ad3f9 0%,#2a90f9 45%);
+	 background: linear-gradient(to bottom,#2ad3f9 0%,#2a90f9 45%);
+}
+ .main-view .d-card.green {
+	 background: -moz-linear-gradient(top,#2af96a 0%,#27d072 45%);
+	 background: -webkit-linear-gradient(top,#2af96a 0%,#27d072 45%);
+	 background: linear-gradient(to bottom,#2af96a 0%,#27d072 45%);
+}
+ .main-view .d-card.red {
+	 background: -moz-linear-gradient(top,#f9532a 0%,#f9842a 45%);
+	 background: -webkit-linear-gradient(top,#f9532a 0%,#f9842a 45%);
+	 background: linear-gradient(to bottom,#f9532a 0%,#f9842a 45%);
+}
+ .main-view .d-card:hover {
+	 -webkit-box-shadow: 0px 0px 15px 5px rgba(255,123,123,0.3);
+	 box-shadow: 0px 0px 15px 5px rgba(255,123,123,0.3);
+	 transform: scale(1.02);
+	 transition: all 0.5s ease-in-out;
+}
+ .main-view .d-card:hover.green {
+	 -webkit-box-shadow: 0px 0px 15px 5px rgba(255,123,123,0.3);
+	 box-shadow: 0px 0px 15px 5px rgba(36,224,33,0.61);
+}
+ .main-view .d-card:hover.blue {
+	 -webkit-box-shadow: 0px 0px 15px 5px rgba(255,123,123,0.3);
+	 box-shadow: 0px 0px 15px 5px rgba(33,162,224,0.61);
+}
+ .main-view .d-card:hover.red {
+	 -webkit-box-shadow: 0px 0px 15px 5px rgba(255,123,123,0.3);
+	 box-shadow: 0px 0px 15px 5px rgba(224,33,33,0.61);
+}
+ .main-view .d-card:hover .card-header .icon {
+	 border: 1px solid white;
+	 border-radius: 5px;
+	 transition: border-radius 0.5s ease-in-out;
+}
+ .main-view .d-card .card-header {
+	 text-align: center;
+	 display: flex;
+	 flex-direction: column;
+	 color: white;
+}
+
+
+
+ .main-view .d-card .card-header .icon {
+	 display: flex;
+	 align-items: center;
+	 align-content: center;
+	 justify-content: center;
+	 border: 1px solid white;
+	 border-radius: 100%;
+	 transition: border-radius 0.5s ease-in-out;
+	 width: 30px;
+	 height: 30px;
+}
+ .main-view .d-card .card-body p {
+	 color: white;
+}
+
+.card-body {
+	min-height: 150px;
+}
+ .main-view .d-card .card-actions {
+	 border-top: 1px solid white;
+	 display: flex;
+	 -webkit-box-pack: justify;
+	 align-content: center;
+	 align-items: center;
+	 justify-content: space-around;
+	 width: 100%;
+	 cursor: pointer;
+}
+ .main-view .d-card .card-actions i {
+	 margin-top: 6px;
+	 color: white;
+	 border: 2px solid transparent;
+	 padding: 4px;
+}
+ .main-view .d-card .card-actions i:hover {
+	 background: #fefffe70;
+	 border: 2px solid #fefffe70;
+	 border-radius: 4px;
+}
+ 
+
+.modal-notify .modal-header {
+    border-radius: 3px 3px 0 0;
+}
+.modal-notify .modal-content {
+    border-radius: 3px;
+}

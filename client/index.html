@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="168472370471-mefqo5j66n2mkbv453j24vfgcuetpf2a.apps.googleusercontent.com">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <!-- icon -->
+    <link rel="shortcut icon" href="assets/logo2.png">
+    <script src="https://kit.fontawesome.com/bc382c3fce.js" crossorigin="anonymous"></script>
+    <title>I'm Done</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <link rel="stylesheet" href="style/login.css">
+    <link rel="stylesheet" href="style/afterLogin.css">
+    <link rel="stylesheet" href="style/project.css">
+    <link rel="stylesheet" href="style/livechat.css">
+    <!-- mdbbootstrap -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- before login -->
+    <div class="beforeLogin">
+        <div class="materialContainer ">
+            <div class="box">
+            <form>
+                    <div class="title">LOGIN</div>
+                    <div class="input">
+                    <label for="name">Email</label>
+                    <input type="text" name="name" id="name" class="email">
+                    <span class="spin"></span>
+                    </div>
+            
+                    <div class="input mb-3">
+                    <label for="pass">Password</label>
+                    <input type="password" name="pass" id="pass">
+                    <span class="spin"></span>
+                    </div>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+                    <div class="button login">
+                    <button onclick="login(event)"><span>GO</span> <i class="fa fa-check"></i></button>
+                    </div>
+            </form>
+            </div>
+        
+            <div class="overbox">
+                <div class="material-button alt-2"><span class="shape"></span></div>
+                <form>
+                    <div class="title">REGISTER</div>
+        
+                    <div class="input">
+                        <label for="regname">Full Name</label>
+                        <input type="text" name="regname" id="regname">
+                        <span class="spin"></span>
+                    </div>
+                
+                    <div class="input">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email">
+                        <span class="spin"></span>
+                    </div>
+                
+                    <div class="input">
+                        <label for="regpass">Password</label>
+                        <input type="password" name="regpass" id="regpass">
+                        <span class="spin"></span>
+                    </div>
+                
+                    <div class="button">
+                        <button onclick="register(event)"><span>NEXT</span></button>
+                    </div>
+                </form>
+            </div>
+        
+        </div>
+    </div>
+    <!-- end of before login -->
+    <!-- AFTER LOGIN -->
+    <div class="afterLogin">
+        <!-- <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="logout(event)">Logout</button> -->
+        <!--  -->
+        <div class="dashboard">
+            <div class="left-side-bar">
+              <div class="menu">
+                  <a href="" onclick="home(event)">
+                      <img src="assets/text.png" alt="text-logo" style="width: 80%; padding-top: 10px; padding-left: 20px;">
+                  </a>
+                <ul>
+                  <li class="active" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#orangeModalSubscription">
+                    <i class="fa fa-edit"></i>
+                    <span>Add Todo</span>
+                  </li>
+                  <li data-toggle="modal" data-target=".projectModal">
+                    <i class="fa fa-edit"></i>
+                    <span>Create Project</span>
+                  </li>
+                  <li>
+                    <i class="fa fa-edit"></i>
+                    <span>My Project</span>
+                  </li>
+                  <hr>
+                  <div class="project">
+                      
+                  </div>
+                </ul>
+              </div>
+            </div>
+            <div class="main-container" style="width: 100vw;">
+              <div class="top-bar">
+                <div class="search-input">
+                  <!-- <i class="fa fa-search"></i>
+                  <input placeholder="Search..."> -->
+                </div>
+                <div class="top-bar-btn">
+                  
+                </div>
+                <div class="top-bar-profile">
+                  <div class="profile-avatar">
+                    
+                  </div>
+                  <button class="btn" onclick="logout(event)">Logout</button>
+                </div>
+              </div>
+              <!-- fetching todo container -->
+              <div class="main-view pb-5"></div>
+              <div class="my-project">
+                
+              </div>
+
+            </div>
+          </div>
+        <!--  -->
+        <!-- live chat -->
+
+        <div id="live-chat">
+		
+          <header class="clearfix">
+            
+            <a href="#" class="chat-close">x</a>
+      
+            <h4>Chat with Simi ❤️</h4>
+      
+            <!--<span class="chat-message-counter">3</span>-->
+      
+          </header>
+      
+          <div class="chat">
+            
+            <div class="chat-history">
+              
+              <div class="chat-message clearfix">
+                
+                <img src="https://rebot.me/assets/images/mini-avatars/159.png?r=1485965356" alt="" width="32" height="32">
+      
+                <div class="chat-message-content clearfix">
+      
+                  <h5>Simi Simi</h5>
+      
+                  <p>Hi. Let's Be Friend 😎</p>
+                  <p>Simi can suggest you what to do</p>
+      
+                </div> <!-- end chat-message-content -->
+      
+              </div> <!-- end chat-message -->
+      
+              <hr>
+            </div> <!-- end chat-history -->
+            <form onsubmit="sendChat(event)">
+      
+              <fieldset>
+                
+                <input id="msg" type="text" placeholder="Type your message…" autofocus>
+                <input type="hidden">
+      
+              </fieldset>
+      
+            </form>
+      
+          </div> <!-- end chat -->
+      
+        </div> <!-- end live-chat -->
+      
+        <!-- end live chat -->
+    </div>
+    <!-- Create modal -->
+    <div class="modal fade" id="orangeModalSubscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-warning" role="document">
+      <!--Content-->
+      <div class="modal-content" style="border-radius: 20px; box-shadow: 4px 4px 2px white; border:none; font-family: 'Roboto', sans-serif;">
+        <!--Header-->
+        <div class="modal-header text-center" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+          <h4 class="modal-title white-text w-100 font-weight-bold py-2" style="color: #fff; text-shadow: 1px 1px black;">Add Todos</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+  
+        <!-- Modal-->
+        <div class="modal-body">
+          <div class="md-form mb-2">
+            <input type="text" id="title" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form3">Title</label>
+          </div>
+  
+          <div class="md-form mb-2">
+            <input type="email" id="description" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form2">Description</label>
+          </div>
+
+          <div class="md-form">
+            <input type="date" id="dueDate" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form2">dueDate</label>
+          </div>
+        </div>
+  
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+          <a onclick="createTodo(event)" type="button" class="btn waves-effect form-control" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); color: white; text-shadow: 1px 1px black; font-weight: bold" data-dismiss="modal">
+            Send 
+          </a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  
+    <!-- UPDATE MODAL -->
+    <div class="modal fade updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-warning" role="document">
+        <!--Content-->
+        <div class="modal-content" style="border-radius: 20px; box-shadow: 4px 4px 2px white; border:none; font-family: 'Roboto', sans-serif;">
+          <!--Header-->
+          <div class="modal-header text-center" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2" style="color: #fff; text-shadow: 1px 1px black;">Update Todos</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+    
+          <!-- Modal-->
+          <div class="modal-body">
+            <div class="md-form mb-2">
+              <input type="text" id="uptitle" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form3">Title</label>
+            </div>
+    
+            <div class="md-form mb-2">
+              <input type="email" id="updescription" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">Description</label>
+            </div>
+
+            <div class="md-form">
+              <input type="date" id="updueDate" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">dueDate</label>
+            </div>
+          </div>
+    
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a onclick="updateTodo(event)" type="button" class="btn waves-effect form-control" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); color: white; text-shadow: 1px 1px black; font-weight: bold" data-dismiss="modal">
+              Send 
+            </a>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- end update -->
+
+    <!-- ADD PROJECT -->
+    
+    <div class="modal fade projectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-warning" role="document">
+        <!--Content-->
+        <div class="modal-content" style="border-radius: 20px; box-shadow: 4px 4px 2px white; border:none; font-family: 'Roboto', sans-serif;">
+          <!--Header-->
+          <div class="modal-header text-center" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2" style="color: #fff; text-shadow: 1px 1px black;">Add Project</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+    
+          <!-- Modal-->
+          <div class="modal-body">
+            <div class="md-form mb-2">
+              <input type="text" id="projectName" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form3">Project Name</label>
+            </div>
+          </div>
+    
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a onclick="addProject(event)" type="button" class="btn waves-effect form-control" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); color: white; text-shadow: 1px 1px black; font-weight: bold" data-dismiss="modal">
+              Send 
+            </a>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    
+    <!-- END ADD PROJECT -->
+
+    <!-- ADD TODO TO PROJECT -->
+
+      
+    <div class="modal fade todoProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-warning" role="document">
+        <!--Content-->
+        <div class="modal-content" style="border-radius: 20px; box-shadow: 4px 4px 2px white; border:none; font-family: 'Roboto', sans-serif;">
+          <!--Header-->
+          <div class="modal-header text-center" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2" style="color: #fff; text-shadow: 1px 1px black;">Add Project's Todo</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+    
+          <!-- Modal-->
+          <div class="modal-body">
+              <div class="md-form mb-2">
+                  <input type="text" id="titlePro" class="form-control validate">
+                  <label data-error="wrong" data-success="right" for="form3">Title</label>
+                </div>
+        
+                <div class="md-form mb-2">
+                  <input type="email" id="descriptionPro" class="form-control validate">
+                  <label data-error="wrong" data-success="right" for="form2">Description</label>
+                </div>
+    
+                <div class="md-form">
+                  <input type="date" id="dueDatePro" class="form-control validate">
+                  <label data-error="wrong" data-success="right" for="form2">dueDate</label>
+                </div>
+          </div>
+    
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a onclick="addProjectTodo(event)" type="button" class="btn waves-effect form-control" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); color: white; text-shadow: 1px 1px black; font-weight: bold" data-dismiss="modal">
+              Send 
+            </a>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+
+    <!-- END ADD TODO TO PROJECT -->
+
+    <!-- ADD MEMBER -->
+    <div class="modal fade memberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-warning" role="document">
+        <!--Content-->
+        <div class="modal-content" style="border-radius: 20px; box-shadow: 4px 4px 2px white; border:none; font-family: 'Roboto', sans-serif;">
+          <!--Header-->
+          <div class="modal-header text-center" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2" style="color: #fff; text-shadow: 1px 1px black;">Add Member</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+    
+          <!-- Modal-->
+          <div class="modal-body">
+            <div class="md-form mb-2">
+              <input type="text" id="memberEmail" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form3">Email</label>
+            </div>
+          </div>
+    
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a onclick="addMember(event)" type="button" class="btn waves-effect form-control" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); color: white; text-shadow: 1px 1px black; font-weight: bold" data-dismiss="modal">
+              Send 
+            </a>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- END OF ADD MEMBER -->
+
+    <!-- UPDATE PROJECT TODO -->
+    <div class="modal fade updateProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-notify modal-warning" role="document">
+        <!--Content-->
+        <div class="modal-content" style="border-radius: 20px; box-shadow: 4px 4px 2px white; border:none; font-family: 'Roboto', sans-serif;">
+          <!--Header-->
+          <div class="modal-header text-center" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2" style="color: #fff; text-shadow: 1px 1px black;">Update Project Todos</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+    
+          <!-- Modal-->
+          <div class="modal-body">
+            <div class="md-form mb-2">
+              <input type="text" id="upProtitle" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form3">Title</label>
+            </div>
+    
+            <div class="md-form mb-2">
+              <input type="email" id="upProdescription" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">Description</label>
+            </div>
+
+            <div class="md-form">
+              <input type="date" id="upProdueDate" class="form-control validate">
+              <label data-error="wrong" data-success="right" for="form2">dueDate</label>
+            </div>
+          </div>
+    
+          <!--Footer-->
+          <div class="modal-footer justify-content-center">
+            <a onclick="updateTodoProject(event)" type="button" class="btn waves-effect form-control" style="background: linear-gradient(to top left, #33ccff 0%, #ff99cc 100%); color: white; text-shadow: 1px 1px black; font-weight: bold" data-dismiss="modal">
+              Send 
+            </a>
+          </div>
+        </div>
+        <!--/.Content-->
+      </div>
+    </div>
+    <!-- END OF UPDATE PROJECT TODO -->
+    <!-- END OF AFTER LOGIN -->
+    
+    
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="script/login.js"></script>
+    <script src="script/afterlogin.js"></script>
+    <script src="script/livechat.js"></script>
+    <script src="main/user.js"></script>
+    <script src="main/todo.js"></script>
+    <script src="main/project.js"></script>
+    <script src="main/chat.js"></script>
+  </body>
+</html>
