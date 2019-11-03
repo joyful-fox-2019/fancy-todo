@@ -60,36 +60,27 @@ function register() {
     })
 }
 
-// function onSignIn(googleUser) {
-//     let id_token = googleUser.getAuthResponse().id_token;
-//     $.ajax({
-//         method: "post",
-//         url: "http://localhost:3000/user/logingoogle",
-//         data: {
-//             token: id_token
-//         }
-//     }).done((result) => {
-//         localStorage.setItem("token", result.token);
-//         localStorage.setItem("username", result.username);
-//         auth();
-//     }).fail((err) => {
-//         Swal.fire({
-//             type: 'error',
-//             title: 'Oops...',
-//             text: err.responseJSON.message,
-//         })
-//     })
-
-// }
-
 function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-}
+    let id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        method: "post",
+        url: "http://localhost:3000/user/logingoogle",
+        data: {
+            token: id_token
+        }
+    }).done((result) => {
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("username", result.name);
+        auth();
+    }).fail((err) => {
+        Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: err.responseJSON.message,
+        })
+    })
 
+}
 
 function signOut() {
     Swal.fire({
@@ -107,7 +98,6 @@ function signOut() {
                 localStorage.removeItem("username")
                 auth();
             });
-            $('.messages-content').empty()
             $('#logusername').val('')
             $('#logpassword').val('')
         }
