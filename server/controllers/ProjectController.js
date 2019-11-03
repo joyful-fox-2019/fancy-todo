@@ -65,11 +65,14 @@ class ProjectController {
     }
 
     static deleteProject (req, res, next) {
+        let err
         Project.findByIdAndDelete(req.params.id)
         .then (result => {
             res.status(200).json(result)
         })
-        .catch (err => {
+        .catch (() => {
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     }
@@ -111,7 +114,10 @@ class ProjectController {
         .then (result => {
             res.status(200).json(result)
         })
-        .catch (err => {
+        .catch (() => {
+            let err
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     }
@@ -121,7 +127,13 @@ class ProjectController {
         Project.findById(id)
         .populate('ToDoId')
         .then (result => {
-            res.status(200).json(result)
+            if (result != null) res.status(200).json(result)
+            else {
+                let err
+                err = new Error('Data Not Found')
+                err.name = 'DataError' 
+                next(err)
+            }
         })
         .catch (err => {
             next(err)
@@ -130,11 +142,19 @@ class ProjectController {
 
     static findOneToDo (req, res, next) {
         let { ToDoId } = req.params
+        let err
         ToDo.findById(ToDoId)
         .then (result => {
-            res.status(200).json(result)
+            if (result) res.status(200).json(result)
+            else {
+                err = new Error('Data Not Found')
+                err.name = 'DataError' 
+                next(err)
+            }
         })
-        .catch (err => {
+        .catch (() => {
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     }
@@ -146,7 +166,10 @@ class ProjectController {
         .then (result => {
             res.status(200).json(result)
         })
-        .catch (err => {
+        .catch (() => {
+            let err
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         }) 
     }
@@ -158,7 +181,10 @@ class ProjectController {
         .then (result => {
             res.status(200).json(result)
         })
-        .catch (err => {
+        .catch (() => {
+            let err
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     }

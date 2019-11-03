@@ -15,7 +15,9 @@ module.exports = {
                 next(err)
             }
         })
-        .catch (err => {
+        .catch (() => {
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     },
@@ -34,6 +36,8 @@ module.exports = {
             }
         })
         .catch (err => {
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     }

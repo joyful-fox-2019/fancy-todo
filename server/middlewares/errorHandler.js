@@ -45,6 +45,10 @@ module.exports = (err, req, res, next) => {
             status = 401
             message = err.message
             break
+        case 'GoogleError':
+            status = 400
+            message = err.message
+            break
         default:
             status = 500
             message = 'Internal Server Error'

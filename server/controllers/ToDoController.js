@@ -3,7 +3,6 @@ const ToDo = require('../models/ToDo')
 class ToDoController {
     static create (req, res, next) {
         let { title, description, dueDate } = req.body
-        dueDate
         let UserId = req.loggedUser._id
         ToDo.create({
             title,
@@ -34,11 +33,14 @@ class ToDoController {
 
     static findOne (req, res, next) {
         let { id } = req.params
+        let err
         ToDo.findById(id)
         .then (result => {
             res.status(200).json(result)
         })
-        .catch (err => {
+        .catch (() => {
+            err = new Error('Data Not Found')
+            err.name = 'DataError' 
             next(err)
         })
     }
@@ -49,7 +51,12 @@ class ToDoController {
             _id: id
         })
         .then (result => {
-            res.status(200).json(result)
+            if (result) res.status(200).json(result)
+            else {
+                err = new Error('Data Not Found')
+                err.name = 'DataError' 
+                next(err)
+            }
         })
         .catch (err => {
             next(err)

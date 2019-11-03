@@ -35,6 +35,7 @@ class UserController {
                 })
                 res.status(200).json({token})
             } else {
+                console.log('masuk')
                 err = new Error('password salah')
                 err.name = 'PasswordError'
                 next(err)
@@ -50,6 +51,7 @@ class UserController {
     static googleLogin (req, res, next) { 
         let payload
         let token
+        let err
         client.verifyIdToken({
             idToken: req.body.token,
             audience: process.env.GOOGLE_CLIENT_ID
@@ -80,7 +82,9 @@ class UserController {
             })
             res.status(200).json({token})
         })
-        .catch (err => {
+        .catch (() => {
+            err = new Error('Login Failure, Something Wrong With Connection')
+            err.name = 'GoogleError'
             next(err)
         })
     }

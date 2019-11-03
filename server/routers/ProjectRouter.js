@@ -5,7 +5,6 @@ const { OwnerAuthorization} = require('../middlewares/authorization')
 
 router.use(authentication)
 router.post('/', ProjectController.createProject)
-router.post('/addMember', OwnerAuthorization, ProjectController.addMember)
 router.get('/', ProjectController.findProject)
 router.delete('/:id', OwnerAuthorization, ProjectController.deleteProject)
 router.post('/addMember/:id', OwnerAuthorization, ProjectController.addMember)
