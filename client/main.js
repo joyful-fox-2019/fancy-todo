@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('.form-control').focusin(formReset);
 	addDatePicker();
 	addScroll();
 	isSignIn();
@@ -45,7 +46,7 @@ function showSignIn() {
 	$('#todos-section').hide();
 	$('#l-form').submit(signIn);
 	$('.l-submit').click(loadingSignIn);
-	$('.form-control').focusin(formReset);
+	$('#signup-link').click(showSignUp);
 }
 
 function loadingSignIn(event) {
@@ -56,15 +57,19 @@ function loadingSignIn(event) {
   Signing In...
 	`);
 	$('#l-submit-loading').addClass('disabled no-cursor');
-	$('#l-form').submit();
+	if (!$(this).hasClass('g-signin2')) {
+		$('#l-form').submit();
+	}
 }
 
 function formReset() {
-	$(this).removeClass('is-invalid');
+	$(this)
+		.removeClass('is-invalid')
+		.next()
+		.text('');
 }
 
 function signIn(event) {
-	console.log('masuk');
 	event.preventDefault();
 	const username = $('#l-username')
 		.val()
@@ -95,18 +100,17 @@ function signIn(event) {
 			}
 		})
 			.done(response => {
-				console.log('sukses');
 				localStorage.setItem('jwt_token', response.jwt_token);
 				showTodos();
 			})
 			.fail(err => {
-				console.log(err);
 				switch (err.responseJSON.message) {
 					case 'Username/Password wrong.':
 						$('#l-password')
 							.addClass('is-invalid')
 							.next()
 							.text('Username/Password wrong.');
+						$('#l-username').addClass('is-invalid');
 						break;
 					default:
 						console.log(err.responseJSON.message);
@@ -133,12 +137,17 @@ function googleSignin(googleUser) {
 		data: {
 			g_token
 		}
-	}).done(response => {
-		console.log('sukses');
-		localStorage.setItem('jwt_token', response.jwt_token);
-		showTodos();
-	});
+	})
+		.done(response => {
+			localStorage.setItem('jwt_token', response.jwt_token);
+			showTodos();
+		})
+		.always(() => {
+			resetSignInButton();
+		});
 }
+
+function showSignUp() {}
 
 function addSignOut() {
 	$('#btn-signout').click(function(event) {
