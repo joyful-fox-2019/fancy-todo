@@ -23,7 +23,7 @@ class todoController{
             .catch(next)
     }
 
-    static findAll(req, res, next) {
+    static findAllToday(req, res, next) {
         Todo.
             find({
                 user : req.user._id
@@ -33,6 +33,17 @@ class todoController{
                     return moment(new Date).isSame(todo.date, 'day')
                 })
                 res.json(data)
+            })
+            .catch(next)
+    }
+
+    static findAll(req, res, next) {        
+        Todo.
+            find({
+                user : req.user._id
+            })
+            .then(todos => {  
+                res.json(todos)
             })
             .catch(next)
     }

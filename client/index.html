@@ -21,7 +21,7 @@
 </head>
 <body>    
     <nav class="navbar navbar-light bg-dark text-light">
-        <a class="navbar-brand " style="font-size: 300%;">Mood Vie</a>
+        <a class="navbar-brand " style="font-size: 300%;">Fancy Todo</a>
         <form class="form-inline">
             <a class="btn btn-outline-success my-2 my-sm-0" href="#" onclick="signOut();"> Sign out </a>            
         </form>
@@ -60,10 +60,10 @@
                     <div class="form-inline" style="margin: 5px auto;">
                         <button  type="submit" class="btn btn-secondary">login</button>
                         <!-- ini login google -->
-                    <div id="google" class="g-signin2 pl-3 " data-onsuccess="onSignIn"></div> 
+                    <div id="google" class="g-signin2 pl-3 mr-3" data-onsuccess="onSignIn"></div> 
                     <!-- ini login facebook -->
                     <div  data-scope="email, public_profile"
-                        onlogin="checkLoginState();"  class="fb-login-button" data-size="medium" data-button-type="login_with" data-auto-logout-link="true" data-use-continue-as="false"></div>  
+                        onlogin="checkLoginState();"  class="fb-login-button" data-size="medium" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>  
                         <div id="status"></div>
                     </div>   
                 </form>
@@ -111,7 +111,11 @@
                                     </a>
                                 </li>
                                 <li class="list-group-item"> <i class="glyphicon glyphicon-list"></i> Next 7 days</li>
-                                <li class="list-group-item"> <i class="glyphicon glyphicon-list-alt"></i> All todo list</li>
+                                <li class="list-group-item"> 
+                                    <a href="" id="all-list">
+                                        <i class="glyphicon glyphicon-list-alt"></i> All todo list 
+                                    </a>
+                                </li> 
                                 <li class="list-group-item">All todo list</li>
                                 <li class="list-group-item">All todo list</li>
                                 <li class="list-group-item">All todo list</li>

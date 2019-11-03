@@ -1,7 +1,7 @@
 $(document).ready( () => {
     //$('#front-page').hide()
     $('#register').show()    
-    $('#main-page').show()
+    $('#main-page').hide()
     $('#login').hide() 
     $('#to_login').click(function(event) {
         event.preventDefault()
@@ -74,6 +74,7 @@ $(document).ready( () => {
         console.log('ini')
         $('#todo_form').show()
     })
+    // ini form untuk membuat todolist baru
     $('#todo_form').submit(event => {
         event.preventDefault()        
         let name = $('#input_activity').val()
@@ -115,36 +116,141 @@ $(document).ready( () => {
         console.log('apa')
         viewTodoToday()
     })
-    
-    
+
+    $('#all-list').click(function(event){        
+        event.preventDefault()
+        console.log('apa')
+        viewAll()
+    })
+        
     
 }) // ini tutup bagian document ==============================================>
 
-// function deleteTodo() {
-//     console.log('ini')
-    
-// }
-// function deleteTodo() {
-//     $("html").click(function(event){
-//         event.preventDefault();
-//         $('.glyphicon-trash').click(function (event) {
-//             console.log('itu')
-//             event.preventDefault()
-//             $(this).parents('li').hide();
-//         });
-//     });  
-    
-// }    
 
+function viewAll() {
+    let token = localStorage.getItem("token") // ambil token yang berisi email dan id
+    $.ajax({
+        url : `http://localhost:3000/todo/all`,
+        method : 'GET',
+        headers : {
+            token: localStorage.getItem('token')
+        }
+    })
+    .then(todos => {
+        if (todos.length === 0) {
+            $('#todo-container').empty()            
+            $('#empty-todo').show()
+            return
+        }
+        $('#todo-container').empty()
+        todos.forEach(todo => {            
+            $('#todo-container').append(
+            `<li class="list-group-item pb-4 pt-4"> 
+                <div class="glyphicon glyphicon-ok"></div> ${todo.name}
+                <div class="glyphicon glyphicon glyphicon-time pl-5 pr-0"> ${new Date(todo.date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} </div> 
+                <a class='delete' href="" ><div class="float-right glyphicon glyphicon-trash ml-3" id="${todo._id}" ></div></a> 
+                <a class='delete' href="" ><div class="float-right glyphicon glyphicon-edit" id="${todo._id}"></div></a> 
+            </li>`)
+        });
+        $('.glyphicon-trash').click(function (event) {            
+            event.preventDefault()
+            let todo_id = $(this).attr('id')                        
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then( function(result) {
+                if (result.value) {
+                    $.ajax({
+                        method: 'DELETE',
+                        url: `http://localhost:3000/todo/${todo_id}`,
+                        headers: {
+                            token: localStorage.getItem('token')
+                        }
+                    })
+                    .done(function(data) {
+                        $(`#${todo_id}`).parents('li').hide() 
+                        Swal.fire(
+                            'Deleted!',
+                            'Your Todo has been deleted.',
+                            'success'
+                        )                        
+                    })
+                    .fail(function(err) {
+                        console.log(err)
+                    })
 
-function allTodoList() {
-    
+                }
+              })
+        });
+        
+        $(`.glyphicon-edit`).click(function(event){
+            event.preventDefault()
+            let todo_id = $(this).attr('id') 
+            $.ajax({
+                url : `http://localhost:3000/todo/${todo_id}`,
+                method : 'GET',                
+                headers : {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then(function (todo) {                
+                Swal.fire({
+                    title: 'Update Data',
+                    html:
+                      `<label for="name">please input name</label>` +
+                      `<input id="name" class="swal2-input" value= "${todo.name}">` +
+                      `<label for="date">please input date</label>` +
+                      `<input id="date" class="swal2-input" value= "${todo.date}">`,
+                    focusConfirm: false,
+                    preConfirm: () => {
+                      return {
+                        name : document.getElementById('name').value,
+                        date : document.getElementById('date').value
+                      }   
+                    }
+                  })
+                  .then (function (input) {
+                      console.log(input.value.name)
+                      console.log(todo_id,'ini')
+                    $.ajax({
+                        url : `http://localhost:3000/todo/${todo_id}`,
+                        method : 'PUT',   
+                        data : {
+                            name : input.value.name,
+                            date : input.value.date
+                        },             
+                        headers : {
+                            token: localStorage.getItem('token')
+                        },
+                        
+                    })
+                    .done (function (data) {
+                        Swal.fire(
+                            'Updated!',
+                            'Your Todo has been updated.',
+                            'success'
+                        )   
+                        viewTodoToday()
+                        })
+                      .fail (function(err) {
+                        console.log(err)
+                      })
+                  })
+                  
+            })                      
+        })
+    })
 }
 
 function oneWeekTodolist(){
 
 } 
-function viewTodoToday() {
+function viewTodoToday(data) {    
     let token = localStorage.getItem("token") // ambil token yang berisi email dan id
     $.ajax({
         url : `http://localhost:3000/todo`,
@@ -154,13 +260,14 @@ function viewTodoToday() {
         }
     })
     .then(todos => {
+        console.log(todos.length)
         if (todos.length === 0) {
+            $('#todo-container').empty()            
             $('#empty-todo').show()
             return
         }
-        //$('#todo-container').empty()
+        $('#todo-container').empty()
         todos.forEach(todo => {
-            console.log(todo.date)
             $('#todo-container').append(
             `<li class="list-group-item pb-4 pt-4"> 
                 <div class="glyphicon glyphicon-ok"></div> ${todo.name}
@@ -292,8 +399,9 @@ function signOut() {
     console.log('masuk')
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-        $('#home').hide()
-        $('#register').show()
+        $('#register').show()    
+        $('#main-page').hide()
+        $('#login').hide() 
         localStorage.removeItem("token")
     console.log('User signed out.');
     });
@@ -301,34 +409,37 @@ function signOut() {
 
 
 // setting untuk facebook
-let fblogin_done = 0;
-
-function CheckLoginState() {
-    if (fblogin_done == 1) return; // avoid twice executions    
-    fblogin_done = 1;
-    FB.getLoginStatus(function(response) { 
-        statusChangeCallback(response);        
+function checkLoginState() {               // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function(response) {   // See the onlogin handler
+      statusChangeCallback(response);
     });
-    window.setTimeout(function(){
-        fblogin_done = 0; // wait 1 second after a second execution
-    }, 1000);
-}
-
-// function checkLoginState() {  
-//     FB.getLoginStatus(function(response) { 
-//         statusChangeCallback(response);        
-//     });
-// }     
+} 
 
 function statusChangeCallback(response) {                
     if (response.status === 'connected') {                    
         FB.api('/me', 'GET', {fields: 'first_name,last_name,name,email,id,picture'}, function(response) {
-            console.log(JSON.stringify(response));
-            localStorage.setItem("token", 'data.token')
+            console.log(response.email);
+            $.ajax({
+                url : `http://localhost:3000/login-facebook`,
+                method : "POST",
+                data : {
+                    user : JSON.stringify(response)
+                }
+            })
+            .done( data => {
+                localStorage.setItem("token", data.token)
+                $('#user-image').attr("src", "https://media.nesta.org.uk/images/Predictions-2019_Twitter_02.width-1200.png");
+                $('#main-page').show()
+                $('#front-page').hide()
+            })
+            .done (function() {
+                viewTodoToday()
+            })
+            .fail(err=> {
+                console.log(err)
+            })
         });
-    }  else {
-        localStorage.removeItem("token")
-    }
+    }  
 }
 
 window.fbAsyncInit = function() {

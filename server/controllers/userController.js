@@ -75,6 +75,34 @@ class userController{
         }) 
                    
     }
+
+    static loginFacebook(req, res, send) {
+        req.decoded = JSON.parse(req.body.user)
+        let { email } = req.decoded
+        console.log(email)
+        User.findOne({
+            email : email
+        })
+        .then( user => {
+            let password = email+'tes'
+            if (!user) {
+                return User.create({email, password})
+            } else {
+                return user
+            }
+        })
+        .then(user => {            
+            let token = generateToken(user)  
+            res.json({
+                status : 200,
+                msg : 'you are login',
+                token : token
+            })                     
+        })
+        .catch( err => {
+            console.log(err)
+        }) 
+    }
 }
 
 module.exports = userController
