@@ -1,14 +1,16 @@
 # Fancy To Do
 # Author : Luky Winata
 
-| **Frequently Asked Questions**                                       |
-| -------------------------------------------------------------------- |
-| Client Site: http://localhost:8080/                                  |
-| Server Site: http://localhost:3000/                                  |
-| npm init -y (inside root server folder)                              |
-| npm run dev (on terminal inside root server folder)                  |
-| live-server --host=localhost (on terminal inside root client folder) |
-| .env-template: PORT, DB_URI, JWT_SECRET, CLIENT_ID(google)           | 
+**How To**                                      
+
+```
+Client Site: http://localhost:8080/
+Server Site: http://localhost:3000/
+npm init -y (inside root server folder)
+npm run dev (on terminal inside root server folder)
+live-server --host=localhost (on terminal inside root client folder)
+.env-template: PORT, DB_URI, JWT_SECRET, CLIENT_ID(google)
+```
 
 **List of Routes User:**
 
@@ -30,6 +32,7 @@
 | /task/:id | DELETE   | Delete a task                   | Authorized user only    |
 
 **Errors:**
+
 | Code | Name                  | Description                               |
 | ---- | --------------------- | ----------------------------------------- |
 | 400  | Authentication Failed | Email or password is incorrect            |
