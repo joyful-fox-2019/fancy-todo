@@ -8,8 +8,8 @@
 | ----------------- | -------- | ---------------------------------------------------- |
 | /register   | POST     | Sign up with new user info                           |
 | /signin      | POST     | Sign in and get an access token based on credentials |
-| /google-signin | POST     | Sign in using OAuth 2.0 Google                       |
-| /profile-picture | POST     | Upload profile picture using Multer                      |
+| /google-signin | POST     | Sign in using OAuth 2.0 Google (tested on web browser only)                      |
+| /profile-picture | POST     | Upload profile picture using Multer (tested on web browser only)                      |
 
 **List of Routes  Todo:**
 
