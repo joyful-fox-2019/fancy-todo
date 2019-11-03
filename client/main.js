@@ -2,6 +2,7 @@ $(document).ready(function() {
 	$('.form-control').focusin(formReset);
 	addDatePicker();
 	addScroll();
+	emptyPasswordOnFocus();
 	isSignIn();
 });
 
@@ -14,6 +15,16 @@ function addScroll() {
 		$('html,body').animate({ scrollTop: $('#top').offset().top }, '1000');
 		return false;
 	});
+}
+
+function emptyPasswordOnFocus() {
+	$('input[type=password]').focusin(function(event) {
+		$(this).val('');
+	});
+}
+
+function emptyAllPassword() {
+	$('input[type=password]').focusin();
 }
 
 function isSignIn() {
@@ -41,9 +52,12 @@ function verifyToken(jwt_token) {
 	});
 }
 
-function showSignIn() {
+function showSignIn(event) {
+	if (event) event.preventDefault();
 	$('.navbar').hide();
+	$('#signup-section').hide();
 	$('#todos-section').hide();
+	$('#signin-section').show();
 	$('#l-form').submit(signIn);
 	$('.l-submit').click(loadingSignIn);
 	$('#signup-link').click(showSignUp);
@@ -63,10 +77,7 @@ function loadingSignIn(event) {
 }
 
 function formReset() {
-	$(this)
-		.removeClass('is-invalid')
-		.next()
-		.text('');
+	$(this).removeClass('is-invalid');
 }
 
 function signIn(event) {
@@ -77,12 +88,14 @@ function signIn(event) {
 	const password = $('#l-password')
 		.val()
 		.trim();
+	let valid = true;
 	if (!username) {
 		$('#l-username')
 			.addClass('is-invalid')
 			.next()
 			.text('username cannot empty!');
 		resetSignInButton();
+		valid = false;
 	}
 	if (!password) {
 		$('#l-password')
@@ -90,7 +103,9 @@ function signIn(event) {
 			.next()
 			.text('password cannot empty!');
 		resetSignInButton();
-	} else {
+		valid = false;
+	}
+	if (valid) {
 		$.ajax({
 			method: 'POST',
 			url: 'http://localhost:3000/user/signin',
@@ -104,16 +119,21 @@ function signIn(event) {
 				showTodos();
 			})
 			.fail(err => {
-				switch (err.responseJSON.message) {
-					case 'Username/Password wrong.':
-						$('#l-password')
-							.addClass('is-invalid')
-							.next()
-							.text('Username/Password wrong.');
-						$('#l-username').addClass('is-invalid');
-						break;
-					default:
-						console.log(err.responseJSON.message);
+				for (const msg of err.responseJSON.message) {
+					switch (msg) {
+						case 'Username/Password wrong.':
+							$('#l-password')
+								.addClass('is-invalid')
+								.next()
+								.text('Username/Password wrong.');
+							$('#l-username')
+								.addClass('is-invalid')
+								.next()
+								.text('');
+							break;
+						default:
+							console.log(msg);
+					}
 				}
 			})
 			.always(() => {
@@ -147,7 +167,143 @@ function googleSignin(googleUser) {
 		});
 }
 
-function showSignUp() {}
+function showSignUp(event) {
+	event.preventDefault();
+	$('#signin-section').hide();
+	$('#signup-section').show();
+	$('#r-form').submit(signUp);
+	$('.r-submit').click(loadingSignUp);
+	signupClientValidation();
+	$('#signin-link').click(showSignIn);
+}
+
+function loadingSignUp(event) {
+	event.preventDefault();
+	$('#r-submit-loading').empty();
+	$('#r-submit-loading').append(`
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Signing In...
+	`);
+	$('#r-submit-loading').addClass('disabled no-cursor');
+	if (!$(this).hasClass('g-signin2')) {
+		$('#r-form').submit();
+	}
+}
+
+function resetSignUpButton() {
+	$('#r-submit-loading')
+		.empty()
+		.append('Sign Up')
+		.removeClass('disabled no-cursor');
+}
+
+function signupClientValidation() {
+	$('#r-password').on('keyup', function(e) {
+		if ($(this).val().length < 6) {
+			$(this)
+				.removeClass('is-valid')
+				.addClass('is-invalid');
+		} else {
+			$(this)
+				.removeClass('is-invalid')
+				.addClass('is-valid');
+		}
+	});
+
+	$('#r-password').on('focusout', function(e) {
+		if ($(this).val() != $('#r-confirm-password').val()) {
+			$('#r-confirm-password')
+				.removeClass('is-valid')
+				.addClass('is-invalid');
+		} else {
+			$('#r-confirm-password')
+				.removeClass('invalid')
+				.addClass('valid');
+		}
+	});
+
+	$('#r-confirm-password').on('keyup', function(e) {
+		if ($('#r-password').val() != $(this).val()) {
+			$(this)
+				.removeClass('is-valid')
+				.addClass('is-invalid');
+		} else {
+			$(this)
+				.removeClass('is-invalid')
+				.addClass('is-valid');
+		}
+	});
+}
+
+function signUp(event) {
+	event.preventDefault();
+	const username = $('#r-username')
+		.val()
+		.trim();
+	const password = $('#r-password')
+		.val()
+		.trim();
+	const email = $('#r-email')
+		.val()
+		.trim();
+	let valid = true;
+	if (!username) {
+		$('#r-username').addClass('is-invalid');
+		resetSignUpButton();
+		valid = false;
+	}
+	if (!password) {
+		$('#r-password').addClass('is-invalid');
+		resetSignUpButton();
+		valid = false;
+	}
+	if (!email) {
+		$('#r-email').addClass('is-invalid');
+		resetSignUpButton();
+		valid = false;
+	}
+	if (valid) {
+		$.ajax({
+			method: 'POST',
+			url: 'http://localhost:3000/user/register',
+			data: {
+				username,
+				email,
+				password
+			}
+		})
+			.done(response => {
+				showSignIn();
+			})
+			.fail(err => {
+				emptyAllPassword();
+				$('input[type=password]').removeClass('is-valid');
+				for (const msg of err.responseJSON.message) {
+					switch (msg) {
+						case 'Username must be unique.':
+							$('#r-username')
+								.addClass('is-invalid')
+								.next()
+								.text('Username already taken.');
+							break;
+						case 'Email must be unique.':
+							$('#r-email')
+								.addClass('is-invalid')
+								.next()
+								.text(
+									'Email already used. If you never sign up before, use Google sign in instead.'
+								);
+							break;
+						default:
+							console.log(msg);
+					}
+				}
+			})
+			.always(() => {
+				resetSignUpButton();
+			});
+	}
+}
 
 function addSignOut() {
 	$('#btn-signout').click(function(event) {
@@ -161,62 +317,40 @@ function addSignOut() {
 }
 
 async function showTodos() {
+	$('#top').hide();
 	$('.navbar').show();
 	$('#nav-brand').addClass('d-lg-flex');
 	$('#signin-section').hide();
+	$('#signup-section').hide();
 	$('#todos-section').show();
 	addSignOut();
 	const user = await getUserTodos().catch(err => console.log(err));
 	if (!user) return;
 	if (user.todos.length < 1) {
-		$('.masonry').empty();
-		$('.masonry').append(`
-			<div class="masonry-brick">
-				<div class="card masonry-content">
-					<div class="card-body">
-						<p class="card-title">Click to Create new Todo!</p>
-					</div>
-					<small><a style="cursor: pointer;" class="btn stretched-link" data-toggle="modal" data-target="#todo-create-modal"></a></small>
-				</div>
-			</div>
-			
-		`);
-		createTodo();
+		$('#todo-create h2').text('Your Todo Is Empty');
+		$('#todo-create p:first').text(
+			'Looks like your todo is empty. You can create new todo by clicking the link below.'
+		);
+
 		return;
 	}
-	$('.masonry').empty();
-	let counter = 0;
+	// $('#todo-list').empty();
 	for (const todo of user.todos) {
-		let wrapper = '';
-		if (counter % 2 === 0) {
-			wrapper += '<div class="w-100 d-none d-sm-block d-md-none"></div>';
-		}
-		if (counter % 3 === 0) {
-			wrapper += '<div class="w-100 d-none d-md-block d-lg-none"></div>';
-		}
-		if (counter % 4 === 0) {
-			wrapper += '<div class="w-100 d-none d-lg-block"></div>';
-		}
-
-		counter++;
-		$('.masonry').append(`
-			<div class="masonry-brick">
-				<div class="card masonry-content" id="${todo._id}">
-					<div class="card-header ">
-						<h5 class="mr-auto">${todo.name}</h5>
-					</div>
-					<div class="card-body">
-						<small><a href="" class="v-hidden stretched-link" data-toggle="modal" data-target="#todo-detail-modal"></a></small>
-						<h6 class="card-subtitle mb-2"><small class="text-muted">Due ${new Date(
-							todo.due_date
-						).toLocaleDateString('en-US', {
+		$('#todo-list').append(`
+			<div class="col-12 col-md-6 col-lg-4 mb-4">
+				<div class="fdb-box fdb-touch pb-3 pt-4" id="${todo._id}">
+					<h2>${todo.name}</h2>
+					<h6 class="mb-2"><small class="text-muted">Due ${new Date(todo.due_date).toLocaleDateString(
+						'en-US',
+						{
 							weekday: 'long',
 							year: 'numeric',
 							month: 'short',
 							day: 'numeric'
-						})}</small></h6>
-						<p class="card-text">${todo.description}</p>
-					</div>
+						}
+					)}</small></h6>
+					<p>${todo.description}</p>
+					<p><a href="https://www.froala.com">Details</a></p>
 				</div>
 			</div>
     `);

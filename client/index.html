@@ -26,7 +26,12 @@
 		<title>Fancy Todo</title>
 	</head>
 	<body>
-		<div id="top"></div>
+		<div class="d-lg-none row justify-content-center" id="top">
+			<nav class="col text-center">
+				<h1>Fancy Todo</h1>
+			</nav>
+		</div>
+
 		<!-- Todo Detail Modal -->
 
 		<div
@@ -119,13 +124,15 @@
 		</div>
 
 		<!-- Header -->
-		<!-- 
+
 		<header class="jumbotron jumbotron-fluid d-none d-lg-block">
 			<div class="container text-center">
 				<h1>Fancy Todo</h1>
 			</div>
 		</header>
--->
+
+		<!-- Navbar -->
+
 		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mt-lg-n5">
 			<button
 				class="navbar-toggler"
@@ -170,10 +177,12 @@
 			</div>
 		</nav>
 
-		<!-- SIGN IN SECTION -->
+		<!-- Main Section -->
 
 		<main class="container">
-			<section class="fdb-block" id="signin-section">
+			<!-- SIGN IN SECTION -->
+
+			<section class="fdb-block pt-min" id="signin-section">
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
@@ -209,77 +218,119 @@
 											</p>
 										</div>
 									</div>
+									<div class="row mt-2">
+										<div class="col ">
+											<button class="btn btn-primary l-submit" type="submit" id="l-submit-loading">
+												Sign In
+											</button>
+											<div class="mx-auto my-2">OR</div>
+											<div
+												class="g-signin2 l-submit row justify-content-center"
+												data-onsuccess="googleSignin"
+											></div>
+										</div>
+									</div>
 								</form>
-								<div class="row mt-2">
-									<div class="col ">
-										<button class="btn btn-primary l-submit" type="submit" id="l-submit-loading">
-											Sign In
-										</button>
-										<div class="mx-auto my-2">OR</div>
-										<div
-											class="g-signin2 l-submit row justify-content-center"
-											data-onsuccess="googleSignin"
-										></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- SIGN UP SECTION -->
+
+			<section class="fdb-block pt-min" id="signup-section">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
+							<div class="fdb-box">
+								<div class="row">
+									<div class="col">
+										<h1>Sign Up</h1>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- 
-			<section class="container col-4 justify-content-center mt-n4" id="signin-section">
-				<div class="card">
-					<div class="card-header text-center">
-						Sign In
-					</div>
-					<form class="card-body" id="l-form">
-						<div class="">
-							<label for="l-username">Username</label>
-							<input
-								type="text"
-								class="form-control"
-								id="l-username"
-								aria-describedby="email"
-								placeholder="Enter email"
-								required
-							/>
-						</div>
+								<form id="r-form">
+									<div class="row mt-4">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												placeholder="Username"
+												id="r-username"
+											/>
+											<div class="invalid-feedback text-left">Username cannot empty.</div>
+										</div>
+									</div>
 
-						<div class="form-group">
-							<label for="l-password">Password</label>
-							<input type="password" class="form-control" id="l-password" placeholder="Password" />
-							<div class="invalid-feedback">
-								Username or password wrong.
+									<div class="row mt-4">
+										<div class="col">
+											<input type="email" class="form-control" placeholder="Email" id="r-email" />
+											<div class="invalid-feedback text-left"></div>
+										</div>
+									</div>
+
+									<div class="row mt-3">
+										<div class="col">
+											<input
+												type="password"
+												class="form-control mb-1"
+												placeholder="Password"
+												id="r-password"
+											/>
+											<div class="invalid-feedback text-left">Password length min 6.</div>
+										</div>
+									</div>
+
+									<div class="row mt-3">
+										<div class="col">
+											<input
+												type="password"
+												class="form-control mb-1"
+												placeholder="Confirm password"
+												id="r-confirm-password"
+											/>
+											<div class="invalid-feedback text-left">Password dont match!</div>
+											<p class="text-right">
+												Already have an account? <a href="" id="signin-link">Sign In</a>
+											</p>
+										</div>
+									</div>
+									<div class="row mt-2">
+										<div class="col ">
+											<button class="btn btn-primary r-submit" type="submit" id="r-submit-loading">
+												Sign Up
+											</button>
+											<div class="mx-auto my-2">OR</div>
+											<div
+												class="g-signin2 r-submit row justify-content-center"
+												data-onsuccess="googleSignin"
+											></div>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
-						<div class="text-center">
-							<button
-								type="submit"
-								class="btn btn-primary btn-lg w-100"
-								class="l-submit"
-								id="l-submit-loading"
-							>
-								Sign In
-							</button>
-							<div class="mx-auto my-1">OR</div>
-							<div class="l-submit">
-								<div
-									class="g-signin2 row justify-content-center"
-									data-onsuccess="googleSignin"
-								></div>
-							</div>
-							<div class="d-flex mt-3">
-								<small class="">Dont have account? <a class="" href="register"> Sign Up</a></small>
-							</div>
-						</div>
-					</form>
+					</div>
 				</div>
 			</section>
--->
+
 			<!-- TODOS SECTION -->
-			<section class="container" id="todos-section">
-				<div class="masonry"></div>
+			<section class="fdb-block">
+				<div class="container">
+					<div class="row text-left" id="todo-list">
+						<div class="col-12 col-md-6 col-lg-4 mb-4" id="todo-create">
+							<div class="fdb-box fdb-touch pb-3 pt-4">
+								<h2>Create New Todo</h2>
+								<p>
+									Here is your todo lists, ordered by the nearest due date. You can click Details on
+									any todo to see the full description of your todo, and make changes if necessary.
+									To create new todo, click the link below.
+								</p>
+								<p><a href="" id="btn-create-new">Create New Todo</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 		</main>
 

@@ -74,7 +74,16 @@ class UserController {
 					jwt_token: token
 				});
 			})
-			.catch(next);
+			.catch(errAll => {
+				const err = [];
+				if (errAll.message.includes('expected `username` to be unique')) {
+					err.push('usernameUniqueFailed');
+				}
+				if (errAll.message.includes('expected `email` to be unique')) {
+					err.push('emailUniqueFailed');
+				}
+				next(err);
+			});
 	}
 
 	static googleSigning(req, res, next) {

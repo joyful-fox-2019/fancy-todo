@@ -2,9 +2,9 @@
 	display: none;
 }
 
-/* .fdb-block {
+.pt-min {
 	padding-top: 3em;
-} */
+}
 
 .no-cursor:hover {
 	cursor: default;
