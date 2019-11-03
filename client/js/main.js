@@ -28,78 +28,136 @@ $(document).ready( function () {
   $('.container2').hide();
   $('.social').hide()
   $('#todoListProject').hide();
+  $('#cardLoop').hide()
   checkLogin()
 
 
 
   $('#flogin').click( function () {
+    $('#cardLoop').hide()
     login()
   })
   $('#fhome').click( function () {
+    $('#cardLoop').hide()
     home()
   })
   $('.fgoLogin').click(function () {
+    $('#cardLoop').hide()
     goLogin()
   })
   $('.fgoLogout').click(function () {
+    $('#cardLoop').hide()
     goLogout()
   })
   $('#fgoregister').click(function () {
+    $('#cardLoop').hide()
     goRegister()
   })
   $('#fgobacklogin').click(function () {
+    $('#cardLoop').hide()
     goLogin()
   })
   $('#fregisterclick').click(function () {
+    $('#cardLoop').hide()
     registerClick()
   })
   $('#ftodohome').click(function () {
+    $('#cardLoop').hide()
     home()
   })
   $('#fgoproject').click(function () {
+    $('#cardLoop').hide()
     goProject()
   })
   $('#fgonotification').click(function () {
+    $('#cardLoop').hide()
     goNotification()
   })
   $('#fshowportfolio').click(function () {
+    $('#cardLoop').hide()
     showPortFolio()
   })
   $('.finvitelistmember').click(function () {
+    $('#cardLoop').hide()
     inviteListMember()
   })
   $('#createTodo').click(function () {
+    $('#cardLoop').hide()
     goCreateTodo()
   })
   $('#createProject').click(function () {
+    $('#cardLoop').hide()
     goCreateProject()
   })
   $('#fcancelback').click(function () {
+    $('#cardLoop').hide()
     cancelBack()
   })
   $('#save').click(function () {
+    $('#cardLoop').hide()
     createTodo()
   })
   $('#fcancelbackproject').click(function () {
+    $('#cardLoop').hide()
     cancelBackProject()
   })
   $('#saveProject').click(function () {
+    $('#cardLoop').hide()
     triggerCreateProject()
   })
   $('#createTodoProject').click(function () {
+    $('#cardLoop').hide()
     goCreateTodoProject()
   })
   $('#fcancelbackk').click(function () {
+    $('#cardLoop').hide()
     cancelBack()
   })
   $('#saveTodoProject').click(function () {
+    $('#cardLoop').hide()
     createTodoProject()
+  })
+  $('#formSearch').submit(function (e) {
+    e.preventDefault()
+    searchFunc()
   })
 })
 
 //=================================================== HOME ================================================
 
-
+function searchFunc () {
+  const key = $('#keySearch').val();
+  $.ajax({
+    method: 'get',
+    url: `${baseUrl}/users/search/${key}`,
+    headers: {
+      token: localStorage.getItem('token')
+    }
+  })
+    .then(users => {
+      $('#todo-side-bar').hide()
+      $('#cardLoop').empty();
+      $('#cardLoop').show()
+      setTimeout(() => {
+        users.forEach(el => {
+          $('#cardLoop').append(`
+            <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">${el.username}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${el.email}</h6>
+            </div>
+            </div>
+          `)
+        })
+      }, 1000);
+    })
+    .catch(err => {
+      Toast.fire({
+        type: 'warning',
+        title: err.responseJSON.msg
+      })
+    })
+}
 function home () {
   checkLogin()
   focusTodo()

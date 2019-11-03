@@ -19,16 +19,13 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><small>by DreamCar</small></a>
         </li>
       </ul>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <form class="form-inline" id='formSearch'>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" id='keySearch' aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> | 
       </form>
       <button class='btn btn-outline-success my-2 my-sm-o fgoLogin' id='islogin'>Login</button>
       <button class='btn btn-outline-success my-2 my-sm-o fgoLogout' id='logout'>Sign out</button>
     </nav>
-
-
-
 
 
 
@@ -119,7 +116,12 @@
             </div>
           </div>
           <div class="col-8">
+              <div id="cardLoop">
+    
+              </div>
             <div id="todo-side-bar">
+
+
               <div class="header">
                 <h3 id='todo'>Todo</h3>
                 <h3 id='project'>Project</h3>

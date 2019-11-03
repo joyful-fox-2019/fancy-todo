@@ -124,5 +124,12 @@ module.exports = {
         res.status(200).json(user);
       })
       .catch(next)
+  },
+  searchUser (req, res, next) {
+    User.find({ username: new RegExp(req.params.key, 'i')})
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(next)
   }
 }

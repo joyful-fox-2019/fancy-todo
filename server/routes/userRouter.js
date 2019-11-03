@@ -7,6 +7,7 @@ const {authentication, authorizationAcceptInvite} = require('../middlewares/auth
 Route.get('/', authentication, userCont.findAllUser) // *
 
 Route.get('/getlogin', authentication, userCont.getLoginUser);
+Route.get('/search/:key', authentication, userCont.searchUser);
 
  // login normal
 Route.post('/signin', userCont.login) // *
