@@ -7,6 +7,7 @@ $(document).ready(function() {
 	$('html, body').click(function() {
 		$('#navbarToggler').collapse('hide');
 	});
+	$('#to-create-todo').click(showCreateTodo);
 });
 
 function addScroll() {
@@ -329,6 +330,12 @@ function addSignOut() {
 }
 
 async function showTodos() {
+	$('#home-nav')
+		.parent()
+		.addClass('active');
+	$('#to-create-todo')
+		.parent()
+		.removeClass('active');
 	$('#todos-section').slideUp();
 	$('#top').hide();
 	$('.navbar').slideDown('slow');
@@ -406,6 +413,12 @@ function activateTodoButton() {
 
 function showCreateTodo(event) {
 	if (event) event.preventDefault();
+	$('#home-nav')
+		.parent()
+		.removeClass('active');
+	$('#to-create-todo')
+		.parent()
+		.addClass('active');
 	$('#todos-section').hide('slow');
 	$('#create-todo-section').fadeIn('slow');
 	$('#c-cancel').click(() => {
@@ -584,6 +597,12 @@ function resetLoadingDeleteTodo(event, sibling) {
 
 async function showTodoDetail(event) {
 	if (event) event.preventDefault();
+	$('#home-nav')
+		.parent()
+		.removeClass('active');
+	$('#to-create-todo')
+		.parent()
+		.removeClass('active');
 	$('#todos-section').slideUp('slow');
 	$('#todo-detail-section').fadeIn('slow');
 	const top = $(this).offset().top;
