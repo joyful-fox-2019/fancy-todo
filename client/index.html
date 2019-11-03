@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id"
+    content="1078628271395-d3820433486ltb3kth110ohp95qn0hsh.apps.googleusercontent.com">
+  <title>To-Do-Fancy-Luky</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+  <div class="container-fluid" style="margin-top: 6vh">
+    <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+          </div>
+          <div class="col-md-6 pt-5">
+            <!-- LOGIN -->
+            <div class="container" id="login-content" style="display: none">
+              <form id="login-form">
+                <div class="row justify-content-center">
+                  <h2>Welcome to</h2>
+                </div>
+                <div class="row justify-content-center">
+                  <h2>Hacktiv To Do </h2>
+                </div>
+                <div class="row justify-content-center">
+                  <img src="./img/picture.png" alt="">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input required type="email" class="form-control" id="login-email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="login-password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-dark" style="width: 100%">Login</button>
+              </form>
+              <div class="row justify-content-center mt-5">
+                <a class="nav-link active" href="" id="trigger-register">Don't have an account yet?</a>
+              </div>
+            </div>
+            <!-- LOGIN -->
+            <!-- REGISTER -->
+            <div class="container" id="register-content" style="display: none">
+              <a class="nav-link active pl-0" href=""" id="trigger-login" style="color: #0645AD">
+                < Back </a>
+              <form id="register-form">
+                <div class="row justify-content-center">
+                  <h2>Get Started for Free</h2>
+                </div>
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="register-name" placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="register-email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="register-password" placeholder="Password">
+                </div>
+                <button type="submit" class="btn btn-dark" style="width: 100%">Register</button>
+              </form>
+              <div class="row justify-content-center">
+                <span class="nav-link active" style="color: #0645AD">Or, sign in with your google account</span>
+              </div>
+              <div class="g-signin2 pb-5" data-onsuccess="onSignIn"></div>
+            </div>
+            <!-- REGISTER -->
+            <!-- MENU -->
+            <div class="container" id="todo-menu" style="display: none">
+              <div class="text-right">
+                <a id="signout" href="" onclick="signOut()" style="display: none">Sign Out</a>
+              </div>
+              <p class="user-name" id="user-name"></p>
+              <button class="alert alert-primary" id="my-day" style="width: 100%; background-color: navy;">
+                My Day
+              </button>
+              <button class="alert alert-secondary" id="archived" 
+                style="width: 100%; background-color: goldenrod;">
+                Archived
+              </button>
+            </div>
+            <!-- MENU -->
+            <!-- MY DAY -->
+            <div class="container-fluid" id="my-day-menu" style="display: none">
+              <a class="nav-link active pl-0" href="" id="back-my-day" style="color: #0645AD">
+                < Back </a>
+              <div class="my-day-nav" id="my-day-nav"></div>
+              <ul class="list-unstyled my-day-content" id="my-day-content">
+
+              </ul>
+              <button class="alert alert-success" id="add-task" style="width: 100%; background-color: #333;">
+                + Add Task
+              </button>
+            </div>
+            <!-- MY DAY -->
+            <!-- ARCHIVED -->
+            <div class="container-fluid" id="archived-menu" style="display: none">
+              <a class="nav-link active pl-0" href="" id="back-archived" style="color: #0645AD">
+                < Back </a>
+              <ul class="list-unstyled my-day-content mt-4 ml-3" id="archived-content">
+
+              </ul>
+              <span class="btn btn-outline-dark" style="width: 100%;">
+                &copy; Aku Cinta Fase 2
+              </span>
+            </div>
+            <!-- ARCHIVED -->
+            <!-- ADD TASK MENU -->
+            <div class="container mt-10" id="add-task-menu" style="display: none">
+              <a class="nav-link active pl-0" href="" id="back-add-task" style="color: #0645AD">
+                < Back </a>
+              <form id="add-task-form">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text alert-success">
+                      Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  </div>
+                  <input type="text" class="form-control" id="task-title" placeholder="Title">
+                </div>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text alert-danger">Description</div>
+                  </div>
+                  <input type="text" class="form-control" id="task-description" placeholder="Description">
+                </div>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text alert-warning">Due Date&nbsp;&nbsp;&nbsp;</div>
+                  </div>
+                  <input type="date" class="form-control" id="task-date">
+                </div>
+                <div class="text-right">
+                  <button type="submit" class="btn btn-info" style="width: 30%">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- ADD TASK MENU -->
+            <!-- EDIT TASK MENU -->
+            <div class="container" id="edit-task-menu" style="display: none">
+              <a class="nav-link active pl-0" href="" id="back-edit-task" style="color: #0645AD">
+                < Back </a>
+              <div class="edit-task-content" id="edit-task-content">
+              </div>
+            </div>
+            <!-- EDIT TASK MENU -->
+          </div>
+          <div class="col-md-3">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+      </div>
+    </div>
+  </div>
+  <footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+      </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="js/user.js"></script>
+    <script src="js/main.js"></script>
+  </footer>
+</body>
+
+</html>
