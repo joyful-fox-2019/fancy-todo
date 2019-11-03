@@ -1,3 +1,4 @@
+// let loaded = false;
 $(document).ready(function() {
 	$('.form-control').focusin(formReset);
 	addDatePicker();
@@ -28,18 +29,20 @@ function emptyAllPassword() {
 }
 
 function isSignIn() {
-	jwt_token = localStorage.getItem('jwt_token');
-	if (!localStorage.jwt_token) {
-		showSignIn();
-	} else {
-		verifyToken(jwt_token)
+	// if (!loaded) {
+	if (localStorage.jwt_token) {
+		verifyToken(localStorage.jwt_token)
 			.done(() => {
+				loaded = true;
 				showTodos();
 			})
 			.fail(() => {
 				showSignIn();
 			});
+	} else {
+		showSignIn();
 	}
+	// }
 }
 
 function verifyToken(jwt_token) {
@@ -334,11 +337,9 @@ async function showTodos() {
 	$('#todo-list').empty().append(`
 		<div class="col-12 col-md-6 col-lg-4 mb-4" id="todo-create">
 			<div class="fdb-box fdb-touch pb-3 pt-4">
-				<h2>Create New Todo</h2>
+				<h2>Your Todo Is Empty</h2>
 				<p>
-					Here is your todo lists, ordered by the nearest due date. You can click Details on
-					any todo to see the full description of your todo, and make changes if necessary.
-					To create new todo, click the link below.
+					Looks like your todo is empty. You can create new todo by clicking the link below.
 				</p>
 				<p><a href="" id="btn-create-new">Create New Todo</a></p>
 			</div>
@@ -347,15 +348,15 @@ async function showTodos() {
 	$('#btn-create-new').click(showCreateTodo);
 	const user = await getUserTodos().catch(err => console.log(err));
 	if (!user) return;
-	if (user.todos.length < 1) {
-		$('#todo-create h2').text('Your Todo Is Empty');
+	if (user.todos.length > 0 && $('#todo-list').children().length <= 1) {
+		$('#todo-create h2').text('Create New Todo');
 		$('#todo-create p:first').text(
-			'Looks like your todo is empty. You can create new todo by clicking the link below.'
+			'Here is your todo list, ordered by the nearest due date. ' +
+				'You can click Details on any todo to see the full description of your todo, ' +
+				'and make changes if necessary.	To create new todo, click the link below.'
 		);
-		return;
-	}
-	for (const todo of user.todos) {
-		$('#todo-list').append(`
+		for (const todo of user.todos) {
+			$('#todo-list').append(`
 			<div class="col-12 col-md-6 col-lg-4 mb-4">
 				<div class="fdb-box fdb-touch pb-3 pt-4" id="${todo._id}">
 					<h2>${todo.name}</h2>
@@ -373,8 +374,9 @@ async function showTodos() {
 				</div>
 			</div>
     `);
+		}
+		$('.btn-todo-detail').click(showTodoDetail);
 	}
-	$('.btn-todo-detail').click(showTodoDetail);
 }
 
 async function getUserTodos() {
@@ -480,6 +482,7 @@ async function fillTodoDetail(event) {
 	$('#e-due').val(new Date(todo.due_date).toJSON().slice(0, 10));
 	$('#d-desc').text(todo.description);
 	$('#e-desc').val(todo.description);
+	$('#e-form').data('id', id);
 }
 
 function showEditTodo(event) {
@@ -491,6 +494,13 @@ function showEditTodo(event) {
 		resetTodoDetail();
 		showTodos();
 	});
+	$('#d-name').text('Edit Todo');
+	$('#d-due').text('');
+	$('#d-desc').text(
+		'Seems like you mistyped something? Wanna change ' +
+			"your todo name? Can't accomplish the task and need more time? " +
+			'simply edit as you wish and hit save.'
+	);
 	$('#e-form').submit(updateTodo);
 	$('#e-submit').click(loadingUpdateTodo);
 }
@@ -503,14 +513,54 @@ function resetTodoDetail() {
 
 function updateTodo(event) {
 	event.preventDefault();
-	
+	const id = $('#e-form').data('id');
+	const name = $('#e-name')
+		.val()
+		.trim();
+	const description = $('#e-desc')
+		.val()
+		.trim();
+	const due_date = $('#e-due')
+		.val()
+		.trim();
+	if (!name) {
+		$('#e-name').addClass('is-invalid');
+		resetLoadingUpdateTodoButton();
+	} else {
+		$.ajax({
+			method: 'PUT',
+			url: `http://localhost:3000/todos/${id}`,
+			data: {
+				name,
+				description,
+				due_date: due_date || new Date()
+			}
+		})
+			.done(response => {
+				resetCreateTodoButton();
+				showTodos();
+			})
+			.fail(err => {
+				console.log(err);
+			});
+	}
 }
 
 function loadingUpdateTodo() {
-	$('#e-submit').empty();
-	$('#e-submit').append(`
+	$('#e-submit')
+		.empty()
+		.append(
+			`
 		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Updating Todo...
-	`);
-	$('#e-submit').addClass('disabled no-cursor');
+	`
+		)
+		.addClass('disabled no-cursor');
+}
+
+function resetLoadingUpdateTodoButton() {
+	$('#e-submit')
+		.empty()
+		.text('Save')
+		.removeClass('disabled no-cursor');
 }
