@@ -1,12 +1,14 @@
 const { Todo } = require('../models');
 const { User } = require('../models');
+const { tokenHandler } = require('../helpers');
 
 class TodoController {
 	static postNewTodo(req, res, next) {
+		const payload = tokenHandler.decode(req.body.jwt_token);
 		Todo.create({
 			name: req.body.name,
 			description: req.body.description,
-			user_id: req.body.user_id
+			user_id: payload.id
 		})
 			.then(todo => {
 				res.status(201).json(todo);

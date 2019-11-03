@@ -33,28 +33,34 @@ class UserController {
 	}
 
 	static signin(req, res, next) {
-		User.findOne({ username: req.body.username }).then(user => {
-			if (user) {
-				if (passwordHandler.verify(req.body.password, user.password)) {
-					const token = tokenHandler.encode({
-						id: user.id,
-						username: user.username
-					});
-					res.status(200).json({
-						jwt_token: token
-					});
+		User.findOne({ username: req.body.username })
+			.then(user => {
+				if (user) {
+					try {
+						if (passwordHandler.verify(req.body.password, user.password)) {
+							const token = tokenHandler.encode({
+								id: user.id,
+								username: user.username
+							});
+							res.status(200).json({
+								jwt_token: token
+							});
+						} else {
+							throw 'invalidSignin';
+						}
+					} catch (err) {
+						throw err;
+					}
 				} else {
-					next('invalidSignin');
+					throw 'invalidSignin';
 				}
-			} else {
-				next('invalidSignin');
-			}
-		});
+			})
+			.catch(next);
 	}
 
 	static register(req, res, next) {
 		User.create({
-			username: req.body.username,
+			username: req.body.username || undefined,
 			email: req.body.email,
 			password: req.body.password,
 			todos: []

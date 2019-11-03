@@ -2,6 +2,14 @@
 	display: none;
 }
 
+/* .fdb-block {
+	padding-top: 3em;
+} */
+
+.no-cursor:hover {
+	cursor: default;
+}
+
 .masonry {
 	display: grid;
 	grid-gap: 1em;

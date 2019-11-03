@@ -43,8 +43,8 @@ function verifyToken(jwt_token) {
 function showSignIn() {
 	$('.navbar').hide();
 	$('#todos-section').hide();
-	$('.l-submit').click(loadingSignIn);
 	$('#l-form').submit(signIn);
+	$('.l-submit').click(loadingSignIn);
 	$('.form-control').focusin(formReset);
 }
 
@@ -52,12 +52,11 @@ function loadingSignIn(event) {
 	event.preventDefault();
 	$('#l-submit-loading').empty();
 	$('#l-submit-loading').append(`
-		<span class="spinner-border" role="status" aria-hidden="true"></span>
-  Loading...
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Signing In...
 	`);
-	$('#l-submit-loading')
-		.parent()
-		.addClass('disabled');
+	$('#l-submit-loading').addClass('disabled no-cursor');
+	$('#l-form').submit();
 }
 
 function formReset() {
@@ -65,37 +64,65 @@ function formReset() {
 }
 
 function signIn(event) {
+	console.log('masuk');
 	event.preventDefault();
-	let username = $('#l-username')
+	const username = $('#l-username')
 		.val()
 		.trim();
-	let password = $('#l-password')
+	const password = $('#l-password')
 		.val()
 		.trim();
-
-	$.ajax({
-		method: 'POST',
-		url: 'http://localhost:3000/user/signin',
-		data: {
-			username,
-			password
-		}
-	})
-		.done(response => {
-			console.log('sukses');
-			localStorage.setItem('jwt_token', response.jwt_token);
-			showTodos();
-		})
-		.fail(err => {
-			switch (err.responseJSON.message) {
-				case 'Username/Password wrong.':
-					$('#l-password').addClass('is-invalid');
-					$('#l-username').addClass('is-invalid');
-					break;
-				default:
-					console.log(err.responseJSON.message);
+	if (!username) {
+		$('#l-username')
+			.addClass('is-invalid')
+			.next()
+			.text('username cannot empty!');
+		resetSignInButton();
+	}
+	if (!password) {
+		$('#l-password')
+			.addClass('is-invalid')
+			.next()
+			.text('password cannot empty!');
+		resetSignInButton();
+	} else {
+		$.ajax({
+			method: 'POST',
+			url: 'http://localhost:3000/user/signin',
+			data: {
+				username,
+				password
 			}
-		});
+		})
+			.done(response => {
+				console.log('sukses');
+				localStorage.setItem('jwt_token', response.jwt_token);
+				showTodos();
+			})
+			.fail(err => {
+				console.log(err);
+				switch (err.responseJSON.message) {
+					case 'Username/Password wrong.':
+						$('#l-password')
+							.addClass('is-invalid')
+							.next()
+							.text('Username/Password wrong.');
+						break;
+					default:
+						console.log(err.responseJSON.message);
+				}
+			})
+			.always(() => {
+				resetSignInButton();
+			});
+	}
+}
+
+function resetSignInButton() {
+	$('#l-submit-loading')
+		.empty()
+		.append('Sign In')
+		.removeClass('disabled no-cursor');
 }
 
 function googleSignin(googleUser) {
@@ -186,8 +213,8 @@ async function showTodos() {
     `);
 	}
 	$('#todo-detail-modal').on('show.bs.modal', getTodoDetail);
-
-	var masonryEvents = ['load', 'ready', 'resize'];
+	resizeAllMasonryItems();
+	var masonryEvents = ['load', 'resize'];
 	masonryEvents.forEach(function(event) {
 		window.addEventListener(event, resizeAllMasonryItems);
 	});
@@ -235,7 +262,6 @@ function createTodo() {
 	const jwt_token = localStorage.getItem('jwt_token');
 	$('#t-form').submit(function(event) {
 		event.preventDefault();
-		console.log('masuk sini nggak?');
 		$.ajax({
 			method: 'POST',
 			url: 'http://localhost:3000/todos/',
@@ -253,10 +279,10 @@ function createTodo() {
 				console.log(err);
 			});
 	});
-	$('#t-submit').click(function(event) {
-		event.preventDefault();
-		$('#t-form').submit();
-	});
+	// $('#t-submit').click(function(event) {
+	// 	event.preventDefault();
+	// 	$('#t-form').submit();
+	// });
 }
 
 function resizeMasonryItem(item) {

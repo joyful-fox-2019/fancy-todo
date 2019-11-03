@@ -8,15 +8,21 @@
 			name="google-signin-client_id"
 			content="1003447167481-pusu433v2tun4u0joijmh1ti39fom185.apps.googleusercontent.com"
 		/>
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
 		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 			crossorigin="anonymous"
 		/>
-		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+		<link
+			type="text/css"
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.0/css/froala_blocks.min.css"
+		/>
 		<link rel="stylesheet" href="css/datepicker.min.css" />
-		<script src="https://kit.fontawesome.com/1d19b412a0.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="css/style.css" />
 		<title>Fancy Todo</title>
 	</head>
 	<body>
@@ -113,15 +119,13 @@
 		</div>
 
 		<!-- Header -->
-
+		<!-- 
 		<header class="jumbotron jumbotron-fluid d-none d-lg-block">
 			<div class="container text-center">
 				<h1>Fancy Todo</h1>
 			</div>
 		</header>
-		<!-- <nav class="navbar navbar-light bg-light d-none" id="nav-brand">
-			<a class="navbar-brand mx-auto" href="#">Fancy Todo</a>
-		</nav> -->
+-->
 		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mt-lg-n5">
 			<button
 				class="navbar-toggler"
@@ -166,16 +170,68 @@
 			</div>
 		</nav>
 
-		<main class="container pt-5">
+		<main class="container">
+			<section class="fdb-block" id="signin-section">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
+							<div class="fdb-box">
+								<div class="row">
+									<div class="col">
+										<h1>Sign In</h1>
+									</div>
+								</div>
+								<form id="l-form">
+									<div class="row mt-4">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												placeholder="username"
+												id="l-username"
+											/>
+											<div class="invalid-feedback text-left"></div>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<div class="col">
+											<input
+												type="password"
+												class="form-control mb-1"
+												placeholder="Password"
+												id="l-password"
+											/>
+											<div class="invalid-feedback text-left"></div>
+											<p class="text-right">Don't have account? <a href="">Sign Up</a></p>
+										</div>
+									</div>
+									<div class="row mt-2">
+										<div class="col ">
+											<button class="btn btn-primary l-submit" type="submit" id="l-submit-loading">
+												Sign In
+											</button>
+											<div class="mx-auto my-2">OR</div>
+											<div
+												class="g-signin2 l-submit row justify-content-center"
+												data-onsuccess="googleSignin"
+											></div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 			<!-- SIGN IN SECTION -->
-
+			<!-- 
 			<section class="container col-4 justify-content-center mt-n4" id="signin-section">
 				<div class="card">
 					<div class="card-header text-center">
 						Sign In
 					</div>
 					<form class="card-body" id="l-form">
-						<div class="form-group">
+						<div class="">
 							<label for="l-username">Username</label>
 							<input
 								type="text"
@@ -217,7 +273,7 @@
 					</form>
 				</div>
 			</section>
-
+-->
 			<!-- TODOS SECTION -->
 			<section class="container" id="todos-section">
 				<div class="masonry"></div>
@@ -226,6 +282,7 @@
 
 		<footer></footer>
 
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.19.0/dist/sweetalert2.all.min.js"></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.min.js"
