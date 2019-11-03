@@ -171,6 +171,7 @@ function create(name,description,due_date){
         $('#todolist').empty()
         $('#welcome-page').show()
         generateTodo()
+        $('#todolist').show()
         console.log(todo,'dari todo')
     })
     
@@ -217,11 +218,11 @@ function onSignIn(googleUser) {
         })
         .done((token)=>{
             localStorage.setItem('token', token)
-            generateTodo()
             $('#welcome-page').show()
             $('#opening-page').hide()
             $('#login-page').hide()
             $('#signout-button').show()
+            generateTodo()
         })
         .fail(err=>{
             console.log(err)
@@ -243,11 +244,11 @@ function signin(username,password){
         }
     })
     .done((token) => {
-        generateTodo()
-        $('#login-page').hide()
+        $('#welcome-page').show()
         $('#opening-page').hide()
+        $('#login-page').hide()
         $('#signout-button').show()
-        $('#welcome-page').hide()
+        generateTodo()
 
         localStorage.setItem("token",token)
     })
