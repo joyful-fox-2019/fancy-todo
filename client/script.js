@@ -14,7 +14,8 @@ $(document).ready(function(){
   register()
 })
 
-var baseURL = "http://localhost:3000"
+// var baseURL = "http://localhost:3000"
+var baseURL = "https://fancytodoserver.dipaproject.online"
 
 function parseMonth (num) {
   const months = {
