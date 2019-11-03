@@ -17,12 +17,19 @@ function onSuccess(googleUser) {
       }
   })
       .done(function(response){
-          // console.log(response)
-          // console.log('succes login');
           localStorage.setItem('token', response.token)
+          $('#login-page').hide()
+          $('#navbar').show()
+          $('#add-todo').hide()
+          $('#main-page').show()
+          $('#showAll').append(function(){
+              fetchTodos()
+          })
+          $.toast(`Welcome!`)
       })
       .fail(function(){
-          console.log('fail login');  
+        $.toast('There is something wrong, try again!')
+        console.log('fail login');  
       })
       .always(function(){
           console.log('complete');
@@ -30,6 +37,7 @@ function onSuccess(googleUser) {
   }
 
 function onFailure(error) {
+    $.toast('There is something wrong, try again!')
     console.log(error);
   }
 
@@ -39,7 +47,7 @@ function renderButton() {
       'width': 370,
       'height': 50,
       'longtitle': true,
-      'theme': 'light',
+      'theme': 'dark',
       'onsuccess': onSuccess,
       'onfailure': onFailure
     });
@@ -51,8 +59,14 @@ function signOut() {
       var auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(function () {
         console.log('User signed out.');
+
       });
-    }
+    } 
+    $.toast('Bye bye!')
+    $('#navbar').hide()
+    $('#add-todo').hide()
+    $('#main-page').hide()
+    $('#login-page').show()
   }
 
 function manualLogin() {
@@ -68,13 +82,24 @@ function manualLogin() {
     }
   })
     .done(function(response){
+        $.toast(`Welcome!`)
         console.log('succes login'); 
         localStorage.setItem('token', response.token)
+        $('#login-page').hide()
+        $('#navbar').show()
+        $('#add-todo').hide()
+        $('#main-page').show()
+        $('#showAll').append(function(){
+            fetchTodos()
+        })
     })
     .fail(function(){
+        $.toast('Username/Password is Wrong!')
         console.log('fail login');  
     })
     .always(function(){
+        $('#email-login').val('')
+        $('#pass-login').val('')
         console.log('complete');
     })
 
@@ -95,13 +120,18 @@ function register(){
     }
   })
     .done(function() {
+      $.toast('Register succed!')
       console.log('succes register')
     })
     .fail(function() {
+      $.toast('Register failed, email already registered/invalid format!')
       console.log('fail register')
     })
     .always(function() {
       console.log('complete')
+      $('#name').val('')
+      $('#email-signup').val('')
+      $('#pass-signup').val('')
       $('#tab-1').click()
     })
 }

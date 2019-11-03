@@ -3,6 +3,7 @@ const Todo = require('../models/todo')
 class TodoController {
 
     static add(req,res,next) {
+        console.log('masuk controller add')
         Todo.create({
             name: req.body.name,
             status: "pending",
@@ -16,6 +17,7 @@ class TodoController {
     }
 
     static showAll(req,res,next) {
+        console.log('masuk controller showAll')
         Todo.find({
             UserId : req.loggedUser.id
         })
@@ -25,6 +27,7 @@ class TodoController {
     }
 
     static showById(req,res,next) {
+        console.log('masuk controller showById')
         let id = req.params.id
         Todo.findById(id)
             .then((todo) => {
@@ -33,7 +36,8 @@ class TodoController {
     }
 
     static updateStatus(req,res,next) {
-        let newStatus = req.body.status
+        console.log('masuk update')
+        let newStatus = 'completed'
         let _id = req.params.id
         Todo.findOneAndUpdate({
             _id
@@ -48,6 +52,7 @@ class TodoController {
     }
 
     static delete(req,res,next) {
+        console.log('masuk controller delete')
         let _id = req.params.id
         Todo.findOneAndDelete({
             _id

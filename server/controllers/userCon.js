@@ -19,7 +19,6 @@ class UserController {
 
     static login(req, res, next) {
         console.log('masuk login');
-
         User.findOne({
             email : req.body.email
         })
