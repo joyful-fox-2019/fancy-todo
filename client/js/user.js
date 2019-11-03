@@ -44,7 +44,7 @@ function webRegister(name, email, password) {
     .done(function (response) {
       $("#register-content").hide()
       $("#login-content").fadeIn()
-      swal.close()
+      Swal.close()
     })
     .fail(function (err) {
       Swal.fire({
@@ -56,7 +56,7 @@ function webRegister(name, email, password) {
 }
 
 function webLogin(email, password) {
-  swal.showLoading()
+  Swal.showLoading()
   $.ajax({
     url: `http://localhost:3000/user/login`,
     method: 'POST',
@@ -67,7 +67,7 @@ function webLogin(email, password) {
   })
     .done(function (response) {
       loginSuccess(response)
-      swal.close()
+      Swal.close()
     })
     .fail(function (err) {
       Swal.fire({

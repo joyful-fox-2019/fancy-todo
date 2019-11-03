@@ -19,6 +19,7 @@
 | /user/googleLogin | POST     | Sign in with google and get an access token |
 
 **List of Routes Task:**
+
 | **Route** | **HTTP** | **Description**                 | **Notes**               |
 | --------- | -------- | ------------------------------- | ----------------------- |
 | /task     | POST     | Create a task                   | Authenticated user only |
