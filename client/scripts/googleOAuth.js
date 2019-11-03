@@ -44,6 +44,11 @@ function onSignIn(googleUser) {
 }
 
 function signOut() {
+    localStorage.removeItem('ft_picture');
+    localStorage.removeItem('ft_username');
+    localStorage.removeItem('ft_token');
+    $('.form-wrap').show();
+    $('.main_content').hide();
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log('User signed out.');

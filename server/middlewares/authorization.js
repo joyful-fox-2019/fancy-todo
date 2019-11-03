@@ -9,6 +9,6 @@ module.exports = (req, res, next) =>{
         next();
     })
     .catch(err=>{
-        res.send(500).json(err);
+        res.status(500).json(err);
     })
 }

@@ -116,36 +116,186 @@
         }
         ```
 
-**Google Sign in**
+**Create Todo**
 ----
-* **URL:** `/google-signin`
+* **URL:** `/todos`
 * **Method:** `POST`
 * **URL Params:** `None`
+* **Header Params:**
+    ```
+    {
+        ft_token: YOUR_JWT_TOKEN // String, required, obtained after login
+    }
+    ```
 * **Data Params:**
 	```
     {
-	"email":"hacktiv8@mail.com", //String
-	"password":"123456" //String
-	}
+        "name":"Sebat", // String, required
+        "description":"sebat sebat dulu biar seger" // String, optional
+        "due_date":"December 1, 2019"// Date, required
+    }
 	```
 * **Success Response:**
-  * **Status:** `200`
+  * **Status:** `201`
     **Content:** 
     
     ```
     {
-        "token":"eyJhbGciOiJIUzI1NiJ9. NWRiZjA1ZjNkMWI5NTAzMGQ3YmE1ODhi.kNk6Y7nMGdC2AdIxMd2HSxz9kPqSYkymSXSfyxy9PFY",
-        "username": "hacktiv8",
-        "picture": "undefined"
+        "description": "sebat sebat dulu biar seger",
+        "status": "pending",
+        "_id": "5dbf317117c66e5925b4201d",
+        "name": "Sebat",
+        "due_date": "2019-11-30T17:00:00.000Z",
+        "UserId": "5dbce449396cc6151c513344",
+        "createdAt": "2019-11-03T19:58:41.289Z",
+        "updatedAt": "2019-11-03T19:58:41.289Z",
+        "__v": 0
     }
     ```
  * **Error Response:**
-    * **Wrong email and or password - Status:** `400`
+    * **Authentication failed - Status:** `400`
         **Content:**
         ```
         {
-            "msg": "Incorrect email and / or password"
+            "msg": "Authentication failed"
         }
+        ```
+
+**Get Todo**
+----
+* **URL:** `/todos`
+* **Method:** `GET`
+* **URL Params:** `None`
+* **Header Params:**
+    ```
+    {
+        ft_token: YOUR_JWT_TOKEN // String, required, obtained after login
+    }
+    ```
+* **Data Params:** `NONE`
+* **Success Response:**
+  * **Status:** `201`
+    **Content:** 
+    
+    ```
+    [
+        {
+            "description": "no description",
+            "status": "done",
+            "_id": "5dbd144a064f6231e87e7b28",
+            "name": "Sarapan",
+            "due_date": "2019-12-24T17:00:00.000Z",
+            "UserId": "5dbce449396cc6151c513344",
+            "createdAt": "2019-11-02T05:29:46.954Z",
+            "updatedAt": "2019-11-03T06:19:37.906Z",
+            "__v": 0
+        },
+        {
+            "description": "no description",
+            "status": "done",
+            "_id": "5dbe7ee01cb1552bc16f431c",
+            "name": "Cuci muka",
+            "due_date": "2019-11-30T17:00:00.000Z",
+            "UserId": "5dbce449396cc6151c513344",
+            "createdAt": "2019-11-03T07:16:48.245Z",
+            "updatedAt": "2019-11-03T15:37:04.585Z",
+            "__v": 0
+        }
+    ]
+    ```
+ * **Error Response:**
+    * **Authentication failed - Status:** `400`
+        **Content:**
+        ```
+        {
+            "msg": "Authentication failed"
+        }
+        ```
+
+**Mark Todo as Complete**
+----
+* **URL:** `/todos/:id`
+* **Method:** `PATCH`
+* **URL Params:** 
+    ```
+    id: String, required
+    ````
+* **Header Params:**
+    ```
+    {
+        ft_token: YOUR_JWT_TOKEN // String, required, obtained after login
+    }
+    ```
+* **Data Params:** `NONE`
+* **Success Response:**
+  * **Status:** `204`
+    **Content:** 
+    
+    ```
+    No content
+    ```
+ * **Error Response:**
+    * **Authentication failed - Status:** `400`
+        **Content:**
+        ```
+        {
+            "msg": "Authentication failed"
+        }
+        ```
+    * **Authorization failed - Status:** `401`
+        **Content:**
+        ```
+        {
+            "msg": "Authorization failed. You don't have access to this todo."
+        }
+        ```
+     * **Todo not found / invalid todo id - Status:** `500`
+        **Content:**
+        ```
+        {}
+        ```
+
+**Delete**
+----
+* **URL:** `/todos/:id`
+* **Method:** `DELETE`
+* **URL Params:** 
+    ```
+    id: String, required
+    ````
+* **Header Params:**
+    ```
+    {
+        ft_token: YOUR_JWT_TOKEN // String, required, obtained after login
+    }
+    ```
+* **Data Params:** `NONE`
+* **Success Response:**
+  * **Status:** `204`
+    **Content:** 
+    
+    ```
+    No content
+    ```
+ * **Error Response:**
+    * **Authentication failed - Status:** `400`
+        **Content:**
+        ```
+        {
+            "msg": "Authentication failed"
+        }
+        ```
+    * **Authorization failed - Status:** `401`
+        **Content:**
+        ```
+        {
+            "msg": "Authorization failed. You don't have access to this todo."
+        }
+        ```
+     * **Todo not found / invalid todo id - Status:** `500`
+        **Content:**
+        ```
+        {}
         ```
 
 #### Installation

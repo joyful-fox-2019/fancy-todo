@@ -188,6 +188,7 @@ function addPicture(event) {
 				type: 'success',
 				confirmButtonText: `Ok`
 			})
+			localStorage.setItem('ft_picture', response);
 			$('#ft_picture').attr('src', `data:image/png;base64,${response}`)
 		})
 		.fail(err => {
@@ -245,7 +246,7 @@ function addTodo(event) {
 
 function printTodos(todos) {
 	$('#todo-list').empty();
-	if(todos.length){
+	if(todos.length > 0){
 		bubbleSort(todos);
 	}
 	for (let i = 0; i < todos.length; i++) {
