@@ -236,28 +236,41 @@ remove = (id) => {
     .fail(showAlert)
 }
 
+setDeleteProjectId = (projectId) => {
+  console.log(projectId)
+  $('#delete-project-id').val(projectId)
+}
 appendProjects = (projects) => {
   console.log(projects)
   $('#projects-container').empty()
   $('#projects-container').append(`
     <div onclick="showMainPage()" class="card-panel teal accent-4 clickable">
-      <div>
+      <div class="row">
+        <div class="col s12">
         <strong class="white-text">All Tasks</strong>
+        </div>
       </div>
-      <span class="white-text">
-        7 items
-      </span>
     </div>
   `)
   projects.forEach(project => {
     $('#projects-container').append(`
-      <div onclick="showProjectPage('${project._id}')" class="card-panel teal accent-4 clickable">
-        <div>
-          <strong class="white-text">${project.name}</strong>
+      <div class="card-panel teal accent-4">
+        <div class="row">
+          <div class="col s10 clickable" onclick="showProjectPage('${project._id}')">
+            <strong class="white-text">${project.name}</strong>
+          </div>
+          <div class="col s2">
+            <strong class="white-text">
+              <i onclick="setDeleteProjectId('${project._id}')" href="#modal-confirm-delete-project" class="modal-trigger material-icons white-text">delete</i>
+            </strong>
+          </div>
         </div>
-        <span class="white-text">
-          ${project.tasks.length} items
-        </span>
+        <div class="row">
+          <div class="col s12 teal-text text-lighten-4">
+            ${project.tasks.length} items<br>
+            ${project.members.length} members
+          </div>
+        </div>
       </div>
     `)
   })
@@ -517,6 +530,22 @@ $(document).ready(() => {
         $('#add-project-task-date').val('')
         $('#add-project-task-time').val('')
         getProjectTasks(projectId)
+      })
+      .fail(showAlert)
+  })
+
+  $('#delete-project').click(() => {
+    const id = $('#delete-project-id').val()
+    $.ajax({
+      url: `${baseUrl}/projects/${id}`,
+      type: 'delete',
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
+    })
+      .done(_ => {
+        M.Modal.getInstance($('#modal-confirm-delete-project')).close()
+        getProjects()
       })
       .fail(showAlert)
   })

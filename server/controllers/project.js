@@ -44,7 +44,8 @@ module.exports = {
   delete: (req, res, next) => {
     Project.findByIdAndDelete(req.params.id)
       .then(project => {
-        res.status(200).json(project)
+        req.project = project
+        next()
       })
       .catch(next)
   }
