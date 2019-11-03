@@ -1,12 +1,8 @@
-const axiosInstance = require('../api/quote');
 const Todo = require('../models/todo');
 
 class TodoController {
     static create(req, res, next) {
         console.log('masukk create', req.decoded)
-        // axiosInstance.get('')
-        // .then(respone => {
-        // let quote = respone.data.content;
         let {
             name,
             description,

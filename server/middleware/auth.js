@@ -5,7 +5,7 @@ function authentication(req, res, next) {
     try {
         let decoded = jwt.verifyToken(req.headers.token);
         req.decoded = decoded;
-        console.log(req.decoded);
+        // console.log(req.decoded);
         next()
     } catch (err) {
         next(err);

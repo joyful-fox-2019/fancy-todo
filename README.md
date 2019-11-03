@@ -330,4 +330,4 @@ Make sure you have node js has been installed in your computer, then run the fol
 ```
     $ live-server --host=localhost
 ```
-##By : Edwin Satya Yudistira
+## By : Edwin Satya Yudistira

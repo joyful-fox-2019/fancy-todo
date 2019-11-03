@@ -25,7 +25,7 @@ class UserController {
     }
 
     static login(req, res, next) {
-        console.log('masuk')
+        // console.log('masuk')
         let {
             email,
             password
