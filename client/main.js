@@ -1,11 +1,18 @@
 
 $(document).ready(function(){
     if(localStorage.getItem('token')){
-         generateTodo()
+        $('#opening-page').hide()
+        $('#signout-button').show()
+        $('#welcome-page').show()
+        generateTodo()
+         $('#todolist').show()
+
+    }else{
+        $('#opening-page').show()
+        $('#signout-button').hide()
+        $('#welcome-page').hide()
     }
 })
-
-
 
 function generateTodo(){
     // console.log('tesss')
@@ -18,54 +25,55 @@ function generateTodo(){
     })
     .done((todos)=>{
         // console.log('testt',todos[0],'dari todos')
+        console.log(todos)
         for(let i = 0 ; i < todos.length ; i++){
             if(todos[i].status === true){
                 let html = ''
                 html += `
-                <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                <h2 class="display-4">${todos[i].name}</h2>
-                <p class="lead">${todos[i].description}</p>
-                </div>
-                </div>
                 
-                <button id = on-progress onclick="statusUndone('${todos[i]._id}')">on progress</button>
-                <button id = done type="button" onclick="deleteTodo('${todos[i]._id}')">delete</button>
-
-                <h2>update form</h2>
- 
-                <form id = "updateTodo">
-                    name :<br>
-                <input id = "update-name" type="text" placeholder="name">
-                <br>
-                    description :<br>
-                <input id = "update-description" type="text"  placeholder="description">
-                <br>
-                    due-date :<br>
-                <input id = "update-due_date" type="text" placeholder="yyyy-mm-dd">
-                <br>
-                <br>
-                <button id = on-progress onclick="updateTodo('${todos[i]._id}')">on progress</button>
-                </form> 
+                <div class = "container" style="display: flex; flex-direction: column;justify-content: center;">
+                <div class="row">
+                        <div class="shadow card-body" style="width:80%; margin:20px ;padding: 4%;font-weight: 900; background: linear-gradient(93deg, rgba(45,122,205,1) 0%, rgba(97,232,255,1) 100%); border-radius: 25px;">
+                            <i class="fas fa-list fa-3x" style="display: flex;float:right;color: white;"></i>
+                            <h3 class="display-4" style="color: white;">${todos[i].name}</h3>
+                            <br>
+                            <h5 style="color:white; font-weight: 100 ;font-style:italic"> due-date : ${todos[i].due_date.slice(0,10)}</h5>
+                            <h5 class="card-title" style="color: white;">${todos[i].description}</h5>
+                            
+                            <button id="done" onclick="statusUndone('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>done</button>
+                            <button id="deleteTodo" onclick="deleteTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
+                                
+                        </div>
+                </div>  
                 
+            
                 `
                 $(`#todolist`).append(html)
             }else{
+                // console.log(todos[i])
                 let html = ''
                 html += `
-                <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                <h2 class="display-4" style="color:red">${todos[i].name}</h2>
-                <p class="lead">${todos[i].description}</p>
-                </div>
-                </div>
-                
-                <button id = on-progress onclick="statusDone('${todos[i]._id}')">done</button>
-                <button id = done type="button" onclick="deleteTodo('${todos[i]._id}')">delete</button>
+    
+                <div class = "container" style="display: flex; flex-direction: column;justify-content: center;">
+                <div class="row">
+                <div class="shadow card-body" style="width:80%; margin:20px ;padding: 4%;font-weight: 900; background: linear-gradient(93deg, rgba(205,45,45,1) 0%, rgba(255,170,97,1) 100%); border-radius: 25px;">
+                            <i class="fas fa-list fa-3x" style="display: flex;float:right;color: white;"></i>
+                            <h3 class="display-4"  style="color: white; ">${todos[i].name}</h3>
+                            <br>
+                            <h5 style="color:white; font-weight: 100 ;font-style:italic"> due-date : ${todos[i].due_date.slice(0,10)}</h5>
+                            <h5 class="card-title" style="color: white;">${todos[i].description}</h5>
+                            
+                            <button id="on-progress" onclick="statusDone('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>done</button>
+                            <button id="deleteTodo" onclick="deleteTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
+                                
+                        </div>
+                </div>  
+               
                 `
                 $(`#todolist`).append(html)
             }
         }
+        console.log(todos)
     })
     .fail((err)=>{
         console.log(err)
@@ -84,6 +92,8 @@ function deleteTodo(id){
             }   
         })
         .done(_ =>{
+            $('#todolist').empty()
+            generateTodo()
             console.log('successfully deleted')
         })
         .fail((err)=>{
@@ -99,10 +109,13 @@ function statusDone(id){
         method : 'patch',
         headers : {
             status : true,
-             token : localStorage.getItem("token") 
+            token : localStorage.getItem("token") 
         }
     })
     .done(_=>{
+        $('#todolist').empty()
+        $('#welcome-page').show()
+        generateTodo()
         console.log('successfully updated')
     })
     .fail((err)=>{
@@ -120,6 +133,9 @@ function statusUndone(id){
         }
     })
     .done(_=>{
+        $('#todolist').empty()
+        $('#welcome-page').show()
+        generateTodo()
         console.log('successfully updated')
     })
     .fail((err)=>{
@@ -128,13 +144,14 @@ function statusUndone(id){
 }
 
 
-$('#createTodo').on('submit',(e)=>{
+$('#addTodo-submit').on('click',(e)=>{
     e.preventDefault()
     let name = $(`#todo-name`).val()
     let description = $(`#todo-description`).val()
     let due_date = $(`#todo-due_date`).val()
     // console.log(username,password)
     create(name,description,due_date)
+    // console.log('dibuat')
 })
 
 function create(name,description,due_date){
@@ -150,26 +167,25 @@ function create(name,description,due_date){
              token : localStorage.getItem("token") 
         }
     })
+    .done((todo)=>{
+        $('#todolist').empty()
+        $('#welcome-page').show()
+        generateTodo()
+        console.log(todo,'dari todo')
+    })
+    
 }
 
 
-// $('#updateTodo').on('submit',(e)=>{
-//     e.preventDefault()
-//     let name = $(`#todo-name`).val()
-//     let description = $(`#todo-description`).val()
-//     let due_date = $(`#todo-due_date`).val()
-//     // console.log(username,password)
-//     update(name,description,due_date)
-// })
-
 function updateTodo(id){
+    
     $.ajax({
         url : `http://localhost:3000/todos/${id}`,
         method : 'put',
         data : {
-            name : $(`#todo-name`).val(),
-            description : $(`#todo-description`).val(),
-            due_date : $(`#todo-due_date`).val()
+            name : $(`#update-name`).val(),
+            description : $(`#update-description`).val(),
+            due_date : $(`#update-due_date`).val()
         },
         headers : {
              token : localStorage.getItem("token") 
@@ -181,14 +197,15 @@ function updateTodo(id){
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-      console.log('User signed out.');
-      localStorage.removeItem('token')
+    //   console.log('User signed out.');
+    //   localStorage.removeItem('token')
     });
 }
 
 function onSignIn(googleUser) {
     const id_token = googleUser.getAuthResponse().id_token
     const token = localStorage.getItem('token')
+    // console.log(id_token)
 
     if(!token){
         $.ajax({
@@ -200,6 +217,11 @@ function onSignIn(googleUser) {
         })
         .done((token)=>{
             localStorage.setItem('token', token)
+            generateTodo()
+            $('#welcome-page').show()
+            $('#opening-page').hide()
+            $('#login-page').hide()
+            $('#signout-button').show()
         })
         .fail(err=>{
             console.log(err)
@@ -207,15 +229,11 @@ function onSignIn(googleUser) {
     }
 }
 
-$('#login').on('submit',(e)=>{
-    e.preventDefault()
-    let username = $(`#usernameLogin`).val()
-    let password = $('#passwordLogin').val()
-    // console.log(username,password)
-    signin(username,password)
-})
+
+
 
 function signin(username,password){
+    // event.preventDefault()
     $.ajax({
         method: 'post',
         url: 'http://localhost:3000/users/signin',
@@ -225,24 +243,18 @@ function signin(username,password){
         }
     })
     .done((token) => {
-        console.log(token)
+        generateTodo()
+        $('#login-page').hide()
+        $('#opening-page').hide()
+        $('#signout-button').show()
+        $('#welcome-page').hide()
+
         localStorage.setItem("token",token)
     })
     .fail((err)=>{
         console.log(err)
     })
 }
-
-
-
-$('#register').on('submit',(e)=>{
-    e.preventDefault()
-    let username = $(`#usernameRegister`).val()
-    let email = $('#emailRegister').val()
-    let password = $('#passwordRegister').val()
-    console.log(username,email,password)
-    register(username,email,password)
-})
 
 function register(username,email,password){
     $.ajax({
@@ -255,12 +267,87 @@ function register(username,email,password){
         }
     })
     .done(user => {
-        console.log(user)
-        console.log(`successfully created`)
-        // localStorage.setItem("token",token)
-        //pakai sweetalert
+        
+        localStorage.setItem("token",token)
+        // pakai sweetalert
     })
     .fail((err)=>{
         console.log(err)
     })
 }
+
+
+
+
+// $('#login-submit').click(function(){
+
+//     // e.preventDefault()
+//     let username = $(`#usernameLogin`).val()
+//     let password = $('#passwordLogin').val()
+//     // console.log(username,password)
+//     signin(username,password)
+// })
+
+
+
+$('#login-button').click((e)=>{
+    e.preventDefault()
+    let username = $(`#usernameLogin`).val()
+    let password = $('#passwordLogin').val()
+    console.log(username,password,'darii login button')
+    signin(username,password)
+    $('#opening-page').hide()
+    $('#signout-button').show()
+})
+
+$('#google-singin').click((e)=>{
+    console.log('googleeeee')
+    e.preventDefault()
+    $('#opening-page').hide()
+    $('#signout-button').show()
+})
+
+$('#register-form').click((e)=>{
+    e.preventDefault()
+    $('#register-page').show()
+    $('#login-page').hide()
+})
+
+$('#register-button').click((e)=>{
+    e.preventDefault()
+    let username = $(`#usernameRegister`).val()
+    let email = $('#emailRegister').val()
+    let password = $('#passwordRegister').val()
+    register(username,email,password)
+    $('#register-page').hide()
+    $('#login-page').show()
+})
+
+$('#signout-button').click((e)=>{
+    e.preventDefault()
+    localStorage.removeItem('token')
+    $('#opening-page').show()
+    $('#signout-button').hide()
+
+})
+
+$(".findAll").click((e)=>{
+    e.preventDefault()
+    generateTodo()
+})
+
+$('#done').click((e)=>{
+    console.log('jalan ga sih')
+    e.preventDefault()
+    generateTodo()
+    $('#todolist').show()
+    
+})
+
+$('#on-progress').on("click",function(event){
+    console.log('jalan ga sih')
+    event.preventDefault()
+    generateTodo()
+    $('#todolist').show()
+    
+})

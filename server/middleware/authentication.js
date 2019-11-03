@@ -3,6 +3,7 @@ const {verifyToken} = require('../helpers/tokenGenerator')
 function authentication (req,res,next){
     try {
         let decodedToken = verifyToken(req.headers.token)
+        // console.log(decodedToken)
         req.loggedUser = decodedToken
         next()
     } catch (err){

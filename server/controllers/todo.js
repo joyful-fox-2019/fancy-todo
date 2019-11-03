@@ -20,6 +20,7 @@ class TodoController {
             })
         })
         .then(todos =>{
+            console.log(todos)
             res.status(200).json(todos)
         })
         .catch(err => {
@@ -30,7 +31,7 @@ class TodoController {
     static create(req,res){
         // console.log(req.body)
         const payload = req.loggedUser
-    //    console.log(payload)
+       console.log(payload)
         Todo.create({
             name : req.body.name,
             description : req.body.description,
@@ -38,7 +39,7 @@ class TodoController {
             user_id : payload.id
         })
         .then(data => {
-            console.log('sucessfuly created')
+            console.log(data)
             res.status(201).json(data)
         })
         .catch(err => {
@@ -65,7 +66,7 @@ class TodoController {
         let update = {
             name : req.body.name,
             description : req.body.description,
-            due_date : req.body.due_date,
+            due_date : Date(req.body.due_date),
             user_id : payload.id
         }
         
@@ -81,10 +82,11 @@ class TodoController {
     static statusUpdate(req,res){
 
         let update = {
-            status : req.body.status
+            status : req.headers.status
         }
         Todo.findOneAndUpdate({ _id : req.params.id}, update)
         .then(todo =>{
+            console.log(todo,'dari kontroler',req.headers.status)
             res.status(200).json({message : todo})
         })
         .catch(err =>{

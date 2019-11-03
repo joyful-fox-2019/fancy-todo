@@ -56,6 +56,7 @@ class UserController {
         .then(user => {
             if(user && verifyPassword(req.body.password,user.password)){
                 let payloads = {
+                    id: user._id,
                     username : user.username,
                     email : user.email
                 }
