@@ -252,7 +252,7 @@ function addTask(){
                 title: 'Success added a new task',
                 showConfirmButton: false,
                 timer: 1500
-              })
+            })
         })
         .fail(err => {
             console.log(err)
@@ -261,7 +261,30 @@ function addTask(){
                 title: 'Oops...',
                 text: 'Something went wrong!',
                 footer: '<a href>Why do I have this issue?</a>'
-              })
+            })
+        })
+}
+
+function generateQuote(){
+    $.ajax({
+        url: `http://localhost:3000/quote/`,
+        method: "GET",
+        headers: {
+            token: localStorage.getItem('token')
+        },
+    })
+        .done(quote => {
+            console.log(quote);
+            $('#quote').empty()
+            $('#quote').append(`
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <h5 class="card-title">${quote.quoteAuthor}</h5>
+                    <hr>
+                    <p class="card-text">${quote.quoteText}</p>
+                </div>
+            </div>
+            `)
         })
 }
 
