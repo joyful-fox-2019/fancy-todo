@@ -14,8 +14,7 @@ const todoSchema = new Schema({
 		default: false
 	},
 	due_date: {
-		type: Date,
-		default: new Date()
+		type: Date
 	},
 	user_id: { type: Schema.Types.ObjectId, ref: 'User' }
 });

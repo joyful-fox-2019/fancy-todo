@@ -315,20 +315,107 @@
 			</section>
 
 			<!-- TODOS SECTION -->
-			<section class="fdb-block">
+			<section class="fdb-block pt-min" id="todos-section">
 				<div class="container">
-					<div class="row text-left" id="todo-list">
-						<div class="col-12 col-md-6 col-lg-4 mb-4" id="todo-create">
-							<div class="fdb-box fdb-touch pb-3 pt-4">
-								<h2>Create New Todo</h2>
-								<p>
-									Here is your todo lists, ordered by the nearest due date. You can click Details on
-									any todo to see the full description of your todo, and make changes if necessary.
-									To create new todo, click the link below.
-								</p>
-								<p><a href="" id="btn-create-new">Create New Todo</a></p>
+					<div class="row text-left" id="todo-list"></div>
+				</div>
+			</section>
+
+			<!-- CREATE TODO SECTION -->
+
+			<section class="fdb-block py-0" id="create-todo-section">
+				<div class="container py-5 my-5">
+					<div class="row justify-content-around">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
+							<div class="row">
+								<div class="col">
+									<h1>Create New Todo</h1>
+									<p class="lead">
+										Welcome to create todo section! Fill free to add as many description as you
+										want, or just leave it blank if you like so. But at least you must set todo
+										name. The due date will be set to today if you leave it blank.
+									</p>
+								</div>
 							</div>
 						</div>
+						<form class="col-12 col-md-8 col-lg-7 col-xl-5 text-left" id="c-form">
+							<div class="row">
+								<div class="col mt-4">
+									<input type="text" class="form-control" placeholder="Todo Name" id="c-name" />
+									<div class="invalid-feedback text-left">Username cannot empty.</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col mt-4">
+									<input type="date" class="form-control" id="c-due" />
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<textarea
+										class="form-control"
+										rows="10"
+										placeholder="Description"
+										id="c-desc"
+									></textarea>
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<button class="btn btn-primary" type="submit" id="c-submit">Create</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<!-- TODO DETAIL SECTION -->
+
+			<section class="fdb-block py-0" id="todo-detail-section">
+				<div class="container py-5 my-5">
+					<div class="row justify-content-around">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
+							<div class="row">
+								<div class="col">
+									<h1 id="d-name">Todo Detail</h1>
+									<p id="d-due">Due:</p>
+									<p class="lead" id="d-desc">
+										Welcome to create todo section! Fill free to add as many description as you
+										want, or just leave it blank if you like so. But at least you must set todo
+										name. The due date will be set to today if you leave it blank.
+									</p>
+								</div>
+							</div>
+						</div>
+						<form class="col-12 col-md-8 col-lg-7 col-xl-5 text-left hide" id="d-form">
+							<div class="row">
+								<div class="col mt-4">
+									<input type="text" class="form-control" placeholder="Todo Name" id="d-name" />
+									<div class="invalid-feedback text-left">Username cannot empty.</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col mt-4">
+									<input type="date" class="form-control" id="d-due" />
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<textarea
+										class="form-control"
+										rows="10"
+										placeholder="Description"
+										id="d-desc"
+									></textarea>
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<button class="btn btn-primary" type="submit" id="d-submit">Update</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</section>

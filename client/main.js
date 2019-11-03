@@ -57,6 +57,7 @@ function showSignIn(event) {
 	$('.navbar').hide();
 	$('#signup-section').hide();
 	$('#todos-section').hide();
+	$('#create-todo-section').hide();
 	$('#signin-section').show();
 	$('#l-form').submit(signIn);
 	$('.l-submit').click(loadingSignIn);
@@ -169,7 +170,9 @@ function googleSignin(googleUser) {
 
 function showSignUp(event) {
 	event.preventDefault();
+	$('#todos-section').hide();
 	$('#signin-section').hide();
+	$('#create-todo-section').hide();
 	$('#signup-section').show();
 	$('#r-form').submit(signUp);
 	$('.r-submit').click(loadingSignUp);
@@ -322,8 +325,23 @@ async function showTodos() {
 	$('#nav-brand').addClass('d-lg-flex');
 	$('#signin-section').hide();
 	$('#signup-section').hide();
+	$('#create-todo-section').hide();
 	$('#todos-section').show();
 	addSignOut();
+	$('#todo-list').empty().append(`
+		<div class="col-12 col-md-6 col-lg-4 mb-4" id="todo-create">
+			<div class="fdb-box fdb-touch pb-3 pt-4">
+				<h2>Create New Todo</h2>
+				<p>
+					Here is your todo lists, ordered by the nearest due date. You can click Details on
+					any todo to see the full description of your todo, and make changes if necessary.
+					To create new todo, click the link below.
+				</p>
+				<p><a href="" id="btn-create-new">Create New Todo</a></p>
+			</div>
+		</div>
+	`);
+	$('#btn-create-new').click(showCreateTodo);
 	const user = await getUserTodos().catch(err => console.log(err));
 	if (!user) return;
 	if (user.todos.length < 1) {
@@ -331,10 +349,8 @@ async function showTodos() {
 		$('#todo-create p:first').text(
 			'Looks like your todo is empty. You can create new todo by clicking the link below.'
 		);
-
 		return;
 	}
-	// $('#todo-list').empty();
 	for (const todo of user.todos) {
 		$('#todo-list').append(`
 			<div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -350,18 +366,12 @@ async function showTodos() {
 						}
 					)}</small></h6>
 					<p>${todo.description}</p>
-					<p><a href="https://www.froala.com">Details</a></p>
+					<p><a href="" id="btn-todo-detail">Details</a></p>
 				</div>
 			</div>
     `);
 	}
-	$('#todo-detail-modal').on('show.bs.modal', getTodoDetail);
-	resizeAllMasonryItems();
-	var masonryEvents = ['load', 'resize'];
-	masonryEvents.forEach(function(event) {
-		window.addEventListener(event, resizeAllMasonryItems);
-	});
-	createTodo();
+	$('#btn-todo-detail').click(showTodoDetail);
 }
 
 async function getUserTodos() {
@@ -392,66 +402,75 @@ async function getTodoDetail(event) {
 	$('#m-todo-desc').text(todo.description);
 }
 
-function createTodo() {
-	const name = $('#t-name')
+function showCreateTodo(event) {
+	if (event) event.preventDefault();
+	$('#todos-section').hide();
+	$('#create-todo-section').show();
+	$('#c-form').submit(createTodo);
+	$('#c-submit').click(loadingCreateTodo);
+	// $('#signin-link').click(showSignIn);
+}
+
+function loadingCreateTodo(event) {
+	$('#c-submit').empty();
+	$('#c-submit').append(`
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Creating Todo...
+	`);
+	$('#c-submit').addClass('disabled no-cursor');
+}
+
+function createTodo(event) {
+	event.preventDefault();
+	const name = $('#c-name')
 		.val()
 		.trim();
-	const description = $('#t-desc')
+	const description = $('#c-desc')
 		.val()
 		.trim();
-	const due_date = $('#t-due')
+	const due_date = $('#c-due')
 		.val()
 		.trim();
-	const jwt_token = localStorage.getItem('jwt_token');
-	$('#t-form').submit(function(event) {
-		event.preventDefault();
+	if (!name) {
+		$('#c-name').addClass('is-invalid');
+		resetCreateTodoButton();
+	} else {
+		const jwt_token = localStorage.getItem('jwt_token');
 		$.ajax({
 			method: 'POST',
-			url: 'http://localhost:3000/todos/',
+			url: 'http://localhost:3000/todos',
 			data: {
 				name,
 				description,
-				due_date,
+				due_date: due_date || new Date(),
 				jwt_token
 			}
 		})
 			.done(response => {
-				console.log(response);
+				resetCreateTodoButton();
+				$('#c-form input').each(function(index) {
+					$(this).val('');
+				});
+				showTodos();
 			})
 			.fail(err => {
 				console.log(err);
 			});
-	});
-	// $('#t-submit').click(function(event) {
-	// 	event.preventDefault();
-	// 	$('#t-form').submit();
-	// });
-}
-
-function resizeMasonryItem(item) {
-	/* Get the grid object, its row-gap, and the size of its implicit rows */
-	var grid = document.getElementsByClassName('masonry')[0],
-		rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
-		rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-
-	var rowSpan = Math.ceil(
-		(item.querySelector('.masonry-content').getBoundingClientRect().height + rowGap) /
-			(rowHeight + rowGap)
-	);
-
-	/* Set the spanning as calculated above (S) */
-	item.style.gridRowEnd = 'span ' + rowSpan;
-}
-
-function resizeAllMasonryItems() {
-	// Get all item class objects in one list
-	var allItems = document.getElementsByClassName('masonry-brick');
-
-	/*
-	 * Loop through the above list and execute the spanning function to
-	 * each list-item (i.e. each masonry item)
-	 */
-	for (var i = 0; i < allItems.length; i++) {
-		resizeMasonryItem(allItems[i]);
 	}
+}
+
+function resetCreateTodoButton() {
+	$('#c-submit')
+		.empty()
+		.append('Create')
+		.removeClass('disabled no-cursor');
+}
+
+function showTodoDetail(event) {
+	if (event) event.preventDefault();
+	$('#todos-section').hide();
+	$('#create-todo-section').hide();
+	$('#todo-detail-section').show();
+	$('#c-form').submit(createTodo);
+	$('#c-submit').click(loadingCreateTodo);
 }

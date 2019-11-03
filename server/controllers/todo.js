@@ -1,5 +1,4 @@
 const { Todo } = require('../models');
-const { User } = require('../models');
 const { tokenHandler } = require('../helpers');
 
 class TodoController {
@@ -8,6 +7,7 @@ class TodoController {
 		Todo.create({
 			name: req.body.name,
 			description: req.body.description,
+			due_date: req.body.due_date,
 			user_id: payload.id
 		})
 			.then(todo => {

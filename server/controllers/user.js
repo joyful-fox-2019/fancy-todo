@@ -22,7 +22,6 @@ class UserController {
 	}
 
 	static getUser(req, res, next) {
-		console.log(req.params.id);
 		User.findById(req.params.id)
 			.populate('todos')
 			.then(user => {
