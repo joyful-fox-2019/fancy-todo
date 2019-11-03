@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- sdk google signin -->
+    <meta name="google-signin-client_id" content="628697528399-tm5hqkb025uttnahfoj889flu2jg3hvm.apps.googleusercontent.com">
+    <title>Project week 1</title>
+    <!-- ini bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- ini requirment untuk fb buttton -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=2518083844949332&autoLogAppEvents=1"></script>
+    <link rel="stylesheet" href="./style.css">
+    <!-- ini untuk icon -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+</head>
+<body>    
+    <nav class="navbar navbar-light bg-dark text-light">
+        <a class="navbar-brand " style="font-size: 300%;">Mood Vie</a>
+        <form class="form-inline">
+            <a class="btn btn-outline-success my-2 my-sm-0" href="#" onclick="signOut();"> Sign out </a>            
+        </form>
+    </nav>
+
+    <!-- fornt-page start -->
+    <div id="front-page">
+        <div style="width: 90%; margin:10px auto ;">
+            <div style="width: 50%; margin: 10px auto;">
+                <h4 class="display-4 text-center" style="padding-bottom: 10px;" >Get Start For Free</h4>
+                <form id="register" >
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input id="email" type="email" class="form-control" required aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input id="password" type="password" class="form-control" required placeholder="Password">
+                    </div>       
+                    <div class="form-inline" style="margin: 5px auto;">
+                        <button  type="submit" class="btn btn-secondary">Register</button> 
+                        <button id='to_login' class="btn btn-secondary ml-3">login</button>                       
+                    </div>                      
+                </form>
+
+                <form id="login" >
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input id="email_login" type="email" class="form-control" required aria-describedby="emailHelp" placeholder="Enter email">                        
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input id="password_login" type="password" class="form-control" required placeholder="Password">
+                    </div>       
+                    <div class="form-inline" style="margin: 5px auto;">
+                        <button  type="submit" class="btn btn-secondary">login</button>
+                        <!-- ini login google -->
+                    <div id="google" class="g-signin2 pl-3 " data-onsuccess="onSignIn"></div> 
+                    <!-- ini login facebook -->
+                    <div  data-scope="email, public_profile"
+                        onlogin="checkLoginState();"  class="fb-login-button" data-size="medium" data-button-type="login_with" data-auto-logout-link="true" data-use-continue-as="false"></div>  
+                        <div id="status"></div>
+                    </div>   
+                </form>
+            </div>  
+             
+         </div> 
+    </div> 
+
+    <!-- front-page end -->
+
+    <!-- main-page start-->
+    <div id="main-page" >
+        <section>
+            <div class="container ">
+                <div class="row">
+                    <div class="col-sm-3 offset-sm-1 mr-0 pr-0 mt-4" >
+                        <div class="card" >
+                            <div class="card-header " id="user">
+                                User
+                            </div>
+                            <ul class="list-group list-group-flush">  
+                            <!--ini user profile  -->
+                                <li class=" pl-0 bg-dark list-group-card"> 
+                                    <div class="container profile">
+                                        <div class="card" style="width: 100%;">
+                                            <img id="user-image" src="" class="card-img-top" alt="profile picture">
+                                            
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">Name</li>
+                                                <li class="list-group-item">Email</li>
+                                                <li>
+                                                    <div class="card-body">
+                                                        <a href="#" class="card-link">Update</a>
+                                                        <a href="#" class="card-link">Another link</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            
+                                        </div>
+                                    </div>          
+                                </li>
+                                <li class="list-group-item"> 
+                                    <a href="" onclick="viewTodoToday()" id="today-list">
+                                        <i class="glyphicon glyphicon-calendar"></i> Today
+                                    </a>
+                                </li>
+                                <li class="list-group-item"> <i class="glyphicon glyphicon-list"></i> Next 7 days</li>
+                                <li class="list-group-item"> <i class="glyphicon glyphicon-list-alt"></i> All todo list</li>
+                                <li class="list-group-item">All todo list</li>
+                                <li class="list-group-item">All todo list</li>
+                                <li class="list-group-item">All todo list</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-7 todo border border-right-secondary pl-0 pr-0 ml-4 mt-4" >
+                        <div class="card-header" id="todo">
+                            Todo List
+                        </div>
+                        <!-- ini wadah untuk menampung todo list untuk setiap user -->
+                        <ul id="todo-container" class="list-group list-group-flush">
+                            
+                            <li class="list-group-item pt-5 pb-5" id="empty-todo">
+                                <div class="card" style="width: 70%; margin : 0px auto;">
+                                    <img src="./image/empty.jpg" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Todays Activity</h5>
+                                        <p class="card-text">It seems that you have no activity, do you want to add new todo list ?</p>
+                                        <button class="btn btn-secondary" id="add-button">
+                                            <i class="glyphicon glyphicon-plus-sign"  ></i>
+                                            Add Activity</button>
+                                    </div>
+                                </div>
+                            </li> 
+                            <li>
+                                <div class="container">
+                                    <form id="todo_form">
+                                        <div class="form-row align-items-center pl-1">
+                                            <div class="col-sm-5 my-2">
+                                                <input type="text" class="form-control" required id="input_activity" placeholder="Please fill your your todo list">
+                                            </div>
+                                            <div class="col-sm-2 my-1 pl-0 ml-2">
+                                                <input type="date" class="form-control" required id="input_date" placeholder="input date">
+                                            </div>   
+                                            <div class="col-sm-2 my-1 pl-0 ml-2">
+                                                <input type="time" class="form-control" required id="input_time" placeholder="input time">
+                                            </div>                                
+                                            <div class="col-auto my-1 pl-3 pt-0 pb-0">
+                                                <button type="submit" class="btn btn-secondary">Add</button>
+                                                <button class="btn btn-secondary">Cencel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li> 
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- main page end -->
+
+    
+</body>
+<!-- sdk untuk facebook -->
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>  
+<!-- ini untuk jquery -->
+<script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous">
+</script>    
+<!-- ini untuk google -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>    
+<!-- ini untuk sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="https://www.avatarapi.com/js.aspx?email=peter.smith@gmail.com&size=128">
+</script>
+<!-- main.js taruh paling bawah -->
+<script src="./main.js"></script>
+</html>
