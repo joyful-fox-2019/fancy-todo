@@ -14,7 +14,7 @@ function onSignIn(googleUser) {
             $('.modal-backdrop').remove();
             $(document.body).removeClass("modal-open");
             window.location.href = "#home";
-            setTimeout(function(){ location.reload(true); }, 1300);
+            // setTimeout(function(){ location.reload(true); }, 1300);
             swal({
                 title: "Success!",
                 text: "Sign in successfully!",

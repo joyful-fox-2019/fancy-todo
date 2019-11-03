@@ -4,8 +4,6 @@ $(document).ready(function(){
     $('.js-tilt').tilt({
         scale: 1.1
     });
-    // Run Initial Function
-    isSignIn();
     // Sign Up Button
     $("#signup-btn").click(function(event) {
         event.preventDefault();
@@ -34,19 +32,22 @@ $(document).ready(function(){
     $("#completed-todo").click(function(event) {
         showCompleted();
     });
+    // Run Initial Function
+    isSignIn();
 });
 
 function isSignIn() {
     if (!localStorage.getItem("jwt_token") && location.hash !== "#signin") {
         window.location.href = "#signin";
-        setTimeout(function(){ location.reload(true); }, 1300);
         swal({
             title: "Unauthorized!",
             text: "Please sign in first to access this page!",
             icon: "error"
         });
     } else {
-        showOngoing();
+        if (location.hash === "#home") {
+            showOngoing();
+        }
     }
 }
 
