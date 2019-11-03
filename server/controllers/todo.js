@@ -3,6 +3,7 @@ const { tokenHandler } = require('../helpers');
 
 class TodoController {
 	static postNewTodo(req, res, next) {
+		console.log('FIRE!!');
 		const payload = tokenHandler.decode(req.body.jwt_token);
 		Todo.create({
 			name: req.body.name,
@@ -31,6 +32,16 @@ class TodoController {
 			description: req.body.description,
 			status: req.body.status,
 			due_date: req.body.due_date
+		})
+			.then(() => {
+				res.status(200).json({});
+			})
+			.catch(next);
+	}
+
+	static markComplete(req, res, next) {
+		Todo.findByIdAndUpdate(req.params.id, {
+			status: req.body.status
 		})
 			.then(() => {
 				res.status(200).json({});

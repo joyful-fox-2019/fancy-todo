@@ -1,6 +1,5 @@
-// let loaded = false;
 $(document).ready(function() {
-	$('.form-control').focusin(formReset);
+	$('.form-control').focusin(inputValidationReset);
 	addDatePicker();
 	addScroll();
 	emptyPasswordOnFocus();
@@ -12,8 +11,10 @@ function addDatePicker() {
 }
 
 function addScroll() {
-	$('.to-top').click(function() {
-		$('html,body').animate({ scrollTop: $('#top').offset().top }, '1000');
+	$('.to-top').click(function(event) {
+		event.preventDefault();
+		$('#navbarToggler').collapse('hide');
+		$('html, body').animate({ scrollTop: $('#top').offset().top }, '1000');
 		return false;
 	});
 }
@@ -29,11 +30,9 @@ function emptyAllPassword() {
 }
 
 function isSignIn() {
-	// if (!loaded) {
 	if (localStorage.jwt_token) {
 		verifyToken(localStorage.jwt_token)
 			.done(() => {
-				loaded = true;
 				showTodos();
 			})
 			.fail(() => {
@@ -42,7 +41,6 @@ function isSignIn() {
 	} else {
 		showSignIn();
 	}
-	// }
 }
 
 function verifyToken(jwt_token) {
@@ -57,13 +55,15 @@ function verifyToken(jwt_token) {
 
 function showSignIn(event) {
 	if (event) event.preventDefault();
-	$('.navbar').hide();
-	$('#signup-section').hide();
-	$('#todos-section').hide();
-	$('#create-todo-section').hide();
-	$('#todo-detail-section').hide();
-	$('#signin-section').show();
-	$('#l-form').submit(signIn);
+	$('.navbar').hide(1000, 'swing');
+	$('#signup-section').hide(1000, 'swing');
+	$('#todos-section').hide(1000, 'swing');
+	$('#create-todo-section').hide(1000, 'swing');
+	$('#todo-detail-section').hide(1000, 'swing');
+	$('#signin-section').show(1000, 'swing');
+	$('#l-form')
+		.unbind('submit')
+		.submit(signIn);
 	$('.l-submit').click(loadingSignIn);
 	$('#signup-link').click(showSignUp);
 }
@@ -81,7 +81,7 @@ function loadingSignIn(event) {
 	}
 }
 
-function formReset() {
+function inputValidationReset() {
 	$(this).removeClass('is-invalid');
 }
 
@@ -174,12 +174,14 @@ function googleSignin(googleUser) {
 
 function showSignUp(event) {
 	event.preventDefault();
-	$('#todos-section').hide();
-	$('#signin-section').hide();
-	$('#create-todo-section').hide();
-	$('#todo-detail-section').hide();
-	$('#signup-section').show();
-	$('#r-form').submit(signUp);
+	$('#todos-section').hide(1000, 'swing');
+	$('#signin-section').hide(1000, 'swing');
+	$('#create-todo-section').hide(1000, 'swing');
+	$('#todo-detail-section').hide(1000, 'swing');
+	$('#signup-section').show(1000, 'swing');
+	$('#r-form')
+		.unbind('submit')
+		.submit(signUp);
 	$('.r-submit').click(loadingSignUp);
 	signupClientValidation();
 	$('#signin-link').click(showSignIn);
@@ -315,24 +317,24 @@ function signUp(event) {
 
 function addSignOut() {
 	$('#btn-signout').click(function(event) {
-		// event.preventDefault();
+		event.preventDefault();
 		var auth2 = gapi.auth2.getAuthInstance();
-		auth2.signOut().then(function() {
-			console.log('User signed out.');
-		});
+		auth2.signOut();
 		localStorage.removeItem('jwt_token');
+		isSignIn();
 	});
 }
 
 async function showTodos() {
-	$('#top').hide();
-	$('.navbar').show();
+	$('#top').hide(1000, 'swing');
+	$('.navbar').show(1000, 'swing');
 	$('#nav-brand').addClass('d-lg-flex');
-	$('#signin-section').hide();
-	$('#signup-section').hide();
-	$('#create-todo-section').hide();
-	$('#todo-detail-section').hide();
-	$('#todos-section').show();
+	$('#signin-section').hide(1000, 'swing');
+	$('#signup-section').hide(1000, 'swing');
+	$('#create-todo-section').hide(1000, 'swing');
+	$('#todo-detail-section').hide(1000, 'swing');
+	$('#todos-section').show(1000, 'swing');
+	$('#todo-list').hide();
 	addSignOut();
 	$('#todo-list').empty().append(`
 		<div class="col-12 col-md-6 col-lg-4 mb-4" id="todo-create">
@@ -357,7 +359,7 @@ async function showTodos() {
 		);
 		for (const todo of user.todos) {
 			$('#todo-list').append(`
-			<div class="col-12 col-md-6 col-lg-4 mb-4">
+			<div class="col-12 col-md-6 col-lg-4 mb-4 todo-card">
 				<div class="fdb-box fdb-touch pb-3 pt-4" id="${todo._id}">
 					<h2>${todo.name}</h2>
 					<h6 class="mb-2"><small class="text-muted">Due ${new Date(todo.due_date).toLocaleDateString(
@@ -370,13 +372,24 @@ async function showTodos() {
 						}
 					)}</small></h6>
 					<p>${todo.description}</p>
-					<p><a href="" class="btn-todo-detail">Details</a></p>
+					<div class="row justify-content-center">
+						<div class="btn-group btn-group-sm" role="group">
+							<button href="" type="button" class="btn btn-primary btn-todo-detail">Details</button>
+							${
+								todo.status
+									? '<button type="button" class="btn btn-success btn-todo-complete disabled no-cursor">Completed</button>'
+									: '<button href="" type="button" class="btn btn-success btn-todo-complete">Mark Complete</button>'
+							} 
+							<button href="" type="button" class="btn btn-danger btn-todo-delete">Delete</button>
+						</div>
+					</div>
 				</div>
 			</div>
     `);
 		}
-		$('.btn-todo-detail').click(showTodoDetail);
 	}
+	activateTodoButton();
+	$('#todo-list').show('slow');
 }
 
 async function getUserTodos() {
@@ -388,22 +401,36 @@ async function getUserTodos() {
 	return user;
 }
 
-function showCreateTodo(event) {
-	if (event) event.preventDefault();
-	$('#todos-section').hide();
-	$('#create-todo-section').show();
-	$('#c-form').submit(createTodo);
-	$('#c-submit').click(loadingCreateTodo);
-	// $('#signin-link').click(showSignIn);
+function activateTodoButton() {
+	$('.btn-todo-detail').click(showTodoDetail);
+	$('.btn-todo-complete').click(completeTodo);
+	$('.btn-todo-delete').click(deleteTodo);
 }
 
-function loadingCreateTodo(event) {
-	$('#c-submit').empty();
-	$('#c-submit').append(`
+function showCreateTodo(event) {
+	if (event) event.preventDefault();
+	$('#todos-section').hide(1000, 'swing');
+	$('#create-todo-section').show(1000, 'swing');
+	$('#c-cancel').click(() => {
+		resetCreateTodoForm();
+		showTodos();
+	});
+	$('#c-form')
+		.unbind('submit')
+		.submit(createTodo);
+	$('#c-submit').click(loadingCreateTodo);
+}
+
+function loadingCreateTodo() {
+	$('#c-submit')
+		.empty()
+		.append(
+			`
 		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Creating Todo...
-	`);
-	$('#c-submit').addClass('disabled no-cursor');
+	`
+		)
+		.addClass('disabled no-cursor');
 }
 
 function createTodo(event) {
@@ -434,15 +461,19 @@ function createTodo(event) {
 		})
 			.done(response => {
 				resetCreateTodoButton();
-				$('#c-form input').each(function(index) {
-					$(this).val('');
-				});
+				resetCreateTodoForm();
 				showTodos();
 			})
 			.fail(err => {
 				console.log(err);
 			});
 	}
+}
+
+function resetCreateTodoForm() {
+	$('#c-form input, #c-form textarea').each(function(index) {
+		$(this).val('');
+	});
 }
 
 function resetCreateTodoButton() {
@@ -452,13 +483,117 @@ function resetCreateTodoButton() {
 		.removeClass('disabled no-cursor');
 }
 
+function completeTodo(event) {
+	event.preventDefault();
+	if ($(event.target).hasClass('disabled')) {
+		return;
+	}
+	loadingCompleteTodo(event);
+	const id = $(event.target).parents('.fdb-box')[0].id;
+	$.ajax({
+		method: 'PATCH',
+		url: `http://localhost:3000/todos/${id}`,
+		data: {
+			status: true
+		}
+	})
+		.done(response => {
+			resetLoadingCompleteTodo(event);
+			$(event.target)
+				.addClass('disabled')
+				.removeAttr('href');
+		})
+		.fail(err => console.log(err));
+}
+
+function loadingCompleteTodo(event) {
+	event.preventDefault();
+	$(event.target).empty().append(`
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Marking...
+	`);
+}
+
+function resetLoadingCompleteTodo(event) {
+	event.preventDefault();
+	$(event.target)
+		.empty()
+		.text('Completed');
+}
+
+function deleteTodo(event) {
+	if (event) event.preventDefault();
+	const sibling = loadingDeleteTodo(event);
+	Swal.fire({
+		title: 'Are you sure to delete this todo?',
+		text:
+			"You won't be able too see it again. " +
+			'If you just need to move away this todo, just mark it as completed.',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Delete anyway'
+	}).then(result => {
+		if (result.value) {
+			const id = $(event.target).parents('.fdb-box')[0].id;
+			const top = $(`#${id}`).offset().top;
+			$.ajax({
+				method: 'DELETE',
+				url: `http://localhost:3000/todos/${id}`
+			})
+				.done(async response => {
+					Swal.fire('Deleted', 'Your todo has been deleted.');
+					$(event.target)
+						.parents('.fdb-box')[0]
+						.remove();
+
+					await showTodos();
+					$('html, body').scrollTop(top);
+				})
+				.fail(err => console.log(err));
+		} else {
+			resetLoadingDeleteTodo(event, sibling);
+		}
+	});
+}
+
+function loadingDeleteTodo(event) {
+	event.preventDefault();
+	const sibling = $(event.target)
+		.siblings()
+		.detach();
+	$(event.target).empty().append(`
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Deleting...
+	`);
+	return sibling;
+}
+
+function resetLoadingDeleteTodo(event, sibling) {
+	event.preventDefault();
+	$(event.target)
+		.parent()
+		.prepend(sibling);
+	$(event.target)
+		.empty()
+		.text('Delete');
+}
+
 async function showTodoDetail(event) {
 	if (event) event.preventDefault();
-	$('#todos-section').hide();
-	$('#create-todo-section').hide();
-	$('#todo-detail-section').show();
+	$('#todos-section').hide(1000, 'swing');
+	$('#create-todo-section').hide(1000, 'swing');
+	$('#todo-detail-section').show(1000, 'swing');
 	await fillTodoDetail(event);
-	$('#d-edit').click(showEditTodo);
+	if (
+		$(event.target)
+			.siblings()
+			.hasClass('disabled')
+	) {
+		$('#d-edit').addClass('disabled no-cursor');
+	} else {
+		$('#d-edit').click(showEditTodo);
+	}
 	$('#d-back').click(showTodos);
 }
 
@@ -487,9 +622,9 @@ async function fillTodoDetail(event) {
 
 function showEditTodo(event) {
 	event.preventDefault();
-	$('#d-edit').hide();
-	$('#d-back').hide();
-	$('#e-form').show();
+	$('#d-edit').hide(1000, 'swing');
+	$('#d-back').hide(1000, 'swing');
+	$('#e-form').show(1000, 'swing');
 	$('#e-cancel').click(() => {
 		resetTodoDetail();
 		showTodos();
@@ -501,14 +636,16 @@ function showEditTodo(event) {
 			"your todo name? Can't accomplish the task and need more time? " +
 			'simply edit as you wish and hit save.'
 	);
-	$('#e-form').submit(updateTodo);
+	$('#e-form')
+		.unbind('submit')
+		.submit(updateTodo);
 	$('#e-submit').click(loadingUpdateTodo);
 }
 
 function resetTodoDetail() {
-	$('#d-edit').show();
-	$('#d-back').show();
-	$('#e-form').hide();
+	$('#d-edit').show(1000, 'swing');
+	$('#d-back').show(1000, 'swing');
+	$('#e-form').hide(1000, 'swing');
 }
 
 function updateTodo(event) {
@@ -537,7 +674,8 @@ function updateTodo(event) {
 			}
 		})
 			.done(response => {
-				resetCreateTodoButton();
+				resetTodoDetail();
+				resetLoadingUpdateTodoButton();
 				showTodos();
 			})
 			.fail(err => {

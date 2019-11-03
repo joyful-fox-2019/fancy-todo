@@ -32,97 +32,6 @@
 			</nav>
 		</div>
 
-		<!-- Todo Detail Modal -->
-
-		<div
-			class="modal fade"
-			id="todo-detail-modal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="todo-detail-modal-title"
-			aria-hidden="true"
-		>
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="todo-detail-modal-title">Todo Detail</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<h3 id="m-todo-title">Todo name</h3>
-						<h5 class="mb-2" id="m-todo-due">
-							<small class="text-muted">Todo due_time</small>
-						</h5>
-						<p id="m-todo-desc">Todo description</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Todo Create Modal -->
-
-		<div
-			class="modal fade"
-			data-backdrop="static"
-			id="todo-create-modal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="todo-create-modal-title"
-			aria-hidden="true"
-		>
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="todo-create-modal-title">Create New Todo</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form class="card-body" id="t-form">
-							<div class="form-group">
-								<label for="t-name">Todo Name</label>
-								<input
-									type="text"
-									class="form-control"
-									id="t-name"
-									aria-describedby="email"
-									placeholder="Enter todo name"
-									required
-								/>
-							</div>
-
-							<div class="form-group">
-								<label for="t-desc">Description</label>
-								<textarea class="form-control" id="t-desc" rows="3"></textarea>
-							</div>
-
-							<div class="form-group">
-								<label for="t-due">Due Date</label>
-								<input
-									type="text"
-									class="form-control"
-									data-toggle="datepicker"
-									id="t-due"
-									aria-describedby="due_date"
-								/>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" id="t-submit">Create Todo</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<!-- Header -->
 
 		<header class="jumbotron jumbotron-fluid d-none d-lg-block">
@@ -133,7 +42,7 @@
 
 		<!-- Navbar -->
 
-		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top mt-lg-n5">
+		<nav class="navbar navbar-expand-lg navbar-dark sticky-top mt-lg-n5">
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -145,11 +54,11 @@
 			>
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a class="navbar-brand mx-auto d-lg-none" href="" class="to-top">Fancy Todo</a>
+			<a class="navbar-brand mx-auto d-lg-none to-top" href="">Fancy Todo</a>
 			<div class="collapse navbar-collapse" id="navbarToggler">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 					<li class="nav-item active">
-						<a class="nav-link" href="" class="to-top">Home</a>
+						<a class="nav-link to-top" href="">Home</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link disabled" href="" tabindex="-1" aria-disabled="true">Edit</a>
@@ -362,6 +271,7 @@
 							</div>
 							<div class="row mt-4">
 								<div class="col">
+									<button class="btn btn-secondary" type="button" id="c-cancel">Cancel</button>
 									<button class="btn btn-primary" type="submit" id="c-submit">Create</button>
 								</div>
 							</div>
