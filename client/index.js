@@ -59,6 +59,8 @@ function onSignIn(googleUser) {
     .done(data => {
       console.log(data)
       localStorage.setItem('access_token', data.access_token)
+      $('#username').empty('')
+      $('#username').append(`${data.email}`)
       showMainPage()
     })
     .catch(showAlert)
@@ -163,6 +165,8 @@ showAuthPage = () => {
 }
 
 if(localStorage.getItem('access_token')) {
+  $('#username').empty()
+  $('#username').append(localStorage.getItem('email'))
   showMainPage()
 }
 
@@ -426,6 +430,8 @@ $(document).ready(() => {
       .done(data => {
         localStorage.setItem('email', data.email)
         localStorage.setItem('access_token', data.access_token)
+        $('#username').empty('')
+        $('#username').append(`${data.email}`)
         showMainPage()
         $('#register-email').val('')
         $('#register-password').val('')
@@ -446,6 +452,8 @@ $(document).ready(() => {
       .done(data => {
         localStorage.setItem('email', data.email)
         localStorage.setItem('access_token', data.access_token)
+        $('#username').empty('')
+        $('#username').append(`${data.email}`)
         showMainPage()
         $('#login-email').val('')
         $('#login-password').val('')

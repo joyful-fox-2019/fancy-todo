@@ -48,7 +48,10 @@ module.exports = {
         id: user._id,
         email: user.email
       })
-      res.status(200).json({ access_token })
+      const _id = user._id
+      const email = user.email
+      const password = user.password
+      res.status(200).json({ _id, email, password, access_token })
     })
     .catch(next)
   },

@@ -26,12 +26,21 @@ module.exports = {
     }
   },
   taskAuthorization: (req, res, next) => {
-    Task.findById(req.params.id)
+    let isMember = false
+    Project.find({ members: req.loggedUser._id })
+      .then(projects => {
+        projects.forEach(project => {
+          if(project.tasks.includes(req.params.id)) {
+            isMember = true
+          }
+        })
+        return Task.findById(req.params.id)
+      })
       .then(task => {
         if(!task) {
           throw { status: 404, msg: 'Task data not found'}
         } else {
-          if(String(task.user) !== String(req.loggedUser._id)) {
+          if(String(task.user) !== String(req.loggedUser._id) && !isMember) {
             throw { status: 401, msg: 'You are not authorized to access this data'}
           } else {
             next()
