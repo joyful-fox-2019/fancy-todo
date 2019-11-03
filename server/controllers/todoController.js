@@ -10,7 +10,7 @@ class TodoController {
             UserId: req.userid
         })
         .then(todo=>{
-            res.status(401).json({msg: `Successfully created todo`});
+            res.status(201).json(todo);
         })
         .catch(err=>{
             res.status(500).json(err);

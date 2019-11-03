@@ -3,6 +3,20 @@ const hashHelper = require('../helpers/hashHelper');
 const jwtHelper = require('../helpers/jwtHelper');
 
 class UserController {
+    static uploadPicture(req, res){
+        User.updateOne({
+            _id: req.userid
+        },{
+            picture: req.file.buffer
+        })
+        .then(response=>{
+            res.status(200).json(req.file.buffer.toString('base64'))
+        })
+        .catch(err=>{
+            res.status(500).json(err)
+        })
+    }
+
     static register(req, res) {
         User.create({
             email: req.body.email,
@@ -24,14 +38,14 @@ class UserController {
             .then(user => {
                 if (hashHelper.compare(req.body.password, user.password)) {
                     let token = jwtHelper.generate(user.id);
-                    res.status(200).json({ token });
+                    res.status(200).json({ token, username: user.username, picture:user.picture.toString('base64') });
                 }
                 else {
                     res.status(400).json({ msg: 'Incorrect email and / or password' })
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                res.status(500).json({msg: 'Invalid email'})
             })
     }
 
@@ -53,7 +67,7 @@ class UserController {
             })
             .then(user => {
                 let token = jwtHelper.generate(user.id);
-                res.status(200).json({ token });
+                res.status(200).json({ token, username: user.username, picture:user.picture });
             })
             .catch(err=>{
                 res.status(500).json(err)
