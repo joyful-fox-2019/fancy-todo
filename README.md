@@ -255,7 +255,7 @@
         {}
         ```
 
-**Delete**
+**Delete Todo**
 ----
 * **URL:** `/todos/:id`
 * **Method:** `DELETE`
