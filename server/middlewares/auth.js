@@ -5,9 +5,11 @@ const authentication = (req, res, next) => {
   try {
     if (req.headers.access_token) {
       req.loggedUser = verifyToken(req.headers.access_token)
+      console.log(req.loggedUser);
+      
       next()
     } else {
-      throw { status : 400, message : `session expired, you have to login`}
+      throw { status : 401, message : `session expired, you have to login`}
     }
   } catch (err) {
     next(err)

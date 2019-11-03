@@ -6,22 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>next!</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web" >
+  
 
+  <!-- import style.css -->
+  <link rel="stylesheet" href="css/font-awesome.css">
+  <!-- end import style.css -->
+  
+  
   <!-- import materialize icon -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- end import materialize icon -->
-
-
-
+  
+  
+  
+  
   <!-- import materialize cdn -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<!-- end import materialize cdn -->
-
-
-
-  <!-- import style.css -->
+  <!-- end import materialize cdn -->
+  
   <link rel="stylesheet" href="style.css">
-  <!-- end import style.css -->
+  
+
+
+
 </head>
 
 
@@ -37,7 +45,7 @@
       <div class="right-section">
       <ul class="right">
         <li><a href="#"><i class="material-icons">search</i></a></li>
-        <li id="module-todo"><a href="#" onclick="showTodo()"><i class="material-icons">view_module</i></a></li>
+        <li id="module-todo"><a href="#" onclick="showTodoList()"><i class="material-icons">view_module</i></a></li>
           <!-- google sign out -->
         <li><a class="signout" href="#" onclick="signOut()"><i class="material-icons">power_settings_new</i></a></li>
       </ul>
@@ -49,28 +57,31 @@
 <br>
 <br>
 
- <div class="container">
+<div class="login">
+
+ <div class="container ">
 
   <!-- registration form -->
     <div class="register-form" >
     <div class="register-text row">
         <div class="col">
           <h4>/ register /</h4>
-          <h6><B><i>next!</i></B> get organized with you</h6>
+          <h6>Organize it all with <B><i>next!</i></B></h6>
         </div>
       </div>
 
     <div class="row">
         <form class="col s12">
           <div class="row">
-            <div class="input-field col s6">
-              <i class="material-icons prefix">mail_outline</i>
-              <input id="email-register" type="text" class="validate">
-              <label for="email-register">Email</label>
-            </div>
+              <div class="input-field col s6">
+                  <i class="material-icons prefix">mail_outline</i>
+                  <input id="email-register" type="email" class="validate">
+                  <label for="email">Email</label>
+                  <span class="helper-text" data-error="incorrect email format" data-success="right"></span>
+              </div>
             <div class="input-field col s6">
               <i class="material-icons prefix">lock_outline</i>
-              <input id="password-register" type="text" class="validate">
+              <input type="password" id="password-register"  class="validate">
               <label for="password-register">Password</label>
             </div>
           </div>
@@ -80,8 +91,10 @@
               <div style="margin-left: 10px !important;" class="g-signin2" data-onsuccess="onSignIn"></div>
           </div>
           <br>
-          <button class="btn-register  white-text btn-flat" type="submit" onclick="register(event)">Register</button>
-          </div>
+          <button class="btn-register  white-text btn-flat" type="submit" onclick="register(event)">Register</button> 
+        </div>
+          <br>
+          <p>already have an account? Please proceed  <B>login</B>  instead</p> 
 
         </form>
       </div>
@@ -102,14 +115,15 @@
   <div class="row">
       <form class="col s12">
         <div class="row">
-          <div class="input-field col s6">
-            <i class="material-icons prefix">mail_outline</i>
-            <input id="email-login" type="text" class="validate">
-            <label for="email-login">Email</label>
-          </div>
+            <div class="input-field col s6">
+                <i class="material-icons prefix">mail_outline</i>
+                <input id="email-login" type="email" class="validate">
+                <label for="email">Email</label>
+                <span class="helper-text" data-error="incorrect email format" data-success="right"></span>
+            </div>
           <div class="input-field col s6">
             <i class="material-icons prefix">lock_outline</i>
-            <input id="password-login" type="password" class="validate">
+            <input type="password" id="password-login"  class="validate">
             <label for="password-login">Password</label>
           </div>
         </div>
@@ -119,13 +133,16 @@
                 <div style="margin-left: 10px !important;" class="g-signin2" data-onsuccess="onSignIn"></div>
             </div>
             <br>
-            <button class="btn-register  white-text btn-flat" type="submit" onclick="login()">Log In</button>
-            </div>
-
+            <button class="btn-register  white-text btn-flat" type="submit" onclick="login(event)">Log In</button>
+          </div>
+            <br>
+           <p>don't have any account yet? Please proceed  <B>register</B>  instead</p> 
       </form>
     </div>
   </div>
   <!-- end login form  -->
+</div>
+
 </div>
  
   <!-- END LOGIN PAGE -->
@@ -140,7 +157,7 @@
 
 
 <!-- loading indeterminate -->
-<div class="container">
+<div class="container homepage-container">
   <div class="progress">
       <div class="indeterminate"></div>
   </div>
@@ -148,9 +165,49 @@
 <!-- end loading indeterminate -->
 
 
-<a id="scale-demo" href="#!" class="btn-floating btn-large scale-transition">
-  <i class="material-icons">add</i>
-</a>
+<!-- main skeleton -->
+
+<div class="container">
+
+<div class="form-add-show">
+
+  <div class="add-item">
+      <div class="row">
+        <div class="container">
+      <form id="addtodo" class="col s12">
+        <div class="row">
+          <div class="container">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">add_circle_outline</i>
+          <input id="add-todo" type="text" >
+          <label for="add-todo">Add to-do</label>
+          </div>
+          <button type="submit" class="hidden"></button>
+        </div>
+        </div>
+      </form>
+    </div>
+    </div>
+    </div>
+
+
+    <ul class="collection with-header">
+        <li class="collection-header"><p class="banner"><B>To-do List</B></p></li>
+     
+        <div class="alltodos">
+        
+      </div>
+      </ul>
+          
+</div>
+
+</div> 
+
+
+<!-- end main skeleton  -->
+
+
+
 
 
 

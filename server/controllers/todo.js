@@ -4,10 +4,10 @@ class TodoController {
 
 
   static findAll(req, res, next) {
-    let userId = req.query.userId
+    let userId = req.loggedUser.id
     Todo.find({userId})
     .then(todos => {
-      res.status(200).json({ todos })
+      res.status(200).json(todos)
     })
     .catch(next)
   }
@@ -22,8 +22,8 @@ class TodoController {
   }
 
   static create(req, res, next) {
-    let { title, description, userId, dueDate } = req.body
-    Todo.create({ title, description, userId, dueDate})
+    let { title, description, dueDate } = req.body
+    Todo.create({ title, description, userId : req.loggedUser.id, dueDate})
     .then(todo => {
       res.status(201).json(todo)
     })
