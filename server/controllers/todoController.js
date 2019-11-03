@@ -95,7 +95,6 @@ module.exports = {
       .then(project => {
         if(!project) throw {msg: 'noProject'}
         else {
-          console.log(project)
           let pass = false;
           if(project.owner == UserId) pass = true
           else {
@@ -105,7 +104,6 @@ module.exports = {
               }
             }
           }
-          console.log(pass)
           if(!pass) throw {msg: 'member'}
           else {
             return Todo.create({title, description, UserId, ProjectId})

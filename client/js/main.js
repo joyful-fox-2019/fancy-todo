@@ -103,7 +103,6 @@ $(document).ready( function () {
 function home () {
   checkLogin()
   focusTodo()
-  showTodo()
   $('.progress').show();
   $('.invitemember').hide()
   $('.mainMain').show();
@@ -794,7 +793,59 @@ function goTodoProject (id) {
       projectId = data._id
       $('.headerProject').append(`
       <h3>${data.name.toUpperCase()}</h3>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Edit Project Name
+        </button>
+
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Change Project Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <label>Name</label>
+                <input type='text' placeholder='${data.name}' id='nameofProject'>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id='editProjectName${data._id}'>Save changes</button>
+              </div>
+            </div>
+          </div>
+          </div>
       `)
+      $(`#editProjectName${data._id}`).click(function () {
+        const name = $('#nameofProject').val()
+        $.ajax({
+          method: 'patch',
+          url: `${baseUrl}/projects/${data._id}`,
+          data: { name },
+          headers: {
+            token: localStorage.getItem('token')
+          }
+        })
+          .then(({msg}) => {
+            $('#nameofProject').val('');
+            Toast.fire({
+              type: 'success',
+              title: msg+ ' click close 2 sec we\'ll redirect'
+            })
+            setTimeout(() => {
+              goTodoProject(data._id)
+            }, 2000);
+          })
+          .catch(err => {
+            Toast.fire({
+              type: 'error',
+              title: err.responseJSON.msg
+            })
+          })
+      })
       if(data.Todo.length == 0) $('.bodyMainProject').append('<h2>Empty Todo List</h2>')
       else {
         data.Todo.reverse().forEach((el, i) => {

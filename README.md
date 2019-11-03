@@ -4,7 +4,7 @@
 
 
 API Documentation build with Express, Mongoose, JQuery, Ajax..
-Base Url 'http://localhost:3000'
+Base Url 'http://todoserver.dreamcarofficial.com'
 
 ```javascript
 1. List of User Routes:
@@ -62,6 +62,16 @@ Base Url 'http://localhost:3000'
 
 
 
+```java
+4. List of Quote Routes :
+```
+
+| Route  | HTTP | Headers | Body | Description      |
+| ------ | ---- | ------- | ---- | ---------------- |
+| /quote | GET  | token   | none | Get random quote |
+
+
+
 ## <span style='color: red'>Error Response</span> : 
 
 ```java
@@ -72,6 +82,7 @@ msg: '... is required' => validation error from your input
 msg: 'Invalid ProjectId' => projectId is not found
 msg: 'Duplicate Detected' => your input allready used
 msg: 'your are not a Member for this Project' => need request invite from the project
+msg: 'Cannot invite yourself' => cannot invite your self
 msg: 'Invalid Token' => your token is not valid
 status: 401,
 msg: 'Authorization Error' => Only owner can access
@@ -90,7 +101,7 @@ msg: 'Internal Server Error' => Problem with server
 
 # 1. List of User Routes:
 
-Base Url : "http://localhost:3000"
+Base Url : "http://todoserver.dreamcarofficial.com"
 
 <span style='color:green'>GET</span> /users
 	Get all User for Invite to Project
@@ -289,7 +300,7 @@ Responses : <blockquote>application/json</blockquote>
 
 # 2. List of Todo Routes:
 
-Base url 'http://localhost:3000/'
+Base url 'http://todoserver.dreamcarofficial.com'
 
 <span style='color:green'>GET</span> /todos
 	Get Todo List
@@ -314,6 +325,73 @@ Responses : <blockquote>application/json</blockquote>
   {...},
   {...}
 ]
+```
+
+
+
+<span style='color:green'>GET</span> /todos/project
+	Get Todo List where have ProjectId
+
+## Authentication
+
+<span style='color: red'>Token</span> 
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+[
+  {
+    "_id": ObjectId,
+    "title": String,
+    "description": String,
+    "UserId": {
+      "_id": ObjectId,
+      "username": String,
+      "password": String,
+      "email": String,
+      "Invitation": Array
+    },
+    "__v": 0
+  },
+  {...},
+  {...}
+]
+```
+
+<span style='color:green'>POST</span> /todos/project/{:id}
+	Create todo in Project
+
+## Authentication
+
+<span style='color: red'>Token</span> 
+
+## Headers 
+
+```javascript
+Params is ProjectId
+```
+
+## Body
+
+```javascript
+{
+  "title": String,
+  "description": String
+}
+```
+
+
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+{
+	"msg": String
+}
 ```
 
 
@@ -417,143 +495,223 @@ Responses : <blockquote>application/json</blockquote>
 
 
 
+<span style='color:green'>DELETE</span> /todos/project/{:id}
+	Delete Todo in Project
 
+## Authentication & Authorization
 
+<span style='color: red'>Token</span> 
 
-
-
-
-Request:
-
-```javascript
-method: 'post',
-path: '/project/:id',
-headers: {
-  token: String
-},
-body: {
-  title: String,
-  description: String
-}
-
-```
-
-Response: 
+## Body
 
 ```javascript
 {
-  msg: String
+  "projectId": ObjectId
 }
-
 ```
+
+
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+{
+ 	"msg": String
+}
+```
+
+
+
+<span style='color:green'>PATCH</span> /todos/checklist/{:id}
+	Done checklist Todo
+
+## Authentication & Authorization
+
+<span style='color: red'>Token</span> 
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+{
+ 	"msg": String
+}
+```
+
+
+
+
 
 
 
 ## 3. List of Project Routes:
 
-Base Url 'http://localhost:3000/projects'
+Base Url 'http://todoserver.dreamcarofficial.com'
 
-Request:
+<span style='color:green'>GET</span> /projects
+	Get Project List
 
-```javascript
-method: '/',
-path: '/',
-headers: {
-  token: String
-}
+## Authentication
 
-```
+<span style='color: red'>Token</span> 
 
-Response:
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
 
 ```javascript
 [
   {
-    "Members": Array of ObjectId,
-    "Todo": Array of ObjectId,
-    "_id": String,
+    "_id": ObjectId,
     "name": String,
+    "Members": Array of ObjectId,
+		"Todo": Array of ObjectId,
     "owner": ObjectId,
-    "createdAt": Date,
+    "createdAt": Date
     "__v": 0
   },
   {...},
   {...}
 ]
-
 ```
 
 
 
-Request:
+<span style='color:green'>POST</span> /projects
+	Create New Project
 
-```javascript
-method: 'post',
-path: '/',
-headers: {
-  token: String
-},
-body: {
-  name: String
-}
+## Authentication
 
-```
+<span style='color: red'>Token</span> 
 
-Response:
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
 
 ```javascript
 {
-  msg: String
+  "msg": String,
+  "data": {
+    "_id": ObjectId,
+    "name": String,
+    "Members": Array of ObjectId,
+		"Todo": Array of ObjectId,
+    "owner": ObjectId,
+    "createdAt": Date
+    "__v": 0
+  },
 }
-
 ```
 
 
 
-Request:
+<span style='color:green'>GET</span> /projects/find/{:id}
+	Find Project by id
 
-```javascript
-method: 'patch',
-path: '/:id',
-headers: {
-  token: String
-},
-body: {
-  name: String
-}
+## Authentication
 
-```
+<span style='color: red'>Token</span> 
 
-Response: 
+Responses : <blockquote>application/json</blockquote>
 
-```javascript
-{
-  msg: String
-}
-
-```
-
-
-
-Request:
-
-```javascript
-method: 'delete',
-path: '/:id',
-headers: {
-  token: String
-}
-
-```
-
-Response:
+<span style='color:green'>Success</span> :
 
 ```javascript
 {
-  msg: String
+    "_id": ObjectId,
+    "name": String,
+    "Members": Array of ObjectId,
+		"Todo": Array of ObjectId,
+    "owner": {
+      "_id": ObjectId,
+      "username": String,
+      "password": String,
+      "email": String
+    },
+    "createdAt": Date
+    "__v": 0
 }
-
 ```
+
+
+
+<span style='color:green'>PATCH</span> /projects/{:id}
+	Update name Project
+
+## Authentication
+
+<span style='color: red'>Token</span> 
+
+## Body
+
+```java
+{
+  "name": String
+}
+```
+
+
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+{
+  "msg": String
+}
+```
+
+
+
+<span style='color:green'>DELETE</span> /projects/{:id}
+	Delete Project
+
+## Authentication
+
+<span style='color: red'>Token</span> 
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+{
+  "msg": String
+}
+```
+
+
+
+```javascript
+4. List of Quote Routes:
+```
+
+
+
+<span style='color:green'>GET</span> /quote
+	Get a random Quote
+
+## Authentication
+
+<span style='color: red'>Token</span> 
+
+Responses : <blockquote>application/json</blockquote>
+
+<span style='color:green'>Success</span> :
+
+```javascript
+{
+  "_id": ObjectId,
+  "quoteAuthor": String,
+  "quoteText": String
+}
+```
+
+
 
 
 
@@ -566,4 +724,10 @@ $ npm install
 $ npm run dev
 
 ```
+
+
+
+## Website :
+
+<a href="http://todo.dreamcarofficial.com">Todo by DreamCarOfficial</a>
 
