@@ -88,9 +88,65 @@
 ----
 * **URL:** `/signin`
 * **Method:** `POST`
+* **URL Params:** `None`
+* **Data Params:**
+	```
+    {
+	"email":"hacktiv8@mail.com", //String
+	"password":"123456" //String
+	}
+	```
+* **Success Response:**
+  * **Status:** `200`
+    **Content:** 
+    
+    ```
+    {
+        "token":"eyJhbGciOiJIUzI1NiJ9. NWRiZjA1ZjNkMWI5NTAzMGQ3YmE1ODhi.kNk6Y7nMGdC2AdIxMd2HSxz9kPqSYkymSXSfyxy9PFY",
+        "username": "hacktiv8",
+        "picture": "undefined"
+    }
+    ```
+ * **Error Response:**
+    * **Wrong email and or password - Status:** `400`
+        **Content:**
+        ```
+        {
+            "msg": "Incorrect email and / or password"
+        }
+        ```
 
-
-
+**Google Sign in**
+----
+* **URL:** `/google-signin`
+* **Method:** `POST`
+* **URL Params:** `None`
+* **Data Params:**
+	```
+    {
+	"email":"hacktiv8@mail.com", //String
+	"password":"123456" //String
+	}
+	```
+* **Success Response:**
+  * **Status:** `200`
+    **Content:** 
+    
+    ```
+    {
+        "token":"eyJhbGciOiJIUzI1NiJ9. NWRiZjA1ZjNkMWI5NTAzMGQ3YmE1ODhi.kNk6Y7nMGdC2AdIxMd2HSxz9kPqSYkymSXSfyxy9PFY",
+        "username": "hacktiv8",
+        "picture": "undefined"
+    }
+    ```
+ * **Error Response:**
+    * **Wrong email and or password - Status:** `400`
+        **Content:**
+        ```
+        {
+            "msg": "Incorrect email and / or password"
+        }
+        ```
 
 #### Installation
 Make sure you have Node.js and npm installed on your computer, clone the repo then run this:
@@ -108,4 +164,4 @@ $ cd ../server && npm install
 #### Environment Variables
 ````
 JWT_SECRET = to-do-api
-```
+````
