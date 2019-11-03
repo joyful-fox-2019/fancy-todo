@@ -33,7 +33,6 @@ function login() {
             password
         }
     }).done((result) => {
-        console.log(result);
         localStorage.setItem("username", result.name);
         localStorage.setItem("token", result.token);
         auth();
@@ -232,7 +231,6 @@ function select(id) {
             }
 
             if (isSelect === false) {
-                console.log(id);
                 $(".deleteTodoClass").attr("id", `id:${id}`)
                 $("#updateModalBody").empty();
                 $("#updateModalBody").append(`<form id="formUpdate">
@@ -257,9 +255,10 @@ function select(id) {
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal"
-                onclick="updateTodo();">Update</button>
+            <button type="button" class="btn btn-primary updateTodoClass" id="" data-dismiss="modal"
+                onclick="updateTodo(this.id);">Update</button>
         </div>`);
+                $(".updateTodoClass").attr("id", `id:${id}`)
                 return $.ajax({
                     method: "post",
                     url: "http://localhost:3000/todo/findById",
@@ -270,6 +269,7 @@ function select(id) {
             } else if (isSelect === true && id === selected) {
                 isSelect = false
                 selected = "";
+                $(".updateTodoClass").attr("id", "")
                 $(".deleteTodoClass").attr("id", "")
                 $("#updateModalBody").empty();
                 $("#updateModalBody").append(`<h1> Select Todo First </h1>`)
@@ -320,6 +320,42 @@ function select(id) {
                 text: err.responseJSON.message,
             })
         })
+}
+
+
+function updateTodo(id) {
+    let title = $("#titleUpdate").val();
+    let description = $("#descriptionUpdate").val();
+    let dueDate = $("#dueDateUpdate").val();
+    let idUpdate = id.slice(3);
+    if (id.length > 0) {
+        $.ajax({
+                method: "put",
+                url: "http://localhost:3000/todo/update",
+                data: {
+                    title,
+                    description,
+                    dueDate,
+                    id: idUpdate
+                }
+            })
+            .done((result) => {
+                Swal.fire({
+                    type: 'success',
+                    title: 'Success',
+                    text: 'Update Todo Successfully',
+                })
+                $("#todoItem").empty();
+                findAllTodos();
+            })
+            .fail((err) => {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: err.responseJSON.message,
+                })
+            })
+    }
 }
 
 
