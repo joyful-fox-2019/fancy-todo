@@ -4,6 +4,7 @@ const Project = require('../models/Project')
 module.exports = {
   find: (req, res, next) => {
     Task.find({ user: req.loggedUser.id })
+    .sort({ status: 1, dueDate: 1 })
       .then(tasks => {
         res.status(200).json(tasks)
       })
