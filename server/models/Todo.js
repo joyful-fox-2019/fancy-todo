@@ -22,10 +22,10 @@ const todo = new Schema({
     type : Date,
     default : new Date(+new Date() + 14*24*60*60*1000)
   },
-  // projectId : {
-  //   type: Schema.Types.ObjectId,
-  //   ref : 'Project'
-  // }
+  projectId : {
+    type: Schema.Types.ObjectId,
+    ref : 'Project'
+  }
 },{
   timestamps : true
 })

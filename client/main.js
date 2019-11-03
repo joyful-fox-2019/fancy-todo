@@ -1,6 +1,10 @@
 $(document).ready(()=>{
   console.log('DOM is ready');
   // loginCard()
+  // ini diacak acak-------------->>>>
+  // $('#personalPage').show()
+  // $('#projectPage').hide()
+  // projectDetailActive()
   if(localStorage.getItem('token')){
     console.log('--------->>>');
     setMyName()
@@ -21,10 +25,27 @@ function startPage(){
 }
 
 function homePage(){
+  myTodoActive()
   hide('#startPage')
   show('#homePage')
+  // hide('#projectPage')
+  // $('#myTodo').addClass('active')
   getMyTodo()
   getMyDetail()
+}
+
+function gotProjectPage(){
+  hide('#startPage')
+  show('#homePage')
+  hide('#createProject')
+  hide('#formProject')
+  show('#projectTodo')
+  show('#projectDetail')
+  $('#createProject').removeClass('active')
+  $('#myTodo').removeClass('active')
+  $('#projectTodo').addClass('active')
+  $('#projectDetail').removeClass('active')
+  getProjectTodo()
 }
 
 function show(element){
@@ -89,7 +110,26 @@ $('form')
             prompt : 'Please enter your username'
           }
         ]
+      },
+      name: {
+        identifier  : 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please input the name of this project'
+          }
+        ]
+      },
+      desc: {
+        identifier  : 'desc',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please input the description'
+          }
+        ]
       }
+      
     }
   })
 
@@ -109,6 +149,7 @@ $('#loginSubmit').on('submit',(e)=>{
     .done((data)=>{
       localStorage.setItem('token',data.token)
       localStorage.setItem('name',data.name)
+      localStorage.setItem('email',data.email)
       $('#emailLog').empty()
       $('#passLog').empty()
       setMyName()
@@ -202,6 +243,120 @@ $('#submitPersonalTodo').on('submit',(e)=>{
 
 })
 
+$('#createProject').click(()=>{
+  createProjectActive()
+})
+
+$('#myTodo').click(()=>{
+  myTodoActive()
+})
+
+$('#projectTodo').click(()=>{
+  projectTodoActive()
+})
+
+$('#projectDetail').click(()=>{
+  projectDetailActive()
+})
+
+$('#submitNewProject').on('submit',(e)=>{
+  e.preventDefault()
+  let token = localStorage.getItem('token')
+  let name = $('#projectNameReg').val()
+  let desc = $('#projectDescReg').val()
+  registerNewProject(token,name,desc)
+})
+
+$('#addProjectTodo').click(()=>{
+  $('.ui.modal.addProjectTodo')
+  .modal('show')
+  $('form')
+  .form({
+    on: 'blur',
+    fields: {
+      title: {
+        identifier  : 'title',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter the title'
+          }
+        ]
+      },
+      desc: {
+        identifier  : 'desc',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter the description'
+          }
+        ]
+      }
+    }
+  })
+})
+
+$('#submitProjectTodo').on('submit',(e)=>{
+  e.preventDefault()
+  let title = $('#submitProjectTitle').val()
+  let desc = $('#submitProjectDesc').val()
+  let dueDate = $('#submitProjectDueDate').val()
+  createNewProjectTodo(title,desc,dueDate)
+})
+
+$('#addMemberButton').click(()=>{
+  getAllFreeUser()
+})
+
+
+function createProjectActive(){
+  hide('#personalPage')
+  show('#projectPage')
+  show('#formProject')
+  hide('#todoInProject')
+  hide('#displayProjectDetail')
+  $('#createProject').addClass('active')
+  $('#myTodo').removeClass('active')
+  $('#projectTodo').removeClass('active')
+  $('#projectDetail').removeClass('active')
+}
+
+function myTodoActive(){
+  show('#personalPage')
+  hide('#projectPage')
+  hide('#formProject')
+  hide('#todoInProject')
+  hide('#displayProjectDetail')
+  $('#createProject').removeClass('active')
+  $('#myTodo').addClass('active')
+  $('#projectTodo').removeClass('active')
+  $('#projectDetail').removeClass('active')
+}
+
+function projectTodoActive(){
+  hide('#personalPage')
+  show('#projectPage')
+  hide('#formProject')
+  show('#todoInProject')
+  hide('#displayProjectDetail')
+  $('#createProject').removeClass('active')
+  $('#myTodo').removeClass('active')
+  $('#projectTodo').addClass('active')
+  $('#projectDetail').removeClass('active')
+}
+
+function projectDetailActive(){
+  hide('#personalPage')
+  show('#projectPage')
+  hide('#formProject')
+  hide('#todoInProject')
+  show('#displayProjectDetail')
+  $('#createProject').removeClass('active')
+  $('#myTodo').removeClass('active')
+  $('#projectTodo').removeClass('active')
+  $('#projectDetail').addClass('active')
+}
+
 function loginCard(){
   show('#loginCard')
   hide('#registerCard')
@@ -248,9 +403,11 @@ function onSignIn(googleUser) {
   })
   .done((token)=>{
     let name = profile.getName()
+    let email = profile.getEmail()
     // $('#navname').append(`${name}`)
     localStorage.setItem('token',token)
     localStorage.setItem('name',name)
+    localStorage.setItem('email',email)
     setMyName()
     console.log(token);
     // getCards()
@@ -268,6 +425,8 @@ function signOut() {
     console.log('User signed out.');
     localStorage.removeItem('token')
     localStorage.removeItem('name')
+    localStorage.removeItem('projectId')
+    localStorage.removeItem('email')
   });
   startPage()
   
@@ -287,6 +446,7 @@ function getMyDetail(){
         hide('#createProject')
         show('#projectDetail')
         show('#projectTodo')
+        getProjectTodo()
       } else {
         console.log('ga adasdajs;odiyo7')
         show('#createProject')
@@ -349,7 +509,6 @@ function setMyTodo(todo,element){
   })
 }
 
-
 function setModalDetail(todo){
   $('#cardDetail').append(`
   <div class="ui tiny modal detail ${todo._id}">
@@ -391,16 +550,16 @@ function setModalDetail(todo){
   
   $(`#deleteTodo${todo._id}`).click(()=>{
     console.log('trigres');
-    setModalConfirm(todo._id)
+    setModalConfirm(todo)
     $(`.ui.modal.detail.${todo._id}`)
     .modal('hide').empty()
     
   })
 }
 
-function setModalConfirm(id){
+function setModalConfirm(todo){
   $('#deleteCard').append(`
-  <div class="ui mini modal ${id}">
+  <div class="ui mini modal ${todo._id}">
       <div class="header"> Delete To-do </div>
       <div class="content">
         <div class="description">
@@ -417,16 +576,20 @@ function setModalConfirm(id){
       </div>
   </div>
   `)
-  $(`.ui.mini.modal.${id}`).modal({
+  $(`.ui.mini.modal.${todo._id}`).modal({
     closable:false
   })
   .modal('show')
   $('#noConfirm').click(()=>{
-    $(`.ui.mini.modal.${id}`)
+    $(`.ui.mini.modal.${todo._id}`)
     .modal('hide').empty()
   })
   $(`#deleteTodo`).click(()=>{
-    deletePersonalTodo(id)
+    if(todo.projectId){
+      deleteProjectTodo(todo.projectId,todo._id)
+    } else {
+      deletePersonalTodo(todo._id)
+    }
  
   })
 }
@@ -478,7 +641,11 @@ function setModalEdit(todo){
     let title = $('#editTitle').val()
     let desc = $('#editDesc').val()
     let status = $('#editStatus').val()
-    editPersonalTodo(todo._id,title,desc,status)
+    if(todo.projectId){
+      editProjectTodo(todo.projectId,todo._id,title,desc,status)
+    }else{
+      editPersonalTodo(todo._id,title,desc,status)
+    }
     $(`.ui.modal.edit.${todo._id}`)
     .modal('hide').empty()
   })
@@ -547,6 +714,257 @@ function deletePersonalTodo(id){
       $(`.ui.mini.modal.${id}`)
       .modal('hide').empty()
       getMyTodo()
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+
+function registerNewProject(token,name,desc){
+  console.log(token)
+  $.ajax({
+    url : 'http://localhost:3000/projects/create',
+    method : 'post',
+    headers : {
+      token
+    },
+    data : {
+      name,desc
+    }
+  })
+    .done((report)=>{
+      $('#projectNameReg').val('')
+      $('#projectDescReg').val('')
+      console.log(report);
+      gotProjectPage()
+    })
+    .fail((err)=>{
+      console.log(err);
+    })
+}
+
+function getProjectTodo(){
+  $('#todoCard4').empty()
+  $('#todoCard5').empty()
+  $('#todoCard6').empty()
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url : 'http://localhost:3000/projects/getproject',
+    method : 'get',
+    headers : {
+      token
+    }
+  })
+    .done((project)=>{
+      console.log(project);
+      setProjectDetail(project)
+      localStorage.setItem('projectId',project._id)
+      if(project.todos.length >=1){
+        project.todos.forEach((el)=>{
+          if(el.status === "To-do"){
+            setMyTodo(el,'#todoCard4')
+          } else if (el.status === "On Progress"){
+            setMyTodo(el,'#todoCard5')
+          } else {
+            setMyTodo(el,'#todoCard6')
+          }
+        })
+      }
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+
+function setProjectTodo(project){
+  // masih kosong
+}
+
+function createNewProjectTodo(title,desc,dueDate){
+  let token = localStorage.getItem('token')
+  let projectId = localStorage.getItem('projectId')
+  $.ajax({
+    url : `http://localhost:3000/projects/addtodo/${projectId}` ,
+    method : 'post',
+    headers : {
+      token
+    },
+    data : {
+      title,desc,dueDate
+    }
+  })
+   .done((report)=>{
+     console.log(report);
+     $('.ui.modal.addProjectTodo')
+     .modal('hide')
+     $('#submitProjectTitle').val('')
+     $('#submitProjectDesc').val('')
+     $('#submitProjectDueDate').val('')
+     getProjectTodo()
+   })
+   .fail((err)=>{
+     console.log(err);
+   })
+}
+
+function editProjectTodo(projectId,todoId,title,desc,status){
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url : `http://localhost:3000/projects/${projectId}/${todoId}`,
+    method : 'patch',
+    headers : {
+      token
+    },
+    data : {
+      title,desc,status
+    }
+  })
+    .done((report)=>{
+      console.log(report);
+      getProjectTodo()
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+
+function deleteProjectTodo(projectId,todoId){
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url: `http://localhost:3000/projects/${projectId}/${todoId}`,
+    method : 'delete',
+    headers : {token}
+  })
+    .done((report)=>{
+      console.log(report)
+      $(`.ui.mini.modal.${todoId}`)
+      .modal('hide').empty()
+      getProjectTodo()
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+
+function setProjectDetail(project){
+  // disini di tambah logic creator true || false
+  $('#tbodyProject').empty()
+  $('#setProjectDetail').empty()
+  $('#setProjectDetail').append(`
+    <h1>${project.name}</h1>
+    <i class="caret right icon"></i>
+    Creator : ${project.creator.username} || ${project.creator.email}
+    <br>
+    <i class="caret right icon"></i>
+    Created At : ${project.createdAt}
+    <br>
+    <i class="caret right icon"></i>
+    Project Description : ${project.desc}
+    <br>
+  `)
+  console.log(project)
+
+  project.members.forEach((el,index)=>{
+    $('#tbodyProject').append(`
+    <tr>
+      <td>${index += 1}</td>
+      <td>${el.username}</td>
+      <td>${el.email}</td>
+    </tr>
+    `)
+  })
+
+  let email = localStorage.getItem('email')
+  if(project.creator.email === email){
+    // disini show button
+    console.log('isCreator')
+    show('#addMemberButton')
+  } else {
+    console.log('isNotCreator')
+    hide('#addMemberButton')
+    hide('#newMemberForm')
+  }
+}
+
+function getAllFreeUser(){
+  let freeUser = []
+  $.ajax({
+    url : 'http://localhost:3000/users',
+    method : 'get'
+  })
+    .done((users)=>{
+      users.forEach((el)=>{
+        if(!el.project){
+          freeUser.push(el)
+        }
+      })
+      hide('#addMemberButton')
+      setNewMemberList(freeUser)
+    })
+    .fail((err)=>{
+      console.log(err)
+    })
+}
+
+
+
+function setNewMemberList(users){
+  
+  console.log('asdasd');
+  console.log(users)
+  $('#newMemberForm').append(`
+  <form class="ui form" id="submitNewMember">
+  <div class="field">
+      <label>List of free users</label>
+        <div class="ui selection dropdown">
+            <input type="hidden" name="status" id="newMemberId">
+            <i class="dropdown icon"></i>
+            <div class="default text">Search user</div>
+            <div class="menu" id="listNewMember"></div>
+        </div>
+    </div>
+  <button class="ui button" type="submit">Add this user</button>
+  </form>
+  `)
+
+  users.forEach((element)=>{
+    // console.log(element);
+    $('#listNewMember').append(`
+    <div class="item" data-value=${element.email}>${element.username} || ${element.email}</div>
+    `)
+  })
+  $('.ui.selection.dropdown')
+  .dropdown()
+
+  $('#submitNewMember').on('submit',(e)=>{
+    e.preventDefault()
+    let newMember = $('#newMemberId').val()
+    console.log(newMember);
+    addNewMember(newMember)
+  })
+}
+
+function addNewMember(emailMember){
+  $('#newMemberId').val('')
+  let projectId = localStorage.getItem('projectId')
+  let token = localStorage.getItem('token')
+  $.ajax({
+    url : `http://localhost:3000/projects/addmember/${projectId}`,
+    method : 'post',
+    data : {
+      emailMember
+    },
+    headers : {
+      token
+    }
+  })
+    .done((report)=>{
+      console.log(report)
+      projectDetailActive()
+      getProjectTodo()
+      $('#newMemberForm').empty()
+      // getAllFreeUser()
+      
     })
     .fail((err)=>{
       console.log(err)

@@ -16,7 +16,9 @@ class ProjectCont{
   static async findOne(req,res,next){
     try {
       let userId = req.loggedUser.data.id
+      console.log(userId);
       let {project} = await User.findById({_id : userId},'project')
+      console.log(project)
       if (project){
         let findProject = await Project.findOne({_id:project}).populate('todos').populate('creator').populate('members')
         res.status(200).json(findProject)
@@ -24,6 +26,7 @@ class ProjectCont{
         next({status: 404, message: 'you are not involved in any project'})
       }
     } catch (error) {
+      console.log(error)
       next(error)
     }
   }
@@ -61,7 +64,7 @@ class ProjectCont{
     try {
       let { title,desc,dueDate } = req.body
       let projectId = req.params._id
-      const todo = await Todo.create({ title, desc, dueDate })
+      const todo = await Todo.create({ title, desc, dueDate, projectId })
       const updatedProject = await Project.updateOne({ _id:projectId },{ $push:{ todos : todo._id }})
       res.status(201).json({todo,updatedProject})
     } catch (error) {

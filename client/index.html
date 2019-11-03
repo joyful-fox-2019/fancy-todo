@@ -13,18 +13,21 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
     />
-    <meta name="google-signin-client_id" content="650288641106-co9vif4sf0068c20lt4kr5nq8mvlfsea.apps.googleusercontent.com">
+    <meta
+      name="google-signin-client_id"
+      content="650288641106-co9vif4sf0068c20lt4kr5nq8mvlfsea.apps.googleusercontent.com"
+    />
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <link href="./styles.css" rel="stylesheet">
+    <link href="./styles.css" rel="stylesheet" />
     <title>myFancyTodo</title>
   </head>
   <body>
     <div id="startPage" class="ui middle aligned center aligned">
       <div id="loginError"></div>
       <div class="ui segment">
-          <p>My Fancy Todo</p>
-        </div>
+        <p>My Fancy Todo</p>
+      </div>
       <div class="ui top attached tabular menu">
         <a class="item active" id="loginTab">
           Login
@@ -39,11 +42,21 @@
           <form class="ui form" id="loginSubmit">
             <div class="required field">
               <label>Email</label>
-              <input type="email" placeholder="Email" name="email" id="emailLog"/>
+              <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                id="emailLog"
+              />
             </div>
             <div class="required field">
               <label>Password</label>
-              <input type="password" placeholder="Password" name="password" id="passLog"/>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                id="passLog"
+              />
             </div>
             <button class="ui button" type="submit">Submit</button>
             <div class="ui error message"></div>
@@ -53,132 +66,253 @@
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
             <button class="ui black github button" style="margin-left: 15px">
               <i class="github icon"></i>
-              Github 
+              Github
             </button>
           </div>
         </div>
 
         <!-- register card -->
         <div id="registerCard">
-          <form class="ui form"  id="registerSubmit">
+          <form class="ui form" id="registerSubmit">
             <div class="required field">
               <label>Username</label>
-              <input type="text" name="username" placeholder="Username" id="usernameReg"/>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                id="usernameReg"
+              />
             </div>
             <div class="required field">
               <label>Email</label>
-              <input type="email" name="email" placeholder="Email" id="emailReg" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                id="emailReg"
+              />
             </div>
             <div class="required field">
               <label>Password</label>
-              <input type="password" name="password" placeholder="Password" id="passReg"/>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                id="passReg"
+              />
             </div>
             <button class="ui button" type="submit">Submit</button>
             <div class="ui error message"></div>
           </form>
         </div>
-
       </div>
     </div>
     <!-- batas startPage -->
     <div id="homePage">
       <div class="ui grid">
         <div class="three wide column">
-            <div class="ui fluid secondary vertical pointing menu" style="height: 97vh">
-              <div class="item" style="cursor: pointer">
-                    <i class="user outline icon"></i>
-                    <div id="myName"></div> 
-              </div>
-              <hr>
-              <div class="active item">
-                <div class="header">My To-Do list</div>
-              </div>
-              <div class="item">
-                <div class="header">My Project</div>
-                <div class="menu">
-                  <a class="item" id="createProject">Create new project</a>
-                  <a class="item" id="projectTodo">Project's to-do</a>
-                  <a class="item" id="projectDetail">Project detail</a>
-                </div>
-              </div>
-              <div class="item">
-                <div class="header">Profile</div>
-                <div class="menu">
-                  <a class="item" onclick="signOut();">Logout</a>
-                </div>
+          <div
+            class="ui fluid secondary vertical pointing menu"
+            style="height: 97vh"
+          >
+            <div class="item" style="cursor: pointer">
+              <i class="user outline icon"></i>
+              <div id="myName"></div>
+            </div>
+            <hr />
+            <div class="item">
+              <div class="header">My To-Do list</div>
+              <div class="menu">
+                <a class="item" id="myTodo">See my To-do</a>
               </div>
             </div>
+            <div class="item">
+              <div class="header">My Project</div>
+              <div class="menu">
+                <a class="item" id="createProject">Create new project</a>
+                <a class="item" id="projectTodo">Project's to-do</a>
+                <a class="item" id="projectDetail">Project detail</a>
+              </div>
+            </div>
+            <div class="item">
+              <div class="header">Profile</div>
+              <div class="menu">
+                <a class="item" onclick="signOut();">Logout</a>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="twelve wide column">
           <div id="personalPage">
-            <button class="fluid ui button" id="addpersonaltodo" style="margin: 10px auto"> Create new Todo </button>
+            <button class="fluid ui button" id="addpersonaltodo" style="margin: 10px auto" >
+              Create new Todo
+            </button>
             <div class="ui styled fluid accordion">
-                <div class="title active"   style="padding: 10px 10px 0px 10px">
-                  <i class="dropdown icon"></i>
-                  To-do
-                </div>
-                <div class="content active"   style="padding: 10px">
-                  <!-- card -->
-                  <div id="todoCard1"></div>
-                </div>
-                <div class="title active" style="padding: 10px 10px 0px 10px">
-                  <i class="dropdown icon"></i>
-                  On Progress
-                </div>
-                <div class="content active"   style="padding: 10px">
-                    <div id="todoCard2"></div>
-                </div>
-
-                <div class="title active" style="padding: 10px 10px 0px 10px">
-                  <i class="dropdown icon"></i>
-                  Done
-                </div>
-                <div class="content active"   style="padding: 10px">
-                    <div id="todoCard3"></div>
-                </div>
+              <div class="title active" style="padding: 10px 10px 0px 10px">
+                <i class="dropdown icon"></i>
+                To-do
               </div>
+              <div class="content active" style="padding: 10px">
+                <!-- card -->
+                <div id="todoCard1"></div>
+              </div>
+              <div class="title active" style="padding: 10px 10px 0px 10px">
+                <i class="dropdown icon"></i>
+                On Progress
+              </div>
+              <div class="content active" style="padding: 10px">
+                <div id="todoCard2"></div>
+              </div>
+
+              <div class="title active" style="padding: 10px 10px 0px 10px">
+                <i class="dropdown icon"></i>
+                Done
+              </div>
+              <div class="content active" style="padding: 10px">
+                <div id="todoCard3"></div>
+              </div>
+            </div>
           </div>
+
           <div id="projectPage">
-            aS:LDmaS:DLasmd:ALSdkasodjasdlkshd.
-          </div>
-        </div>
-        <!-- modal detail -->
-          <div id="cardDetail"></div>
-        <!-- modal create personal todo -->
-        <div class="ui tiny modal addPersonal">
-            <i class="close icon"></i>
-            <div class="header">
-              Create new todo
+            <!-- form new project -->
+            <div id="formProject" class="ui segment" style="margin-top: 5%">
+              <h1>Create new project</h1>
+              <form class="ui form" id="submitNewProject">
+                <div class="field">
+                  <label>Name</label>
+                  <input type="text" name="name" placeholder="Project name..." id="projectNameReg" />
+                </div>
+                <div class="field">
+                  <label>Description</label>
+                  <textarea rows="2" name="desc" placeholder="Project description...."  id="projectDescReg"></textarea>
+                </div>
+                <button class="ui button" type="submit">Submit</button>
+                <div class="ui error message"></div>
+              </form>
             </div>
-            <div class="content">
-                <form class="ui form" id="submitPersonalTodo">
-                  <div class="required field">
-                    <label>Title</label>
-                    <input type="text" name="title" placeholder="Title" id="submitPersonalTitle">
-                  </div>
-                  <div class="required field">
-                    <label>Desc</label>
-                    <!-- <input type="textarea" name="desc" placeholder="Description"> -->
-                    <textarea rows="2" name="desc" id="submitPersonalDesc"></textarea>
-                  </div>
-                  <div class="field">
-                      <label>Due Date</label>
-                      <input type="date" name="date" id="submitPersonalDueDate">
+            <!-- all todo in this project -->
+            <div id="todoInProject">
+              <h4>project's name</h4>
+                <button class="fluid ui primary button" id="addProjectTodo" style="margin: 10px auto" >
+                    Add new Todo
+                  </button>
+                  <div class="ui styled fluid accordion">
+                    <div class="title active" style="padding: 10px 10px 0px 10px">
+                      <i class="dropdown icon"></i>
+                      To-do
                     </div>
-                    <div class="ui error message"></div>
-                  <button class="ui button" type="submit">Save</button>
-                </form>
+                    <div class="content active" style="padding: 10px">
+                      <!-- card -->
+                      <div id="todoCard4"></div>
+                    </div>
+                    <div class="title active" style="padding: 10px 10px 0px 10px">
+                      <i class="dropdown icon"></i>
+                      On Progress
+                    </div>
+                    <div class="content active" style="padding: 10px">
+                      <div id="todoCard5"></div>
+                    </div>
+      
+                    <div class="title active" style="padding: 10px 10px 0px 10px">
+                      <i class="dropdown icon"></i>
+                      Done
+                    </div>
+                    <div class="content active" style="padding: 10px">
+                      <div id="todoCard6"></div>
+                    </div>
+                  </div>
             </div>
+            <div id="displayProjectDetail">
+              <div class="segment">
+                <div id="setProjectDetail"></div>
+                <div>
+                    <i class="caret right icon"></i>
+                    Members : 
+                    <!-- <div id="memberTable"></div> -->
+                    <table class="ui striped table">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Name</th>
+                          <th>E-mail</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbodyProject">
+                      </tbody>
+                    </table>
+                </div>
+                <button class="medium ui blue button" id="addMemberButton" style="margin-top: 10px">
+                  Add new member
+                </button>
+                <div id="newMemberForm"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- modal detail -->
+        <div id="cardDetail"></div>
+        <!-- modal create personal todo -->
+
+        <div class="ui tiny modal addPersonal">
+          <i class="close icon"></i>
+          <div class="header">
+            Create new todo
+          </div>
+          <div class="content">
+            <form class="ui form" id="submitPersonalTodo">
+              <div class="required field">
+                <label>Title</label>
+                <input type="text" name="title" placeholder="Title" id="submitPersonalTitle"
+                />
+              </div>
+              <div class="required field">
+                <label>Desc</label>
+                <textarea rows="2" name="desc" id="submitPersonalDesc"></textarea>
+              </div>
+              <div class="field">
+                <label>Due Date</label>
+                <input type="date" name="date" id="submitPersonalDueDate" />
+              </div>
+              <div class="ui error message"></div>
+              <button class="ui button" type="submit">Save</button>
+            </form>
+          </div>
         </div>
         <!-- modal create project todo -->
+        <div class="ui tiny modal addProjectTodo">
+            <i class="close icon"></i>
+            <div class="header">
+              Create new project's todo
+            </div>
+            <div class="content">
+              <form class="ui form" id="submitProjectTodo">
+                <div class="required field">
+                  <label>Title</label>
+                  <input type="text" name="title" placeholder="Title" id="submitProjectTitle"
+                  />
+                </div>
+                <div class="required field">
+                  <label>Desc</label>
+                  <textarea rows="2" name="desc" id="submitProjectDesc"></textarea>
+                </div>
+                <div class="field">
+                  <label>Due Date</label>
+                  <input type="date" name="date" id="submitProjectDueDate" />
+                </div>
+                <div class="ui error message"></div>
+                <button class="ui button" type="submit">Save</button>
+              </form>
+            </div>
+          </div>
         <!-- modal edit -->
-        <div id="editCard"> </div>
+        <div id="editCard"></div>
         <!-- modal delete -->
         <div id="deleteCard"></div>
-      </div>      
+      </div>
     </div>
     <script src="./main.js"></script>
   </body>
 </html>
-
-

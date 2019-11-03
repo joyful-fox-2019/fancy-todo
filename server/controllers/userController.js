@@ -62,7 +62,8 @@ class UserControllers{
           }
           let token = getToken(payload)
           let name = user.username
-          res.status(200).json({token,name})
+          let email = user.email
+          res.status(200).json({token,name,email})
         } else {
           next({status: 401, message: 'invalid username or password'})
         }
