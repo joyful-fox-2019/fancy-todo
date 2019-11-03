@@ -79,8 +79,8 @@
                         <img class="card-img-top" src="./images/img_avatar5.png" alt="Card image" id="ft_picture">
                         <div class="card-body">
                             <h4 class="card-title" id="ft_username"></h4>
-                            <a href="#" data-toggle="modal"
-                            data-target="#pictureModal" class="card-text">Change picture</a>
+                            <a href="#" data-toggle="modal" data-target="#pictureModal" class="card-text">Change
+                                picture</a>
                         </div>
                     </div>
                     <!-- new todo-->
@@ -89,21 +89,7 @@
                             data-target="#exampleModal">Add todo</a>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="row">
-                        <!-- navbar -->
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Active</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Completed</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">All</a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col mt-4">
                     <!-- todo list column -->
                     <div class="row overflow-auto" style="height: 700px;" id="todo-list">
                     </div>
@@ -129,10 +115,13 @@
                     <form id='avatar-form'>
                         <div class="form-group">
                             <label for="avatar"></label>
-                            <input type="file" accept="image/*" enctype="multipart/form-data" class="form-control" name='avatar' id="avatar" required>
-                            <small id="pictureHelp" class="form-text text-muted">Recommended dimension is 500 x 500</small>
+                            <input type="file" accept="image/*" enctype="multipart/form-data" class="form-control"
+                                name='avatar' id="avatar" required>
+                            <small id="pictureHelp" class="form-text text-muted">Recommended dimension is 500 x
+                                500</small>
                         </div>
-                        <button onclick="addPicture(event)" type="submit" class="btn btn-primary" id="avatar_submit">Submit</button>
+                        <button onclick="addPicture(event)" type="submit" class="btn btn-primary"
+                            id="avatar_submit">Submit</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -157,17 +146,20 @@
                     <form>
                         <div class="form-group">
                             <label for="todo_name">Name</label>
-                            <input type="text" class="form-control" id="todo_name" placeholder="Enter todo name" required>
+                            <input type="text" class="form-control" id="todo_name" placeholder="Enter todo name"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="todo_desc">Description</label>
-                            <input type="text" class="form-control" id="todo_desc" placeholder="Give it a little description" required>
+                            <input type="text" class="form-control" id="todo_desc"
+                                placeholder="Give it a little description" required>
                         </div>
                         <div class="form-group">
-                                <label for="todo_date">Due date</label>
-                                <input type="date" class="form-control" id="todo_date" required">
+                            <label for="todo_date">Due date</label>
+                            <input type="date" class="form-control" id="todo_date" required">
                         </div>
-                        <button onclick="addTodo()" type="submit" class="btn btn-primary" id="new_todo_submit">Add</button>
+                        <button onclick="addTodo()" type="submit" class="btn btn-primary"
+                            id="new_todo_submit">Add</button>
                     </form>
                 </div>
                 <div class="modal-footer">
