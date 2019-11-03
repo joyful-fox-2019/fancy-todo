@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id"
+        content="66109982785-fv7su9gn583krfvsd5na241dbpuugjdr.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Andreas Fancy Todo</title>
+</head>
+
+<body>
+    <div class="login">
+        <div id="login" class="sign-in-up form">
+            <section class="forms-section">
+                <h1 class="section-title">Todo</h1>
+                <div class="forms">
+                    <div class="form-wrapper is-active">
+                        <button type="button" class="switcher switcher-login">
+                            Login
+                            <span class="underline"></span>
+                        </button>
+                        <form class="form form-login" id="form-login" onsubmit="signIn(event)">
+                            <fieldset>
+                                <legend>Please, enter your email and password for login.</legend>
+                                <div class="input-block">
+                                    <label for="login-email">E-mail</label>
+                                    <input id="login-email" type="email" required>
+                                </div>
+                                <div class="input-block">
+                                    <label for="login-password">Password</label>
+                                    <input id="login-password" type="password" required>
+                                </div>
+                            </fieldset>
+                            <button id="loginButton" type="submit" class="btn-login">Login</button>
+                            <center>or
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            </center>
+                        </form>
+                    </div>
+                    <div class="form-wrapper">
+                        <button type="button" class="switcher switcher-signup">
+                            Sign Up
+                            <span class="underline"></span>
+                        </button>
+                        <form class="form form-signup" id="form-signup" onsubmit="signUp(event)">
+                            <fieldset>
+                                <legend>Please, enter your email, password and password confirmation for sign up.
+                                </legend>
+                                <div class="input-block">
+                                    <label for="signup-email">E-mail</label>
+                                    <input id="signup-email" type="email" required>
+                                </div>
+                                <div class="input-block">
+                                    <label for="signup-password">Password</label>
+                                    <input id="signup-password" type="password" required>
+                                </div>
+                            </fieldset>
+                            <button id="signUpButton" type="submit" class="btn-signup">Continue</button>
+                            <center>or
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            </center>
+
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="homepage">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Andreas Fancy Todo</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Create New Repo</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="form-inline my-2 my-lg-0">
+                        <button type="submit" class="btn-login" onclick="signOut()">Sign out</button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <br>
+        <br>
+        <center><button onclick="showAddTask()">Add New Task</button></center>
+        <br>
+        <br>
+        <div class="modal fade" id="addNewTask">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add a New Task</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            Title:
+                            <br>
+                            <input id="newName">
+                            <br>
+                            Description:
+                            <br>
+                            <input id="newDescription">
+                            <br>
+                            Due Date:
+                            <br>
+                            <input id="newDueDate">
+                            <br>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button onclick="addTask()" type="button" class="btn btn-primary">Add New Task</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="updateTask">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit a Task</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="">
+                            Title:
+                            <br>
+                            <input id="updateName" type="textarea">
+                            <br>
+                            Description:
+                            <br>
+                            <input id="updateDescription" type="textarea">
+                            <br>
+                            Due Date:
+                            <br>
+                            <input id="updateDueDate" type="textarea">
+                            <br>
+                            Status:
+                            <br>
+                            <input id="updateStatus" type="textarea">
+                            <br>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button onclick="updateTodo()" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <center>
+            <div id="todoList"></div>
+        </center>
+    </div>
+    <script src="https://kit.fontawesome.com/8b51b67b1f.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
