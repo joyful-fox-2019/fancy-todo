@@ -1,21 +1,18 @@
 $(document).ready(function() {
+	$('section').hide();
 	$('.form-control').focusin(inputValidationReset);
-	addDatePicker();
 	addScroll();
 	emptyPasswordOnFocus();
 	isSignIn();
+	$('html, body').click(function() {
+		$('#navbarToggler').collapse('hide');
+	});
 });
-
-function addDatePicker() {
-	$('[data-toggle="datepicker"]').datepicker({ zIndex: 2000, format: 'yyyy/mm/dd' });
-}
 
 function addScroll() {
 	$('.to-top').click(function(event) {
 		event.preventDefault();
-		$('#navbarToggler').collapse('hide');
-		$('html, body').animate({ scrollTop: $('#top').offset().top }, '1000');
-		return false;
+		$('html, body').animate({ scrollTop: 0 }, '1000');
 	});
 }
 
@@ -55,12 +52,12 @@ function verifyToken(jwt_token) {
 
 function showSignIn(event) {
 	if (event) event.preventDefault();
-	$('.navbar').hide(1000, 'swing');
-	$('#signup-section').hide(1000, 'swing');
-	$('#todos-section').hide(1000, 'swing');
-	$('#create-todo-section').hide(1000, 'swing');
-	$('#todo-detail-section').hide(1000, 'swing');
-	$('#signin-section').show(1000, 'swing');
+	$('#signup-section').hide();
+	$('#todos-section').hide();
+	$('#create-todo-section').hide();
+	$('#todo-detail-section').hide();
+	$('.navbar').hide();
+	$('#signin-section').fadeIn('slow');
 	$('#l-form')
 		.unbind('submit')
 		.submit(signIn);
@@ -121,6 +118,10 @@ function signIn(event) {
 		})
 			.done(response => {
 				localStorage.setItem('jwt_token', response.jwt_token);
+				$('#nav-brand').addClass('d-lg-flex');
+				$('#top').slideUp('slow');
+				$('#signin-section').hide();
+				resetFormInputValue();
 				showTodos();
 			})
 			.fail(err => {
@@ -165,6 +166,10 @@ function googleSignin(googleUser) {
 	})
 		.done(response => {
 			localStorage.setItem('jwt_token', response.jwt_token);
+			$('#nav-brand').addClass('d-lg-flex');
+			$('#top').slideUp('slow');
+			$('#signin-section').hide();
+			$('#signup-section').hide();
 			showTodos();
 		})
 		.always(() => {
@@ -174,11 +179,8 @@ function googleSignin(googleUser) {
 
 function showSignUp(event) {
 	event.preventDefault();
-	$('#todos-section').hide(1000, 'swing');
-	$('#signin-section').hide(1000, 'swing');
-	$('#create-todo-section').hide(1000, 'swing');
-	$('#todo-detail-section').hide(1000, 'swing');
-	$('#signup-section').show(1000, 'swing');
+	$('#signin-section').hide();
+	$('#signup-section').fadeIn('slow');
 	$('#r-form')
 		.unbind('submit')
 		.submit(signUp);
@@ -283,6 +285,7 @@ function signUp(event) {
 			}
 		})
 			.done(response => {
+				resetFormInputValue();
 				showSignIn();
 			})
 			.fail(err => {
@@ -326,15 +329,9 @@ function addSignOut() {
 }
 
 async function showTodos() {
-	$('#top').hide(1000, 'swing');
-	$('.navbar').show(1000, 'swing');
-	$('#nav-brand').addClass('d-lg-flex');
-	$('#signin-section').hide(1000, 'swing');
-	$('#signup-section').hide(1000, 'swing');
-	$('#create-todo-section').hide(1000, 'swing');
-	$('#todo-detail-section').hide(1000, 'swing');
-	$('#todos-section').show(1000, 'swing');
-	$('#todo-list').hide();
+	$('#todos-section').slideUp();
+	$('#top').hide();
+	$('.navbar').slideDown('slow');
 	addSignOut();
 	$('#todo-list').empty().append(`
 		<div class="col-12 col-md-6 col-lg-4 mb-4" id="todo-create">
@@ -389,7 +386,7 @@ async function showTodos() {
 		}
 	}
 	activateTodoButton();
-	$('#todo-list').show('slow');
+	$('#todos-section').show('slow');
 }
 
 async function getUserTodos() {
@@ -409,10 +406,11 @@ function activateTodoButton() {
 
 function showCreateTodo(event) {
 	if (event) event.preventDefault();
-	$('#todos-section').hide(1000, 'swing');
-	$('#create-todo-section').show(1000, 'swing');
+	$('#todos-section').hide('slow');
+	$('#create-todo-section').fadeIn('slow');
 	$('#c-cancel').click(() => {
-		resetCreateTodoForm();
+		resetFormInputValue();
+		$('#create-todo-section').fadeOut('slow');
 		showTodos();
 	});
 	$('#c-form')
@@ -461,7 +459,8 @@ function createTodo(event) {
 		})
 			.done(response => {
 				resetCreateTodoButton();
-				resetCreateTodoForm();
+				resetFormInputValue();
+				$('#create-todo-section').fadeOut('slow');
 				showTodos();
 			})
 			.fail(err => {
@@ -470,8 +469,8 @@ function createTodo(event) {
 	}
 }
 
-function resetCreateTodoForm() {
-	$('#c-form input, #c-form textarea').each(function(index) {
+function resetFormInputValue() {
+	$('form input, form textarea').each(function(index) {
 		$(this).val('');
 	});
 }
@@ -500,7 +499,7 @@ function completeTodo(event) {
 		.done(response => {
 			resetLoadingCompleteTodo(event);
 			$(event.target)
-				.addClass('disabled')
+				.addClass('disabled no-cursor')
 				.removeAttr('href');
 		})
 		.fail(err => console.log(err));
@@ -521,7 +520,7 @@ function resetLoadingCompleteTodo(event) {
 		.text('Completed');
 }
 
-function deleteTodo(event) {
+async function deleteTodo(event) {
 	if (event) event.preventDefault();
 	const sibling = loadingDeleteTodo(event);
 	Swal.fire({
@@ -536,19 +535,23 @@ function deleteTodo(event) {
 	}).then(result => {
 		if (result.value) {
 			const id = $(event.target).parents('.fdb-box')[0].id;
-			const top = $(`#${id}`).offset().top;
+			const top = $(this).offset().top;
 			$.ajax({
 				method: 'DELETE',
 				url: `http://localhost:3000/todos/${id}`
 			})
 				.done(async response => {
-					Swal.fire('Deleted', 'Your todo has been deleted.');
 					$(event.target)
-						.parents('.fdb-box')[0]
+						.parents('.fdb-box')
+						.slideUp('slow');
+					await Swal.fire('Deleted', 'Your todo has been deleted.');
+					$(event.target)
+						.parents('.fdb-box')
 						.remove();
 
-					await showTodos();
-					$('html, body').scrollTop(top);
+					showTodos().then(() => {
+						$('html, body').animate({ scrollTop: top }, '1000');
+					});
 				})
 				.fail(err => console.log(err));
 		} else {
@@ -581,9 +584,9 @@ function resetLoadingDeleteTodo(event, sibling) {
 
 async function showTodoDetail(event) {
 	if (event) event.preventDefault();
-	$('#todos-section').hide(1000, 'swing');
-	$('#create-todo-section').hide(1000, 'swing');
-	$('#todo-detail-section').show(1000, 'swing');
+	$('#todos-section').slideUp('slow');
+	$('#todo-detail-section').fadeIn('slow');
+	const top = $(this).offset().top;
 	await fillTodoDetail(event);
 	if (
 		$(event.target)
@@ -594,7 +597,12 @@ async function showTodoDetail(event) {
 	} else {
 		$('#d-edit').click(showEditTodo);
 	}
-	$('#d-back').click(showTodos);
+	$('#d-back').click(function(event) {
+		event.preventDefault();
+		$('#todo-detail-section').fadeOut('slow');
+		showTodos();
+		$('html, body').animate({ scrollTop: top }, '1000');
+	});
 }
 
 async function fillTodoDetail(event) {
@@ -622,20 +630,26 @@ async function fillTodoDetail(event) {
 
 function showEditTodo(event) {
 	event.preventDefault();
-	$('#d-edit').hide(1000, 'swing');
-	$('#d-back').hide(1000, 'swing');
-	$('#e-form').show(1000, 'swing');
+	$('#todo-detail-section').fadeOut('fast');
+	setTimeout(() => {
+		$('#d-edit').hide();
+		$('#d-back').hide();
+		$('#d-name').text('Edit Todo');
+		$('#d-due').text('');
+		$('#d-desc').text(
+			'Seems like you mistyped something? Wanna change ' +
+				"your todo name? Can't accomplish the task and need more time? " +
+				'simply edit as you wish and hit save.'
+		);
+		$('#e-form').show();
+		$('#todo-detail-section').fadeIn('slow');
+	}, 400);
+
 	$('#e-cancel').click(() => {
+		$('#todo-detail-section').fadeOut('slow');
 		resetTodoDetail();
 		showTodos();
 	});
-	$('#d-name').text('Edit Todo');
-	$('#d-due').text('');
-	$('#d-desc').text(
-		'Seems like you mistyped something? Wanna change ' +
-			"your todo name? Can't accomplish the task and need more time? " +
-			'simply edit as you wish and hit save.'
-	);
 	$('#e-form')
 		.unbind('submit')
 		.submit(updateTodo);
@@ -676,6 +690,7 @@ function updateTodo(event) {
 			.done(response => {
 				resetTodoDetail();
 				resetLoadingUpdateTodoButton();
+				$('#todo-detail-section').fadeOut('slow');
 				showTodos();
 			})
 			.fail(err => {

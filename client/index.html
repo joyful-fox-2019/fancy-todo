@@ -21,7 +21,6 @@
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.0/css/froala_blocks.min.css"
 		/>
-		<link rel="stylesheet" href="css/datepicker.min.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<title>Fancy Todo</title>
 	</head>
@@ -61,12 +60,9 @@
 						<a class="nav-link to-top" href="">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link disabled" href="" tabindex="-1" aria-disabled="true">Edit</a>
+						<a class="nav-link" href="" id="to-create-todo">Create New Todo</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Create New Todo</a>
-					</li>
-					<form class="form-inline my-2 my-lg-0">
+					<!-- <form class="form-inline my-2 my-lg-0">
 						<input
 							class="form-control mr-sm-2"
 							type="search"
@@ -74,7 +70,7 @@
 							aria-label="Search"
 						/>
 						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-					</form>
+					</form> -->
 				</ul>
 				<ul class="navbar-nav navbar-right">
 					<li class="nav-item">
@@ -91,7 +87,7 @@
 		<main class="container">
 			<!-- SIGN IN SECTION -->
 
-			<section class="fdb-block pt-min" id="signin-section">
+			<section class="fdb-block pt-min hide" id="signin-section">
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
@@ -148,7 +144,7 @@
 
 			<!-- SIGN UP SECTION -->
 
-			<section class="fdb-block pt-min" id="signup-section">
+			<section class="fdb-block pt-min hide" id="signup-section">
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
@@ -224,7 +220,7 @@
 			</section>
 
 			<!-- TODOS SECTION -->
-			<section class="fdb-block pt-min" id="todos-section">
+			<section class="fdb-block pt-min hide" id="todos-section">
 				<div class="container">
 					<div class="row text-left" id="todo-list"></div>
 				</div>
@@ -232,7 +228,7 @@
 
 			<!-- CREATE TODO SECTION -->
 
-			<section class="fdb-block py-0" id="create-todo-section">
+			<section class="fdb-block py-0 hide" id="create-todo-section">
 				<div class="container py-5 my-5">
 					<div class="row justify-content-around">
 						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
@@ -282,7 +278,7 @@
 
 			<!-- TODO DETAIL SECTION -->
 
-			<section class="fdb-block py-0" id="todo-detail-section">
+			<section class="fdb-block py-0 hide" id="todo-detail-section">
 				<div class="container py-5 my-5">
 					<div class="row justify-content-around">
 						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
@@ -355,7 +351,6 @@
 			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 			crossorigin="anonymous"
 		></script>
-		<script src="datepicker.min.js"></script>
 		<script src="main.js"></script>
 	</body>
 </html>
