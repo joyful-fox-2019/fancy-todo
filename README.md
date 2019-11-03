@@ -1,6 +1,6 @@
 # TODOISM
 
-### Utilizing the single page application architecture, Todoism helps you manage your tasks in a seamless manner.
+### Utilizing the single page application architecture and a minimalist design, Todoism helps you manage your tasks in a seamless manner.
 #### Features:
 - Create, delete, show todo items; 
 - Mark an item as completed; and
