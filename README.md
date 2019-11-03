@@ -1,9 +1,6 @@
 # fancy-todo
 
-**WEBSITE** http://fancytodo.uzai.site/
-
 **DOCUMENTATION** https://documenter.getpostman.com/view/8968521/SW14TwGx
-
 
 
 **TODO PAGE**
