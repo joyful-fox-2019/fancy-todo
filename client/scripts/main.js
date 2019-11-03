@@ -23,7 +23,7 @@ $(document).ready(function ($) {
 			.done(todos => {
 				console.log(localStorage.getItem('ft_picture'));
 				$('#ft_username').html(localStorage.getItem('ft_username'));
-				if(localStorage.getItem('ft_picture') !== 'undefined'){
+				if (localStorage.getItem('ft_picture') !== 'undefined') {
 					$('#ft_picture').attr('src', `data:image/png;base64,${localStorage.getItem('ft_picture')}`)
 				}
 				printTodos(todos);
@@ -59,6 +59,7 @@ function signOut() {
 				console.log('User signed out.');
 				localStorage.removeItem('ft_token');
 				localStorage.removeItem('ft_username');
+				localStorage.removeItem('ft_picture');
 				$('.form-wrap').show();
 				$('.main_content').hide();
 			});
@@ -114,7 +115,7 @@ $('#login_submit').click(function (event) {
 			localStorage.setItem('ft_username', response.username);
 			localStorage.setItem('ft_picture', response.picture);
 			$('#ft_username').html(localStorage.getItem('ft_username'))
-			if(localStorage.getItem('ft_picture') !== 'undefined'){
+			if (localStorage.getItem('ft_picture') !== 'undefined') {
 				$('#ft_picture').attr('src', `data:image/png;base64,${localStorage.getItem('ft_picture')}`)
 			}
 			Swal.fire({
@@ -138,7 +139,7 @@ $('#login_submit').click(function (event) {
 		})
 		.fail(err => {
 			console.log(err)
-			if(err.responseJSON.msg == 'Incorrect email and / or password'){
+			if (err.responseJSON.msg == 'Incorrect email and / or password') {
 				Swal.fire({
 					title: `Wrong password!`,
 					type: 'error',
@@ -155,7 +156,7 @@ $('#login_submit').click(function (event) {
 		})
 });
 
-function addPicture(event){
+function addPicture(event) {
 	$('#pictureModal').modal('toggle');
 	event.preventDefault();
 	let form = $('#avatar-form')[0];
@@ -166,29 +167,28 @@ function addPicture(event){
 		enctype: 'multipart/form-data',
 		processData: false,
 		contentType: false,
-        cache: false,
+		cache: false,
 		url: 'http://localhost:3000/profile-picture',
 		headers: {
 			ft_token: localStorage.getItem('ft_token')
 		},
 		data: data
 	})
-	.done(response=>{
-		Swal.fire({
-			title: `Picture updated!`,
-			text: 'Nice pic',
-			type: 'success',
-			confirmButtonText: `Ok`
+		.done(response => {
+			Swal.fire({
+				title: `Picture updated!`,
+				text: 'Nice pic',
+				type: 'success',
+				confirmButtonText: `Ok`
+			})
+			$('#ft_picture').attr('src', `data:image/png;base64,${response}`)
 		})
-		$('#ft_picture').attr('src', `data:image/png;base64,${response}`)
-	})
-	.fail(err=>{
-		console.log(err);
-	})
+		.fail(err => {
+			console.log(err);
+		})
 }
 
 function addTodo() {
-	$('#exampleModal').modal('toggle');
 	$.ajax({
 		method: 'post',
 		url: 'http://localhost:3000/todos',
@@ -202,6 +202,7 @@ function addTodo() {
 		}
 	})
 		.done(response => {
+			$('#exampleModal').modal('toggle');
 			Swal.fire(
 				'New todo created!',
 				'Good luck',
@@ -222,12 +223,23 @@ function addTodo() {
 				})
 		})
 		.fail(err => {
-			console.log('fail adding todo')
+			console.log(err.responseJSON.errors.due_date.message)
+			if (err.responseJSON.errors.due_date.message == `Please don't enter past date`) {
+				Swal.fire({
+					title: `Can't do that, chief`,
+					text: `Due date must be at least 1 day from now`,
+					type: 'error',
+					confirmButtonText: `Close`
+				})
+			}
 		})
 }
 
 function printTodos(todos) {
 	$('#todo-list').empty();
+	if(todos.length){
+		bubbleSort(todos);
+	}
 	for (let i = 0; i < todos.length; i++) {
 		$('#todo-list').append(`
 			<div class="card w-100 mb-1 ${todos[i].status === 'done' ? 'bg-success text-white' : ""}">
@@ -239,7 +251,7 @@ function printTodos(todos) {
 				</div>
 				<div class="card-footer">	
 					<a id=${todos[i]._id} onclick="deleteTodo(event, \`\${ id }\`)" class="btn bg-warning text-white">Delete</a>
-					<a id=${todos[i]._id} onclick="markComplete(event, \`\${ id }\`)" class="btn bg-primary text-white">Done</a>
+					<a id=${todos[i]._id} onclick="markComplete(event, \`\${ id }\`)" class="btn bg-primary text-white ${todos[i].status === 'done' ? 'd-none' : ""}">Done</a>
 				</div>
 			</div>
 		`)
@@ -326,4 +338,17 @@ function markComplete(event, id) {
 		.fail(err => {
 			console.log(`error during marking a todo as complete`);
 		})
+}
+
+function bubbleSort(a) {
+	for (let n = a.length - 1; n; n--) {
+		for (let i = 0; i < n; i++) {
+			if (new Date(a[i].due_date) > new Date(a[i + 1].due_date) || (a[i].status === 'done')) {
+				let temp = a[i];
+				a[i] = a[i + 1];
+				a[i + 1] = temp;
+			}
+		}
+	}
+	return a;
 }

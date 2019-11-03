@@ -25,7 +25,8 @@ const userSchema = new Schema({
         minlength: [6, 'Password minimum length is 6 characters'],
     },
     picture:{
-        type: Buffer
+        type: Buffer,
+        default: null
     }
 }, {
     timestamps: true

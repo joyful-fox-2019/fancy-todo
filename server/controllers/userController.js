@@ -38,6 +38,9 @@ class UserController {
             .then(user => {
                 if (hashHelper.compare(req.body.password, user.password)) {
                     let token = jwtHelper.generate(user.id);
+                    if(!user.picture){
+                        res.status(200).json({ token, username: user.username, picture:"undefined" });
+                    }
                     res.status(200).json({ token, username: user.username, picture:user.picture.toString('base64') });
                 }
                 else {
@@ -67,6 +70,9 @@ class UserController {
             })
             .then(user => {
                 let token = jwtHelper.generate(user.id);
+                if(!user.picture){
+                    res.status(200).json({ token, username: user.username, picture:"undefined" });
+                }
                 res.status(200).json({ token, username: user.username, picture:user.picture });
             })
             .catch(err=>{
