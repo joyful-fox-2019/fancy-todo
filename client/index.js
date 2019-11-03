@@ -43,7 +43,7 @@ showProjects = (e) => {
   M.Sidenav.getInstance($('.sidenav')).close()
   hideAllPages()
   $('#projects-page').show()
-  $('#add-project-id').val('')
+  $('#curr-project-id').val('')
   changeLogo('PROJECTS')
   getProjects()
 }
@@ -189,8 +189,8 @@ check = (id) => {
     }
   })
     .done(_ => {
-      if($('#add-project-id').val()) {
-        getProjectTasks($('#add-project-id').val())
+      if($('#curr-project-id').val()) {
+        getProjectTasks($('#curr-project-id').val())
       } else {
         getTasks()
       }
@@ -227,8 +227,8 @@ remove = (id) => {
     }
   })
     .done(_ => {
-      if($('#add-project-id').val()) {
-        getProjectTasks($('#add-project-id').val())
+      if($('#curr-project-id').val()) {
+        getProjectTasks($('#curr-project-id').val())
       } else {
         getTasks()
       }
@@ -337,8 +337,35 @@ getProjectTasks = (projectId) => {
   })
   .done(project => {
     changeLogo(project.name.toUpperCase())
-    $('#add-project-id').val(project._id)
+    $('#curr-project-id').val(project._id)
     appendProjectTasks(project.tasks)
+  })
+  .fail(showAlert)
+}
+
+appendProjectMembers = (members) => {
+  console.log(members)
+  $('#members-container').empty()
+  members.forEach(member => {
+    $('#members-container').append(`
+    <div style="margin-bottom: 5px;">
+    <a class="btn-floating disabled center-text">${member.email.substring(0, 1).toUpperCase()}</a>
+    <a class="btn-flat disabled">${member.email}</a>
+    </div>
+    `)
+  })
+}
+
+getProjectMembers = (projectId) => {
+  $.ajax({
+    url: `${baseUrl}/projects/${projectId}`,
+    type: 'get',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(project => {
+    appendProjectMembers(project.members)
   })
   .fail(showAlert)
 }
@@ -346,7 +373,37 @@ getProjectTasks = (projectId) => {
 showProjectPage = (projectId) => {
   hideAllPages()
   $('#project-page').show()
+  $('#members-container').empty()
+  $('#project-tasks').empty()
   getProjectTasks(projectId)
+  getProjectMembers(projectId)
+}
+
+appendUsers = (users) => {
+  console.log(users)
+  $('#users-container').empty()
+  users.forEach(user => {
+    $('#users-container').append(`
+      <p>
+        <label>
+          <input type="checkbox" class="filled-in member-checkbox" name="checkbox-member" value="${user._id}"/>
+          <span>${user.email}</span>
+        </label>
+      </p>
+    `)
+  })
+}
+
+getUsers = () => {
+  $.ajax({
+    url: `${baseUrl}/users`,
+    type: 'get',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(appendUsers)
+  .fail(showAlert)
 }
 
 $(document).ready(() => {
@@ -354,6 +411,7 @@ $(document).ready(() => {
   M.Modal.init($('.modal'))
   M.Datepicker.init($('.datepicker'));  
   M.Timepicker.init($('.timepicker'));
+  M.FormSelect.init($('select'))
 
   $('#register-form').submit((e) => {
     e.preventDefault()
@@ -451,8 +509,8 @@ $(document).ready(() => {
       .done(data => {
         console.log(data)
         M.Modal.getInstance($('#modal-update')).close()
-        if($('#add-project-id').val()) {
-          getProjectTasks($('#add-project-id').val())
+        if($('#curr-project-id').val()) {
+          getProjectTasks($('#curr-project-id').val())
         } else {
           getTasks()
         }
@@ -471,8 +529,8 @@ $(document).ready(() => {
     })
       .done(_ => {
         M.Modal.getInstance($('#modal-update')).close()
-        if($('#add-project-id').val()) {
-          getProjectTasks($('#add-project-id').val())
+        if($('#curr-project-id').val()) {
+          getProjectTasks($('#curr-project-id').val())
         } else {
           getTasks()
         }
@@ -503,7 +561,7 @@ $(document).ready(() => {
 
   $('#add-project-task').submit(e => {
     e.preventDefault()
-    const projectId = $('#add-project-id').val()
+    const projectId = $('#curr-project-id').val()
     const name = $('#add-project-task-name').val()
     const description = $('#add-project-task-description').val()
     const date = $('#add-project-task-date').val()
@@ -530,6 +588,33 @@ $(document).ready(() => {
         $('#add-project-task-date').val('')
         $('#add-project-task-time').val('')
         getProjectTasks(projectId)
+      })
+      .fail(showAlert)
+  })
+
+  $('#add-member').submit(e => {
+    e.preventDefault()
+    const projectId = $('#curr-project-id').val()
+    const members = [];
+    $.each($("input[name='checkbox-member']:checked"), function(){
+        members.push($(this).val());
+    });
+    console.log(members)
+    console.log(projectId)
+    $.ajax({
+      url: `${baseUrl}/projects/${projectId}`,
+      type: 'patch',
+      data: {
+        members
+      },
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
+    })
+      .done(data => {
+        console.log(data)
+        M.Modal.getInstance($('#modal-add-member')).close()
+        getProjectMembers(projectId)
       })
       .fail(showAlert)
   })

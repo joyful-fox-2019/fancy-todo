@@ -70,6 +70,7 @@
           <ul class="right hide-on-med-and-down">
             <li><a href="" onclick="showProjects(event)" class="sidenav-close teal-text text-accent-4">Projects</a></li>
             <li><a href="" onclick="logout(event)" class="sidenav-close grey-text text-ligthen-1">Sign Out</a></li>
+            <li><div id="username" class="teal-text text-accent-4">username</div></li>
           </ul>
         </div>
       </div>
@@ -135,6 +136,20 @@
   </div>
 
   <div id="project-page" class="hidden">
+    <div class="container">
+      <ul class="collection with-header">
+        <li class="collection-header">
+          <div class="row">
+            <div class="col s11 teal-text text-accent-4"><strong>Members</strong></div>
+            <div class="col s1 right-text">
+              <i href="#modal-add-member" onclick="getUsers()" class="modal-trigger material-icons teal-text text-accent-4 clickable">add</i>
+            </div>
+          </div>
+        </li>
+        <div id="members-container" class="has-padding">
+        </div>
+      </ul>
+    </div>
     <div class="container">
       <ul class="collection with-header">
         <li class="collection-header">
@@ -250,7 +265,7 @@
     <form id="add-project-task">
       <div class="modal-content">
         <div class="input-field">
-          <input id="add-project-id" type="hidden" class="teal-text text-darken-3">
+          <input id="curr-project-id" type="hidden" class="teal-text text-darken-3">
         </div>
         <div class="input-field">
           <input id="add-project-task-name" type="text" class="teal-text text-darken-3">
@@ -276,6 +291,32 @@
       </div>
     </form>
     </div>
+  </div>
+
+  <div id="modal-add-member" class="modal">
+    <form id="add-member">
+      <div class="modal-content">
+        <div id="users-container" class="input-field col s12">
+          <p>
+            <label>
+              <input type="checkbox" class="filled-in member-checkbox" name="checkbox-member" value="5dbd0dece282ea020c996d6f"/>
+              <span>baru@baru.com</span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input type="checkbox" class="filled-in member-checkbox" name="checkbox-member" value="5dbe2226793afe40e64b2070"/>
+              <span>post@man.com</span>
+            </label>
+          </p>
+        </div>
+      </div>
+      <div class="has-padding">
+        <button type="submit" class="waves-effect waves-light btn teal accent-4 full-width">
+          ADD MEMBER
+        </button>
+      </div>
+    </form>
   </div>
 
   <!--JavaScript at end of body for optimized loading-->

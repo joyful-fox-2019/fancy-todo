@@ -28,11 +28,12 @@ module.exports = {
       .catch(next)
   },
   update: (req, res, next) => {
-    const { name, member } = req.body
+    const { name } = req.body
+    console.log(req.body)
     Project.findByIdAndUpdate(req.params.id,
       {
         name,
-        $addToSet: { members: member }
+        $addToSet: { members: req.body['members[]'] }
       },
       { omitUndefined: true }
     )

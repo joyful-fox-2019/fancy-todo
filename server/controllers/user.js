@@ -51,5 +51,12 @@ module.exports = {
       res.status(200).json({ access_token })
     })
     .catch(next)
+  },
+  find: (req, res, next) => {
+    User.find()
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(next)
   }
 }
