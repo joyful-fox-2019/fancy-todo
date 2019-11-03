@@ -16,6 +16,9 @@ function onSignIn(googleUser) {
         if(localStorage.getItem('ft_picture') !== 'undefined'){
             $('#ft_picture').attr('src', `data:image/png;base64,${localStorage.getItem('ft_picture')}`)
         }
+        else{
+            $('#ft_picture').attr('src', `./images/img_avatar5.png`)
+        }
         Swal.fire({
             title: `Welcome, ${localStorage.getItem('ft_username')}!`,
             type: 'success',
