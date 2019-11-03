@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="24855769588-7pd7gs5a5qd74hlofjfu70c4frv4ekvg.apps.googleusercontent.com">
+
+
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=McLaren&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        * {
+            font-family: 'McLaren', cursive;
+        }
+        .date-picker { width: 25% !important ; height: 25% !important }
+    </style>
+
+    <title>Fancy Todo</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div id="first">
+                    <div id="login">
+                        <div class="logo mb-3">
+                            <div class="col-md-12 text-center">
+                                <h1>Fancy-Todo Login</h1>
+                            </div>
+                        </div>
+                        <form id="manual" onsubmit="signIn()">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Password</label>
+                                <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                            </div>
+                            <div class="col-md-12 text-center ">
+                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" id="submit-btn">Login</button>
+                                <div class="col-md-12 ">
+                                    <div class="login-or">
+                                        <hr class="hr-or">
+                                        <span class="span-or">or</span>
+                                    </div>
+                                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <p class="text-center">Don't have account? <a href="#" id="register-btn">Register Here</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="register">
+                <div class="myform form">
+                    <div class="logo mb-3">
+                       <div class="col-md-12 text-center">
+                            <h1>Todo-Fancy Register</h1>
+                       </div>
+                    </div>
+                    <form action="#" name="registration">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">First Name</label>
+                            <input type="text"  name="firstname" class="form-control" id="first_name" aria-describedby="emailHelp" placeholder="Enter Firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Last Name</label>
+                            <input type="text"  name="lastname" class="form-control" id="last_name" aria-describedby="emailHelp" placeholder="Enter Lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" name="email"  class="form-control" id="new-email" aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            <input type="password" name="password" id="new-password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                        </div>
+                        <div class="col-md-12 text-center ">
+                            <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" id="register-submit-btn" onclick="register()">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>   
+
+    <div class="container" id="zero-todo">
+        <h3>Your Todo-List is empty.<br> Please create one.</h3>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal1">Add Todo</button>
+        <button class="btn btn-primary" id="logout-btn" onclick="signOut()">Sign Out</button>
+    </div>
+
+    <div class="container pt-5" id="todo">
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modal1">Add Todo</button>
+        <button class="btn btn-primary" id="logout-btn" onclick="signOut()">Sign Out</button>
+        <h3>Your Todo-List: </h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>To Do</th>
+                    <th>Created At</th>
+                    <th>Completed At</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Time</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="todo-content">
+            </tbody>
+        </table>
+    </div>
+        
+    <div id="modal1" class="modal container">
+        <div class="modal-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                    Todo Title:
+                                    <div class="input-field inline">
+                                      <input id="title" type="text">
+                                      <label for="title"><Title></Title></label>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6" >
+                                    <input type="text" class="datepicker" placeholder="Date" id="dueDate" style="overflow: visible;">
+                                </div>
+                                <div class="input-field col s6">
+                                    <input type="text" class="timepicker" placeholder="Time" id="dueTime">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <textarea id="description" class="materialize-textarea"></textarea>
+                                        <label for="description">Todo-Description</label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="addTodo()">Add Todo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="main.js"></script>
+
+    <script>
+        const date = document.querySelectorAll('#dueDate');
+        M.Datepicker.init(date, {
+           format: `dddd, dd mmmm yyyy`
+        });
+
+        const time = document.querySelectorAll('#dueTime');
+        M.Timepicker.init(time);
+
+        const modals = document.querySelectorAll('.modal');
+        M.Modal.init(modals);   
+    </script>
+</body>
+</html>
