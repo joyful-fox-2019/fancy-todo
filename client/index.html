@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>FANCY TODO</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id"
+        content="153931716731-s5p2u3po75mf46p22dfgegmrp9hb7anu.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+
+<body>
+
+    <div id="logged">
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar -->
+            <div class="border-right navbar-dark bg-dark" id="sidebar-wrapper">
+                <div class="sidebar-heading" style="color: lightblue;"> <i class="fa fa-sticky-note"
+                        aria-hidden="true"></i> FancyTodo</div>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="loggedMenu list-group-item list-group-item-action bg-dark" style="color: white;"
+                        onclick="MyListTodo(event)">My Todo</a>
+                    <a href="#" class="loggedMenu list-group-item list-group-item-action bg-dark"
+                        style="color: white;">My Profile</a>
+                    <a href="#" class="loggedMenu list-group-item list-group-item-action bg-dark"
+                        style="color: white;">Bookmark</a>
+                    <a href="#" class="nonlogged list-group-item list-group-item-action bg-dark" id="signinG" style="color: white;"><i
+                            class="fa fa-code-fork" aria-hidden="true"></i> Signin x <i class="fa fa-google"
+                            aria-hidden="true"></i>oogle</a>
+                    <a href="#" class="nonlogged list-group-item list-group-item-action bg-dark" id="signupG" style="color: white;"><i
+                            class="fa fa-code-fork" aria-hidden="true"></i> Signup</a>
+                </div>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <button class="btn btn-dark" id="menu-left"><i class="fa fa-arrow-circle-left"
+                            aria-hidden="true"></i> Hide</button>
+                    <button class="btn btn-primary" id="menu-right"><i class="fa fa-arrow-circle-right"
+                            aria-hidden="true"></i> Show</button>
+                    <button type="button" class="btn btn-primary ml-2" id="addTodolist"> <i class="fa fa-plus"
+                            aria-hidden="true"></i> Add Todo</button>
+                    <button type="button" class="btn btn-primary ml-2" id="hideTodolist"> <i class="fa fa-minus"
+                            aria-hidden="true"></i> Hide Add</button>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                            <li class="nav-item active mt-2">
+                                <a class="nav-link profileImage" href="#"
+                                    style="font-weight: bold; font-size: 1.2em;">YourName</a>
+                            </li>
+                            <li class="nav-item profileImage">
+                                <a class="nav-link" href="#">
+                                    <div class="rouded">
+                                        <img id="imageProfile"
+                                            src="https://i.pinimg.com/originals/24/37/8d/24378d3680edd2ee5532f19530608fe5.gif"
+                                            alt="myprofile">
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item active ml-5 mt-2" id="signoutG">
+                                <input onclick="signOut();" class="btn btn-danger mt-1" type="button" value="Sign out">
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid" id="addTodo">
+                    <form>
+                        <div class="container-fluid bg-dark"
+                            style="border-bottom-right-radius: 0.3em; border-bottom-left-radius: 0.3em;">
+                            <div class="form-group col-4 pt-4">
+                                <small id="helpId" class="form-text" style="color: white;">Add Title</small>
+                                <input type="text" class="form-control" name="" aria-describedby="helpId" id="titleTodo"
+                                    placeholder="Title">
+                            </div>
+                            <div class="form-group pb-4 col-11">
+                                <small id="helpId" class="form-text" style="color: white;">Add Description</small>
+                                <textarea class="form-control" name="" rows="3" id="descriptionTodo"
+                                    placeholder="description"></textarea>
+                                <small id="helpId" class="form-text mt-3" style="color: white;">Due_date</small>
+                                <input type="date" class=" pd-3"  id="dateInput">
+                            </div>
+                            <div class="form-group pb-4 col-11">
+                                    <input class="btn btn-primary mt-3" type="button" value="Add"
+                                        onclick="addMyTodo(event)">
+                                    <input class="btn btn-danger mt-3 ml-2" type="reset" value="Reset">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="listAllTodo"></div>
+                <div class="loginForm">
+                    <div class="limiter">
+                        <div class="container-login100"
+                            style="background-image: url('data:image/jpeg;base64,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');">
+                            <div class="wrap-login100 p-t-190 p-b-30">
+                                <form class="login100-form validate-form">
+                                    <div class="imageTodo">
+                                        <img src="https://www.mytodolist.co.nz/wp-content/uploads/2016/06/logoRetina.png"
+                                            alt="AVATAR">
+                                    </div>
+                                    <div class="wrap-input100 validate-input m-b-10 mt-3 mb-1"
+                                        data-validate="Username is required">
+                                        <input class="input100" type="text" name="Email" id="EmailLogin" placeholder="Email">
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </div>
+
+                                    <div class="wrap-input100 validate-input m-b-10 mb-1"
+                                        data-validate="Password is required">
+                                        <input class="input100" type="password" name="pass" id="PasswordLogin" placeholder="Password">
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </div>
+
+                                    <div class="container-login100-form-btn p-t-10">
+                                        <button class="login100-form-btn" onclick="loginAccount(event)"> Login </button>
+                                    </div>
+                                    <div class="text-center w-full">
+                                        <a class="txt1" style="margin-left: 7em;" href="#">
+                                            Create new account
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                    <div class="container-login100-form-btn p-t-10 mt-4">
+                                        <div class="g-signin2 mb-1" data-onsuccess="onSignIn"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- SIGNUP -->
+                <div class="signupForm" style="display: none;">
+                    <div class="limiter">
+                        <div class="container-login100"
+                            style="background-image: url('data:image/jpeg;base64,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');">
+                            <div class="wrap-login100 p-t-190 p-b-30">
+                                <form class="login100-form validate-form">
+                                    <div class="imageTodoOne">
+                                        <img style="height: 7em; margin-left: -3em;" src="http://www.clearcreekeducationfoundation.org/wp-content/uploads/2018/07/Sign_up_today.png"
+                                            alt="AVATAR">
+                                    </div>
+                                    <div class="wrap-input100 validate-input m-b-10 mt-3 mb-1"
+                                        data-validate="Username is required">
+                                        <input class="input100" type="text" name="email" id="email" placeholder="Email">
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </div>
+
+                                    <div class="wrap-input100 validate-input m-b-10 mb-1"
+                                        data-validate="Password is required">
+                                        <input class="input100" type="password" name="pass" id="password" placeholder="Password">
+                                        <span class="focus-input100"></span>
+                                        <span class="symbol-input100">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </div>
+                                    <div class="container-login100-form-btn p-t-10">
+                                        <button class="login100-form-btn" onclick="signUp(event)" > SignUp </button>
+                                    </div>  
+                                    <div class="text-center w-full">
+                                        <a class="txt1" style="margin-left: 9em;" href="#">
+                                            Have Account
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <!-- Optional JavaScript -->
+    <script src="./script.js"></script>
+</body>
+
+</html>
