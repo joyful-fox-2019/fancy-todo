@@ -32,6 +32,11 @@ $(document).ready(function(){
     $("#completed-todo").click(function(event) {
         showCompleted();
     });
+    // Generate Random Activity
+    $("#random-name").click(function(event) {
+        event.preventDefault();
+        randomActivity();
+    });
     // Run Initial Function
     isSignIn();
 });
@@ -371,7 +376,7 @@ function editTodo() {
 function deleteTodo(todoId) {
     swal({
         title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this todo list!",
+        text: "Once deleted, you will not be able to recover this todo!",
         icon: "warning",
         buttons: true,
         dangerMode: true,
@@ -414,6 +419,36 @@ function deleteTodo(todoId) {
                 });
             });
         } 
+    });
+}
+
+function randomActivity() {
+    $.ajax({
+        method: "GET",
+        url: `http://www.boredapi.com/api/activity/`
+    })
+    .done((response) => {
+        if (response) {
+            $("#add-todo-name").val(response.activity);
+            $("#edit-todo-name").val(response.activity);
+        } else {
+            swal({
+                title: "Error!",
+                icon: "error",
+                buttons: false,
+                timer: 1500
+            });
+        }
+    })
+    .fail((jqXHR, textStatus, errorThrown) => {
+        let data = jqXHR.responseJSON;
+        swal({
+            title: "Error!",
+            text: data.message,
+            icon: "error",
+            buttons: false,
+            timer: 1500
+        });
     });
 }
 

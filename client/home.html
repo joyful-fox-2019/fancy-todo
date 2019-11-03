@@ -48,7 +48,10 @@
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="add-todo-name">Name</label>
-                        <input type="text" class="form-control" id="add-todo-name" placeholder="Todo Name" required>
+                        <div class="input-group-append">
+                            <input type="text" class="form-control" id="add-todo-name" placeholder="Todo Name" required>
+                            <span class="input-group-text" id="random-name" style="cursor: pointer;">Random</span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="add-todo-description">Description</label>
