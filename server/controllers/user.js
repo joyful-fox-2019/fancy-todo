@@ -10,7 +10,7 @@ class UserController {
 			User.findById(payload.id)
 				.then(user => {
 					if (user) {
-						res.status(200).json({});
+						res.status(200).json(payload);
 					} else {
 						throw 'tokenFailed';
 					}
@@ -22,7 +22,7 @@ class UserController {
 	}
 
 	static getUser(req, res, next) {
-		User.findById(req.body.id)
+		User.findById(req.params.id)
 			.populate('todos')
 			.then(user => {
 				if (user) res.status(200).json(user);
@@ -32,9 +32,70 @@ class UserController {
 	}
 
 	static signin(req, res, next) {
-		User.findOne({ username: req.body.username }).then(user => {
-			if (user) {
-				if (passwordHandler.verify(req.body.password, user.password)) {
+		User.findOne({ username: req.body.username })
+			.then(user => {
+				if (user) {
+					try {
+						if (passwordHandler.verify(req.body.password, user.password)) {
+							const token = tokenHandler.encode({
+								id: user.id,
+								username: user.username
+							});
+							res.status(200).json({
+								jwt_token: token
+							});
+						} else {
+							throw 'invalidSignin';
+						}
+					} catch (err) {
+						throw err;
+					}
+				} else {
+					throw 'invalidSignin';
+				}
+			})
+			.catch(next);
+	}
+
+	static register(req, res, next) {
+		User.create({
+			username: req.body.username || undefined,
+			email: req.body.email,
+			password: req.body.password,
+			todos: []
+		})
+			.then(user => {
+				const token = tokenHandler.encode({
+					id: user.id,
+					username: user.username
+				});
+				res.status(201).json({
+					jwt_token: token
+				});
+			})
+			.catch(errAll => {
+				const err = [];
+				if (errAll.message.includes('expected `username` to be unique')) {
+					err.push('usernameUniqueFailed');
+				}
+				if (errAll.message.includes('expected `email` to be unique')) {
+					err.push('emailUniqueFailed');
+				}
+				next(err);
+			});
+	}
+
+	static googleSigning(req, res, next) {
+		googleVerify(req.body.g_token)
+			.then(payload => {
+				if (payload) {
+					req.body.email = payload.email;
+					return User.findOne({ email: payload.email });
+				}
+				throw 'googleSigninFailed.';
+			})
+			.then(user => {
+				if (user) {
 					const token = tokenHandler.encode({
 						id: user.id,
 						username: user.username
@@ -43,31 +104,12 @@ class UserController {
 						jwt_token: token
 					});
 				} else {
-					next('invalidSignin');
+					req.body = {
+						email: req.body.email,
+						todos: []
+					};
+					UserController.register(req, res, next);
 				}
-			} else {
-				next('invalidSignin');
-			}
-		});
-	}
-
-	static register(req, res, next) {
-		User.create({
-			username: req.body.username,
-			email: req.body.email,
-			password: req.body.password,
-			todos: []
-		})
-			.then(user => {
-				res.status(201).json(user);
-			})
-			.catch(next);
-	}
-
-	static googleSigning(req, res, next) {
-		googleVerify(req.body.token)
-			.then(payload => {
-				console.log(payload);
 			})
 			.catch(next);
 	}

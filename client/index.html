@@ -4,21 +4,44 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com" />
+		<meta
+			name="google-signin-client_id"
+			content="1003447167481-pusu433v2tun4u0joijmh1ti39fom185.apps.googleusercontent.com"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
 		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 			crossorigin="anonymous"
 		/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+		<link
+			type="text/css"
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.0/css/froala_blocks.min.css"
+		/>
 		<link rel="stylesheet" href="css/style.css" />
 		<title>Fancy Todo</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-light bg-light d-none" id="nav-brand">
-			<a class="navbar-brand mx-auto" href="#">Fancy Todo</a>
-		</nav>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+		<div class="d-lg-none row justify-content-center" id="top">
+			<nav class="col text-center">
+				<h1>Fancy Todo</h1>
+			</nav>
+		</div>
+
+		<!-- Header -->
+
+		<header class="jumbotron jumbotron-fluid d-none d-lg-block">
+			<div class="container text-center">
+				<h1>Fancy Todo</h1>
+			</div>
+		</header>
+
+		<!-- Navbar -->
+
+		<nav class="navbar navbar-expand-lg navbar-dark sticky-top mt-lg-n5">
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -30,100 +53,288 @@
 			>
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a class="navbar-brand mx-auto d-lg-none" href="#">Fancy Todo</a>
+			<a class="navbar-brand mx-auto d-lg-none to-top" href="">Fancy Todo</a>
 			<div class="collapse navbar-collapse" id="navbarToggler">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link to-top" href="">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Link</a>
+						<a class="nav-link" href="" id="to-create-todo">Create New Todo</a>
 					</li>
+					<!-- <form class="form-inline my-2 my-lg-0">
+						<input
+							class="form-control mr-sm-2"
+							type="search"
+							placeholder="Search"
+							aria-label="Search"
+						/>
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					</form> -->
+				</ul>
+				<ul class="navbar-nav navbar-right">
 					<li class="nav-item">
-						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+						<a class="nav-link" href="" id="btn-signout"
+							><i class="fas fa-sign-out-alt"></i> Sign Out</a
+						>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0">
-					<input
-						class="form-control mr-sm-2"
-						type="search"
-						placeholder="Search"
-						aria-label="Search"
-					/>
-					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-				</form>
 			</div>
 		</nav>
 
-		<header class="jumbotron jumbotron-fluid">
-			<div class="container text-center">
-				<h1>Fancy Todo</h1>
-			</div>
-		</header>
+		<!-- Main Section -->
+
 		<main class="container">
 			<!-- SIGN IN SECTION -->
 
-			<section class="container col-4 justify-content-center" id="signin-section">
-				<div class="card">
-					<div class="card-header text-center">
-						Sign In
+			<section class="fdb-block pt-min hide" id="signin-section">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
+							<div class="fdb-box">
+								<div class="row">
+									<div class="col">
+										<h1>Sign In</h1>
+									</div>
+								</div>
+								<form id="l-form">
+									<div class="row mt-4">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												placeholder="username"
+												id="l-username"
+											/>
+											<div class="invalid-feedback text-left"></div>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<div class="col">
+											<input
+												type="password"
+												class="form-control mb-1"
+												placeholder="Password"
+												id="l-password"
+											/>
+											<div class="invalid-feedback text-left"></div>
+											<p class="text-right">
+												Don't have account? <a href="" id="signup-link">Sign Up</a>
+											</p>
+										</div>
+									</div>
+									<div class="row mt-2">
+										<div class="col ">
+											<button class="btn btn-primary l-submit" type="submit" id="l-submit-loading">
+												Sign In
+											</button>
+											<div class="mx-auto my-2">OR</div>
+											<div
+												class="g-signin2 l-submit row justify-content-center"
+												data-onsuccess="googleSignin"
+											></div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
-					<form class="card-body" id="l-form">
-						<div class="form-group">
-							<label for="l-username">Username</label>
-							<input
-								type="text"
-								class="form-control"
-								id="l-username"
-								aria-describedby="email"
-								placeholder="Enter email"
-								required
-							/>
-						</div>
+				</div>
+			</section>
 
-						<div class="form-group">
-							<label for="l-password">Password</label>
-							<input type="password" class="form-control" id="l-password" placeholder="Password" />
-							<div class="invalid-feedback">
-								Username or password wrong.
+			<!-- SIGN UP SECTION -->
+
+			<section class="fdb-block pt-min hide" id="signup-section">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-center">
+							<div class="fdb-box">
+								<div class="row">
+									<div class="col">
+										<h1>Sign Up</h1>
+									</div>
+								</div>
+								<form id="r-form">
+									<div class="row mt-4">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												placeholder="Username"
+												id="r-username"
+											/>
+											<div class="invalid-feedback text-left">Username cannot empty.</div>
+										</div>
+									</div>
+
+									<div class="row mt-4">
+										<div class="col">
+											<input type="email" class="form-control" placeholder="Email" id="r-email" />
+											<div class="invalid-feedback text-left"></div>
+										</div>
+									</div>
+
+									<div class="row mt-3">
+										<div class="col">
+											<input
+												type="password"
+												class="form-control mb-1"
+												placeholder="Password"
+												id="r-password"
+											/>
+											<div class="invalid-feedback text-left">Password length min 6.</div>
+										</div>
+									</div>
+
+									<div class="row mt-3">
+										<div class="col">
+											<input
+												type="password"
+												class="form-control mb-1"
+												placeholder="Confirm password"
+												id="r-confirm-password"
+											/>
+											<div class="invalid-feedback text-left">Password dont match!</div>
+											<p class="text-right">
+												Already have an account? <a href="" id="signin-link">Sign In</a>
+											</p>
+										</div>
+									</div>
+									<div class="row mt-2">
+										<div class="col ">
+											<button class="btn btn-primary r-submit" type="submit" id="r-submit-loading">
+												Sign Up
+											</button>
+											<div class="mx-auto my-2">OR</div>
+											<div
+												class="g-signin2 r-submit row justify-content-center"
+												data-onsuccess="googleSignin"
+											></div>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
-						<div class="text-center">
-							<button type="submit" class="btn btn-primary btn-lg w-100" id="l-submit">
-								Sign In
-							</button>
-							<div class="mx-auto my-1">OR</div>
-							<div class="g-signin2 row justify-content-center" data-onsuccess="onSignIn"></div>
-							<div class="d-flex mt-3">
-								<small class="">Dont have account? <a class="" href="register"> Sign Up</a></small>
-							</div>
-						</div>
-					</form>
+					</div>
 				</div>
 			</section>
 
 			<!-- TODOS SECTION -->
-			<section class="container card-deck" id="todos-section">
-				<div class="col-3">
-					<div class="card">
-						<div class="card-header">
-							Todo
+			<section class="fdb-block pt-min hide" id="todos-section">
+				<div class="container">
+					<div class="row text-left" id="todo-list"></div>
+				</div>
+			</section>
+
+			<!-- CREATE TODO SECTION -->
+
+			<section class="fdb-block py-0 hide" id="create-todo-section">
+				<div class="container py-5 my-5">
+					<div class="row justify-content-around">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
+							<div class="row">
+								<div class="col">
+									<h1>Create New Todo</h1>
+									<p class="lead">
+										Welcome to create todo section! Fill free to add as many description as you
+										want, or just leave it blank if you like so. But at least you must set todo
+										name. The due date will be set to today if you leave it blank.
+									</p>
+								</div>
+							</div>
 						</div>
-						<div class="card-body">
-							<div class="card-title">Doing thing</div>
-							<div class="card-text">blabla</div>
-						</div>
+						<form class="col-12 col-md-8 col-lg-7 col-xl-5 text-left" id="c-form">
+							<div class="row">
+								<div class="col mt-4">
+									<input type="text" class="form-control" placeholder="Todo Name" id="c-name" />
+									<div class="invalid-feedback text-left">Todo name cannot empty.</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col mt-4">
+									<input type="date" class="form-control" id="c-due" />
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<textarea
+										class="form-control"
+										rows="10"
+										placeholder="Description"
+										id="c-desc"
+									></textarea>
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<button class="btn btn-secondary" type="button" id="c-cancel">Cancel</button>
+									<button class="btn btn-primary" type="submit" id="c-submit">Create</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
-				<div class="col-3">p</div>
+			</section>
+
+			<!-- TODO DETAIL SECTION -->
+
+			<section class="fdb-block py-0 hide" id="todo-detail-section">
+				<div class="container py-5 my-5">
+					<div class="row justify-content-around">
+						<div class="col-12 col-md-8 col-lg-7 col-xl-5 text-left">
+							<div class="row">
+								<div class="col">
+									<div class="d-inline-flex">
+										<h1 id="d-name">Todo Detail</h1>
+									</div>
+									<p id="d-due">Due:</p>
+									<p class="lead" id="d-desc">
+										Welcome to create todo section! Fill free to add as many description as you
+										want, or just leave it blank if you like so. But at least you must set todo
+										name. The due date will be set to today if you leave it blank.
+									</p>
+									<button class="btn btn-secondary" type="button" id="d-back">Back</button>
+									<button class="btn btn-primary" type="button" id="d-edit">Edit Todo</button>
+								</div>
+							</div>
+						</div>
+						<form class="col-12 col-md-8 col-lg-7 col-xl-5 text-left hide" id="e-form">
+							<div class="row">
+								<div class="col mt-4">
+									<input type="text" class="form-control" placeholder="Todo Name" id="e-name" />
+									<div class="invalid-feedback text-left">Todo name cannot empty.</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col mt-4">
+									<input type="date" class="form-control" id="e-due" />
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<textarea
+										class="form-control"
+										rows="10"
+										placeholder="Description"
+										id="e-desc"
+									></textarea>
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col">
+									<button class="btn btn-secondary" type="button" id="e-cancel">Cancel</button>
+									<button class="btn btn-primary" type="submit" id="e-submit">Save</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
 			</section>
 		</main>
+
 		<footer></footer>
 
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.19.0/dist/sweetalert2.all.min.js"></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.min.js"

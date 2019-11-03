@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, models } = require('mongoose');
 const { passwordHandler } = require('../helpers');
 const uniqueValidator = require('mongoose-unique-validator');
 
@@ -9,7 +9,9 @@ const userSchema = new Schema({
 	},
 	username: {
 		type: String,
-		unique: true
+		unique: function(v) {
+			return this.username;
+		}
 	},
 	email: {
 		type: String,
@@ -50,5 +52,8 @@ userSchema.post('validate', function(user, next) {
 	}
 	next();
 });
+
+// userSchema.index({ username: 1 }, { unique: true, partialFilterExpression: { $type: String } });
+// User = model('User', userSchema);
 
 module.exports = model('User', userSchema);
