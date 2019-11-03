@@ -16,16 +16,12 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'please input password']
   },
-  projects_id:[
-    {
-      type: Schema.Types.ObjectId, ref: 'project'
-    }
-  ],
-  todos_id: [
-    {
-      type: Schema.Types.ObjectId, ref: 'todo'
-    }
-  ]
+  projects_id:[{
+      type: Schema.Types.ObjectId, ref: 'Project'
+  }],
+  todos_id: [{
+      type: Schema.Types.ObjectId, ref: 'Todo'
+  }]
 },{
   timestamps: true
 })

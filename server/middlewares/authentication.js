@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const Todo = require('../models/Todo')
+const Project = require('../models/Project')
 const {sign, verify} = require('../helpers/jwt')
 
 function authentication(req, res, next){
@@ -12,7 +14,11 @@ function authentication(req, res, next){
           next()
         }
         else{
-          throw {msg: 'login needed'}
+          throw {
+            errors: {
+              status: 401,
+              msg: 'login needed'
+            }}
         }
       })
   }
@@ -23,8 +29,54 @@ function authentication(req, res, next){
   }
 }
 
-function authorization(req, res, next){
-  const todoId = req.params.id
+function todoAuthorization(req, res, next){
+  const _id = req.params.id
+  const user = req.loggedUser
+  Todo.findOne({_id})
+    .then(todo=>{
+      if(todo.user_id == user._id){
+        next()
+      }
+      else{
+        throw {
+          errors: {
+            status: 403,
+            msg: 'not authorized'
+          }
+        }
+      }
+    })
+    .catch(next)
 }
 
-module.exports = authentication
+function projectAuthentication(req, res, next){
+  const _id = req.params.project
+  const loggedUser = req.loggedUser
+  Project.findOne({_id})
+    .then(project=>{
+      let isAuthorized = false
+      project.users_id.forEach(user=>{
+        if(user == loggedUser._id){
+          isAuthorized = true
+        }
+      })
+      if(isAuthorized){
+        next()
+      }
+      else{
+        throw {
+          errors: {
+            status: 403,
+            msg: 'not authorized'
+          }
+        }
+      }
+    })
+    .catch(next)
+}
+
+module.exports = {
+  authentication,
+  todoAuthorization,
+  projectAuthentication
+}

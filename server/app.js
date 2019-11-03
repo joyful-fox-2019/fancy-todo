@@ -11,7 +11,7 @@ const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 3000
 
-mongoose.connect('mongodb://localhost:27017/FancyTodo', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGOOSE_URI, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(_=>{
     console.log('db connected')
   })

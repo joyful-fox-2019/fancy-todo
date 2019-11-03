@@ -1,5 +1,6 @@
 module.exports = (err, req, res, next)=>{
-
+  console.log(err);
+  
   if(err.name == 'ValidationError'){
     const errors = []
     for(error in err.errors){
@@ -7,8 +8,8 @@ module.exports = (err, req, res, next)=>{
     }
     res.status(400).json({errors})
   }
-  else if(err.msg){
-    res.status(400).json({error: err.msg})
+  else if(err.errors.msg){
+    res.status(err.errors.status).json({error: err.errors.msg})
   }
   else{
     res.status(500).json(err)

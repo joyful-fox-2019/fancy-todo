@@ -10,13 +10,17 @@ const todoSchema = new Schema({
     type: String,
     required: [true, 'please input description']
   },
+  done:{
+    type: Boolean,
+    default: false
+  },
   project_id:
   {
-    type: Schema.Types.ObjectId, ref: 'project'
+    type: Schema.Types.ObjectId, ref: 'Project'
   },
   user_id: 
   {
-    type: Schema.Types.ObjectId, ref: 'user'
+    type: Schema.Types.ObjectId, ref: 'User'
   }
 },{
   timestamps: true
