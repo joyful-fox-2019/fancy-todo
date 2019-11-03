@@ -8,19 +8,19 @@
 
 **TODO PAGE**
 
-![](/home/uzai/fase2lagi/1week/fancy-todo-1/img/todo-page.png)
+![](/img/todo-page.png)
 
 **ADD TODO**
 
-![](/home/uzai/fase2lagi/1week/fancy-todo-1/img/add-todo.png)
+![](/img/add-todo.png)
 
 
 
 **PROJECT DETAIL**
 
-![](/home/uzai/fase2lagi/1week/fancy-todo-1/img/project-detail.png)
+![](/img/project-detail.png)
 
 **THE FANCY SOCIAL MEDIA**
 
-![](/home/uzai/fase2lagi/1week/fancy-todo-1/img/social-medi.png)
+![](/img/social-medi.png)
 
