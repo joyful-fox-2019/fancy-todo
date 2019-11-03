@@ -10,19 +10,24 @@ class UserControllers{
   static async add(req,res,next){
     try {
       let { username,email,password } = req.body
+      console.log(req.body)
       const findUser = await User.findOne(({ email }))
+      console.log(findUser)
       if(findUser){
         next({status: 409, message: 'email already in use'})
       } else {
         const user = await User.create({ username,email,password })
+        console.log(user);
         let payload = {
           id : user._id,
         }
         let token = getToken(payload)
         let name = user.username
-        res.status(201).json({token,name})
+        let userEmail = user.email
+        res.status(201).json({token,name,email:userEmail})
       }
     } catch (error) {
+      console.log(error)
       next(error)
     }
   }

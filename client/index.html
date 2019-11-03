@@ -25,8 +25,8 @@
   <body>
     <div id="startPage" class="ui middle aligned center aligned">
       <div id="loginError"></div>
-      <div class="ui segment">
-        <p>My Fancy Todo</p>
+      <div class="ui center aligned segment">
+        <h3>My Fancy Todo</h3>
       </div>
       <div class="ui top attached tabular menu">
         <a class="item active" id="loginTab">
@@ -64,10 +64,6 @@
           <h4>Or try using</h4>
           <div style="display: flex; flex-direction: row">
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
-            <button class="ui black github button" style="margin-left: 15px">
-              <i class="github icon"></i>
-              Github
-            </button>
           </div>
         </div>
 
@@ -115,9 +111,8 @@
             class="ui fluid secondary vertical pointing menu"
             style="height: 97vh"
           >
-            <div class="item" style="cursor: pointer">
-              <i class="user outline icon"></i>
-              <div id="myName"></div>
+            <div class="item" style="cursor: pointer" >
+              <div id="myName" style="display: flex; justify-content:center; align-items: center"></div>
             </div>
             <hr />
             <div class="item">
@@ -179,11 +174,11 @@
             <div id="formProject" class="ui segment" style="margin-top: 5%">
               <h1>Create new project</h1>
               <form class="ui form" id="submitNewProject">
-                <div class="field">
+                <div class="field required">
                   <label>Name</label>
                   <input type="text" name="name" placeholder="Project name..." id="projectNameReg" />
                 </div>
-                <div class="field">
+                <div class="field required">
                   <label>Description</label>
                   <textarea rows="2" name="desc" placeholder="Project description...."  id="projectDescReg"></textarea>
                 </div>
@@ -193,7 +188,7 @@
             </div>
             <!-- all todo in this project -->
             <div id="todoInProject">
-              <h4>project's name</h4>
+              <div id="thisProjectName"></div>
                 <button class="fluid ui primary button" id="addProjectTodo" style="margin: 10px auto" >
                     Add new Todo
                   </button>

@@ -6,7 +6,6 @@ $(document).ready(()=>{
   // $('#projectPage').hide()
   // projectDetailActive()
   if(localStorage.getItem('token')){
-    console.log('--------->>>');
     setMyName()
     homePage()
   } else {
@@ -18,6 +17,11 @@ $(document).ready(()=>{
 function startPage(){
   $('#emailLog').val('')
   $('#passLog').val('')
+  $('#loginTab').addClass('active')
+  $('#registerTab').removeClass('active')
+  $('#usernameReg').val('')
+  $('#emailReg').val('')
+  $('#passReg').val('')
   show('#startPage')
   show('#loginCard')
   hide('#registerCard')
@@ -40,6 +44,7 @@ function gotProjectPage(){
   hide('#createProject')
   hide('#formProject')
   show('#projectTodo')
+  show('#todoInProject')
   show('#projectDetail')
   $('#createProject').removeClass('active')
   $('#myTodo').removeClass('active')
@@ -56,10 +61,12 @@ function hide(element){
 }
 
 function setMyName(){
+
   $('#myName').empty()
   let name = localStorage.getItem('name')
   $('#myName').append(`
-  <b>${name}</b>
+  <img src="https://api.adorable.io/avatars/20/${name}.png" >
+  <b style= "margin-left: 10px ">${name}</b>
   `)
 }
 
@@ -183,13 +190,12 @@ $('#registerSubmit').on('submit',(e)=>{
     .done((data)=>{
       localStorage.setItem('token',data.token)
       localStorage.setItem('name',data.name)
-      $('#usernameReg').empty()
-      $('#emailReg').empty()
-      $('#passReg').empty()
+      localStorage.setItem('email',data.email)
+      $('#usernameReg').val('')
+      $('#emailReg').val('')
+      $('#passReg').val('')
       setMyName()
       homePage()
-      // $('#navname').append(`${data.name}`)
-      // getCards()
     })
     .fail((err)=>{
       setLoginError(err.responseJSON,"Register")
@@ -404,12 +410,10 @@ function onSignIn(googleUser) {
   .done((token)=>{
     let name = profile.getName()
     let email = profile.getEmail()
-    // $('#navname').append(`${name}`)
     localStorage.setItem('token',token)
     localStorage.setItem('name',name)
     localStorage.setItem('email',email)
     setMyName()
-    console.log(token);
     // getCards()
     homePage()
   })
@@ -427,20 +431,25 @@ function signOut() {
     localStorage.removeItem('name')
     localStorage.removeItem('projectId')
     localStorage.removeItem('email')
+    $('#newMemberForm').empty()
+    $('#todoCard1').empty()
+    $('#todoCard2').empty()
+    $('#todoCard3').empty()
+    $('#todoCard4').empty()
+    $('#todoCard5').empty()
+    $('#todoCard6').empty()
   });
   startPage()
   
 }
 
 function getMyDetail(){
-  console.log('masuk');
   let token = localStorage.getItem('token')
   $.ajax({
     url : `http://localhost:3000/users/${token}`,
     method : 'get'
   })
     .done((user)=>{
-      console.log(user);
       if(user.project){
         console.log('ada-==-=-=-=')
         hide('#createProject')
@@ -463,7 +472,10 @@ function getMyTodo(){
   $('#todoCard1').empty()
   $('#todoCard2').empty()
   $('#todoCard3').empty()
- 
+  $('#todoCard4').empty()
+  $('#todoCard5').empty()
+  $('#todoCard6').empty()
+  
   let token = localStorage.getItem('token')
   $.ajax({
     method: 'get',
@@ -473,7 +485,6 @@ function getMyTodo(){
     }
   })
     .done((todos)=>{
-      console.log(todos)
       if(todos.length >=1){
         todos.forEach((el)=>{
           if(el.status === "To-do"){
@@ -496,7 +507,7 @@ function setMyTodo(todo,element){
   <div class="ui fluid card">
     <a class="content" id="card${todo._id}"  style="padding: 5px">
       <div class="header">${todo.title}</div>
-      <div class="meta">${todo.createdAt}</div>
+      <div class="meta">${todo.createdAt.slice(0,10)}</div>
         <div class="description">
           <p>${todo.desc}.</p>
         </div>
@@ -563,7 +574,7 @@ function setModalConfirm(todo){
       <div class="header"> Delete To-do </div>
       <div class="content">
         <div class="description">
-          <p>Are you sure you want to delete your to-do</p>
+          <p>Are you sure you want to delete this to-do</p>
         </div>
       </div>
       <div class="actions">
@@ -721,7 +732,6 @@ function deletePersonalTodo(id){
 }
 
 function registerNewProject(token,name,desc){
-  console.log(token)
   $.ajax({
     url : 'http://localhost:3000/projects/create',
     method : 'post',
@@ -735,8 +745,8 @@ function registerNewProject(token,name,desc){
     .done((report)=>{
       $('#projectNameReg').val('')
       $('#projectDescReg').val('')
-      console.log(report);
       gotProjectPage()
+      // getProjectTodo()
     })
     .fail((err)=>{
       console.log(err);
@@ -744,6 +754,9 @@ function registerNewProject(token,name,desc){
 }
 
 function getProjectTodo(){
+  $('#todoCard1').empty()
+  $('#todoCard2').empty()
+  $('#todoCard3').empty()
   $('#todoCard4').empty()
   $('#todoCard5').empty()
   $('#todoCard6').empty()
@@ -756,8 +769,11 @@ function getProjectTodo(){
     }
   })
     .done((project)=>{
-      console.log(project);
       setProjectDetail(project)
+      $('#thisProjectName').empty()
+      $('#thisProjectName').append(`
+      <h3>${project.name}</h3>
+      `)
       localStorage.setItem('projectId',project._id)
       if(project.todos.length >=1){
         project.todos.forEach((el)=>{
@@ -794,7 +810,6 @@ function createNewProjectTodo(title,desc,dueDate){
     }
   })
    .done((report)=>{
-     console.log(report);
      $('.ui.modal.addProjectTodo')
      .modal('hide')
      $('#submitProjectTitle').val('')
@@ -856,13 +871,12 @@ function setProjectDetail(project){
     Creator : ${project.creator.username} || ${project.creator.email}
     <br>
     <i class="caret right icon"></i>
-    Created At : ${project.createdAt}
+    Created At : ${project.createdAt.slice(0,10)}
     <br>
     <i class="caret right icon"></i>
     Project Description : ${project.desc}
     <br>
   `)
-  console.log(project)
 
   project.members.forEach((el,index)=>{
     $('#tbodyProject').append(`
@@ -882,7 +896,7 @@ function setProjectDetail(project){
   } else {
     console.log('isNotCreator')
     hide('#addMemberButton')
-    hide('#newMemberForm')
+    // hide('#newMemberForm')
   }
 }
 
@@ -905,8 +919,6 @@ function getAllFreeUser(){
       console.log(err)
     })
 }
-
-
 
 function setNewMemberList(users){
   
