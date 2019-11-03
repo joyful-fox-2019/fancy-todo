@@ -1,10 +1,12 @@
 $(document).ready(function() {
-	$('#todo-create-modal').on('shown.bs.modal', function(event) {
-		$('[data-toggle="datepicker"]').datepicker({ zIndex: 2000, format: 'yyyy/mm/dd' });
-	});
+	addDatePicker();
 	addScroll();
 	isSignIn();
 });
+
+function addDatePicker() {
+	$('[data-toggle="datepicker"]').datepicker({ zIndex: 2000, format: 'yyyy/mm/dd' });
+}
 
 function addScroll() {
 	$('.to-top').click(function() {
@@ -131,18 +133,22 @@ async function showTodos() {
 	const user = await getUserTodos().catch(err => console.log(err));
 	if (!user) return;
 	if (user.todos.length < 1) {
-		$('.card-deck').empty();
-		$('.card-deck').append(`
-			<div class="card mb-3 col-3" id="">
-			<div class="card-body">
-				<p class="card-title">Click to Create new Todo!</p>
+		$('.masonry').empty();
+		$('.masonry').append(`
+			<div class="masonry-brick">
+				<div class="card masonry-content">
+					<div class="card-body">
+						<p class="card-title">Click to Create new Todo!</p>
+					</div>
+					<small><a style="cursor: pointer;" class="btn stretched-link" data-toggle="modal" data-target="#todo-create-modal"></a></small>
+				</div>
 			</div>
-			<small><a style="cursor: pointer;" class="btn stretched-link" data-toggle="modal" data-target="#todo-create-modal"></a></small>
-      </div>
+			
 		`);
+		createTodo();
 		return;
 	}
-	$('.card-deck').empty();
+	$('.masonry').empty();
 	let counter = 0;
 	for (const todo of user.todos) {
 		let wrapper = '';
@@ -157,31 +163,36 @@ async function showTodos() {
 		}
 
 		counter++;
-		$('.card-deck').append(`
-      ${wrapper}
-      <div class="card mb-3" id="${todo._id}">
-        <div class="card-header d-inline-flex">
-          <h5 class="mr-auto">${todo.name}</h5>
-          <small><a style="cursor: pointer;" class="btn stretched-link" data-toggle="modal" data-target="#todo-detail-modal"></a></small>
-        </div>
-        <div class="card-body">
-        <h6 class="card-subtitle mb-2"><small class="text-muted">Due ${new Date(
-					todo.due_date
-				).toLocaleDateString('en-US', {
-					weekday: 'long',
-					year: 'numeric',
-					month: 'short',
-					day: 'numeric'
-				})}</small></h6>
-          <p class="card-text">${todo.description}</p>
-        </div>
-      </div>
+		$('.masonry').append(`
+			<div class="masonry-brick">
+				<div class="card masonry-content" id="${todo._id}">
+					<div class="card-header ">
+						<h5 class="mr-auto">${todo.name}</h5>
+					</div>
+					<div class="card-body">
+						<small><a href="" class="v-hidden stretched-link" data-toggle="modal" data-target="#todo-detail-modal"></a></small>
+						<h6 class="card-subtitle mb-2"><small class="text-muted">Due ${new Date(
+							todo.due_date
+						).toLocaleDateString('en-US', {
+							weekday: 'long',
+							year: 'numeric',
+							month: 'short',
+							day: 'numeric'
+						})}</small></h6>
+						<p class="card-text">${todo.description}</p>
+					</div>
+				</div>
+			</div>
     `);
 	}
 	$('#todo-detail-modal').on('show.bs.modal', getTodoDetail);
-}
 
-function todoCreateCloseConfirmation() {}
+	var masonryEvents = ['load', 'ready', 'resize'];
+	masonryEvents.forEach(function(event) {
+		window.addEventListener(event, resizeAllMasonryItems);
+	});
+	createTodo();
+}
 
 async function getUserTodos() {
 	let payload = await verifyToken(localStorage.getItem('jwt_token'));
@@ -209,4 +220,69 @@ async function getTodoDetail(event) {
 		})
 	);
 	$('#m-todo-desc').text(todo.description);
+}
+
+function createTodo() {
+	const name = $('#t-name')
+		.val()
+		.trim();
+	const description = $('#t-desc')
+		.val()
+		.trim();
+	const due_date = $('#t-due')
+		.val()
+		.trim();
+	const jwt_token = localStorage.getItem('jwt_token');
+	$('#t-form').submit(function(event) {
+		event.preventDefault();
+		console.log('masuk sini nggak?');
+		$.ajax({
+			method: 'POST',
+			url: 'http://localhost:3000/todos/',
+			data: {
+				name,
+				description,
+				due_date,
+				jwt_token
+			}
+		})
+			.done(response => {
+				console.log(response);
+			})
+			.fail(err => {
+				console.log(err);
+			});
+	});
+	$('#t-submit').click(function(event) {
+		event.preventDefault();
+		$('#t-form').submit();
+	});
+}
+
+function resizeMasonryItem(item) {
+	/* Get the grid object, its row-gap, and the size of its implicit rows */
+	var grid = document.getElementsByClassName('masonry')[0],
+		rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
+		rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+
+	var rowSpan = Math.ceil(
+		(item.querySelector('.masonry-content').getBoundingClientRect().height + rowGap) /
+			(rowHeight + rowGap)
+	);
+
+	/* Set the spanning as calculated above (S) */
+	item.style.gridRowEnd = 'span ' + rowSpan;
+}
+
+function resizeAllMasonryItems() {
+	// Get all item class objects in one list
+	var allItems = document.getElementsByClassName('masonry-brick');
+
+	/*
+	 * Loop through the above list and execute the spanning function to
+	 * each list-item (i.e. each masonry item)
+	 */
+	for (var i = 0; i < allItems.length; i++) {
+		resizeMasonryItem(allItems[i]);
+	}
 }

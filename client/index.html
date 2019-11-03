@@ -88,12 +88,12 @@
 							</div>
 
 							<div class="form-group">
-								<label for="l-password">Description</label>
+								<label for="t-desc">Description</label>
 								<textarea class="form-control" id="t-desc" rows="3"></textarea>
 							</div>
 
 							<div class="form-group">
-								<label for="l-due">Due Date</label>
+								<label for="t-due">Due Date</label>
 								<input
 									type="text"
 									class="form-control"
@@ -106,7 +106,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Save changes</button>
+						<button type="button" class="btn btn-primary" id="t-submit">Create Todo</button>
 					</div>
 				</div>
 			</div>
@@ -220,7 +220,7 @@
 
 			<!-- TODOS SECTION -->
 			<section class="container" id="todos-section">
-				<div class="card-deck"></div>
+				<div class="masonry"></div>
 			</section>
 		</main>
 
