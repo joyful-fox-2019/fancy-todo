@@ -27,10 +27,10 @@ Register a new user :
 | **Authorization Required**    | NO            |
 
 Request Body :
-| Field Name                    | Value                |
-| ----------------------------- | -------------------- |
-| **email**                     | `edirates@gmail.com` |
-| **password**                  | `edison`             |
+| Field Name                    | Value                  |
+| ----------------------------- | ---------------------- |
+| **email**                     | `<your email address>` |
+| **password**                  | `<your password>`      |
 
 Success Response :
   * **HTTP Code :** 201 (Created)
@@ -62,10 +62,10 @@ Sign in with existing user :
 | **Authorization Required**    | NO            |
 
 Request Body :
-| Field Name                    | Value                |
-| ----------------------------- | -------------------- |
-| **email**                     | `edirates@gmail.com` |
-| **password**                  | `edison`             |
+| Field Name                    | Value                  |
+| ----------------------------- | ---------------------- |
+| **email**                     | `<your email address>` |
+| **password**                  | `<your password>`      |
 
 Success Response :
   * **HTTP Code :** 200 (OK)
@@ -97,7 +97,7 @@ Sign in with Google Account :
 Request Body :
 | Field Name                    | Value                   |
 | ----------------------------- | ----------------------- |
-| **CLIENT_ID**                 | `Your Google Client ID` |
+| **CLIENT_ID**                 | `<Google Client ID>`    |
 
 Success Response :
   * **HTTP Code :** 200 (OK)
@@ -129,6 +129,16 @@ Show all todo list of logged in user :
 | **Method**                    | `GET`         |
 | **Authentication Required**   | YES           |
 | **Authorization Required**    | YES           |
+
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
+
+Request Query :
+| Field Name                    | Value                      |
+| ----------------------------- | -------------------------- |
+| **status**                    | `<ongoing || completed>`   |
 
 Success Response :
   * **HTTP Code :** 200 (OK)
@@ -165,6 +175,16 @@ Show a specific todo list of logged in user :
 | **Authentication Required**   | YES               |
 | **Authorization Required**    | YES               |
 
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
+
+Request Params :
+| Field Name                    | Value                 |
+| ----------------------------- | --------------------- |
+| **id**                        | `<Todo ID>`           |
+
 Success Response :
   * **HTTP Code :** 200 (OK)
   * **JSON Response :**
@@ -200,6 +220,18 @@ Create a new todo activity :
 | **Authentication Required**   | YES           |
 | **Authorization Required**    | YES           |
 
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
+
+Request Body :
+| Field Name                    | Value                  |
+| ----------------------------- | ---------------------- |
+| **name**                      | `<Todo Name>`          |
+| **description**               | `<Todo Description>`   |
+| **due_date**                  | `<Todo Due Date>`      |
+
 Success Response :
   * **HTTP Code :** 201 (Created)
   * **JSON Response :**
@@ -225,7 +257,7 @@ Error Response :
   }
   ```
 
-**3. Update**
+**4. Update**
 ----
 Update a specific todo activity :
 | Syntax                        | Description       |
@@ -235,6 +267,18 @@ Update a specific todo activity :
 | **Authentication Required**   | YES               |
 | **Authorization Required**    | YES               |
 
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
+
+Request Body :
+| Field Name                    | Value                  |
+| ----------------------------- | ---------------------- |
+| **name**                      | `<Todo Name>`          |
+| **description**               | `<Todo Description>`   |
+| **due_date**                  | `<Todo Due Date>`      |
+
 Success Response :
   * **HTTP Code :** 200 (OK)
   * **JSON Response :**
@@ -254,15 +298,20 @@ Error Response :
   }
   ```
 
-**4. Patch Status**
+**5. Patch Status Completed**
 ----
 Update a specific todo activity status :
-| Syntax                        | Description       |
-| ----------------------------- | ----------------- |
-| **URL**                       | `/todos/:id`      |
-| **Method**                    | `PATCH`           |
-| **Authentication Required**   | YES               |
-| **Authorization Required**    | YES               |
+| Syntax                        | Description           |
+| ----------------------------- | --------------------- |
+| **URL**                       | `/todos/done:id`      |
+| **Method**                    | `PATCH`               |
+| **Authentication Required**   | YES                   |
+| **Authorization Required**    | YES                   |
+
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
 
 Success Response :
   * **HTTP Code :** 200 (OK)
@@ -283,7 +332,41 @@ Error Response :
   }
   ```
 
-**5. Delete**
+**6. Patch Status Ongoing**
+----
+Update a specific todo activity status :
+| Syntax                        | Description           |
+| ----------------------------- | --------------------- |
+| **URL**                       | `/todos/undo:id`      |
+| **Method**                    | `PATCH`               |
+| **Authentication Required**   | YES                   |
+| **Authorization Required**    | YES                   |
+
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
+
+Success Response :
+  * **HTTP Code :** 200 (OK)
+  * **JSON Response :**
+  ```html
+  {
+    "n": 1,
+    "nModified": 1,
+    "ok": 1
+  }
+  ```
+Error Response : 
+  * **HTTP Code :** 403 (Forbidden)
+  * **JSON Response :**
+  ```html
+  {
+    "messages": "You are not authorized."
+  }
+  ```
+
+**7. Delete**
 ----
 Delete a specific todo activity from list :
 | Syntax                        | Description       |
@@ -292,6 +375,11 @@ Delete a specific todo activity from list :
 | **Method**                    | `DELETE`          |
 | **Authentication Required**   | YES               |
 | **Authorization Required**    | YES               |
+
+Request Headers :
+| Field Name                    | Value                |
+| ----------------------------- | -------------------- |
+| **jwt_token**                 | `<your JWT Token>`   |
 
 Success Response :
   * **HTTP Code :** 200 (OK)

@@ -2,8 +2,13 @@ const Todo = require("../models/todo.js");
 
 class TodoController {
     static findAll (req, res, next) {
+        let status = false;
+        if (req.query.status === "completed") {
+            status = true;
+        }
         Todo.find({
-            UserId: req.user._id
+            UserId: req.user._id,
+            status: status
         })
         .then((todos) => {
             res.status(200).json(todos);
@@ -55,12 +60,26 @@ class TodoController {
             next(err);
         });
     }
-    static patch (req, res, next) {
+    static patchDone (req, res, next) {
         Todo.updateOne({
             _id: req.params.id
         }
         , { $set : {
             status: true
+        }})
+        .then((updated) => {
+            res.status(200).json(updated);
+        })
+        .catch((err) => {
+            next(err);
+        });
+    }
+    static patchUndo (req, res, next) {
+        Todo.updateOne({
+            _id: req.params.id
+        }
+        , { $set : {
+            status: false
         }})
         .then((updated) => {
             res.status(200).json(updated);

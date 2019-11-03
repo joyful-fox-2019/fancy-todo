@@ -8,7 +8,8 @@ router.get("/", TodoController.findAll);
 router.get("/:id", TodoController.findOne);
 router.post("/", TodoController.create);
 router.put("/:id", authorize, TodoController.update);
-router.patch("/:id", authorize, TodoController.patch);
+router.patch("/done/:id", authorize, TodoController.patchDone);
+router.patch("/undo/:id", authorize, TodoController.patchUndo);
 router.delete("/:id", authorize, TodoController.delete);
 
 module.exports = router;

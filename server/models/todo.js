@@ -24,6 +24,8 @@ const todoSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     }
+},{
+    timestamps: true
 });
 
 todoSchema.pre("save", function () {
