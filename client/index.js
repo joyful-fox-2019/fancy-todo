@@ -57,13 +57,30 @@ function onSignIn(googleUser) {
     }
   })
     .done(data => {
-      console.log(data)
       localStorage.setItem('access_token', data.access_token)
       $('#username').empty('')
       $('#username').append(`${data.email}`)
       showMainPage()
     })
     .catch(showAlert)
+}
+
+isToday = (strDate) => {
+  const dueDate = new Date(strDate)
+  const date = dueDate.getDate()
+  const month = dueDate.toLocaleString('default', { month: 'long' }).substring(0, 3)
+  const year = dueDate.getFullYear()
+  const todayDate = new Date()
+  const nowDate = todayDate.getDate()
+  const nowMonth = todayDate.toLocaleString('default', { month: 'long' }).substring(0, 3)
+  const nowYear = todayDate.getFullYear()
+  return date <= nowDate && month <= nowMonth && year <= nowYear
+}
+
+isOverdue = (strDate) => {
+  const dueDate = new Date(strDate)
+  const nowDate = new Date()
+  return dueDate < nowDate
 }
 
 formatDate = (strDate) => {
@@ -82,7 +99,6 @@ formatDatePicker = (strDate) => {
 }
 
 formatTimePicker = (strDate) => {
-  console.log('12:12 AM')
   const dueDate = new Date(strDate)
   let hours = dueDate.getHours()
   if(hours > 12) {
@@ -100,7 +116,6 @@ formatTimePicker = (strDate) => {
 }
 
 appendTasks = (tasks) => {
-  console.log(tasks)
   $('#tasks').empty()
   tasks.forEach(task => {
     if(task.status) {
@@ -128,7 +143,7 @@ appendTasks = (tasks) => {
             </div>
             <div href="#modal-update" onclick="showUpdate('${task._id}')" class="modal-trigger col s11 teal-text text-darken-4 clickable">
               <span>${task.name}</span>
-              <span class="time-badge badge">${formatDate(task.dueDate)}</span>
+              <span class="badge ${isToday(task.dueDate) && !isOverdue(task.dueDate) ? 'today-badge' : 'time-badge'} ${isOverdue(task.dueDate) ? 'overdue-badge' : ''}">${formatDate(task.dueDate)}</span>
             </div>
           </div>
         </a>
@@ -203,7 +218,6 @@ check = (id) => {
 }
 
 showUpdate = (id) => {
-  console.log('update', id)
   $.ajax({
     url: `${baseUrl}/tasks/${id}`,
     type: 'get',
@@ -241,11 +255,9 @@ remove = (id) => {
 }
 
 setDeleteProjectId = (projectId) => {
-  console.log(projectId)
   $('#delete-project-id').val(projectId)
 }
 appendProjects = (projects) => {
-  console.log(projects)
   $('#projects-container').empty()
   $('#projects-container').append(`
     <div onclick="showMainPage()" class="card-panel teal accent-4 clickable">
@@ -265,7 +277,7 @@ appendProjects = (projects) => {
           </div>
           <div class="col s2">
             <strong class="white-text">
-              <i onclick="setDeleteProjectId('${project._id}')" href="#modal-confirm-delete-project" class="modal-trigger material-icons white-text">delete</i>
+              <i onclick="setDeleteProjectId('${project._id}')" href="#modal-confirm-delete-project" class="modal-trigger material-icons white-text clickable">delete</i>
             </strong>
           </div>
         </div>
@@ -293,7 +305,6 @@ getProjects = () => {
 }
 
 appendProjectTasks = (tasks) => {
-  console.log(tasks)
   $('#project-tasks').empty()
   tasks.forEach(task => {
     if(task.status) {
@@ -321,7 +332,7 @@ appendProjectTasks = (tasks) => {
             </div>
             <div href="#modal-update" onclick="showUpdate('${task._id}')" class="modal-trigger col s11 teal-text text-darken-4 clickable">
               <span>${task.name}</span>
-              <span class="time-badge badge">${formatDate(task.dueDate)}</span>
+              <span class="badge ${isToday(task.dueDate) && !isOverdue(task.dueDate) ? 'today-badge' : 'time-badge'} ${isOverdue(task.dueDate) ? 'overdue-badge' : ''}">${formatDate(task.dueDate)}</span>
             </div>
           </div>
         </a>
@@ -348,7 +359,6 @@ getProjectTasks = (projectId) => {
 }
 
 appendProjectMembers = (members) => {
-  console.log(members)
   $('#members-container').empty()
   members.forEach(member => {
     $('#members-container').append(`
@@ -384,7 +394,6 @@ showProjectPage = (projectId) => {
 }
 
 appendUsers = (users) => {
-  console.log(users)
   $('#users-container').empty()
   users.forEach(user => {
     $('#users-container').append(`
@@ -482,7 +491,6 @@ $(document).ready(() => {
       }
     })
       .done(data => {
-        console.log(data)
         M.Modal.getInstance($('#modal-add')).close()
         $('#add-task-name').val('')
         $('#add-task-description').val('')
@@ -515,7 +523,6 @@ $(document).ready(() => {
       }
     })
       .done(data => {
-        console.log(data)
         M.Modal.getInstance($('#modal-update')).close()
         if($('#curr-project-id').val()) {
           getProjectTasks($('#curr-project-id').val())
@@ -560,8 +567,8 @@ $(document).ready(() => {
       }
     })
       .done(data => {
-        console.log(data)
         M.Modal.getInstance($('#modal-add-project')).close()
+        $('#add-project-name').val('')
         getProjects()
       })
       .fail(showAlert)
@@ -589,7 +596,6 @@ $(document).ready(() => {
       }
     })
       .done(data => {
-        console.log(data)
         M.Modal.getInstance($('#modal-add-by-project')).close()
         $('#add-project-task-name').val('')
         $('#add-project-task-description').val('')
@@ -607,8 +613,6 @@ $(document).ready(() => {
     $.each($("input[name='checkbox-member']:checked"), function(){
         members.push($(this).val());
     });
-    console.log(members)
-    console.log(projectId)
     $.ajax({
       url: `${baseUrl}/projects/${projectId}`,
       type: 'patch',
@@ -620,7 +624,6 @@ $(document).ready(() => {
       }
     })
       .done(data => {
-        console.log(data)
         M.Modal.getInstance($('#modal-add-member')).close()
         getProjectMembers(projectId)
       })

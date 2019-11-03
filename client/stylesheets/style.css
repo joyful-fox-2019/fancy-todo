@@ -95,6 +95,22 @@ hr {
   border-radius: 20px;
   font-size: 10px !important;
 }
+.today-badge {
+  border: none;
+  background: rgb(93, 201, 188);
+  border-color: rgb(255, 255, 255);
+  color: rgb(255, 238, 238) !important;
+  border-radius: 20px;
+  font-size: 10px !important;
+}
+.overdue-badge {
+  border: none;
+  background: #ED6E73;
+  border-color: rgb(255, 255, 255);
+  color: rgb(255, 238, 238) !important;
+  border-radius: 20px;
+  font-size: 10px !important;
+}
 .adjusted-width {
   width: 80%;
 }

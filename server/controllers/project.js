@@ -10,7 +10,7 @@ module.exports = {
   },
   findOne: (req, res, next) => {
     Project.findById(req.params.id)
-    .populate('members').populate('tasks')
+    .populate('members').populate({ path: 'tasks', options: { sort: { 'dueDate': 1 } } })
       .then(projects => {
         res.status(200).json(projects)
       })
@@ -29,7 +29,6 @@ module.exports = {
   },
   update: (req, res, next) => {
     const { name } = req.body
-    console.log(req.body)
     Project.findByIdAndUpdate(req.params.id,
       {
         name,
