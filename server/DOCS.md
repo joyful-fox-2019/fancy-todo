@@ -3,8 +3,7 @@
 ## Getting Started
 ---
 Welcome to Fancy Todo API! You can use the API to create, update, delete and read information about todos list.<br/>
-All API access is performed over HTTP and accessed from the http://localhost:3000/.
-
+All API access is performed over HTTP and accessed from the http://localhost:3000.<br/>
 You can do CRUD operation for todo list by accessing to http://localhost:3000/todos.<br/>
 You can also register a new user and login with existing user by accessing to http://localhost:3000/users.
 
@@ -298,12 +297,12 @@ Error Response :
   }
   ```
 
-**5. Patch Status Completed**
+**5. Patch Status To Completed**
 ----
-Update a specific todo activity status :
+Update a specific todo activity status into completed status :
 | Syntax                        | Description           |
 | ----------------------------- | --------------------- |
-| **URL**                       | `/todos/done:id`      |
+| **URL**                       | `/todos/done/:id`     |
 | **Method**                    | `PATCH`               |
 | **Authentication Required**   | YES                   |
 | **Authorization Required**    | YES                   |
@@ -332,12 +331,12 @@ Error Response :
   }
   ```
 
-**6. Patch Status Ongoing**
+**6. Patch Status To Ongoing**
 ----
-Update a specific todo activity status :
+Update a specific todo activity status into ongoing status :
 | Syntax                        | Description           |
 | ----------------------------- | --------------------- |
-| **URL**                       | `/todos/undo:id`      |
+| **URL**                       | `/todos/undo/:id`     |
 | **Method**                    | `PATCH`               |
 | **Authentication Required**   | YES                   |
 | **Authorization Required**    | YES                   |
