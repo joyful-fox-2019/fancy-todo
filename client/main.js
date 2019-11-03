@@ -118,8 +118,8 @@ $('form')
           }
         ]
       },
-      name: {
-        identifier  : 'name',
+      names: {
+        identifier  : 'names',
         rules: [
           {
             type   : 'empty',
@@ -142,9 +142,11 @@ $('form')
 
 $('#loginSubmit').on('submit',(e)=>{
   e.preventDefault()
+  $('.ui.dimmer').addClass('active')
   let email = $('#emailLog').val()
   let password = $('#passLog').val()
   if (email.length === 0 || password.length === 0){
+    $('.ui.dimmer').removeClass('active')
   } else {
     $.ajax({
       method : 'post',
@@ -154,6 +156,7 @@ $('#loginSubmit').on('submit',(e)=>{
       }
     })
     .done((data)=>{
+      $('.ui.dimmer').removeClass('active')
       localStorage.setItem('token',data.token)
       localStorage.setItem('name',data.name)
       localStorage.setItem('email',data.email)
@@ -165,6 +168,7 @@ $('#loginSubmit').on('submit',(e)=>{
       homePage()
     })
     .fail((err)=>{
+      $('.ui.dimmer').removeClass('active')
       setLoginError(err.responseJSON,"Login")
       setTimeout(()=>{
         $('#loginError').empty()
@@ -175,10 +179,12 @@ $('#loginSubmit').on('submit',(e)=>{
 
 $('#registerSubmit').on('submit',(e)=>{
   e.preventDefault()
+  $('.ui.dimmer').addClass('active')
   let username = $('#usernameReg').val()
   let email = $('#emailReg').val()
   let password = $('#passReg').val()
   if (email.length === 0 || password.length === 0 || username.length === 0){
+    $('.ui.dimmer').removeClass('active')
   } else {
     $.ajax({
       method : 'post',
@@ -188,6 +194,7 @@ $('#registerSubmit').on('submit',(e)=>{
       }
     })
     .done((data)=>{
+      $('.ui.dimmer').removeClass('active')
       localStorage.setItem('token',data.token)
       localStorage.setItem('name',data.name)
       localStorage.setItem('email',data.email)
@@ -198,6 +205,7 @@ $('#registerSubmit').on('submit',(e)=>{
       homePage()
     })
     .fail((err)=>{
+      $('.ui.dimmer').removeClass('active')
       setLoginError(err.responseJSON,"Register")
       setTimeout(()=>{
         $('#loginError').empty()
@@ -393,6 +401,21 @@ function setLoginError(err,type){
   })
 }
 
+function errorMessage(){
+  $('#errorGeneral').append(`
+  <div class="ui negative message transition">
+    <i class="close icon" id="close"></i>
+    <div class="header">
+      Error
+    </div>
+    <p>Something wrong with our server</p>
+    </div>
+  `)
+  $('#close').click(()=>{
+    $('#errorGeneral').empty()
+  })  
+}
+
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -400,6 +423,7 @@ function onSignIn(googleUser) {
   // console.log('Image URL: ' + profile.getImageUrl());
   // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   var id_token = googleUser.getAuthResponse().id_token;
+  $('.ui.dimmer').addClass('active')
   $.ajax({
   method : 'post',
   url : 'http://localhost:3000/users/OAuth',
@@ -408,6 +432,7 @@ function onSignIn(googleUser) {
   }
   })
   .done((token)=>{
+    $('.ui.dimmer').removeClass('active')
     let name = profile.getName()
     let email = profile.getEmail()
     localStorage.setItem('token',token)
@@ -418,8 +443,9 @@ function onSignIn(googleUser) {
     homePage()
   })
   .fail((msg)=>{
+    $('.ui.dimmer').removeClass('active')
     console.log(msg);
-   
+    errorMessage()
   })
 }
 
@@ -451,13 +477,11 @@ function getMyDetail(){
   })
     .done((user)=>{
       if(user.project){
-        console.log('ada-==-=-=-=')
         hide('#createProject')
         show('#projectDetail')
         show('#projectTodo')
         getProjectTodo()
       } else {
-        console.log('ga adasdajs;odiyo7')
         show('#createProject')
         hide('#projectDetail')
         hide('#projectTodo')
@@ -465,16 +489,13 @@ function getMyDetail(){
     })
     .fail((err)=>{
       console.log(err)
+      errorMessage()
     })
 }
 
 function getMyTodo(){
-  $('#todoCard1').empty()
-  $('#todoCard2').empty()
-  $('#todoCard3').empty()
-  $('#todoCard4').empty()
-  $('#todoCard5').empty()
-  $('#todoCard6').empty()
+  $('.ui.dimmer').addClass('active')
+  
   
   let token = localStorage.getItem('token')
   $.ajax({
@@ -485,6 +506,13 @@ function getMyTodo(){
     }
   })
     .done((todos)=>{
+      $('#todoCard1').empty()
+      $('#todoCard2').empty()
+      $('#todoCard3').empty()
+      // $('#todoCard4').empty()
+      // $('#todoCard5').empty()
+      // $('#todoCard6').empty()
+      $('.ui.dimmer').removeClass('active')
       if(todos.length >=1){
         todos.forEach((el)=>{
           if(el.status === "To-do"){
@@ -498,7 +526,9 @@ function getMyTodo(){
       }
     })
     .fail((err)=>{
+      $('.ui.dimmer').removeClass('active')
       console.log(err)
+      errorMessage()
     })
 }
 
@@ -528,7 +558,7 @@ function setModalDetail(todo){
       <div class="content">
         <div class="description">
           <p>Status: ${todo.status}</p>
-          <p>Due date: ${todo.dueDate}</p>
+          <p>Due date: ${todo.dueDate.slice(0,10)}</p>
           <p>Desc: ${todo.desc}</p>
         </div>
       </div>
@@ -560,7 +590,6 @@ function setModalDetail(todo){
   })
   
   $(`#deleteTodo${todo._id}`).click(()=>{
-    console.log('trigres');
     setModalConfirm(todo)
     $(`.ui.modal.detail.${todo._id}`)
     .modal('hide').empty()
@@ -652,13 +681,24 @@ function setModalEdit(todo){
     let title = $('#editTitle').val()
     let desc = $('#editDesc').val()
     let status = $('#editStatus').val()
-    if(todo.projectId){
-      editProjectTodo(todo.projectId,todo._id,title,desc,status)
+    if(status){
+      if(todo.projectId){
+        editProjectTodo(todo.projectId,todo._id,title,desc,status)
+      }else{
+        editPersonalTodo(todo._id,title,desc,status)
+      }
+      $(`.ui.modal.edit.${todo._id}`)
+      .modal('hide').empty()
     }else{
-      editPersonalTodo(todo._id,title,desc,status)
+      let statis = todo.status
+      if(todo.projectId){
+        editProjectTodo(todo.projectId,todo._id,title,desc,statis)
+      }else{
+        editPersonalTodo(todo._id,title,desc,statis)
+      }
+      $(`.ui.modal.edit.${todo._id}`)
+      .modal('hide').empty()
     }
-    $(`.ui.modal.edit.${todo._id}`)
-    .modal('hide').empty()
   })
   $('#closeEdit').click(()=>{
     $(`.ui.modal.edit.${todo._id}`)
@@ -679,7 +719,6 @@ function createNewPersonalTodo(title,desc,dueDate){
    }
  })
   .done((report)=>{
-    console.log(report);
     $('.ui.modal.addPersonal')
     .modal('hide')
     $('#submitPersonalTitle').val('')
@@ -705,11 +744,11 @@ function editPersonalTodo(id,title,desc,status){
     }
   })
     .done((report)=>{
-      console.log(report);
       getMyTodo()
     })
     .fail((err)=>{
       console.log(err)
+      errorMessage()
     })
 }
 
@@ -721,13 +760,13 @@ function deletePersonalTodo(id){
     headers : {token}
   })
     .done((report)=>{
-      console.log(report)
       $(`.ui.mini.modal.${id}`)
       .modal('hide').empty()
       getMyTodo()
     })
     .fail((err)=>{
       console.log(err)
+      errorMessage()
     })
 }
 
@@ -754,12 +793,8 @@ function registerNewProject(token,name,desc){
 }
 
 function getProjectTodo(){
-  $('#todoCard1').empty()
-  $('#todoCard2').empty()
-  $('#todoCard3').empty()
-  $('#todoCard4').empty()
-  $('#todoCard5').empty()
-  $('#todoCard6').empty()
+  $('.ui.dimmer').addClass('active')
+ 
   let token = localStorage.getItem('token')
   $.ajax({
     url : 'http://localhost:3000/projects/getproject',
@@ -769,6 +804,13 @@ function getProjectTodo(){
     }
   })
     .done((project)=>{
+      // $('#todoCard1').empty()
+      // $('#todoCard2').empty()
+      // $('#todoCard3').empty()
+      $('#todoCard4').empty()
+      $('#todoCard5').empty()
+      $('#todoCard6').empty()
+      $('.ui.dimmer').removeClass('active')
       setProjectDetail(project)
       $('#thisProjectName').empty()
       $('#thisProjectName').append(`
@@ -788,6 +830,7 @@ function getProjectTodo(){
       }
     })
     .fail((err)=>{
+      $('.ui.dimmer').removeClass('active')
       console.log(err)
     })
 }
@@ -835,11 +878,11 @@ function editProjectTodo(projectId,todoId,title,desc,status){
     }
   })
     .done((report)=>{
-      console.log(report);
       getProjectTodo()
     })
     .fail((err)=>{
       console.log(err)
+      errorMessage()
     })
 }
 
@@ -851,7 +894,6 @@ function deleteProjectTodo(projectId,todoId){
     headers : {token}
   })
     .done((report)=>{
-      console.log(report)
       $(`.ui.mini.modal.${todoId}`)
       .modal('hide').empty()
       getProjectTodo()
@@ -862,7 +904,6 @@ function deleteProjectTodo(projectId,todoId){
 }
 
 function setProjectDetail(project){
-  // disini di tambah logic creator true || false
   $('#tbodyProject').empty()
   $('#setProjectDetail').empty()
   $('#setProjectDetail').append(`
@@ -890,11 +931,8 @@ function setProjectDetail(project){
 
   let email = localStorage.getItem('email')
   if(project.creator.email === email){
-    // disini show button
-    console.log('isCreator')
     show('#addMemberButton')
   } else {
-    console.log('isNotCreator')
     hide('#addMemberButton')
     // hide('#newMemberForm')
   }
@@ -922,22 +960,27 @@ function getAllFreeUser(){
 
 function setNewMemberList(users){
   
-  console.log('asdasd');
-  console.log(users)
-  $('#newMemberForm').append(`
-  <form class="ui form" id="submitNewMember">
-  <div class="field">
-      <label>List of free users</label>
-        <div class="ui selection dropdown">
-            <input type="hidden" name="status" id="newMemberId">
-            <i class="dropdown icon"></i>
-            <div class="default text">Search user</div>
-            <div class="menu" id="listNewMember"></div>
-        </div>
-    </div>
-  <button class="ui button" type="submit">Add this user</button>
-  </form>
-  `)
+  if(users.length >=1){
+    $('#newMemberForm').append(`
+    <form class="ui form" id="submitNewMember">
+    <div class="field">
+        <label>List of free users</label>
+          <div class="ui selection dropdown">
+              <input type="hidden" name="status" id="newMemberId">
+              <i class="dropdown icon"></i>
+              <div class="default text">Search user</div>
+              <div class="menu" id="listNewMember"></div>
+          </div>
+      </div>
+    <button class="ui button" type="submit">Add this user</button>
+    </form>
+    `)
+  } else {
+    $('#newMemberForm').append(`
+    <p>There are no free user at the time :(</p>
+    `)
+    console.log('isi');
+  }
 
   users.forEach((element)=>{
     // console.log(element);
@@ -951,12 +994,12 @@ function setNewMemberList(users){
   $('#submitNewMember').on('submit',(e)=>{
     e.preventDefault()
     let newMember = $('#newMemberId').val()
-    console.log(newMember);
     addNewMember(newMember)
   })
 }
 
 function addNewMember(emailMember){
+  $('.ui.dimmer').addClass('active')
   $('#newMemberId').val('')
   let projectId = localStorage.getItem('projectId')
   let token = localStorage.getItem('token')
@@ -971,7 +1014,7 @@ function addNewMember(emailMember){
     }
   })
     .done((report)=>{
-      console.log(report)
+      $('.ui.dimmer').removeClass('active')
       projectDetailActive()
       getProjectTodo()
       $('#newMemberForm').empty()
@@ -979,6 +1022,7 @@ function addNewMember(emailMember){
       
     })
     .fail((err)=>{
+      $('.ui.dimmer').removeClass('active')
       console.log(err)
     })
 }

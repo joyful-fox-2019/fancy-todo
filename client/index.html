@@ -18,15 +18,21 @@
       content="650288641106-co9vif4sf0068c20lt4kr5nq8mvlfsea.apps.googleusercontent.com"
     />
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link href="./styles.css" rel="stylesheet" />
     <title>myFancyTodo</title>
   </head>
   <body>
+      <div id="errorGeneral"></div>
+      <div class="ui dimmer">
+          <div class="ui indeterminate large text loader">Preparing Files</div>
+        </div>
     <div id="startPage" class="ui middle aligned center aligned">
       <div id="loginError"></div>
       <div class="ui center aligned segment">
         <h3>My Fancy Todo</h3>
+        
       </div>
       <div class="ui top attached tabular menu">
         <a class="item active" id="loginTab">
@@ -36,6 +42,7 @@
           Register
         </a>
       </div>
+      
       <div class="ui bottom attached segment">
         <!-- login card -->
         <div id="loginCard">
@@ -176,7 +183,7 @@
               <form class="ui form" id="submitNewProject">
                 <div class="field required">
                   <label>Name</label>
-                  <input type="text" name="name" placeholder="Project name..." id="projectNameReg" />
+                  <input type="text" name="names" placeholder="Project name..." id="projectNameReg" />
                 </div>
                 <div class="field required">
                   <label>Description</label>

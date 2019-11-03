@@ -15,10 +15,11 @@ class ProjectCont{
 
   static async findOne(req,res,next){
     try {
+      console.log('masuk findOne project');
       let userId = req.loggedUser.data.id
       console.log(userId);
       let {project} = await User.findById({_id : userId},'project')
-      console.log(project)
+      console.log(project,'--------->>>')
       if (project){
         let findProject = await Project.findOne({_id:project}).populate('todos').populate('creator').populate('members')
         res.status(200).json(findProject)
