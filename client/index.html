@@ -6,40 +6,177 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>next!</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-  <a href="#" onclick="signOut()">Sign out</a>
+  <!-- import materialize icon -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- end import materialize icon -->
+
+
+
+  <!-- import materialize cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<!-- end import materialize cdn -->
+
+
+
+  <!-- import style.css -->
+  <link rel="stylesheet" href="style.css">
+  <!-- end import style.css -->
+</head>
+
+
+<body>
+
+  <!-- LOGIN PAGE -->
+
+ <!-- navbar -->
+ <nav>
+    <div class="nav blue darker-4">
+      <a href="#!" class="brand-logo"><i class="next-icon material-icons">navigate_nextnavigate_next</i>next!</a>
+      <!-- right section  -->
+      <div class="right-section">
+      <ul class="right">
+        <li><a href="#"><i class="material-icons">search</i></a></li>
+        <li id="module-todo"><a href="#" onclick="showTodo()"><i class="material-icons">view_module</i></a></li>
+          <!-- google sign out -->
+        <li><a class="signout" href="#" onclick="signOut()"><i class="material-icons">power_settings_new</i></a></li>
+      </ul>
+    </div>
+      <!-- end right section -->
+    </div>
+  </nav>
+<!-- end navbar -->
+<br>
+<br>
+
+ <div class="container">
+
+  <!-- registration form -->
+    <div class="register-form" >
+    <div class="register-text row">
+        <div class="col">
+          <h4>/ register /</h4>
+          <h6><B><i>next!</i></B> get organized with you</h6>
+        </div>
+      </div>
+
+    <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <i class="material-icons prefix">mail_outline</i>
+              <input id="email-register" type="text" class="validate">
+              <label for="email-register">Email</label>
+            </div>
+            <div class="input-field col s6">
+              <i class="material-icons prefix">lock_outline</i>
+              <input id="password-register" type="text" class="validate">
+              <label for="password-register">Password</label>
+            </div>
+          </div>
+
+          <div class="row-submit-register">
+          <div style="margin-left: 20px; display: flex;" class="margin-top:40px" id="google-login">
+              <div style="margin-left: 10px !important;" class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+          <br>
+          <button class="btn-register  white-text btn-flat" type="submit" onclick="register(event)">Register</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  <!-- end registration form  -->
+
+
+
+  <!-- login form  -->
+  <div class="login-form" >
+  <div class="register-text row">
+      <div class="col">
+        <h4>/ login /</h4>
+        <h6>the <B><i>next!</i></B> thing to do is putting down those pile of stuffs</h6>
+      </div>
+    </div>
+
+  <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="material-icons prefix">mail_outline</i>
+            <input id="email-login" type="text" class="validate">
+            <label for="email-login">Email</label>
+          </div>
+          <div class="input-field col s6">
+            <i class="material-icons prefix">lock_outline</i>
+            <input id="password-login" type="password" class="validate">
+            <label for="password-login">Password</label>
+          </div>
+        </div>
+
+        <div class="row-submit-login">
+            <div style="margin-left: 20px; display: flex;" class="margin-top:40px" id="google-login">
+                <div style="margin-left: 10px !important;" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            <br>
+            <button class="btn-register  white-text btn-flat" type="submit" onclick="login()">Log In</button>
+            </div>
+
+      </form>
+    </div>
+  </div>
+  <!-- end login form  -->
+</div>
+ 
+  <!-- END LOGIN PAGE -->
+
+
+
+
+  <!-- HOME PAGE -->
+  <div class="homepage" >
+
+   
+
+
+<!-- loading indeterminate -->
+<div class="container">
+  <div class="progress">
+      <div class="indeterminate"></div>
+  </div>
+</div>
+<!-- end loading indeterminate -->
+
+
+<a id="scale-demo" href="#!" class="btn-floating btn-large scale-transition">
+  <i class="material-icons">add</i>
+</a>
+
+
+
+
+</div>
+<!-- END HOME PAGE -->
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 
   <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+            
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
   <script src="main.js"></script>
 
-  <script>
-  function onSignIn(googleUser) {
-    let id_token = googleUser.getAuthResponse().id_token
-
-    
-
-
-
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
-
-  function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
-
-  </script>
+ 
 
 </body>
 </html>

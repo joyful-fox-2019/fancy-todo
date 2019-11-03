@@ -1,0 +1,42 @@
+body {
+  background-size: cover;
+  zoom: 90%;
+  
+}
+
+nav {
+    background-color:#11978ce7 !important ;
+}
+
+nav .brand-logo {
+  margin-left: 35px;
+  padding: 1px !important;
+}
+
+nav .next-icon {
+  size: 80px;
+}
+
+.register-text,
+h4 {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-register {
+  border-radius: 15px;
+  background-color: #11978ce7;
+  margin-left: 5px;
+}
+
+.row-submit-register,
+.row-submit-login {
+  display: flex;
+  justify-content: center;
+}
+
+.right-section {
+  margin-right: 50px;
+}
+
+

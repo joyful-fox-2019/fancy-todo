@@ -2,31 +2,45 @@ const User = require('../models/User')
 const { generateToken } = require('../helpers/jwt')
 const { compare } = require('../helpers/passwordHandler')
 const jwt = require('jsonwebtoken')
+const {OAuth2Client} = require('google-auth-library');
 
 
 class UserController {
 
 
-  static googleSignIn(req, res) {
-    User.findOne({
-      email : req.decoded.email
+  static googleSignIn(req, res, next) {
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+    let payload = null
+    client.verifyIdToken({
+    
+      idToken : req.body.idToken,
+      audence : process.env.GOOGLE_CLIENT_ID
+    })
+    .then(ticket => {
+      payload = ticket.getPayload()
+      let email = payload.email
+      // console.log(payload);
+      return User.findOne({ email })
     })
     .then(user => {
       if (user) {
         return user
       } else {
-        return user.create({
-          email: req.decoded.email,
-          password : process.env.DEFAULT_PASSWORD
-        })
+          return User.create({
+            email: payload.email,
+            password : process.env.DEFAULT_PASSWORD
+          })
       }
     })
     .then(user => {
-      const jwtToken = jwt.sign({
-        _id : user._id
-      }, process.env.JWT_SECRET)
-      res.status(200).json(jwtToken)
+      const token = generateToken({
+        id : user._id,
+        email : user.email
+      })
+      // console.log(token, "TOKEEEEEEEEEEEEN");
+      res.status(200).json({token})
     })
+    .catch(next)
   }
 
   static register(req, res, next) {
