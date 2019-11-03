@@ -2,11 +2,22 @@ const Project = require('../models/Project')
 const ToDo = require('../models/ToDo')
 
 module.exports = {
-    ProjectAuthorization (req, res, next) {
-
-    },
-    OwnerAuhtorization (req, res, next) {
-
+    OwnerAuthorization (req, res, next) {
+        let { id } = req.params
+        let err
+        Project.findById(id)
+        .then (result => {
+            if (result.OwnerId == req.loggedUser._id) {
+                next()
+            } else {
+                err = new Error('Kamu Bukan Pemilik Project ini')
+                err.name = 'OwnerError'
+                next(err)
+            }
+        })
+        .catch (err => {
+            next(err)
+        })
     },
     ToDoAuthorization (req, res, next) {
         let { id } = req.params
@@ -14,7 +25,6 @@ module.exports = {
         ToDo.findById(id)
         .populate('UserId')
         .then (result => {
-            console.log(result)
             if (result.UserId._id == req.loggedUser._id) {
                 next()
             } else {

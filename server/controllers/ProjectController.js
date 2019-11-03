@@ -20,14 +20,11 @@ class ProjectController {
 
     static addMember (req, res, next) {
         let addMember = req.body.member
-        let _id = req.body._
-        id
+        let id = req.params.id
         let OwnerId = req.loggedUser._id
         let arrTemp = []
         let err
-        Project.findOne({
-            _id
-        })
+        Project.findById(id)
         .then (result => {
             arrTemp = result.MemberId
             if (result.OwnerId == OwnerId) {
@@ -41,7 +38,7 @@ class ProjectController {
         .then (() => {
             arrTemp.push(addMember)
             return Project.findOneAndUpdate({
-                _id
+                _id: id
             }, {
                 MemberId: arrTemp
             })
@@ -54,18 +51,37 @@ class ProjectController {
         })
     }
 
+    static findProject (req, res, next) {
+        Project.find({
+            MemberId: req.loggedUser._id
+        })
+        .populate('OwnerId')
+        .then (result => {
+            res.status(200).json({ result })
+        })
+        .catch (err => {
+            next(err)
+        })
+    }
+
+    static deleteProject (req, res, next) {
+        Project.findByIdAndDelete(req.params.id)
+        .then (result => {
+            res.status(200).json(result)
+        })
+        .catch (err => {
+            next(err)
+        })
+    }
+
     static createToDo (req, res, next) {
         let { title, description, dueDate, _id } = req.body
-        let UserId = req.loggedUser._id
-        let temp
         ToDo.create({
             title,
             description,
-            dueDate,
-            UserId
+            dueDate
         })
         .then (result => {
-            temp = result._id
             return Project.findByIdAndUpdate(_id, {$push: { ToDoId: result._id }})
         })
         .then (result => {
@@ -77,10 +93,10 @@ class ProjectController {
     }
 
     static deleteToDo (req, res, next) {
-        let { _id } = req.body
+        let { id } = req.body
         let { ToDoId } = req.params
         let arrTemp = []
-        Project.findById(_id)
+        Project.findById(id)
         .then (result => {
             for (let i = 0; i < result.ToDoId.length; i++) {
                 if (ToDoId == result.ToDoId[i]) {
@@ -88,7 +104,7 @@ class ProjectController {
                 }
             }
             arrTemp = result.ToDoId
-            return Project.findByIdAndUpdate(_id, {$set: {
+            return Project.findByIdAndUpdate(id, {$set: {
                 ToDoId: arrTemp
             }})
         })
@@ -101,8 +117,9 @@ class ProjectController {
     }
 
     static findAllToDo (req, res, next) {
-        let { _id } = req.body
-        Project.findById(_id)
+        let { id } = req.params
+        Project.findById(id)
+        .populate('ToDoId')
         .then (result => {
             res.status(200).json(result)
         })
@@ -112,7 +129,6 @@ class ProjectController {
     }
 
     static findOneToDo (req, res, next) {
-        let { _id } = req.body
         let { ToDoId } = req.params
         ToDo.findById(ToDoId)
         .then (result => {
@@ -124,7 +140,7 @@ class ProjectController {
     }
 
     static updateToDoStatus (req, res, next) {
-        let { _id, status } = req.body
+        let { status } = req.body
         let { ToDoId } = req.params
         ToDo.findByIdAndUpdate(ToDoId, {$set: { status }})
         .then (result => {
@@ -136,7 +152,7 @@ class ProjectController {
     }
 
     static updateToDoAll (req, res, next) {
-        let { _id, title, description, dueDate } = req.body
+        let { title, description, dueDate } = req.body
         let { ToDoId } = req.params
         ToDo.findByIdAndUpdate(ToDoId, {$set: { title, description, dueDate }})
         .then (result => {

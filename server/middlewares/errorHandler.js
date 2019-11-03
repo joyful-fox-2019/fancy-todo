@@ -6,6 +6,7 @@ module.exports = (err, req, res, next) => {
 
     switch (err.name) {
         case 'ValidationError':
+            status = 400
             let arrMessage = []
             if (err.errors) {
                 for (let index in err.errors) {
@@ -28,8 +29,20 @@ module.exports = (err, req, res, next) => {
             status = 400
             message = err.message
             break
+        case 'EmailError':
+            status = 400
+            message = err.message
+            break
         case 'DataError':
             status = 404
+            message = err.message
+            break
+        case 'OwnerError':
+            status = 401
+            message = err.message
+            break
+        case 'Unauthorized':
+            status = 401
             message = err.message
             break
         default:

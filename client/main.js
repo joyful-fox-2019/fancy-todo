@@ -1,9 +1,13 @@
+var HOST_SERVER = 'http://localhost:3000'
 $(document).ready(function() {
     $('#NavBarStart').show()
     $('#NavBarHome').hide()
     $('#FormRegister').hide()
     $('#FormLogin').show()
     $('#content').hide()
+    $('#FormToDo').hide()
+    $('#FormProject').hide()
+    generateToDoList()
 
     document.getElementById('dueDateToDo').min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0]
 
@@ -14,6 +18,7 @@ $(document).ready(function() {
         $('#FormLogin').hide()
         $('#content').show()
         $('#FormToDo').hide()
+        $('#FormProject').hide()
     }
 
     $('#FormRegister').submit(e => {
@@ -28,7 +33,7 @@ $(document).ready(function() {
         e.preventDefault()
         $.ajax({
             method: 'post',
-            url: 'http://localhost:3000/register',
+            url: HOST_SERVER + '/register',
             data: {
                 name,
                 email,
@@ -69,7 +74,7 @@ $(document).ready(function() {
         let email = $('#emailLogin').val()
         let password = $('#passwordLogin').val()
         $.ajax({
-            url: 'http://localhost:3000/login',
+            url: HOST_SERVER + '/login',
             method: 'post',
             data: {
                 email,
@@ -116,7 +121,7 @@ $(document).ready(function() {
         e.preventDefault()
         $.ajax({
             method: 'post',
-            url: 'http://localhost:3000/ToDo',
+            url: HOST_SERVER + '/ToDo',
             data: {
                 title,
                 description,
@@ -139,7 +144,6 @@ $(document).ready(function() {
         })
         .fail (err => {
             swal.close()
-            console.log(err)
             swal.fire({
                 type: 'error',
                 title: 'Failed adding a ToDo',
@@ -168,7 +172,7 @@ $(document).ready(function() {
         e.preventDefault()
         let search = $('#searchTitle').val()
         $.ajax({
-            url: `http://localhost:3000/ToDo/search/${search}`,
+            url: HOST_SERVER + `/ToDo/search/${search}`,
             method: 'get',
             headers: {
                 token: localStorage.getItem('token')
@@ -178,24 +182,22 @@ $(document).ready(function() {
             $('#all-content').empty()
             cardToDoList(result)
             $('#searchTitle').val('')
+            $('#FormProject').hide()
+            $('#FormToDo').hide()
         })
         .fail (err => {
-            console.log(err)
         })
     })
-
-    
 })
 
 $('#FormWeather').submit(e => {
     e.preventDefault()
     let city = $('#location').val()
     $.ajax({
-        url: `http://localhost:3000/weather/${city}`,
+        url: HOST_SERVER + `/weather/${city}`,
         method: 'get'
     })
     .done (result => {
-        console.log(result)
         $('#weatherCondition').empty()
         $('#weatherCondition').append( `
         <div class="card mt-4">
@@ -230,12 +232,12 @@ $('#FormWeather').submit(e => {
         `)
     })
     .fail (err => {
-        console.log(err)
     })
 })
 
 function generateToDoList() {
     $('#FormToDo').hide()
+    $('#FormProject').hide()
     $('#all-content').empty()
     swal.fire({
         imageUrl:"https://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif",
@@ -245,7 +247,7 @@ function generateToDoList() {
         showConfirmButton: false
     }) 
     $.ajax({
-        url: 'http://localhost:3000/ToDo',
+        url: HOST_SERVER + '/ToDo',
         method: 'get',
         headers: {
             token: localStorage.getItem('token')
@@ -257,7 +259,6 @@ function generateToDoList() {
         }
     })
     .fail (err => {
-        console.log(err)
     })
     .always (() => {
         swal.close()
@@ -293,7 +294,7 @@ function cardToDoList (result) {
 
 function showUpdateToDo (id) {
     $.ajax({
-        url: `http://localhost:3000/ToDo/${id}`,
+        url: HOST_SERVER + `/ToDo/${id}`,
         method: 'get',
         headers: {
             token: localStorage.getItem('token')
@@ -321,6 +322,7 @@ function showUpdateToDo (id) {
             <button class="btn btn-danger" onclick="cancel('${id}')">Cancel</button>
         </form>
         `)
+        document.getElementById(`dueDate${id}`).min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0]
         $(`#update${id}`).submit(e => {
             e.preventDefault()
             swal.fire({
@@ -332,7 +334,7 @@ function showUpdateToDo (id) {
             })
 
             $.ajax({
-                url: `http://localhost:3000/ToDo/${id}`,
+                url: HOST_SERVER + `/ToDo/${id}`,
                 method: 'patch',
                 headers: {
                     token: localStorage.getItem('token')
@@ -344,19 +346,16 @@ function showUpdateToDo (id) {
                 }
             })
             .done (result => {
-                console.log(result, 'sukses')
                 generateToDoList()
                 $(`#update${id}`).empty()
             })
             .fail (err => {
-                console.log(err)
             })
         })
     })
 }
 
 function cancel(id) {
-    console.log('masuk')
     $(`#update${id}`).empty()
 }
 
@@ -380,7 +379,7 @@ function deleteToDo (_id) {
     .then((result) => {
         if (result.value) {
         $.ajax({
-            url: `http://localhost:3000/ToDo/${_id}`,
+            url: HOST_SERVER + `/ToDo/${_id}`,
             method: 'DELETE',
             headers: {
             token: localStorage.getItem('token')
@@ -427,7 +426,7 @@ function deleteToDo (_id) {
 
 function doneToDo (params) {
     $.ajax({
-        url: `http://localhost:3000/ToDo/status/${params}`,
+        url: HOST_SERVER + `/ToDo/status/${params}`,
         method: 'patch',
         headers: {
             token: localStorage.getItem('token')
@@ -440,13 +439,12 @@ function doneToDo (params) {
         $(`#${params}`).css('background-color', 'rgb(55, 231, 31)')
     })
     .fail (err => {
-        console.log(err)
     })
 }
 
 function undoneToDo (params) {
     $.ajax({
-        url: `http://localhost:3000/ToDo/status/${params}`,
+        url: HOST_SERVER + `/ToDo/status/${params}`,
         method: 'patch',
         headers: {
             token: localStorage.getItem('token')
@@ -459,7 +457,6 @@ function undoneToDo (params) {
         $(`#${params}`).css('background-color', '#ff0000')
     })
     .fail (err => {
-        console.log(err)
     })
 }
 
@@ -481,7 +478,7 @@ function onSignIn(googleUser) {
     })
     var id_token = googleUser.getAuthResponse().id_token
     $.ajax({
-        url: 'http://localhost:3000/loginGoogle',
+        url: HOST_SERVER + '/loginGoogle',
         method: 'post',
         data: {
             token: id_token
@@ -532,47 +529,4 @@ function signOut() {
         showConfirmButton: false,
         timer: 2000
       })
-}
-
-
-window.fbAsyncInit = function() {
-    FB.init({
-    appId      : '773092189808471',
-    cookie     : true,
-    xfbml      : true,
-    version    : 'v5.0'
-    });   
-    FB.AppEvents.logPageView();       
-};
-
-(function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-function statusChangeCallback(response) {
-    if (response.status === 'connected') {
-        // Logged into your app and Facebook.
-        FB.api('/me', function (response) {
-            $('#FormRepo').hide()
-            $('#content').show()
-            $('#FormRegister').hide()
-            $('#FormLogin').hide()
-            $('#createRepos').show()
-            $('#createRegister').hide()
-            $('#createLogin').hide()
-            $('#logout').show()
-        });
-    } else {
-
-    }
-}
-
-function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-    });
 }

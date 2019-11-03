@@ -41,6 +41,8 @@ class UserController {
             }
         })
         .catch (err => {
+            err = new Error('email tidak terdaftar')
+            err.name = 'EmailError'
             next(err)
         })
     }
