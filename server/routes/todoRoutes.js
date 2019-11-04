@@ -8,7 +8,7 @@ router.use(isLogin)
 router.get('/', todoController.displayAll)
 router.post('/', todoController.create)
 router.post('/:id', todoController.createForProject)
-router.put('/:id', isAuthorized, todoController.update)
-router.delete('/:id', isAuthorized, todoController.delete)
+router.put('/:id', todoController.update)
+router.delete('/:id', todoController.delete)
 
 module.exports = router

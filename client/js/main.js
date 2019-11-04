@@ -212,7 +212,7 @@ function getFollowers() {
                     <div id="member"> 
                         <p>${users[i].name}</p> 
                         <div id="following-btns">
-                            <button type="button" class="btn btn-primary">Send Message</button>
+                        <button type="button" onclick="getUserId('${users[i]._id}')" class="btn btn-primary" data-toggle="modal" data-target="#sendmessage">Send Message</button>
                         </div>
                     </div>
                 `)
