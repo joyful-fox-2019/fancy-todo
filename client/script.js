@@ -376,6 +376,7 @@ function createNewProject () {
     renderProjectPage(data._id)
     projectId = data._id
     $("#createNewProject").modal("hide")
+    $("#titleNewProject").val('')
   })
   .fail(function(err){
     console.log(err)
