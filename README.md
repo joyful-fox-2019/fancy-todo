@@ -11,9 +11,9 @@
 * **Data Params** <br />
     **Required:**
     
-    `name=[string]` <br />
-    `email=[string]` <br />
-    `password=[string]` <br />
+    `name= string` <br />
+    `email= string` <br />
+    `password= string` <br />
 
 * **Success Response:**
     * **Code:** 201 <br />
@@ -31,7 +31,7 @@
         ```
 
 * **Error Response:**
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Error" }`
 
 
@@ -46,8 +46,8 @@
 * **Data Params** <br />
     **Required:**
     
-    `email=[string]` <br />
-    `password=[string]` <br />
+    `email= string` <br />
+    `password= string` <br />
 
 * **Success Response:**
     * **Code:** 201 <br />
@@ -60,7 +60,7 @@
         ```
 
 * **Error Response:**
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  * **Code:** 500 Internal Server Error <br />
     **Content:** `{ error : "Error" }`
 
 
@@ -74,11 +74,11 @@
 
 * **Data Params** <br />
     **Required:**
-    `title=[string]` <br />
+    `title= string` <br />
 
     **Optional:**
-    `description=[string]` <br />
-    `dueDate=[string]` <br />
+    `description= string` <br />
+    `dueDate= string` <br />
 
 * **Success Response:**
     * **Code:** 201 <br />
@@ -113,7 +113,7 @@
     `GET` 
 
 * **URL Params** <br />
-    `token=[string]`
+    `token= string`
 
 * **Data Params** <br />
     none
@@ -122,8 +122,8 @@
     * **Code:** 201 <br />
         **Content:** 
         ```javascript
-           [
-                {
+            
+              {
                     "_id":"5dbf34e09da365145d36755c",
                     "title":"todo 1",
                     "description":"description 1",
@@ -161,7 +161,7 @@
     `DELETE` 
 
 * **URL Params** <br />
-    `token=[string]`
+    `token= string`
 
 * **Data Params** <br />
     None
@@ -190,14 +190,14 @@
     `PUT` 
 
 * **URL Params** <br />
-    `token=[string]`
+    `token= string`
 
 * **Data Params** <br />
     **Required:**
     
-    `title=[string]` <br />
-    `description=[string]` <br />
-    `dueDate=[string]` <br />
+    `title= string` <br />
+    `description= string` <br />
+    `dueDate= string` <br />
 
 * **Success Response:**
     * **Code:** 201 <br />
@@ -227,7 +227,7 @@
     `PATCH` 
 
 * **URL Params** <br />
-    `token=[string]`
+    `token= string`
 
 * **Data Params** <br />
     None

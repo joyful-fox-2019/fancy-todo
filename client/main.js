@@ -175,22 +175,41 @@ function todo(event) {
             `)
             console.log(todos);
             todos.forEach(todo => {
-                $("#note").append(`
-            <div id="noteId">
-                <div class="note-header">
-                <p style="text-align: center; border-bottom:1px solid olive"> ${todo.title} </p>
-                <div class="meta" style="display:flex; flex-direction: column">
-                    <span class="right floated date" style="font-size: 10px"> created: ${new Date(todo.createdAt).toDateString().slice(4)}</span>
-                    <span class="right floated date" style="font-size: 10px"> due: ${new Date(todo.createdAt).toDateString().slice(4)}</span>
-                </div>
-                </div>
-                <div class="note-list"  style="display:flex; flex-direction: row;">
-                    <span class="done" id="done" onclick="done(${todo.id})">done</span>
-                    <p <p>${todo.description}</p></p>
-                    <span class="delete" id="delete" onclick="remove(${todo.id})">delete</span>
-                </div>
-            </div>
+                if (todo.status === false) {
+                    $("#note").append(`
+                        <div id="noteId">
+                            <div class="note-header">
+                            <p style="text-align: center; border-bottom:1px solid olive"> ${todo.title} </p>
+                            <div class="meta" style="display:flex; flex-direction: column">
+                                <span class="right floated date" style="font-size: 10px"> created: ${new Date(todo.createdAt).toDateString().slice(4)}</span>
+                                <span class="right floated date" style="font-size: 10px"> due: ${ todo.dueDate ? new Date(todo.dueDate).toDateString().slice(4) : "-"}</span>
+                            </div>
+                            </div>
+                            <div class="note-list"  style="display:flex; flex-direction: row;">
+                                <span class="done" id="done" onclick="done('${todo.id}')">done</span>
+                                <p <p>${todo.description}</p></p>
+                                <span class="delete" id="delete" onclick="remove('${todo.id}')">delete</span>
+                            </div>
+                        </div>
+                        `)
+                } else {
+                    $("#note").append(`
+                    <div id="noteId">
+                        <div class="note-header">
+                        <p style="text-align: center; border-bottom:1px solid olive; color: grey"> ${todo.title} </p>
+                        <div class="meta" style="display:flex; flex-direction: column">
+                            <span class="right floated date" style="font-size: 10px; color: grey"> created: ${new Date(todo.createdAt).toDateString().slice(4)}</span>
+                            <span class="right floated date" style="font-size: 10px"; color: grey> due: ${new Date(todo.dueDate).toDateString().slice(4)}</span>
+                        </div>
+                        </div>
+                        <div class="note-list"  style="display:flex; flex-direction: row;">
+                            <span style="color: grey;" class="done" id="done" onclick="done('${todo.id}')">done</span>
+                            <p style="color: grey;">${todo.description}</p>
+                            <span class="delete" id="delete" onclick="remove('${todo.id}')">delete</span>
+                        </div>
+                    </div>
                     `)
+                }
             });
         })
         .fail(function (err) {
@@ -256,6 +275,9 @@ function done(todoId) {
     $.ajax({
         url: 'http://localhost:3000/todos',
         method: 'PATCH',
+        data: {
+            status: true
+        },
         headers: {
             token: localStorage.getItem("token")
         }
