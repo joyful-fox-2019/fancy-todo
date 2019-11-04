@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const authentication = require('../middleware/authentication')
+const authentication = require('../middlewares/authentication')
 const todoController = require('../controllers/TodoController.js');
 
 router.get('/:id', authentication, todoController.find);

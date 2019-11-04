@@ -33,7 +33,7 @@
                     <div id="login">
                         <div class="logo mb-3">
                             <div class="col-md-12 text-center">
-                                <h1>Fancy-Todo Login</h1>
+                                <h1>Login</h1>
                             </div>
                         </div>
                         <form id="manual" onsubmit="signIn()">
@@ -47,16 +47,17 @@
                             </div>
                             <div class="col-md-12 text-center ">
                                 <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" id="submit-btn">Login</button>
-                                <div class="col-md-12 ">
+                                <div class="col-md-12">
                                     <div class="login-or">
                                         <hr class="hr-or">
                                         <span class="span-or">or</span>
                                     </div>
-                                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                                    <div class="g-signin2" data-onsuccess="onSignIn" style="margin-left: 85px"></div>
                                 </div>
+                                <br>
                             </div>
                                 <div class="form-group">
-                                    <p class="text-center">Don't have account? <a href="#" id="register-btn">Register Here</a></p>
+                                    <p class="text-center">Don't have an account? <a href="#" id="register-btn">Register Here</a></p>
                                 </div>
                             </div>
                         </form>
@@ -139,9 +140,11 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s6" >
+                                    <label for="dueDate">Due Date</label>
                                     <input type="text" class="datepicker" placeholder="Date" id="dueDate" style="overflow: visible;">
                                 </div>
                                 <div class="input-field col s6">
+                                    <label for="dueTime">Due Time</label>
                                     <input type="text" class="timepicker" placeholder="Time" id="dueTime">
                                 </div>
                             </div>
@@ -152,7 +155,7 @@
                                         <label for="description">Todo-Description</label>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="addTodo()">Add Todo</a>
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="addTodo" onclick="addTodo()">Add Todo</a>
                                     </div>
                                 </div>
                             </div>

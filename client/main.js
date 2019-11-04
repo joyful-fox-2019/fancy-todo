@@ -31,6 +31,9 @@ $(document).ready(function() {
             $('#login').hide()
             $('#register').show()
         })
+        $('#addTodo').on('click', function(){
+            addTodo();
+        })
 });
 
 function onSignIn(googleUser) {
@@ -191,6 +194,7 @@ function todo() {
 }
 
 function addTodo() {
+    console.log('addTodo invoked');
     $.ajax({
         url : 'http://localhost:3000/todos',
         method : 'POST',
