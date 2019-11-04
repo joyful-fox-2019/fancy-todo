@@ -168,7 +168,8 @@ function addProject(event) {
         .done(_=>{
             $('#projectName').val('')
             Swal.fire('success','project created','success')
-              auth()
+            //   auth()
+            getProject()
         })
         .fail(err=>{
             $('#projectName').val('')
@@ -246,7 +247,8 @@ function addProjectTodo(event) {
             $('#titlePro').val(''),
             $('#descriptionPro').val(''),
             $('#dueDatePro').val('')
-            auth()
+            // auth()
+            getProject()
         })
         .fail(err=>{
             $('#titlePro').val(''),

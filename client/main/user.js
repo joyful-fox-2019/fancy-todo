@@ -1,4 +1,4 @@
-let baseUrl = 'http://localhost:3000'
+let baseUrl = 'http://todoserver.arnoldtherigan.site'
 $(document).ready(function () {
   auth()
 })

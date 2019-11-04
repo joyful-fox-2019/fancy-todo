@@ -68,7 +68,7 @@ class UserController {
             })
             .then(user=>{
                 if (user){
-                    const payload = {name:user.name}
+                    const payload = {name:user.name,email:user.email,_id:user._id}
                     let token = generateToken(payload)
                     res.status(201).json({token,_id:user._id,name:user.name})
                 }
@@ -100,7 +100,7 @@ class UserController {
                     }
                   })
                 // ------
-                let payload = {name:result.name}
+                let payload = {name:result.name,email:result.email,_id:result._id}
                 let token = generateToken(payload)
                 res.status(201).json({token,_id:result._id,name:result.name})
             })
