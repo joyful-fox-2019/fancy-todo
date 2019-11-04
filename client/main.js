@@ -34,7 +34,7 @@ function generateTodo(){
                 <div class = "container" style="display: flex; flex-direction: column;justify-content: center;">
                 <div class="row">
                         <div class="shadow card-body" style="width:80%; margin:20px ;padding: 4%;font-weight: 900; background: linear-gradient(93deg, rgba(45,122,205,1) 0%, rgba(97,232,255,1) 100%); border-radius: 25px;">
-                            <i class="fas fa-list fa-3x" style="display: flex;float:right;color: white;"></i>
+                            
                             <h3 class="display-4" style="color: white;">${todos[i].name}</h3>
                             <br>
                             <h5 style="color:white; font-weight: 100 ;font-style:italic"> due-date : ${todos[i].due_date.slice(0,10)}</h5>
@@ -42,7 +42,8 @@ function generateTodo(){
                             
                             <button id="done" onclick="statusUndone('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>done</button>
                             <button id="deleteTodo" onclick="deleteTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
-                                
+                            <button id="updateTodo" onclick="updateTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>update</button>
+                                   
                         </div>
                 </div>  
                 
@@ -57,7 +58,7 @@ function generateTodo(){
                 <div class = "container" style="display: flex; flex-direction: column;justify-content: center;">
                 <div class="row">
                 <div class="shadow card-body" style="width:80%; margin:20px ;padding: 4%;font-weight: 900; background: linear-gradient(93deg, rgba(205,45,45,1) 0%, rgba(255,170,97,1) 100%); border-radius: 25px;">
-                            <i class="fas fa-list fa-3x" style="display: flex;float:right;color: white;"></i>
+                            
                             <h3 class="display-4"  style="color: white; ">${todos[i].name}</h3>
                             <br>
                             <h5 style="color:white; font-weight: 100 ;font-style:italic"> due-date : ${todos[i].due_date.slice(0,10)}</h5>
@@ -65,7 +66,8 @@ function generateTodo(){
                             
                             <button id="on-progress" onclick="statusDone('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>done</button>
                             <button id="deleteTodo" onclick="deleteTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
-                                
+                            <button id="updateTodo" onclick="toogleUpdate('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>update</button>
+                           
                         </div>
                 </div>  
                
@@ -100,7 +102,31 @@ function deleteTodo(id){
             console.log(err)
         })
     }
-        
+
+function toogleUpdate(id){
+    $('#modalUpdateForm').modal('show')
+    let userid = $("#todo-id").val(id)
+    console.log(userid,'ini togleeee')
+    // let name = $("#update-name").val()
+    // let description = $("#update-description").val()
+    // let due_date = $("#update-description").val()
+    // console.log(userid,name,description,due_date,'dari toogle')
+    // updateTodo(userid,name,description,due_date)
+}
+
+
+$("#submitUpdate").on("click",(err)=>{
+    console.log('ini submittt')
+    let userid = $("#todo-id").val()
+    let name = $("#update-name").val()
+    let description = $("#update-description").val()
+    let due_date = $("#update-description").val()
+    updateTodo(userid,name,description,due_date)
+})
+
+
+    
+
 
 
 function statusDone(id){
@@ -149,9 +175,9 @@ $('#addTodo-submit').on('click',(e)=>{
     let name = $(`#todo-name`).val()
     let description = $(`#todo-description`).val()
     let due_date = $(`#todo-due_date`).val()
-    // console.log(username,password)
-    create(name,description,due_date)
-    // console.log('dibuat')
+    updateTodo(name,description,due_date)
+    
+
 })
 
 function create(name,description,due_date){
@@ -167,6 +193,7 @@ function create(name,description,due_date){
              token : localStorage.getItem("token") 
         }
     })
+
     .done((todo)=>{
         $('#todolist').empty()
         $('#welcome-page').show()
@@ -174,23 +201,31 @@ function create(name,description,due_date){
         $('#todolist').show()
         console.log(todo,'dari todo')
     })
-    
 }
 
 
-function updateTodo(id){
-    
+
+
+function updateTodo(id,name,description,due_date){
+    // console.log(name,description,due_date)
+    console.log(id,'ini dari update')
     $.ajax({
         url : `http://localhost:3000/todos/${id}`,
         method : 'put',
         data : {
-            name : $(`#update-name`).val(),
-            description : $(`#update-description`).val(),
-            due_date : $(`#update-due_date`).val()
+            name : name,
+            description : description,
+            due_date : due_date
         },
         headers : {
-             token : localStorage.getItem("token") 
+            token : localStorage.getItem("token") 
         }
+    })
+    .done((todo)=>{
+        console.log(todo,'masuk dari ajax')
+    })
+    .fail((err)=>{
+        console.log(err)
     })
 }
 

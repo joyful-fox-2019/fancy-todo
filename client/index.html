@@ -76,6 +76,7 @@
         <!-- quotes -->   
 
         <!---------------------------------------login----------------------------------------------->
+
                 <div id = "login-page" class="col-md-6 mb-4 white-text text-center text-md-left" style="display: block;">
                     <div class="card" style="width: 40rem;">
                       <div class="card-body" style="padding: 4rem;">
@@ -164,6 +165,7 @@
         
         
 <!--------------------------------------- todo page ----------------------------------------------->
+
         <div id = "welcome-page" class="container" style="margin-top: 5%;">
             
             <center><h3 class="display-4" style="color: white;">Have you finish something today?</h3></center>
@@ -233,9 +235,7 @@
                     <i class="fas fa-calendar-alt prefix grey-text"></i>
                 <input type="text" id = "todo-due_date" class="form-control validate">
                 <label  data-error="wrong" data-success="right" for="form29">due-date</label>
-              </div>
-      
-              
+              </div>          
       
             </div>
             <div class="modal-footer d-flex justify-content-center">
@@ -245,7 +245,48 @@
         </div>
       </div>
       
-    </form>
+  </form>
+
+  <form id = "updateTodoForm" style="display: flex;align-items: flex-end;justify-content: space-around;">
+    <div class="modal fade" id="modalUpdateForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Update to-do</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>   
+        </div>
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <i class="fas fa-edit prefix grey-text"></i>
+            <input type="hidden" id="todo-id">
+            <input type="text" id = "update-name"  class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form34">Name</label>
+          </div>
+          
+          <div class="md-form">
+               
+                <input type="text" id = "update-description"  class="md-textarea form-control" rows="4"></input>
+                <label  data-error="wrong" data-success="right" for="form8">Description</label>
+          </div>
+
+          <div class="md-form mb-5">
+                <i class="fas fa-calendar-alt prefix grey-text"></i>
+            <input type="text" id = "update-due_date" class="form-control validate">
+            <label  data-error="wrong" data-success="right" for="form29">due-date</label>
+          </div>          
+
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button id="submitUpdate" class="btn btn-unique" data-dismiss="modal" aria-label="Close"> Update <i class="fas fa-paper-plane-o ml-1"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="main.js"></script>
