@@ -15,7 +15,11 @@ $(document).ready(function(){
 })
 
 function generateTodo(){
-    // console.log('tesss')
+   
+    Swal.showLoading({
+        timer: 3000
+    })
+    console.log('tesss')
     $.ajax({
         url : 'http://localhost:3000/todos/',
         method : 'get',
@@ -24,8 +28,9 @@ function generateTodo(){
         }
     })
     .done((todos)=>{
+        
         // console.log('testt',todos[0],'dari todos')
-        console.log(todos)
+        // console.log(todos)
         for(let i = 0 ; i < todos.length ; i++){
             if(todos[i].status === true){
                 let html = ''
@@ -40,9 +45,9 @@ function generateTodo(){
                             <h5 style="color:white; font-weight: 100 ;font-style:italic"> due-date : ${todos[i].due_date.slice(0,10)}</h5>
                             <h5 class="card-title" style="color: white;">${todos[i].description}</h5>
                             
-                            <button id="done" onclick="statusUndone('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>done</button>
-                            <button id="deleteTodo" onclick="deleteTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
-                            <button id="updateTodo" onclick="updateTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>update</button>
+                            <button id="done" onclick="statusUndone('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>undone</button>
+                            <button id="deleteTodo" onclick="deleteConfirmation('${todos[i]._id}')" type="button" class="btn btn-outline-light" value="Submit" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
+                            <button id="updateTodo" onclick="toogleUpdate('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>update</button>
                                    
                         </div>
                 </div>  
@@ -65,7 +70,7 @@ function generateTodo(){
                             <h5 class="card-title" style="color: white;">${todos[i].description}</h5>
                             
                             <button id="on-progress" onclick="statusDone('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-check" style="margin-right:5px;"></i>done</button>
-                            <button id="deleteTodo" onclick="deleteTodo('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
+                            <button id="deleteTodo" onclick="deleteConfirmation('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>delete</button>
                             <button id="updateTodo" onclick="toogleUpdate('${todos[i]._id}')" type="button" class="btn btn-outline-light" style="border-radius: 25px; box-shadow: none;"><i class="fas fa-edit" style="margin-right:5px;""></i>update</button>
                            
                         </div>
@@ -80,8 +85,32 @@ function generateTodo(){
     .fail((err)=>{
         console.log(err)
     })
+    .always(()=>{
+        Swal.close()
+    })
 }
 
+function deleteConfirmation(id){
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+          deleteTodo(id)
+        }
+      })
+
+}
 
 function deleteTodo(id){
 
@@ -139,6 +168,11 @@ function statusDone(id){
         }
     })
     .done(_=>{
+        Swal.fire(
+            'Updated',
+            'todo succesfully updated!',
+            'success'
+          )
         $('#todolist').empty()
         $('#welcome-page').show()
         generateTodo()
@@ -159,6 +193,11 @@ function statusUndone(id){
         }
     })
     .done(_=>{
+        Swal.fire(
+            'Updated',
+            'todo succesfully updated!',
+            'success'
+          )
         $('#todolist').empty()
         $('#welcome-page').show()
         generateTodo()
@@ -175,7 +214,7 @@ $('#addTodo-submit').on('click',(e)=>{
     let name = $(`#todo-name`).val()
     let description = $(`#todo-description`).val()
     let due_date = $(`#todo-due_date`).val()
-    updateTodo(name,description,due_date)
+    create(name,description,due_date)
     
 
 })
@@ -195,10 +234,20 @@ function create(name,description,due_date){
     })
 
     .done((todo)=>{
+        Swal.fire(
+            'Created!',
+            `todo : ${name} has been added to your todo list`,
+            'success'
+          )
         $('#todolist').empty()
         $('#welcome-page').show()
         generateTodo()
         $('#todolist').show()
+        Swal.fire(
+            'Success!',
+            'To-do has been added!',
+            'success'
+          )
         console.log(todo,'dari todo')
     })
 }
@@ -222,6 +271,9 @@ function updateTodo(id,name,description,due_date){
         }
     })
     .done((todo)=>{
+        $('#todolist').empty()
+
+        generateTodo()
         console.log(todo,'masuk dari ajax')
     })
     .fail((err)=>{
@@ -234,7 +286,8 @@ function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
     //   console.log('User signed out.');
-    //   localStorage.removeItem('token')
+      localStorage.removeItem('token')
+      $('#welcome-page').hide()
     });
 }
 
@@ -257,6 +310,7 @@ function onSignIn(googleUser) {
             $('#opening-page').hide()
             $('#login-page').hide()
             $('#signout-button').show()
+            
             generateTodo()
         })
         .fail(err=>{
