@@ -9,8 +9,8 @@ function authentication(req, res, next) {
     req.logedUser = decodeToken
     next()
   }
-  catch{
-    res.status(401).json('You are not Authentication!')
+  catch(err){
+    next(err)
   }
 }
 
@@ -22,11 +22,11 @@ function authorization(req, res, next) {
       if (todo.userId == _id) {
         next()
       } else {
-        res.status(401).json('You are not Authorized!')
+        next({ status: 401, msg: 'You are not Authorized!' }) 
       }
     })
     .catch(err => {
-      res.status(500).json(err)
+      next(err)
     })
 }
 
@@ -38,11 +38,11 @@ function authProject(req, res, next) {
       if (data.owner == _id) {
         next()
       } else {
-        status(401).json('You are not Authorized!')
+        next({ status: 401, msg: 'You are not Authorized!' }) 
       }
     })
     .catch(err => {
-      res.status(500).json(err)
+      next(err)
     })
 }
 
@@ -58,13 +58,13 @@ function authMember(req, res, next) {
             member = true
             next()
           } else if (i == data.members.length - 1 && member == false) {
-            res.status(401).json('You are not Authorized!')
+            next({ status: 401, msg: 'You are not Authorized!' }) 
           }
         })
       }
     })
     .catch(err => {
-      res.status(500).json(err)
+      next(err)
     })
 }
 

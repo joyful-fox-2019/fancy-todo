@@ -23,6 +23,7 @@ function getProject() {
       }
     })
     .catch(err => {
+      expairedToken(err)
       swal.fire({
         title: `${err.responseJSON}`,
         showCloseButton: true
@@ -112,7 +113,7 @@ function createProject() {
 // ADD Member
 function addMember(projectId) {
   Swal.fire({
-    title: 'Create new Project',
+    title: 'Add member to Project',
     html:
       '<input id="findUser" class="swal2-input" placeholder="Your Project Name" onkeyup="getUser()">' +'<input type="hidden" class="id">' + '<div id="p"></div>',
     focusConfirm: false,
@@ -382,7 +383,7 @@ function getTodoProject(projectId) {
 }
 
 // Add Todo Project
-function addTodo() {
+function addTodoProject() {
   let projectId = $('.idProject').val()
   const { value: formValues } = Swal.fire({
     title: 'Create new TODO',

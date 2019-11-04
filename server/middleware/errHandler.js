@@ -1,7 +1,6 @@
 module.exports = (err, req, res, next) => {
   let status
   let message
-  console.log(err);
 
   switch (err.name) {
     case 'AuthenticationError':
@@ -19,7 +18,7 @@ module.exports = (err, req, res, next) => {
       message = err.message
       break;
     case 'TokenExpiredError':
-      status = 401
+      status = 499
       message = err.message
       break;
     default:

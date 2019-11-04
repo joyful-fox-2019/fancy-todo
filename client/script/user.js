@@ -25,6 +25,21 @@ function isAuth() {
   }
 }
 
+function expairedToken(err) {
+  if (err.status == 499) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    sessionStorage.clear()
+    localStorage.clear()
+    $('.tbody').empty()
+    $('.listToday').empty()
+    $('.userLog').empty()
+    $('#email').val('')
+    $('#password').val('')
+    isAuth()
+  }
+}
+
 function signUpForm() {
   $('.login').hide()
   $('.register').show()

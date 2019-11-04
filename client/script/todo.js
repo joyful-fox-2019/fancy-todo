@@ -36,8 +36,8 @@ function getAllTodos() {
       }
       swal.close()
     })
-
     .catch(err => {
+      expairedToken(err)
       swal.fire({
         title: `${err.responseJSON}`,
         showCloseButton: true
@@ -124,6 +124,7 @@ function showToday() {
       }
     })
     .fail(err => {
+      expairedToken(err)
       swal.fire({
         title: `${err.responseJSON}`,
         showCloseButton: true
