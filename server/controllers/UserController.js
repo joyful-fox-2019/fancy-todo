@@ -45,6 +45,7 @@ class UserController {
             audience: process.env.GOOGLE_CLIENT_ID
         })
             .then(ticket => {
+                console.log(ticket);
                 payload = ticket.getPayload()
                 let email = payload.email
 
