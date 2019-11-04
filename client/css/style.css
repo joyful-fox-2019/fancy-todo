@@ -99,3 +99,9 @@
 #logo{
   width: 100%;
 }
+
+.listmember {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+}
