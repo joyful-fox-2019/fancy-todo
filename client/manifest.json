@@ -1,8 +1,8 @@
 {
-  "name": "dipaPage",
-  "short_name": "Dipa Page",
-  "theme_color": "#2196f3",
-  "background_color": "#2196f3",
+  "name": "FancyTodo",
+  "short_name": "FancyTodo",
+  "theme_color": "#F3F3F3",
+  "background_color": "#F3F3F3",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
