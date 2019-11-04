@@ -315,6 +315,9 @@ function addTodo () {
     $('#add-todo-form').hide('slow')
     all()
   })
-  .fail(showError)
+  .fail(({responseJSON})=> {
+    console.log(responseJSON);
+    showError(responseJSON.message.message)
+  })
 }
 

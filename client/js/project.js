@@ -224,13 +224,14 @@ function getProjectDetail (event, objParams) {
   
 }
 function deleteTodoProject (event, objParams) {
-  const { id } = objParams
+  event.preventDefault()
+  const id = $('#project-id').text()
   showDialog()
 $('#confirm-btn').click(function(event){
   event.preventDefault()  
   $.ajax({
     method: 'DELETE',
-    url: `${server}/todos/${id}`,
+    url: `${server}/todos/project/${objParams.id}/${id}`,
     headers: {
       token: localStorage.getItem('token')
     }
@@ -247,10 +248,11 @@ $('#confirm-btn').click(function(event){
 function updateTodoProjectStatus (event, objParams) {
   event.preventDefault()
   let status = !objParams.status
+  const id = $('#project-id').text()
 
   $.ajax({
     method: 'PATCH',
-    url: `${server}/todos/${objParams.id}`,
+    url: `${server}/todos/project/${objParams.id}/${id}`,
     data: {
       status
     },
@@ -270,9 +272,10 @@ function editTodoProject(event, objParams) {
   event.preventDefault()
   $('#edit-todo-project-title').val('')
   $('#edit-todo-project-desc').val('')
+  const id = $('#project-id').text()
   $.ajax({
     method: 'GET',
-    url: `${server}/todos/${objParams.id}`,
+    url: `${server}/todos/project/${objParams.id}/${id}`,
     headers: {
       token: localStorage.getItem('token')
     }
@@ -312,7 +315,6 @@ $('#confirm-btn').click(function(event){
     $('#confirm-alert').hide()
   })
   .fail(({ responseJSON}) => {
-    console.log(responseJSON);
     showError(responseJSON.message)
   })
 })

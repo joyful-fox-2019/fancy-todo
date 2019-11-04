@@ -38,6 +38,7 @@ module.exports = {
   },
   projectToDoAuth: (req, res, next) => {
     const { id, projectId } = req.params
+    console.log(id, projectId);
     Todo.findOne({ _id: id, project: projectId })
       .then(todo=>{
         if(!todo) next({status: 404, message: 'Not found'})
