@@ -5,7 +5,7 @@ const getObjUpdate = require('../helpers/objUpdate')
 
 class ProjectController {
   static getAll(req, res, next) {
-    let{ _id} = req.logedUser
+    let { _id } = req.logedUser
     Project.find({
       $or: [
         { owner: _id },
@@ -21,14 +21,14 @@ class ProjectController {
   static findOne(req, res, next) {
     let { projectId } = req.params
     Project.findOne({ _id: projectId })
-    .populate({ path: 'members', select: 'email username' })
+      .populate({ path: 'members', select: 'email username' })
       .then(data => {
         res.status(200).json(data)
       })
       .catch(next)
   }
 
-  static createProject(req, res, next){
+  static createProject(req, res, next) {
     let owner = req.logedUser
     let { name } = req.body
     Project.create({
@@ -43,7 +43,7 @@ class ProjectController {
   static addMember(req, res, next) {
     let { userId } = req.body
     let { projectId } = req.params
-    Project.findById({ _id: projectId })
+    Project.findById(projectId)
       .then(data => {
         let exist = 0
         data.members.forEach(el => {
@@ -52,11 +52,11 @@ class ProjectController {
           }
         })
         if (exist == 0) {
-          data.members.push(mongoose.Types.ObjectId(userId))
+          data.members.push(userId)
           data.save()
           res.status(200).json(data)
         } else {
-          throw({ status: 400, message: `User already exist!` });
+          throw ({ status: 400, message: `User already exist!` });
         }
       })
       .catch(next)
@@ -90,7 +90,7 @@ class ProjectController {
         return Todo.deleteMany({ projectId })
       })
       .then(_ => {
-        res.status(200).json({ msg: 'Delete Project Success'})
+        res.status(200).json({ msg: 'Delete Project Success' })
       })
       .catch(next)
   }
@@ -108,7 +108,7 @@ class ProjectController {
   }
 
   static getTodoProject(req, res, next) {
-    let { projectId } =  req.params
+    let { projectId } = req.params
     Todo.find({ projectId }).sort({ dueDate: 'asc' })
       .then(todos => {
         res.status(200).json(todos)
@@ -142,7 +142,7 @@ class ProjectController {
     let { todoId } = req.params
     Todo.findOneAndDelete({ _id: todoId })
       .then(_ => {
-        res.status(200).json({ msg: `Delete TODO successfuly!`})
+        res.status(200).json({ msg: `Delete TODO successfuly!` })
       })
       .catch(next)
   }

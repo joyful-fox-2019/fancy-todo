@@ -138,7 +138,7 @@ function addMember(projectId) {
       $('#findUser').val('')
       $('.id').val('')
       getProject()
-      getDetail()
+      getDetail(projectId)
       swal.fire({
         type: 'success',
         title: 'Add member to your project is successfully..',
@@ -179,8 +179,8 @@ function deleteMember(idUser) {
       }
     })
     .then(_ => {
-      getDetail()
       getProject()
+      getDetail(projectId)
       Swal.fire(
         'Deleted!',
         'Selected member has been deleted.',
@@ -221,7 +221,7 @@ function leaveGroup() {
     })
     .then(() => {
       getProject()
-      getDetail()
+      getDetail(projectId)
       Swal.fire(
         'Deleted!',
         'Leave Group success!',
