@@ -321,5 +321,6 @@ $(document).ready(function () {
         $('.list-group').toggleClass('listNight')
         $('.btn-info').toggleClass('btn-night')
         $('.card').toggleClass('contentNight')
+        $('.home').toggleClass('homeNight')
     });
 })
