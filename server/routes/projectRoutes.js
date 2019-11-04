@@ -9,13 +9,14 @@ router.get('/:id', ProjectController.findOne)
 router.post('/', ProjectController.create)
 
 router.patch('/:id/add', authorizationOwner, ProjectController.addMember)
-// router.patch('/:id/remove', authorizationOwner, ProjectController.removeMember)
-// router.delete('/:id', authorizationOwner, ProjectController.deleteProject)
+router.patch('/:id/remove', authorizationOwner, ProjectController.removeMember)
+router.delete('/:id', authorizationOwner, ProjectController.deleteProject)
 
 router.use('/:id/todos', authorizationMember)
 
-// router.patch('/:id/todos', ProjectController.addTodo)
-// router.patch('/:id/todos/:todoId', ProjectController.updateTodos)
-// router.delete('/:id/todos/:todoId', ProjectController.deleteTodos)
+router.patch('/:id/todos', ProjectController.addTodo)
+router.patch('/:id/todos/:todoId/status', ProjectController.updateStatus)
+router.patch('/:id/todos/:todoId', ProjectController.updateTodos)
+router.delete('/:id/todos/:todoId', ProjectController.deleteTodos)
 
 module.exports = router

@@ -59,7 +59,7 @@ function authorizationMember(req, res, next){
             if(!project){
                 next({ status: 404, message: 'Not Found' })
             }
-            else if(project.owner == req.loggedUser.id){
+            else if(project.owner == req.loggedUser._id){
                 next()
             }
             else{
