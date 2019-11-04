@@ -213,7 +213,7 @@ function fetchTodo() {
                     </ul>
                   </div><!-- /.utility-info -->
                   <button type="button" class="btn btn-success">Done</button>
-                  <button type="button" class="btn btn-danger">Delete</button>
+                  <button type="button" class="btn btn-danger" onclick="deleteTodo(event, '${todo._id}')">Delete</button>
                   <!-- overlays -->
                   <div class="gradient-overlay"></div>
                   <div class="color-overlay"></div>
@@ -223,6 +223,25 @@ function fetchTodo() {
           </li>
         `)
       });
+    })
+    .fail(err => {
+      console.log(err)
+    })
+}
+
+function deleteTodo(event, todoId) {
+  event.preventDefault()
+  $
+    .ajax({
+      method: 'DELETE',
+      url: `http://localhost:3000/todos/${todoId}`,
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .done(response => {
+      fetchTodo()
+      console.log(response)
     })
     .fail(err => {
       console.log(err)

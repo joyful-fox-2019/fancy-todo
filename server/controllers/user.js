@@ -71,6 +71,7 @@ class UserController {
       })
       .then(result => {
         const payload = {
+          _id: result._id,
           name: result.name,
           email: result.email
         }

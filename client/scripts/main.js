@@ -24,10 +24,4 @@ $('document').ready(function () {
     hideAll()
     $('#register-page').show()
   })
-
-  $(".btn-danger").popConfirm({
-    title: "Delete Item",
-    content: "Are you sure you want to delete this item?",
-    placement: "top"
-  })
 })
