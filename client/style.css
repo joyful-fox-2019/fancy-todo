@@ -1,3 +1,7 @@
+body {
+    background-image: url("https://images.pexels.com/photos/743986/pexels-photo-743986.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  }
+
 .main-page {
     width: 80%;
     margin: 40px auto;
@@ -5,9 +9,9 @@
 
 #user, #todo {
     min-height: 60px;
+    background-color: gray;
     
 }
-
 .profile {
     padding: 2%;
 }

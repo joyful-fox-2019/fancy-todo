@@ -23,7 +23,7 @@
     <nav class="navbar navbar-light bg-dark text-light">
         <a class="navbar-brand " style="font-size: 300%;">Fancy Todo</a>
         <form class="form-inline">
-            <a class="btn btn-outline-success my-2 my-sm-0" href="#" onclick="signOut();"> Sign out </a>            
+            <a class="btn btn-outline-success my-2 my-sm-0" href="" onclick="signOut();"> Sign out </a>            
         </form>
     </nav>
 
@@ -44,7 +44,7 @@
                     </div>       
                     <div class="form-inline" style="margin: 5px auto;">
                         <button  type="submit" class="btn btn-secondary">Register</button> 
-                        <button id='to_login' class="btn btn-secondary ml-3">login</button>                       
+                        <button id='to_login' class="btn btn-secondary ml-3">To login page</button>                       
                     </div>                      
                 </form>
 
@@ -80,24 +80,23 @@
             <div class="container ">
                 <div class="row">
                     <div class="col-sm-3 offset-sm-1 mr-0 pr-0 mt-4" >
-                        <div class="card" >
+                        <div class="card" style=" border: indianred 1px solid;">
                             <div class="card-header " id="user">
                                 User
                             </div>
                             <ul class="list-group list-group-flush">  
                             <!--ini user profile  -->
-                                <li class=" pl-0 bg-dark list-group-card"> 
+                                <li class=" pl-0 bg-white list-group-card"> 
                                     <div class="container profile">
                                         <div class="card" style="width: 100%;">
                                             <img id="user-image" src="" class="card-img-top" alt="profile picture">
                                             
                                             <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">Name</li>
-                                                <li class="list-group-item">Email</li>
+                                                <li class="list-group-item" id="user-name">Name</li>
+                                                <li class="list-group-item" id="user-email">Email</li>
                                                 <li>
                                                     <div class="card-body">
-                                                        <a href="#" class="card-link">Update</a>
-                                                        <a href="#" class="card-link">Another link</a>
+                                                        <a href="" class="card-link">Update</a>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -122,8 +121,7 @@
                             </ul>
                         </div>
                     </div>
-
-                    <div class="col-sm-7 todo border border-right-secondary pl-0 pr-0 ml-4 mt-4" >
+                    <div class="col-sm-7 todo  pl-0 pr-0 ml-4 mt-4 "  style=" border: indianred 1px solid;">
                         <div class="card-header" id="todo">
                             Todo List
                         </div>

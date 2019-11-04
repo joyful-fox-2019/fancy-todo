@@ -1,5 +1,11 @@
 $(document).ready( () => {
     //$('#front-page').hide()
+    if(localStorage.getItem('token')){
+        $('#main-page').show()
+        $('#register').hide()    
+        $('#front-page').hide()
+        $('#login').hide() 
+    }  
     $('#register').show()    
     $('#main-page').hide()
     $('#login').hide() 
@@ -34,8 +40,6 @@ $(document).ready( () => {
                 type: 'error',
                 text: err.responseJSON.msg
             })
-            // $('#email').val('')
-            // $('#password').val('')            
         })
     })
 
@@ -62,10 +66,10 @@ $(document).ready( () => {
             $('#front-page').hide()  
         })
         .fail( err => {
-            console.log(err)
             Swal.fire({
-                title: 'error',
+                title: 'Ops...',
                 type: 'error',
+                text: err.responseJSON.msg
             })
         })
     })
@@ -80,7 +84,6 @@ $(document).ready( () => {
         let name = $('#input_activity').val()
         let date = $('#input_date').val()
         let time = $('#input_time').val()
-        console.log(new Date(`${date} ${time}`))
         let token = localStorage.getItem("token") // ambil token yang berisi email dan id
         $.ajax({
             url : `http://localhost:3000/todo`,
@@ -104,7 +107,7 @@ $(document).ready( () => {
         .fail( err => {
             console.log(err)
             Swal.fire({
-                title: 'error',
+                title: 'Ops...',
                 type: 'error',
                 text: err.responseJSON.msg
             })
@@ -113,13 +116,11 @@ $(document).ready( () => {
 
     $('#today-list').click(function(event){        
         event.preventDefault()
-        console.log('apa')
         viewTodoToday()
     })
 
     $('#all-list').click(function(event){        
         event.preventDefault()
-        console.log('apa')
         viewAll()
     })
         
@@ -138,9 +139,20 @@ function viewAll() {
     })
     .then(todos => {
         if (todos.length === 0) {
-            $('#todo-container').empty()            
-            $('#empty-todo').show()
-            return
+            $('#todo-container').empty()    
+            $('#todo-container').append(`
+            <li class="list-group-item pt-5 pb-5" id="empty-todo">
+                <div class="card" style="width: 70%; margin : 0px auto;">
+                    <img src="./image/empty.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Todays Activity</h5>
+                        <p class="card-text">It seems that you have no activity, do you want to add new todo list ?</p>
+                        <button class="btn btn-secondary" id="add-button">
+                            <i class="glyphicon glyphicon-plus-sign"  ></i>
+                            Add Activity</button>
+                    </div>
+                </div>
+            </li> `)
         }
         $('#todo-container').empty()
         todos.forEach(todo => {            
@@ -152,6 +164,78 @@ function viewAll() {
                 <a class='delete' href="" ><div class="float-right glyphicon glyphicon-edit" id="${todo._id}"></div></a> 
             </li>`)
         });
+        $('#todo-container').append(`
+        <li <button class="btn btn-secondary" id="add-button">
+                <i class="glyphicon glyphicon-plus-sign"  ></i>
+            Add Activity</button> 
+        </li>
+        <li>
+            <div class="container">
+                <form id="todo_form">
+                    <div class="form-row align-items-center pl-1">
+                        <div class="col-sm-5 my-2">
+                            <input type="text" class="form-control" required id="input_activity" placeholder="Please fill your your todo list">
+                        </div>
+                        <div class="col-sm-2 my-1 pl-0 ml-2">
+                            <input type="date" class="form-control" required id="input_date" placeholder="input date">
+                        </div>   
+                        <div class="col-sm-2 my-1 pl-0 ml-2">
+                            <input type="time" class="form-control" required id="input_time" placeholder="input time">
+                        </div>                                
+                        <div class="col-auto my-1 pl-3 pt-0 pb-0">
+                            <button type="submit" class="btn btn-secondary">Add</button>
+                            <button class="btn btn-secondary">Cencel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li> 
+        `)
+
+        $('#todo_form').submit(event => {
+            event.preventDefault()        
+            let name = $('#input_activity').val()
+            let date = $('#input_date').val()
+            let time = $('#input_time').val()
+            let token = localStorage.getItem("token") // ambil token yang berisi email dan id
+            $.ajax({
+                url : `http://localhost:3000/todo`,
+                method : 'POST',
+                headers : {
+                    token: localStorage.getItem('token')
+                },
+                data : {
+                    name,
+                    date : new Date(`${date} ${time}`),
+                }
+                
+            })
+            .done( data => {
+                Swal.fire(
+                    'Adding the todo list success!',                
+                    'success'
+                  )
+                  let temp = new Date (data.date)
+                  let now = new Date                 
+                  if (temp.getFullYear() == now.getFullYear() && temp.getMonth() == now.getMonth() && temp.getDate() == now.getDate() ) {
+                    $('#todo-container').prepend(
+                        `<li class="list-group-item pb-4 pt-4"> 
+                            <div class="glyphicon glyphicon-ok"></div> ${data.name}
+                            <div class="glyphicon glyphicon glyphicon-time pl-5 pr-0"> ${new Date(data.date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} </div> 
+                            <a class='delete' href="" ><div class="float-right glyphicon glyphicon-trash ml-3" id="${data._id}" ></div></a> 
+                            <a class='delete' href="" ><div class="float-right glyphicon glyphicon-edit" id="${data._id}"></div></a> 
+                        </li>`)   
+                }      
+            })
+            .fail( err => {
+                console.log(err)
+                Swal.fire({
+                    title: 'Ops...',
+                    type: 'error',
+                    text: err.responseJSON.msg
+                })
+            })
+        })
         $('.glyphicon-trash').click(function (event) {            
             event.preventDefault()
             let todo_id = $(this).attr('id')                        
@@ -215,10 +299,8 @@ function viewAll() {
                     }
                   })
                   .then (function (input) {
-                      console.log(input.value.name)
-                      console.log(todo_id,'ini')
                     $.ajax({
-                        url : `http://localhost:3000/todo/${todo_id}`,
+                        url : `http://localhost:3000/todo/${todo._id}`,
                         method : 'PUT',   
                         data : {
                             name : input.value.name,
@@ -235,7 +317,7 @@ function viewAll() {
                             'Your Todo has been updated.',
                             'success'
                         )   
-                        viewTodoToday()
+                        viewAll()
                         })
                       .fail (function(err) {
                         console.log(err)
@@ -260,22 +342,125 @@ function viewTodoToday(data) {
         }
     })
     .then(todos => {
-        console.log(todos.length)
         if (todos.length === 0) {
-            $('#todo-container').empty()            
-            $('#empty-todo').show()
-            return
+            $('#todo-container').empty()    
+            $('#todo-container').append(`
+            <li class="list-group-item pt-5 pb-5" id="empty-todo">
+                <div class="card" style="width: 70%; margin : 0px auto;">
+                    <img src="./image/empty.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Todays Activity</h5>
+                        <p class="card-text">It seems that you have no activity, do you want to add new todo list ?</p>
+                        <button class="btn btn-secondary" id="add-button">
+                            <i class="glyphicon glyphicon-plus-sign"  ></i>
+                            Add Activity</button>
+                    </div>
+                </div>
+            </li> 
+            <li>
+            <div class="container">
+                <form id="todo_form">
+                    <div class="form-row align-items-center pl-1">
+                        <div class="col-sm-5 my-2">
+                            <input type="text" class="form-control" required id="input_activity" placeholder="Please fill your your todo list">
+                        </div>
+                        <div class="col-sm-2 my-1 pl-0 ml-2">
+                            <input type="date" class="form-control" required id="input_date" placeholder="input date">
+                        </div>   
+                        <div class="col-sm-2 my-1 pl-0 ml-2">
+                            <input type="time" class="form-control" required id="input_time" placeholder="input time">
+                        </div>                                
+                        <div class="col-auto my-1 pl-3 pt-0 pb-0">
+                            <button type="submit" class="btn btn-secondary">Add</button>
+                            <button class="btn btn-secondary">Cencel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li> `)        
+        } else {
+            $('#todo-container').empty()
+            todos.forEach(todo => {
+                $('#todo-container').append(
+                `<li class="list-group-item pb-4 pt-4"> 
+                    <div class="glyphicon glyphicon-ok"></div> ${todo.name}
+                    <div class="glyphicon glyphicon glyphicon-time pl-5 pr-0"> ${new Date(todo.date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} </div> 
+                    <a class='delete' href="" ><div class="float-right glyphicon glyphicon-trash ml-3" id="${todo._id}" ></div></a> 
+                    <a class='delete' href="" ><div class="float-right glyphicon glyphicon-edit" id="${todo._id}"></div></a> 
+                </li>`)
+            });
+            $('#todo-container').append(`
+            <li <button class="btn btn-secondary" id="add-button">
+                    <i class="glyphicon glyphicon-plus-sign"  ></i>
+                Add Activity</button> 
+            </li>
+            <li>
+                <div class="container">
+                    <form id="todo_form">
+                        <div class="form-row align-items-center pl-1">
+                            <div class="col-sm-5 my-2">
+                                <input type="text" class="form-control" required id="input_activity" placeholder="Please fill your your todo list">
+                            </div>
+                            <div class="col-sm-2 my-1 pl-0 ml-2">
+                                <input type="date" class="form-control" required id="input_date" placeholder="input date">
+                            </div>   
+                            <div class="col-sm-2 my-1 pl-0 ml-2">
+                                <input type="time" class="form-control" required id="input_time" placeholder="input time">
+                            </div>                                
+                            <div class="col-auto my-1 pl-3 pt-0 pb-0">
+                                <button type="submit" class="btn btn-secondary">Add</button>
+                                <button class="btn btn-secondary">Cencel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li> 
+            `)
         }
-        $('#todo-container').empty()
-        todos.forEach(todo => {
-            $('#todo-container').append(
-            `<li class="list-group-item pb-4 pt-4"> 
-                <div class="glyphicon glyphicon-ok"></div> ${todo.name}
-                <div class="glyphicon glyphicon glyphicon-time pl-5 pr-0"> ${new Date(todo.date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} </div> 
-                <a class='delete' href="" ><div class="float-right glyphicon glyphicon-trash ml-3" id="${todo._id}" ></div></a> 
-                <a class='delete' href="" ><div class="float-right glyphicon glyphicon-edit" id="${todo._id}"></div></a> 
-            </li>`)
-        });
+        $('#todo_form').submit(event => {
+            event.preventDefault()        
+            let name = $('#input_activity').val()
+            let date = $('#input_date').val()
+            let time = $('#input_time').val()
+            let token = localStorage.getItem("token") // ambil token yang berisi email dan id
+            $.ajax({
+                url : `http://localhost:3000/todo`,
+                method : 'POST',
+                headers : {
+                    token: localStorage.getItem('token')
+                },
+                data : {
+                    name,
+                    date : new Date(`${date} ${time}`),
+                }
+                
+            })
+            .done( data => {
+                Swal.fire(
+                    'Adding the todo list success!',                
+                    'success'
+                  )
+                  let temp = new Date (data.date)
+                  let now = new Date                 
+                  if (temp.getFullYear() == now.getFullYear() && temp.getMonth() == now.getMonth() && temp.getDate() == now.getDate() ) {
+                    $('#empty-todo').hide() 
+                    $('#todo-container').prepend(
+                        `<li class="list-group-item pb-4 pt-4"> 
+                            <div class="glyphicon glyphicon-ok"></div> ${data.name}
+                            <div class="glyphicon glyphicon glyphicon-time pl-5 pr-0"> ${new Date(data.date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })} </div> 
+                            <a class='delete' href="" ><div class="float-right glyphicon glyphicon-trash ml-3" id="${data._id}" ></div></a> 
+                            <a class='delete' href="" ><div class="float-right glyphicon glyphicon-edit" id="${data._id}"></div></a> 
+                        </li>`) 
+                  }                     
+            })
+            .fail( err => {
+                Swal.fire({
+                    title: 'Ops...',
+                    type: 'error',
+                    text: err.responseJSON.msg
+                })
+            })
+        })
         $('.glyphicon-trash').click(function (event) {            
             event.preventDefault()
             let todo_id = $(this).attr('id')                        
@@ -322,7 +507,8 @@ function viewTodoToday(data) {
                     token: localStorage.getItem('token')
                 }
             })
-            .then(function (todo) {                
+            .then(function (todo) {     
+                console.log(todo)           
                 Swal.fire({
                     title: 'Update Data',
                     html:
@@ -339,9 +525,8 @@ function viewTodoToday(data) {
                     }
                   })
                   .then (function (input) {
-                      console.log(input.value.name)
                     $.ajax({
-                        url : `http://localhost:3000/todo/${todo_id}`,
+                        url : `http://localhost:3000/todo/${todo._id}`,
                         method : 'PUT',   
                         data : {
                             name : input.value.name,
@@ -375,16 +560,22 @@ function viewTodoToday(data) {
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     var id_token = googleUser.getAuthResponse().id_token;
+    console.log(profile)
+    $('#user-image').attr("src", profile.Paa);
+    $('#user-name').empty()
+    $('#user-name').append(`<li class="list-group-item pl-1" id="user-name">${profile.ig}</li>`)
+    $('#user-email').empty()
+    $('#user-email').append(`<li class="list-group-item pl-1" id="user-name">${profile.U3}</li>`)
     $.ajax({
         url : `http://localhost:3000/login-google`,
         method : "POST",
         data : {
             google_token : id_token
         }
+        
     })
     .done( data => {
         localStorage.setItem("token", data.token)
-        $('#user-image').attr("src", "https://media.nesta.org.uk/images/Predictions-2019_Twitter_02.width-1200.png");
         $('#main-page').show()
         $('#front-page').hide()
     })
@@ -396,10 +587,10 @@ function onSignIn(googleUser) {
     })
 }
 function signOut() {
-    console.log('masuk')
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         $('#register').show()    
+        $('#front-page').show()  
         $('#main-page').hide()
         $('#login').hide() 
         localStorage.removeItem("token")
@@ -418,7 +609,12 @@ function checkLoginState() {               // Called when a person is finished w
 function statusChangeCallback(response) {                
     if (response.status === 'connected') {                    
         FB.api('/me', 'GET', {fields: 'first_name,last_name,name,email,id,picture'}, function(response) {
-            console.log(response.email);
+            console.log(response);
+            $('#user-image').attr("src", response.picture.data.url);
+            $('#user-name').empty()
+            $('#user-name').append(`<li class="list-group-item pl-1" id="user-name">${response.name}</li>`)
+            $('#user-email').empty()
+            $('#user-email').append(`<li class="list-group-item pl-1" id="user-name">${response.email}</li>`)
             $.ajax({
                 url : `http://localhost:3000/login-facebook`,
                 method : "POST",
@@ -428,7 +624,7 @@ function statusChangeCallback(response) {
             })
             .done( data => {
                 localStorage.setItem("token", data.token)
-                $('#user-image').attr("src", "https://media.nesta.org.uk/images/Predictions-2019_Twitter_02.width-1200.png");
+                
                 $('#main-page').show()
                 $('#front-page').hide()
             })

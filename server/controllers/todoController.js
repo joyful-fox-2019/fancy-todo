@@ -16,9 +16,7 @@ class todoController{
                 user : req.user._id
             })                   
             .then( user => {
-                res.status(201).json({
-                    msg :  'todo is succesfully added'
-                })
+                res.status(201).json(user)
             })
             .catch(next)
     }
@@ -75,10 +73,8 @@ class todoController{
     }   
 
     static update(req, res, next) {
-        console.log(req.params.todoId)
-        console.log(req.body, 'ini')        
         const{name, date} = req.body
-        Todo.findOneAndUpdate(req.params.todoId, {name, date})
+        Todo.findOneAndUpdate({ _id : req.params.todoId}, {name, date})
         .then(function(data){
             res.status(200).json(data)
         })
