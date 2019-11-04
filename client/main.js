@@ -320,5 +320,6 @@ $(document).ready(function () {
         $('.welcomeMSG').toggleClass('welcomeNight')
         $('.list-group').toggleClass('listNight')
         $('.btn-info').toggleClass('btn-night')
+        $('.card').toggleClass('contentNight')
     });
 })

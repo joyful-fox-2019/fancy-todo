@@ -43,6 +43,13 @@ body {
 .col-sm-6 {
     height: 75vh;
     overflow: scroll;
+    transition: 1s;
+}
+
+.contentNight {
+    background-color: #00425c;
+    color: white;
+    transition: 1s;
 }
 
 /* Optional: show position indicator in red */
