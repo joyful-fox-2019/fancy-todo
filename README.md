@@ -32,7 +32,7 @@
 
 * **Error Response:**
   * **Code:** 500 Internal Server Error <br />
-    **Content:** `{ error : "Error" }`
+    **Content:** `{ message : "'Oops!! Sorry! Server is under attack!'" }`
 
 
 **Login**
@@ -61,7 +61,7 @@
 
 * **Error Response:**
   * **Code:** 500 Internal Server Error <br />
-    **Content:** `{ error : "Error" }`
+    **Content:** `{ message : "'Oops!! Sorry! Server is under attack!'" }`
 
 
 **Add Task**
@@ -97,10 +97,10 @@
         ```
 
 * **Error Response:**
-    * **Code:** 500 INTERNAL SERVER ERROR <br />
-    **Content:** `{ error : "Error" }`
+    * **Code:** 500 Internal Server Error <br />
+    **Content:** `{ message : "'Oops!! Sorry! Server is under attack!'" }`
     * **Code:** 403 unauthorized <br />
-    **Content:** `{ error : "Error" }`
+    **Content:** `{"message": "Not Authorize"}`
 
 
 
@@ -122,7 +122,7 @@
     * **Code:** 201 <br />
         **Content:** 
         ```javascript
-            
+            [
               {
                     "_id":"5dbf34e09da365145d36755c",
                     "title":"todo 1",
@@ -146,10 +146,10 @@
         ```
 
 * **Error Response:**
-    * **Code:** 500 INTERNAL SERVER ERROR <br />
-    **Content:** `{ error : "Error" }`
+    * **Code:** 500 Internal Server Error  <br />
+    **Content:** `{ message : "'Oops!! Sorry! Server is under attack!'" }`
     * **Code:** 403 unauthorized <br />
-    **Content:** `{ error : "Error" }`
+    **Content:** `{"message": "Not Authorize"}`
 
 
 **Delete a todo**
