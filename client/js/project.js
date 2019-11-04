@@ -311,7 +311,10 @@ $('#confirm-btn').click(function(event){
     restartDetailPage()
     $('#confirm-alert').hide()
   })
-  .fail(showError)
+  .fail(({ responseJSON}) => {
+    console.log(responseJSON);
+    showError(responseJSON.message)
+  })
 })
 }
 
@@ -335,7 +338,9 @@ function addMember() {
     successMessage(response.message)
     restartDetailPage()
   })
-  .fail(showError)
+  .fail(({ responseJSON}) => {
+    showError(responseJSON.message)
+  })
 }
 
 function addTodoProject () {
