@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nancy Todo's</title>
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+     <script src="https://apis.google.com/js/platform.js" async defer></script>
+     <meta name="google-signin-client_id" content="807717109336-b49k4uhkfmvq6jckuv3j4h2t8739e3el.apps.googleusercontent.com">
+
+</head>
+<body>
+    <!-- NAVBAR  -->
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation" id="NAVBAR">
+            <div class="navbar-brand">
+              <a class="#" href="https://bulma.io">
+                <img src="/src/undraw_google_docs_jf93.svg" width="50" height="50">
+              </a>
+          
+              <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+          
+            <div id="navbarBasicExample" class="navbar-menu">
+              <div class="navbar-start">
+                <a class="navbar-item">
+                  <h3 style="color: white; font-style: italic;"><strong>Nancy Todo's</strong></h3>
+                </a>
+              </div>
+          
+              <div class="navbar-end">
+                <div class="navbar-item">
+                  <div class="buttons">
+                    <a class="button is-primary" id="logout-button">
+                      <strong>Logout <span> </span> <i class="fas fa-sign-out-alt"></i></strong>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </nav>
+    <!-- END NAVBAR  -->
+
+
+
+    <!-- LOG-REG PAGE  -->
+    <div id="LOG-REG">
+    <img class="wave" src="/src/wave3.png" id="png-login">
+    <img class="wave" src="/src/wave4.png" id="png-register">
+    <div class="container-logreg">
+        <div class="img">
+            <img src="/src/undraw_email_campaign_qa8y.svg" id="image-login">
+            <img src="/src/undraw_Mobile_application_mr4r.svg" id="image-register">
+        </div>
+
+        <!-- LOGIN-FORM  -->
+            <div class="login-content" id="login-form">
+                <form action="">
+                    <img src="/src/undraw_to_do_list_a49b(3).svg" id="icon-login">
+
+                    <h2>Signin</h2>
+                    <br>
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <input class="input" type="text" placeholder="Username" id="username-login">
+                        </div>
+                    </div>
+                    <div class="input-div pass">
+                        <div class="i">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="div">
+                            <input class="input" type="password" placeholder="Password" id="password-login">
+                        </div>
+                    </div>
+                    <br>
+                    <input type="button" class="btn" value="Signin" id="login-submit">
+                    
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <br>
+                    <div class="footer-logreg" style="color: rgb(2, 101, 250);">
+                        <h3 style="color: rgb(19, 47, 204); cursor: pointer;" id="register-show"><strong>Don't have account? Sign Up</strong></h3>
+                    </div>
+                </form> 
+            </div>
+        <!-- END LOGIN FORM  -->
+
+
+        <!-- REGISTER FORM  -->
+            <div class="login-content" id="register-form">
+                <form action="">
+                    <img src="/src/undraw_female_avatar_l3ey.svg" id="icon-register">
+                    <h2>Sign Up</h2>
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <input class="input" type="text" placeholder="Username" id="username-register">
+                        </div>
+                    </div>
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="far fa-envelope"></i>
+                        </div>
+                        <div>
+                            <input class="input" type="text" placeholder="Email" id="email-register">
+                        </div>
+                    </div>
+                    <div class="input-div pass">
+                        <div class="i">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="div">
+                            
+                            <input class="input" type="password" placeholder="Password" id="password-register">
+                        </div>
+                    </div>
+                    <br>
+                    <input type="button" class="btn" value="Sign Up" id="register-submit">
+                    <br>
+                    <div class="footer-logreg" style="color: rgb(2, 101, 250);">
+                            <h3 style="color: rgb(19, 47, 204); cursor: pointer;" id="login-show"><strong>Already have account? Signin</strong></h3>
+                    </div>
+                </form>
+                <br>
+                
+            </div>
+        </div>
+        <!-- END REGISTER FORM  -->
+    </div>
+    <!-- END-LOG-REG PAGE -->
+
+
+    <!-- MAIN PAGE ---------------------------------------------------------------------- -->
+    <div id="MAINPAGE">
+    <div id="main-page" style="overflow: hidden">
+            <div class="row" style="height: 90vh; border-top: 1px solid whitesmoke;">
+
+                <div class="col-2" style="border-right: 3px solid rgb(245, 245, 245); background-color: ivory;">
+                        <!-- Side Bar -->
+                        <aside class="menu">
+                            <div class="users" style="margin: 20px;">
+                                    <aside class="menu">
+                                            <p class="menu-label">
+                                              MyTodos
+                                          
+                                            <p class="menu-label">
+                                              MyProject
+                                            </p>
+                                            <p class="menu-label">
+                                              Add Project
+                                            </p>
+                                    </aside>
+                            </div>
+                        </aside>
+                        <!-- End Side Bar  -->
+                    </div>
+
+
+                <div class="col-6" style="border-right: 1px solid whitesmoke; height: 750px; margin-left: 0px; background-color: rgb(255, 255, 255);">    
+                    <div id="todo-content" style="width: 100%; height: 80%;">
+                                <ul class="list-group" style="display: flex;" id="todos-list">
+                                  
+                                </ul>
+                    </div>   
+                </div>
+
+
+                <div class="col" style="border-right: 1px solid whitesmoke; background-color: ivory;">
+                    <div class="addtodo" style="justify-content: center; margin: 15px 50px 5px 2px;">
+                        <div class="namecontent" style="text-align: left;;color: rgb(2, 101, 250); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                            <h5>Add New Todo</h5>
+                        </div>
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                              <input class="input" type="text" placeholder="Title" id="title-todo">
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                              </span>
+                              <span class="icon is-small is-right">
+                                <i class="fas fa-check"></i>
+                              </span>
+                            </p>
+                          </div>
+                          <div class="field">
+                              <div class="control">
+                                  <textarea class="textarea" placeholder="Descrition" id="description-todo"></textarea>
+                              </div>
+                          </div>
+                          <div class="field">
+                            <p class="control">
+                              <button class="button is-link is-light" style="color: rgb(53, 49, 48);" id="addtodo-button">
+                                Add Todo
+                              </button>
+                            </p>
+                          </div>
+                          <div class="button-group">
+                            <button class="button is-success" id="mytodo-button">My Todo</button>
+                            <button class="button is-success" id="myproject-button">My Project</button>
+                            <button class="button is-success" id="addproject-button">Add Project</button>
+                          </div>
+                          <div class="list-project" id="project-list">
+
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MAINPAGE ------------------------------------------------------------------------  -->
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+    <!-- SCRIPT  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
+
+<style>
+
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+    font-family: 'Josefin Sans', sans-serif;
+    text-decoration: none;
+    list-style: none;
+
+}
+
+.list-group-item {
+    background-color: ivory;
+}
+
+/* body{
+    font-family: 'Poppins', sans-serif;
+    /* background-color: #d9d9d9;
+    /* overflow: hidden;
+} */
+
+.menu-label {
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+}
+
+
+.wave{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	z-index: -1;
+}
+
+.container-logreg {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap :7rem;
+    padding: 0 2rem;
+}
+
+.img{
+	display: flex;
+	justify-content: flex-end;
+    align-items: left;
+    margin-right: 10px;
+}
+
+.login-content{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+    text-align: center;
+    margin-left: 120px;
+}
+
+.img img{
+    width: 440px;
+    justify-content: left;
+}
+
+form{
+	width: 360px;
+}
+
+.login-content img{
+    height: 100px;
+}
+
+.login-content h2{
+	margin: 15px 0;
+	color: rgb(156, 188, 236);
+	font-size: 2.9rem;
+}
+
+
+
+.login-content .input-div{
+	position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    margin: 25px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.login-content .input-div.one{
+	margin-top: 0;
+}
+
+.i{
+	color: #87dbd6;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.i i{
+	transition: .3s;
+}
+
+.input-div > div{
+    position: relative;
+	height: 45px;
+}
+
+.input-div > div > h5{
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #999;
+	font-size: 18px;
+	transition: .3s;
+}
+
+.input-div:before, .input-div:after{
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	width: 0%;
+	height: 2px;
+	background-color: #38d39f;
+	transition: .4s;
+}
+
+.input-div:before{
+	right: 50%;
+}
+
+.input-div:after{
+	left: 50%;
+}
+
+.input-div.focus:before, .input-div.focus:after{
+	width: 50%;
+}
+
+.input-div.focus > div > h5{
+	top: -5px;
+	font-size: 15px;
+}
+
+.input-div.focus > .i > i{
+	color: #38d39f;
+}
+
+.input-div > div > input{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	background: none;
+	padding: 0.5rem 0.7rem;
+	font-size: 1.2rem;
+	color: rgb(6, 7, 7);
+	font-family: 'poppins', sans-serif;
+}
+
+.input-div.pass{
+	margin-bottom: 4px;
+}
+
+a{
+	display: block;
+	text-align: right;
+	text-decoration: none;
+	color: #999;
+	font-size: 0.9rem;
+	transition: .3s;
+}
+
+a:hover{
+	color: #20b382;
+}
+
+.btn{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 5px;
+	outline: none;
+	border: none;
+    background-image: linear-gradient(to right, #bdd6ce, #9aa2ad, #5fe6da);
+	
+    
+	background-size: 200%;
+	font-size: 1.2rem;
+	color: rgb(52, 97, 97);
+	font-family: 'Poppins', sans-serif;
+	margin: 1rem 0;
+	cursor: pointer;
+    transition: .5s;
+    font-weight: bold;
+}
+.btn:hover{
+	background-position: right;
+}
+
+/* MAIN PAGE  */
+
+#todo-content {
+        width: 100%;
+        height: 525px;
+        overflow: scroll;
+    }
+
+/* @media (max-height: 500px){
+  .social_media{
+    display: none !important;
+  }
+} */
+
+</style>
+
+</html>
