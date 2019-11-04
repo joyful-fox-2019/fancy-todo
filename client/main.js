@@ -153,7 +153,6 @@ function register(event) {
                     </ul>
                 </div>
             `)
-            // error(err)
             console.log(err)
         })
 }
@@ -213,8 +212,6 @@ function todo(event) {
             });
         })
         .fail(function (err) {
-            // registerPage()
-            // error(err)
             console.log(err)
         })
 }
@@ -271,9 +268,9 @@ function addTask(event) {
         })
 }
 
-function done(todoId) {
+function done(id) {
     $.ajax({
-        url: 'http://localhost:3000/todos',
+        url: `http://localhost:3000/todos/${id}`,
         method: 'PATCH',
         data: {
             status: true
@@ -298,7 +295,7 @@ function done(todoId) {
 
 function remove(id) {
     $.ajax({
-        url: `http://localhost:3000/todos${id}`,
+        url: `http://localhost:3000/todos/${id}`,
         method: `DELETE`,
         headers: {
             token: localStorage.getItem('token')
@@ -363,11 +360,6 @@ function onSignIn(googleUser) {
             console.log(err);
             alert(err)
         })
-
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
 function signOut() {
@@ -383,6 +375,5 @@ function signOut() {
             $('#MAIN').hide()
             $('#LOGIN').show()
             console.log('User signed out.');
-            // log()
         });
 }
