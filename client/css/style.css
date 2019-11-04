@@ -1,0 +1,101 @@
+#notlogin, #donelogin {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.center {
+  text-align: center;
+  justify-content: space-around;
+}
+
+.left-side{
+  width: 25vw !important;
+}
+
+.logo {
+  background-color: aliceblue;
+  margin-top: 15px;
+  width: 100%;
+  height: 200px;
+}
+
+.left-title{
+  color: aliceblue;
+  font-size: 25px;
+}
+
+.right-side{
+  width: 75vw !important;
+}
+
+.card-list{
+  margin-top: 10%;
+  height: 90%;
+}
+
+.card-todo{
+  border-top: 2px solid #2c3e50;
+  border-right: 2px solid #2c3e50;
+  overflow: auto;
+  height: 100%;
+}
+
+.full{
+  width: 100%;
+  height: 100%;
+}
+
+#description {
+  width: 100%;
+  padding: 2%;
+  resize: none;
+  border-radius: 15px;
+}
+
+.hiden{
+  overflow: hidden;
+}
+
+.tododate{
+  height: 10%;
+  width: 90%;
+  padding-top: 10%;
+}
+
+.tododesc{
+  height: 50%;
+  overflow: hidden;
+  margin-top: 10%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.background{
+  height: 70%;
+  background-color: rgba(52, 73, 94);
+}
+
+.todobutton{
+  justify-content: center;
+}
+
+.btn-xs{
+  min-width: 40% !important;
+  width: 40%;
+  padding: 0px !important;
+}
+
+.modal-content{
+  word-wrap: break-word;
+}
+
+.detailButton{
+  justify-content: space-around;
+  align-content: space-around;
+  text-align: center;
+}
+
+#logo{
+  width: 100%;
+}
