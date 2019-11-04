@@ -1,4 +1,6 @@
-const host = `http://localhost:3000`
+// const host = `http://localhost:3000`
+const host = `https://sap-todo-api.sigitariprasetyo.xyz`
+
 
 $(document).ready(function () {
   isAuth()
@@ -124,9 +126,9 @@ function changeName() {
   let newUsername;
   $.ajax({
     method: 'get',
-    url: `${host}/users/${localStorage.username}`,
+    url: `${host}/users/${localStorage.getItem('username')}`,
     headers: {
-      token: localStorage.token
+      token: localStorage.getItem('token')
     }
   })
     .then(data => {

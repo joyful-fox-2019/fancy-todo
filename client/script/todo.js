@@ -9,7 +9,7 @@ function getAllTodos() {
 
   $.ajax({
     method: 'get',
-    url: 'http://localhost:3000/todos',
+    url: `${host}/todos`,
     headers: {
       token: localStorage.getItem('token')
     }
@@ -65,7 +65,7 @@ function addTodo() {
     .then(({ value }) => {
       return $.ajax({
         method: 'post',
-        url: 'http://localhost:3000/todos',
+        url: `${host}/todos`,
         data: value,
         headers: {
           token: localStorage.getItem('token')
@@ -123,13 +123,15 @@ function showToday() {
         swal.close()
       }
     })
-    .fail(err => {
-      expairedToken(err)
-      swal.fire({
-        title: `${err.responseJSON}`,
-        showCloseButton: true
-      })
-    })
+    .fail(handleError)
+}
+
+function handleError(err){
+  expairedToken(err)
+  swal.fire({
+    title: `${err.responseJSON}`,
+    showCloseButton: true
+  })
 }
 
 // Edit TODO
