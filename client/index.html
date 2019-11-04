@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id"
-        content="992675398224-933o23nnmp85vdch2t0ftnta6jcbn3ut.apps.googleusercontent.com">
+        content="548370348046-itof3f72mtaldfestbq25m2iga2sb7vh.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <link rel="stylesheet" href="./style.css">
@@ -15,35 +15,52 @@
 
 <body>
 
+    <div id="NAVBAR">
+        <div class="ui top fixed secondary menu">
+            <div class="item">
+                <img src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
+            </div>
+            <div class="right menu navbar">
+                <div class="item" id="logout-button">
+                    <a href="" onclick="logout(event)">
+                        <img class="right floated mini ui avatar image" id="logout-button"
+                            src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="LOGIN">
         <div class="logform">
             <div class="ui center aligned basic segment">
                 <h2 style="font-size: 20px; text-align:center; ">
                     <strong> Log-in to your account </strong>
                 </h2>
-                <form class="ui small form error">
+                <form class="ui small form error" id="logForm">
                     <div class="ui stacked segment">
                         <div class="field">
-                            <div class="ui left icon input" style="height: 45px;">
+                            <div class="ui left icon input">
                                 <i class="user icon"></i>
-                                <input type="text" id="email-login" name="email" placeholder="E-mail address">
+                                <input type="text" id="email-login" placeholder="E-mail address">
                             </div>
                         </div>
                         <div class="field">
-                            <div class="ui left icon input" style="height: 45px;">
+                            <div class="ui left icon input">
                                 <i class="lock icon"></i>
-                                <input type="password" id="password-login" name="password" placeholder="Password">
+                                <input type="password" id="password-login" placeholder="Password">
                             </div>
                         </div>
-                        <div id="errTemplate">
+                        <div id="errTemplateLog">
 
                         </div>
-                        <div class="ui fluid small teal submit button" id="login-button" style="margin: 5px;">Login
-                        </div>
+
+                        <input class="ui fluid small teal submit button" id="login-button" type="submit"
+                            style="margin: 5px;" value="Login">
                     </div>
                 </form>
                 <div class="ui message" style="text-align: center;">
-                    New to us? <a href="#" id="register-page">Sign Up</a>
+                    New to us? <a href="#" id="register-page" onclick="registerPage()">Sign Up</a>
                 </div>
 
                 <div class="ui horizontal divider">
@@ -55,7 +72,6 @@
     </div>
 
 
-
     <div id="REGISTER">
         <div class="registerForm">
             <div class="ui center aligned basic segment">
@@ -65,43 +81,46 @@
                 <form class="ui small form error">
                     <div class="ui stacked segment">
                         <div class="field">
-                            <div class="ui left icon input" style="height: 45px;">
+                            <div class="ui small left icon input">
                                 <i class="user md icon"></i>
-                                <input type="text" id="name-register" name="name" placeholder="Name">
+                                <input type="text" id="name-register" placeholder="Name">
                             </div>
                         </div>
                         <div class="field">
-                            <div class="ui left icon input" style="height: 45px;">
+                            <div class="ui small left icon input">
                                 <i class="envelope icon"></i>
-                                <input type="text" id="email-register" name="email" placeholder="E-mail address">
+                                <input type="text" id="email-register" placeholder="E-mail address">
                             </div>
                         </div>
                         <div class="field">
-                            <div class="ui left icon input" style="height: 45px;">
+                            <div class="ui small left icon input">
                                 <i class="lock icon"></i>
-                                <input type="password" id="password-register" name="password" placeholder="Password">
+                                <input type="password" id="password-register" placeholder="Password">
                             </div>
                         </div>
-                        <div id="errTemplate">
+                        <div id="errTemplateReg">
 
                         </div>
                         <br>
                         <div class="ui fluid small teal submit button" id="register-button">register</div>
                     </div>
                 </form>
+                <div class="ui small message" style="text-align: center;">
+                    Already have account? <a href="#" id="login-page" onclick="loginPage()">Signin</a>
+                </div>
             </div>
         </div>
     </div>
 
 
     <div id="MAIN">
-        <div id="main-header">
-            <p>Hi <strong style=color:rgb(71,186,188);>Value</strong> , lets take a note!</p>
-        </div>
-        <div class="notes" id="noteId">
-            <div id="note">
-                <div class="note-header">
-                    <p style="text-align: center; border-bottom:1px solid olive"> Title / createdAt </p>
+        <div id="main-header"> </div>
+        <div class="notes" id="note">
+
+            <div id="noteId">
+                <div class="note-header" style="justify-content: center;">
+                    <p style="text-align: center; border-bottom:1px solid olive; justify-content: center;"> Title
+                        (created&due) </p>
                 </div>
                 <div class="note-list">
                     <span class="done">done</span>
@@ -110,53 +129,44 @@
                 </div>
             </div>
 
-            <div id="note">
-                <div class="note-header">
-                    <p style="text-align: center; border-bottom:1px solid olive"> Title / createdAt </p>
-                </div>
-                <div class="note-list">
-                    <span class="done">done</span>
-                    <p>Hey, this is an example for you. You can Write your thoughts or your task below!</p>
-                    <span class="delete">delete</span>
-                </div>
-            </div>
-
-
-
-
-            <div class="note-header">
-                <p style="text-align: left;"> Title / createdAt </p>
-            </div>
-            <div class="note-list" style="margin: 0px;">
-                <span class="done">done</span>
-                <p>Hey, this is an example for you. You can Write your thoughts or your task below!</p>
-                <span class="delete">delete</span>
-            </div>
-
-            <div class="note-header">
-                <p style="text-align: left;"> Title / createdAt </p>
-            </div>
-            <div class="note-list" style="margin: 0px;">
-                <span class="done">done</span>
-                <p>Hey, this is an example for you. You can Write your thoughts or your task below!</p>
-                <span class="delete">delete</span>
-            </div>
         </div>
+        <br>
+        <button class="ui labeled tiny teal icon button" onclick="showModalAdd()" style="position:sticky;">
+            Add more task
+            <i class="add icon" style="display: flex; align-items: center;"></i>
+        </button>
+    </div>
 
+    <div id="ADDTASK">
+        <div class="ui modal" id="modalAdd">
+            <br>
+            <div class="header" style="color:teal; font-weight:bolder; font-size: larger; text-align: center;">List it!
+                get
+                your work done today!</div> <br>
+            <div class="content">
+                <form class="ui tiny form  error" style="width: 250px;">
+                    <div class="two fields">
+                        <div class="field" style="width: 120px;">
+                            <label>Task</label>
+                            <input type="text" id="title" placeholder="title">
+                        </div>
+                        <div class="field" style="width: 130px;">
+                            <label>Due-date</label>
+                            <input type="date" id="dueDate" style="font-size:11px;">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Description</label>
+                        <textarea placeholder="Description" id="description" rows="1"></textarea>
+                    </div>
+                    <div id="errTemplateTask">
 
-        <div class="note-input">
-            <form id="note-form">
-                <span></span>
-                <div class="group">
-                    <textarea autocomplete="off" type="textarea" id="textarea-note"></textarea>
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>List it, get your work done today!</label>
-                </div>
-                <div class="btn-box" id="btn-add">
-                    <button class="btn btn-submit" type="submit">ADD</button>
-                </div>
-            </form>
+                    </div>
+                    <button class="ui tiny button" style="color: black; background-color: rgb(255, 183, 0);"
+                        type="submit" onclick="addTask()">Add
+                        task</button>
+                </form>
+            </div>
         </div>
 
     </div>
@@ -165,6 +175,7 @@
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.js"></script>
     <script src="./main.js"></script>
 </body>
 

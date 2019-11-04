@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema({
 //     next()
 // })
 
+userSchema.pre('save', function (next) {
+    this.password = hash(this.password)
+    next()
+})
+
 
 const User = mongoose.model('User', userSchema)
 

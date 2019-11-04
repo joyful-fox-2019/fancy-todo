@@ -5,11 +5,12 @@ class TodoController {
 
     static addTask(req, res, next) {
         console.log(req.body, req.loggedUser._id);
-        let { title, description } = req.body,
+        let { title, description, dueDate } = req.body,
             userId = req.loggedUser._id
         Todo.create({
             title: title,
             description: description,
+            dueDate: dueDate,
             userId: userId
         })
             .then(todo => {

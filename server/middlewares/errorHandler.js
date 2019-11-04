@@ -1,6 +1,6 @@
 module.exports = {
     errorHandler(err, re, res, next) {
-        console.log(err.name)
+        console.log(err)
         switch (err.name) {
             case 'ValidationError': {
                 // let message = err.errors.map(error => {
