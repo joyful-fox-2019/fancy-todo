@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <script src=https://kit.fontawesome.com/00e26fd88e.js crossorigin=anonymous></script>
+  <link rel="icon" href="./favicon.ico">
+  <meta name="google-signin-client_id" content="698203005009-9n5jq876sc8a88j1sr8f6alpfu9pmqq4.apps.googleusercontent.com">
+  <link rel="stylesheet" href="./css/style.css">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <title>Tududu</title>
+</head>
+<body>
+  <div class="flex justify-center w-1/2" style="margin: 0 auto;">
+    <div id="success-alert" class="flex w-full p-4 rounded justify-center items-center bg-green-400 shadow mt-20" style="position: absolute; display: none;"></div>
+    <div id="error-alert" class="flex w-full p-4 rounded justfiy-center items-center mt-20 bg-red-600 shadow" style="position: absolute; display: none;" ></div>
+    <div id="confirm-alert" class="flex flex-wrap w-1/2 p-4 rounded shadow-2xl justify-center" style="position: absolute; display: none; margin: 200px auto; background-image: linear-gradient(to right top, #ffd8ee, #f8dbf5, #f0ddfa, #e8e0fd, #e1e3ff, #dae7ff, #d4eaff, #d0edff, #ccf2ff, #c9f6ff, #c7fbff, #c8fffb);">
+      <div class="w-full text-center p-8"><p>Are you sure?</p></div>
+      <button id="confirm-btn" type="button" class="p-4 bg-green-500 rounded m-4">Yes</button>
+      <button id="confirm-cancel" type="button" class="p-4 bg-red-500 rounded m-4">Cancel</button>
+    </div>
+  </div>
+<!-- LOGIN PAGE -->
+<div id="login-page" class="flex justify-center items-center">
+  <!-- LOGIN CARD -->
+  <div id="login-card" class=" flex justify-around p-10 shadow-2xl">
+    <div id="form-login" class="w-1/2 ">
+      <h1 style="font-size: 40px; text-align: center;">Sign in</h1>
+      <form id="login-form" class="flex items-center justify-start flex-wrap">
+        <label>Email</label>
+        <input id="login-email" type="email" class="p-2 rounded shadow focus:shadow-outline" placeholder="email">
+        <label>Password</label>
+        <input id="login-password" type="password" class=" p-2 rounded shadow focus:shadow-outline" placeholder="password">    
+        <input type="submit" id="login-btn" class="rounded bg-blue-500 text-gray-100 hover:bg-blue-400 hover:text-white cursor-pointer p-2" value="Login">    
+        <div class="g-signin2" style="margin:15px auto;" data-onsuccess="onSignIn"></div>
+      </form>
+      <a id="go-register" href="" class="hover:text-blue-500" style="margin: 10px auto; display:block; width: 80%;">Don't have account? Register first..</a>
+    </div>
+    <div id="login-img" class="w-1/2 flex justify-center items-center">
+      <img src="Asset 20.svg" alt="login-image.png">
+    </div>
+  </div>
+  <!-- REGISTER CARD -->
+  <div id="register-card" class="border flex p-10 shadow-2xl">
+    <div class="flex w-full">
+      <div id="register-img" class="w-1/2 flex justify-center items-center">
+        <img src="Asset 19.svg" alt="register-image.png">
+      </div>
+      <div id="form-register" class="w-1/2">
+        <h1 style="font-size: 40px; text-align: center;">Sign Up</h1>
+        <form id="register-form" class="flex items-center justify-start flex-wrap">
+          <label >Name</label>
+          <input id="reg-name" type="text" class="p-2 rounded shadow focus:shadow-outline" placeholder="name">
+          <label>Email</label>
+          <input id="reg-email" type="email" class="p-2 rounded shadow focus:shadow-outline" placeholder="email">
+          <label>Password</label>
+          <input id="reg-password" type="password" class=" p-2 rounded shadow focus:shadow-outline" placeholder="password">    
+          <input type="submit" id="register-btn" class="rounded bg-green-500 text-gray-100 hover:bg-green-400 hover:text-white cursor-pointer p-2" value="Register">    
+        </form>
+        <a id="go-login" href="" class="hover:text-blue-500" style="margin: 10px auto; display:block; width: 80%;">Have an account? Login instead..</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TODO PAGE -->
+<div id="todo-page">
+  <!-- Navbar -->
+  <nav class="flex items-center justify-around bg-blue-800 text-gray-200 h-20 px-10">
+    <div class="flex justify-betwen items-center w-1/2">
+      <div><img class="logo" src="./tududu.png" alt="logo" style="height: 60px; cursor: pointer;"></div>
+      <div class="to-projects mx-10 cursor-pointer">MY PROJECTS</div>
+    </div>
+    <div class="flex justify-end items-center w-1/2">
+      <div><i class="logout-btn fas fa-sign-out-alt hover:text-red-600 cursor-pointer"></i></div>
+    </div>
+  </nav>
+
+  <div id="todo-nav" class="flex justify-around w-1/4 rounded-full border border-blue-400">
+    <div id="todo-all" class="w-1/3 text-center rounded-l-full rounded-r-none active">All</div>
+    <div id="todo-today" class="w-1/3 text-center rounded-l-none rounded-r-none">Today</div>
+    <div id="todo-thisweek" class="w-1/3 text-center rounded-l-none rounded-r-full">This Week</div>
+  </div>
+  <div class="p-2 flex justify-center" style="margin: 5px auto;">
+    <button id="new-todo" class="bg-blue-600 py-2 px-4 rounded text-white hover:text-gray-100 hover:bg-blue-500">New Todo</button>
+  </div>
+  <div class="p-2 flex justify-center" style="margin: 5px auto;">
+    <form id="add-todo-form" class="w-1/2 shadow-2xl rounded-lg p-16">
+      <label class="m-2">Title</label>
+      <input type="text" id="add-todo-title" class="rounded border-blue-400 border p-2 w-full m-2 outline-none" placeholder="title">
+      <label class="m-2">Description</label>
+      <input type="text" id="add-todo-desc" class="rounded border-blue-400 border p-2 w-full m-2 outline-none " placeholder="description">
+      <label class="mx-2 w-full" style="display: block;">Deadline</label>
+      <input type="date" id="add-todo-date" class="rounded border-blue-400 border p-2 w-1/3 m-2 outline-none">
+      <input type="submit" id="add-todo-btn" class="p-2 bg-blue-400 text-white hover:bg-blue-500 cursor-pointer rounded">
+      <button id="cancel-add-todo" type="button" class="m-2 p-2 bg-gray-600 text-white hover:bg-gray-800 cursor-pointer rounded">Cancel</button>   
+    </form>
+    <form id="edit-todo-form" class="w-1/2 shadow-2xl rounded-lg p-16">
+      <h1 style="display: none;" id="edit-todo-id"></h1>
+      <label class="m-2">Title</label>
+      <input type="text" id="edit-todo-title" class="rounded border-blue-400 border p-2 w-full m-2 outline-none" value="">
+      <label class="m-2">Description</label>
+      <input type="text" id="edit-todo-desc" class="rounded border-blue-400 border p-2 w-full m-2 outline-none " value="">
+      <input type="submit" id="edit-todo-btn" class="m-2 p-2 bg-blue-400 text-white hover:bg-blue-500 cursor-pointer rounded" value="Update">
+      <button id="cancel-edit-todo" type="button" class="m-2 p-2 bg-gray-600 text-white hover:bg-gray-800 cursor-pointer rounded">Cancel</button>
+    </form>
+  </div>
+  <div class="main-content flex justify-around">
+    <div id="todo-list" class="flex flex-wrap w-full justify-center ">
+    </div>
+  </div>
+</div>
+
+<!-- PROJECT PAGE -->
+<div id="project-page">
+    <!-- Navbar -->
+    <nav class="flex items-center justify-around bg-blue-800 text-gray-200 h-20 px-10">
+      <div class="flex justify-betwen items-center w-1/2">
+        <div><img class="logo" src="./tududu.png" alt="logo" style="height: 60px; cursor: pointer;"></div>
+        <div class="to-projects mx-10 cursor-pointer">MY PROJECTS</div>
+      </div>
+      <div class="flex justify-end items-center w-1/2">
+        <div><i class="logout-btn fas fa-sign-out-alt hover:text-red-600 cursor-pointer"></i></div>
+      </div>
+    </nav>
+  
+    <div class="p-2 flex justify-center" style="margin: 5px auto;">
+      <button id="new-project-btn" class="bg-green-600 py-2 px-4 rounded text-white hover:text-gray-100 hover:bg-green-500">New Project</button>
+    </div>
+    <div class="p-2 flex justify-center" style="margin: 5px auto;">
+      <form id="add-project-form" class="w-1/2 shadow-2xl rounded-lg p-16">
+        <label class="m-2">Name</label>
+        <input type="text" id="add-project-name" class="rounded border-blue-400 border p-2 w-full m-2 outline-none" placeholder="project name">
+        <input type="submit" id="add-project-btn" class="p-2 m-2 bg-green-400 text-white hover:bg-green-500 cursor-pointer rounded">
+      <button id="cancel-add-project" type="button" class="m-2 p-2 bg-gray-600 text-white hover:bg-gray-800 cursor-pointer rounded">Cancel</button>        
+      </form>
+    </div>
+    <div class="main-content">
+      <div id="project-list" class="flex flex-wrap justify-center ">
+      </div>
+    </div>
+</div>
+
+  <!-- PROJECT DETAIL PAGE -->
+<div id="project-detail-page">
+    <!-- Navbar -->
+    <nav class="flex items-center justify-around bg-blue-800 text-gray-200 h-20 px-10">
+      <div class="flex justify-betwen items-center w-1/2">
+        <div><img class="logo" src="./tududu.png" alt="logo" style="height: 60px; cursor: pointer;"></div>
+        <div class="to-projects mx-10 cursor-pointer">MY PROJECTS</div>
+      </div>
+      <div class="flex justify-end items-center w-1/2">
+        <div><i class="logout-btn fas fa-sign-out-alt hover:text-red-600 cursor-pointer"></i></div>
+      </div>
+    </nav>
+
+    <!-- Main page -->
+  <div class="p-2 flex justify-center flex-wrap" style="margin: 5px auto;">
+    <div class="w-full text-center"><h1 id="project-detail-title"></h1></div>
+      <div> <h2 id="project-detail-created"></h2></div>
+      <div class="flex justify-center">
+          <form id="edit-todo-project-form" style="display: none; position: absolute; background-color: aquamarine; margin: 0 auto;" class="w-1/2 shadow-2xl rounded-lg p-16">
+            <h1 style="display: none; " id="edit-todo-project-id"></h1>
+            <label class="m-2">Title</label>
+            <input type="text" id="edit-todo-project-title" class="rounded border-blue-400 border p-2 w-full m-2 outline-none" value="">
+            <label class="m-2">Description</label>
+            <input type="text" id="edit-todo-project-desc" class="rounded border-blue-400 border p-2 w-full m-2 outline-none " value="">
+            <input type="submit" id="edit-todo-project-btn" class="m-2 p-2 bg-blue-400 text-white hover:bg-blue-500 cursor-pointer rounded" value="Update">
+            <button id="cancel-edit-todo-project" type="button" class="m-2 p-2 bg-gray-600 text-white hover:bg-gray-800 cursor-pointer rounded">Cancel</button>
+          </form>
+      </div>
+    </div>
+    <div class="main-content flex justify-around  p-4">
+      <div class="member-list w-1/5 p-4">
+      </div>
+      <div class="todo-project-list w-4/5 flex flex-wrap justify-around">
+      </div>
+    </div>
+</div>
+  
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="./js/todo.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/project.js"></script>
+</body>
+
+</html>
