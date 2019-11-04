@@ -18,8 +18,7 @@ const todoSchema = new mongoose.Schema({
         default: new Date()
     },
     dueDate: {
-        type: Date,
-        required: [true, 'due date is required']
+        type: Date
     },
     status: {
         type: Boolean,

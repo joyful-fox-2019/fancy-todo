@@ -18,7 +18,7 @@
     <div id="NAVBAR">
         <div class="ui top fixed secondary menu">
             <div class="item">
-                <img src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
+                <!-- <img src="https://semantic-ui.com/images/avatar/small/jenny.jpg"> -->
             </div>
             <div class="right menu navbar">
                 <div class="item" id="logout-button">
@@ -32,6 +32,9 @@
     </div>
 
     <div id="LOGIN">
+        <div class="logo">
+            <img src="login.png" style="width: 400px" alt="">
+        </div>
         <div class="logform">
             <div class="ui center aligned basic segment">
                 <h2 style="font-size: 20px; text-align:center; ">
@@ -110,22 +113,25 @@
                 </div>
             </div>
         </div>
+        <div class="logo">
+            <img src="login.png" style="width: 400px" alt="">
+        </div>
     </div>
 
 
     <div id="MAIN">
         <div id="main-header"> </div>
         <div class="notes" id="note">
-
+            <img src="todo1.png" style="width: 300px; margin-top: 0;" alt="">
             <div id="noteId">
                 <div class="note-header" style="justify-content: center;">
                     <p style="text-align: center; border-bottom:1px solid olive; justify-content: center;"> Title
                         (created&due) </p>
                 </div>
                 <div class="note-list">
-                    <span class="done">done</span>
+                    <span class="done" onclick="grey()">done</span>
                     <p>Hey, this is an example for you. You can Write your thoughts or your task below!</p>
-                    <span class="delete">delete</span>
+                    <span class="delete" onclick="grey()">delete</span>
                 </div>
             </div>
 

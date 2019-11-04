@@ -28,12 +28,6 @@ const userSchema = new mongoose.Schema({
         default: false
     }
 })
-// userSchema.pre('save', function (next) {
-//     console.log('masuk pre save')
-//     console.log(User);
-//     User.password = hash(User.password)
-//     next()
-// })
 
 userSchema.pre('save', function (next) {
     this.password = hash(this.password)

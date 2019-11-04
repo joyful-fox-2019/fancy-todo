@@ -185,9 +185,9 @@ function todo(event) {
                             </div>
                             </div>
                             <div class="note-list"  style="display:flex; flex-direction: row;">
-                                <span class="done" id="done" onclick="done('${todo.id}')">done</span>
+                                <span class="done" id="done" onclick="done('${todo._id}')">done</span>
                                 <p <p>${todo.description}</p></p>
-                                <span class="delete" id="delete" onclick="remove('${todo.id}')">delete</span>
+                                <span class="delete" id="delete" onclick="remove('${todo._id}')">delete</span>
                             </div>
                         </div>
                         `)
@@ -198,13 +198,13 @@ function todo(event) {
                         <p style="text-align: center; border-bottom:1px solid olive; color: grey"> ${todo.title} </p>
                         <div class="meta" style="display:flex; flex-direction: column">
                             <span class="right floated date" style="font-size: 10px; color: grey"> created: ${new Date(todo.createdAt).toDateString().slice(4)}</span>
-                            <span class="right floated date" style="font-size: 10px"; color: grey> due: ${new Date(todo.dueDate).toDateString().slice(4)}</span>
+                            <span class="right floated date" style="font-size: 10px; color: grey"> due: ${ todo.dueDate ? new Date(todo.dueDate).toDateString().slice(4) : "-"}</span>
                         </div>
                         </div>
                         <div class="note-list"  style="display:flex; flex-direction: row;">
-                            <span style="color: grey;" class="done" id="done" onclick="done('${todo.id}')">done</span>
+                            <span style="color: grey;" class="done" id="done" onclick="done('${todo._id}')">done</span>
                             <p style="color: grey;">${todo.description}</p>
-                            <span class="delete" id="delete" onclick="remove('${todo.id}')">delete</span>
+                            <span class="delete" id="delete" onclick="remove('${todo._id}')">delete</span>
                         </div>
                     </div>
                     `)
@@ -241,7 +241,9 @@ function addTask(event) {
         }
     })
         .done(todo => {
+            mainPage()
             todo()
+            $('.ui.modal').modal('hide');
         })
         .fail(function (error) {
             showModalAdd()
@@ -287,7 +289,7 @@ function done(id) {
             });
         })
         .fail(function (err) {
-            // registerPage()
+            mainPage()
             // error(err)
             console.log(err)
         })
@@ -303,9 +305,12 @@ function remove(id) {
     })
         .done(() => {
             console.log(`task successfuly deleted`);
+            mainPage().empty()
             todo()
+            mainPage()
         })
         .fail(err => {
+
             console.log(err);
             console.log(`Delete failed`);
         })
@@ -365,15 +370,19 @@ function onSignIn(googleUser) {
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut()
-        .then(function () {
-            localStorage.removeItem("token")
-            localStorage.removeItem('name')
-            localStorage.removeItem('email')
-            localStorage.removeItem('_id')
-            $('#NAVBAR').hide()
-            $('#REGISTER').hide()
-            $('#MAIN').hide()
-            $('#LOGIN').show()
-            console.log('User signed out.');
-        });
+    // .then(function () {
+    // });
+    localStorage.removeItem("token")
+    localStorage.removeItem('name')
+    localStorage.removeItem('email')
+    localStorage.removeItem('_id')
+    $('#NAVBAR').hide()
+    $('#REGISTER').hide()
+    $('#MAIN').hide()
+    $('#LOGIN').show()
+    console.log('User signed out.');
+}
+
+function grey() {
+
 }

@@ -39,8 +39,8 @@ class TodoController {
     static updateField(req, res, next) {
         console.log('masuk');
         console.log(req.params);
-        let dataChanged = toUpdate(['title', 'description'], req.body)
-        // console.log(dataChanged);
+        let dataChanged = toUpdate(['title', 'description', 'status'], req.body)
+        console.log(dataChanged);
         Todo.updateOne({
             _id: req.params.id
         }, dataChanged)
