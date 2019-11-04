@@ -259,7 +259,7 @@ function done(id) {
 }
 
 // Search Todo by Title
-function searchTodo() {
+function searchTodoUser() {
   if (!$('#search').val()) {
     swal.fire({
       title: `Please input keyword for search!`,
