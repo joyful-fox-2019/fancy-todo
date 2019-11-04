@@ -29,6 +29,14 @@ function errorHandling(err, req, res, next) {
       message: 'Invalid Input',
       errors
     })
+  } else if (err.name === 'MongoError' && err.code === 11000) {
+    for (var key in err.keyPattern) {
+      errors.push(key + ' is Already Exist')
+    }
+    res.status(401).json({
+      message: 'Validation Error',
+      errors
+    })
   } else {
     errors.push(message)
     res.status(status).json({

@@ -30,25 +30,17 @@ class TodoController {
     }
     static updateAll(req, res, next){
         let {title, description, duedate} = req.body
-        if(new Date(duedate) < new Date()){
-            next({
-                status: 400,
-                message: 'Due Date has Passed'
+        Todo.findByIdAndUpdate({_id:req.params.id},
+            {
+                title,
+                description,
+                duedate
+            }, { runValidators: true }
+        )
+            .then(data => {
+                res.status(200).json(data)
             })
-        }
-        else{
-            Todo.findByIdAndUpdate({_id:req.params.id},
-                {
-                    title,
-                    description,
-                    duedate
-                }
-            )
-                .then(data => {
-                    res.status(200).json(data)
-                })
-                .catch(next)
-        }
+            .catch(next)
     }
     static updateStatus(req, res, next){
         Todo.findById(req.params.id)

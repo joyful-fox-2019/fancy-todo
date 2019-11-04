@@ -30,14 +30,6 @@ userSchema.pre('save',function(next){
     next()
 })
 
-userSchema.post('save', function(error, doc, next) {
-    if (error.name === 'MongoError' && error.code === 11000) {
-      next({status:401,message:'Email is Already Exist'});
-    } else {
-      next(error);
-    }
-});
-
 let User = mongoose.model('User',userSchema)
 
 module.exports = User

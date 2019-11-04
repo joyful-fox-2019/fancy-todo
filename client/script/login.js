@@ -144,7 +144,7 @@ function onSignIn(googleUser) {
 }
 
 function logout (){
-    $('#logoutt').on('click', (e) => {
+    $('#logout').on('click', (e) => {
         e.preventDefault()
         // swal.showLoading()
         var auth2 = gapi.auth2.getAuthInstance();

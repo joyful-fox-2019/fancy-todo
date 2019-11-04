@@ -26,14 +26,6 @@ let projectSchema = new Schema({
   versionKey: false
 })
 
-projectSchema.post('save', function(error, doc, next) {
-    if (error.name === 'MongoError' && error.code === 11000) {
-      next({status:401,message:'Project Name is Already Exist'});
-    } else {
-      next(error);
-    }
-});
-
 let Project = mongoose.model('Project',projectSchema)
 
 module.exports = Project

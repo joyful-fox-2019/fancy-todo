@@ -9,7 +9,7 @@ router.get('/:id', ProjectController.findOne)
 router.post('/', ProjectController.create)
 
 router.patch('/:id/add', authorizationOwner, ProjectController.addMember)
-router.patch('/:id/remove', authorizationOwner, ProjectController.removeMember)
+router.patch('/:id/remove/:memberId', authorizationOwner, ProjectController.removeMember)
 router.delete('/:id', authorizationOwner, ProjectController.deleteProject)
 
 router.use('/:id/todos', authorizationMember)

@@ -45,12 +45,7 @@ function authorizationTodo(req, res, next){
                 })
             }
         })
-        .catch(err => {
-            next({ 
-                status: 403, 
-                message: err 
-            })
-        })
+        .catch(next)
 }
 
 function authorizationMember(req, res, next){
@@ -76,12 +71,7 @@ function authorizationMember(req, res, next){
                 });
             }
         })
-        .catch(err => {
-            next({ 
-                status: 403, 
-                message: err 
-            })
-        })
+        .catch(next)
 }
 
 function authorizationOwner(req, res, next){
@@ -100,12 +90,7 @@ function authorizationOwner(req, res, next){
                 })
             }
         })
-        .catch(err => {
-            next({ 
-                status: 403, 
-                message: err 
-            })
-        })
+        .catch(next)
 }
 
 module.exports = {authentication, authorizationTodo, authorizationMember, authorizationOwner} 
