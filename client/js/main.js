@@ -1,4 +1,5 @@
-const baseUrl = 'http://todoserver.dreamcarofficial.com'
+// const baseUrl = 'http://todoserver.dreamcarofficial.com'
+const baseUrl = 'http://localhost:3000'
 
 const Toast = Swal.mixin({
   toast: true,
@@ -861,7 +862,9 @@ function goTodoProject (id) {
       $('#todoListProject').show();
       $('.invitemember').show();
       $('#button-1').show()
-      $('.bodyMainProject').show()    
+      $('.bodyMainProject').show()  
+      $('#editTodoProject').hide()  
+      $('#saveTodoProject').show()
       projectId = data._id
       $('.headerProject').append(`
       <h3>${data.name.toUpperCase()}</h3>
@@ -937,6 +940,7 @@ function goTodoProject (id) {
                 <p>${el.description}</p>
                 <footer class="blockquote-footer">Created At <cite title="Source Title">${el.UserId}</cite></footer>
                 <button class='btn btn-outline-success' id='fchecklistproject${el._id}'>Check Done</button>
+                <button class='btn btn-outline-warning' id='feditTodoProject${el._id}'>Edit Todo</button>
                 <button class='btn btn-outline-danger' id='fdeletetodoproject${el._id}'>Delete</button>
               </blockquote>
             </div>
@@ -947,6 +951,11 @@ function goTodoProject (id) {
           })
           $(`#fdeletetodoproject${el._id}`).click(function () {
             deleteTodoProject(el._id)
+          })
+          $(`#feditTodoProject${el._id}`).click(function () {
+            $('#editTodoProject').show();
+            $('.footProject').show();
+            gotoEditTodoProject(el._id, projectId)
           })
         })
       }
@@ -960,8 +969,69 @@ function goTodoProject (id) {
     })
 }
 
+//=================================================== CREATE TODO PROJECT ================================================
 
+function gotoEditTodoProject(id, projectId){
+  $('.bodyMainproject').empty();
+  $('#dateProject').val('');
+  $('.bodyMainProject').hide();
+  $('#projectTitle').val('');
+  $('#projectDescription').val('');
+  $('#saveTodoProject').hide();
+  $('#formTodoProject').show()
+  $('.headerProject').empty()
+  $('.headerProject').hide();
+  $('#clickEditTodoProject').click( function () {
+    saveEditTodoProject(id, projectId)
+      .then((msg) => {
+        Toast.fire({
+          type: "success",
+          title: msg
+        })
+        $('#dateProject').val('');
+        $('.footProject').hide()
+        $('#projectTitle').val('');
+        $('#projectDescription').val('');
+        $('#editTodoProject').hide();
+        $('.headerProject').show();
+        $('#formTodoProject').hide()
+        $('#saveTodoProject').show();
+        $('.bodyMainProject').show()
+        goTodoProject(projectId)
+      })
+      .catch(err => {
+        Toast.fire({
+          type: 'error',
+          title: err.responseJSON.msg
+        })
+      })
+  })
+}
 
+function saveEditTodoProject(id, projectId) {
+  const title = $('#projectTitle').val();
+  const description = $('#projectDescription').val();
+  const date = $('#dateProject').val()
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      method: 'put',
+      url: `${baseUrl}/todos/project/${projectId}`,
+      data: {
+        id,
+        title,
+        description,
+        date
+      },
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+      .then(({msg}) => {
+        resolve(msg)
+      })
+      .catch(reject)
+  })
+}
 //=================================================== CREATE TODO PROJECT ================================================
 
 
@@ -1299,6 +1369,7 @@ function showTodo () {
               <p>${el.description}</p>
               <footer class="blockquote-footer">Created By <cite title="Source Title">${el.UserId.username}</cite></footer>
               <button class='btn btn-outline-success' id='fchecklist${el._id}'>Check Done</button>
+              <button class='btn btn-outline-warning' id='feditTodo${el._id}'>Edit Todo</button>
               <button class='btn btn-outline-danger' id='fdeletetodo${el._id}'>Delete</button>
             </blockquote>
           </div>
@@ -1309,6 +1380,9 @@ function showTodo () {
         })
         $(`#fdeletetodo${el._id}`).click(function () {
           deleteTodo(el._id)
+        })
+        $(`#feditTodo${el._id}`).click(function () {
+          goToEditTodo(el._id)
         })
       })
 
@@ -1333,7 +1407,61 @@ function showTodo () {
 
 //=================================================== CHECK LIST Project TODO ================================================
 
+function goToEditTodo(id) {
+  $('#myList').empty()
+  $('#myList').hide();
+  $('.progress').empty()
+  $('.progress').hide();
+  $('#toSaveTodo').hide();
+  $('#toSaveEditTodo').show();
+  $('#newTitle').val('');
+  $('#description').val('');
+  $('#date').val('');
+  $('.main-body').hide()
+  $('#createTodo1').show()
+  $('#saveChangeTodo').click(function () {
+    saveChangeTodo(id)
+      .then(msg => {
+        $('#myList').show();
+        $('.progress').show();
+        $('#toSaveTodo').show();
+        $('#createTodo1').hide()
+        $('.main-body').show()
+        $('#toSaveEditTodo').hide();
+        Toast.fire({
+          type: "success",
+          title: msg
+        })
+        showTodo();
+      })
+      .catch(err => {
+        Toast.fire({
+          type: 'success',
+          title: err.responseJSON.msg
+        })
+      })
+  })
+}
 
+function saveChangeTodo (id) {
+  const date = $('#date').val()
+  const title = $('#newTitle').val();
+  const description = $('#description').val();
+  return new Promise ((resolve, reject) => {
+    $.ajax({
+      method: 'put',
+      url: `${baseUrl}/todos/${id}`,
+      data: { date, title, description },
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+      .then(({msg}) => {
+        resolve(msg)
+      })
+      .catch(reject)
+  })
+}
 
 function checkListProject(id) {
   $.ajax({
@@ -1537,6 +1665,8 @@ function cancelBackProject () {
 //=================================================== CREATE TODO ================================================
 
 function createTodo () {
+  $('#toSaveTodo').show();
+  $('#toSaveEditTodo').hide()
   const due_date = $('#date').val();
   const title = $('#newTitle').val();
   const description = $('#description').val();

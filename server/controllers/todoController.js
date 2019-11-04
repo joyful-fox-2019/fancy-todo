@@ -59,9 +59,9 @@ module.exports = {
       .catch(next)
   },
   updateTodo (req, res, next) {
-    const { title, description } = req.body;
+    const { date, title, description } = req.body;
     const _id = req.params.id;
-    Todo.findByIdAndUpdate({ _id }, { title, description })
+    Todo.findByIdAndUpdate({ _id }, { date, title, description })
       .then( (data) => {
         res.status(201).json({msg: 'Success Updated!', data});
       })
@@ -115,6 +115,16 @@ module.exports = {
       })
       .then(() => {
         res.status(201).json({msg: 'success created Todo In Project'})
+      })
+      .catch(next)
+  },
+  updateTodoProject (req, res, next) {
+    const TodoId = req.body.id
+    const ProjectId = req.params.id
+    const { date, title, description } = req.body;
+    Todo.findByIdAndUpdate(TodoId, { date, title, description, ProjectId })
+      .then(() => {
+        res.status(200).json({ msg: 'update Todo Project Success'})
       })
       .catch(next)
   }

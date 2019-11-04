@@ -41,6 +41,9 @@ module.exports = {
       .then(project => {
         res.status(200).json(project)
       })
-      .catch(next)
+      .catch(err => {
+        console.log(err)
+        next(err)
+      })
   }
 }

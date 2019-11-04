@@ -169,7 +169,12 @@
                 <div class="modal-footer">
                     <a id='text-errorTodo' style = 'color:red'></a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelback'>Close</button>
-                    <button type="button" class="btn btn-primary" id='save'>Save</button>                 
+                    <div id="toSaveTodo">
+                      <button type="button" class="btn btn-primary" id='save'>Save</button>
+                    </div>
+                    <div id="toSaveEditTodo">
+                      <button type="button" class="btn btn-primary" id='saveChangeTodo'>Save Change</button>                      
+                    </div>
                 </div>
               </div>
             </div>
@@ -234,10 +239,20 @@
                   <div class="footProject">
                     <a id='text-errorTodo' style = 'color:red'></a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelbackk'>Close</button>
-                    <button type="button" class="btn btn-primary" id='saveTodoProject'>Save</button>  
+                    <div id="saveTodoProject">
+                      <button type="button" class="btn btn-primary" id='saveTodoProject'>Save</button> 
+                    </div>
+                    <div id='editTodoProject'>
+                      <button type="button" class='btn btn-primary' id='clickEditTodoProject'>Save Change</button>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+
+
+            <div id="editTodoListProject">
+
             </div>
 
 

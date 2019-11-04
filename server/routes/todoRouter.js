@@ -1,6 +1,6 @@
 const Route = require('express').Router();
 const TodoCont = require('../controllers/todoController');
-const {authentication, authorizationTodo} = require('../middlewares/auth');
+const {authentication, authorizationTodo, authorizationProjectMember} = require('../middlewares/auth');
 
 Route.use(authentication)
 Route.get('/', TodoCont.getTodo) // *
@@ -9,11 +9,12 @@ Route.post('/', TodoCont.createTodo) // *
 
 Route.post('/project/:id', TodoCont.createTodoForProject); // *
 
+Route.patch('/checklist/:id',TodoCont.checklist);
+Route.delete('/project/:id', TodoCont.deleteTodoProject)
+Route.put('/project/:id', authorizationProjectMember, TodoCont.updateTodoProject);
 Route.put('/:id', authorizationTodo, TodoCont.updateTodo) // *
 Route.delete('/:id', authorizationTodo, TodoCont.deleteTodo) // *
-Route.delete('/project/:id', authorizationTodo, TodoCont.deleteTodoProject)
 
 //new
-Route.patch('/checklist/:id', authorizationTodo, TodoCont.checklist);
 
 module.exports = Route;
