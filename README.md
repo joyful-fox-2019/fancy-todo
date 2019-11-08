@@ -33,14 +33,45 @@ live-server --host=localhost (on terminal inside root client folder)
 
 **Errors:**
 
-| Code | Name                  | Description                               |
-| ---- | --------------------- | ----------------------------------------- |
-| 400  | Authentication Failed | Email or password is incorrect            |
-| 401  | Email is Not Unique   | Email is already in use                   |
-| 401  | Unauthorized Access   | User is not authorized to do the action   |
-| 404  | Not Found             | The requested resource could not be found |
-| 500  | Internal Server Error | We had a problem with our server          |
+| Code | Name                  | Description           |
+| ---- | --------------------- | --------------------- |
+| 400  | Bad Request           | Client's Mistake      |
+| 401  | Authentication Failed | Unauthorized Access   |
+| 403  | Unauthorized Access   | Invalid Access Token  |
+| 500  | Internal Server Error | Internal Error        |
 
+**400:**
+```
+{
+    [
+        "Name is required",
+        "E-mail is required",
+        "Password is required"
+    ]
+}
+```
+
+**401:**
+```
+{
+    "message": "User is unauthorized for this access"
+}
+```
+
+**403:**
+```
+{
+    "message": "User's session has been expired"
+}
+```
+
+**500:**
+
+```
+{
+    "message": "Internal Server Error"
+}
+```
 
 **Register User**
 ----
@@ -70,18 +101,6 @@ live-server --host=localhost (on terminal inside root client folder)
         "__v": 0
     }
     ```
-  
-* **Error Response:**
-  
-  * **Status:** 401
-    **Content:**
-    
-    ```
-    {
-        "message": "Email is already in use"
-    }
-    ```
-
 
 
 **Login User**
@@ -108,18 +127,6 @@ live-server --host=localhost (on terminal inside root client folder)
         "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     }
     ```
-
-* **Error Response:**
-
-  * **Status:** 400
-    **Content:**
-
-    ```
-    {
-        "message": "Email or password is incorrect"
-    }
-    ```
-
 
 
 **Add New Task**
@@ -158,18 +165,6 @@ live-server --host=localhost (on terminal inside root client folder)
     }
     ```
 
-* **Error Response:**
-
-  * **Status:** 401
-    **Content:**
-
-    ```
-    {
-        "message": "User is not authorized to do the action"
-    }
-    ```
-
-
 
 **List Tasks**
 ----
@@ -201,18 +196,6 @@ live-server --host=localhost (on terminal inside root client folder)
         ......
     ]
     ```
-
-* **Error Response:**
-
-  * **Status:** 401
-    **Content:**
-
-    ```
-    {
-        "message": "User is not authorized to do the action"
-    }
-    ```
-
 
 
 **Get Task's Detail**
@@ -248,18 +231,6 @@ live-server --host=localhost (on terminal inside root client folder)
     ]
     ```
 
-* **Error Response:**
-
-  * **Status:** 401
-    **Content:**
-
-    ```
-    {
-        "message": "User is not authorized to do the action"
-    }
-    ```
-
-
 
 **Update Task**
 ----
@@ -294,18 +265,6 @@ live-server --host=localhost (on terminal inside root client folder)
     ]
     ```
 
-* **Error Response:**
-
-  * **Status:** 401
-    **Content:**
-
-    ```
-    {
-        "message": "User is not authorized to do the action"
-    }
-    ```
-
-
 
 **Undo Task**
 ----
@@ -337,18 +296,6 @@ live-server --host=localhost (on terminal inside root client folder)
     }
     ```
 
-* **Error Response:**
-
-  * **Status:** 401
-    **Content:**
-
-    ```
-    {
-        "message": "User is not authorized to do the action"
-    }
-    ```
-
-
 
 **Delete Task**
 ----
@@ -371,16 +318,5 @@ live-server --host=localhost (on terminal inside root client folder)
         "n": 1,
         "ok": 1,
         "deletedCount": 1
-    }
-    ```
-
-* **Error Response:**
-
-  * **Status:** 401
-    **Content:**
-
-    ```
-    {
-        "message": "User is not authorized to do the action"
     }
     ```

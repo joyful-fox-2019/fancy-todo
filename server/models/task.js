@@ -2,7 +2,7 @@
 
 const { Schema, model } = require('mongoose');
 
-const taskSchema = new Schema ({
+const taskSchema = new Schema({
   title: {
     type: String,
     required: [true, `Please input the task's title`]
@@ -10,7 +10,7 @@ const taskSchema = new Schema ({
   description: {
     type: String
   },
-  status:{
+  status: {
     type: String
   },
   dueDate: {
@@ -20,7 +20,7 @@ const taskSchema = new Schema ({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
-},{timestamps: true});
+}, { timestamps: true });
 
 const Task = model('Task', taskSchema);
 

@@ -13,7 +13,7 @@ $(document).ready(function () {
   $("#trigger-register").click(event => {
     event.preventDefault()
     $("#login-content").hide()
-    $("#register-content").fadeIn(500)
+    $("#register-content").fadeIn(200)
   })
   $("#register-form").submit(() => {
     event.preventDefault()
@@ -28,7 +28,7 @@ $(document).ready(function () {
   $("#trigger-login").click(event => {
     event.preventDefault()
     $("#register-content").hide()
-    $("#login-content").fadeIn(500)
+    $("#login-content").fadeIn(200)
   })
   $("#login-form").submit(() => {
     event.preventDefault()
@@ -53,20 +53,56 @@ $(document).ready(function () {
   $("#back-my-day").click(event => {
     event.preventDefault()
     $("#my-day-menu").hide()
-    $("#todo-menu").fadeIn(500)
+    $("#todo-menu").fadeIn(200)
   })
+
+  // Air Visual API
+  $.ajax({
+    url: 'http://localhost:3000/api',
+    method: 'GET'
+  })
+    .done(result => {
+      $("#air-visual").append(`
+        <i class="fas fa-university"></i><span>  ${result.data.city}, ${result.data.country}</span><br>
+        <i class="fas fa-thermometer-half"></i><span>  ${result.data.current.weather.tp} <sup>0</sup>C</span><br>
+        <i class="fas fa-smog"></i><span> ${result.data.current.pollution.aqius} (Pollution - US AQI)</span>
+      `)
+    })
+    .fail(err => {
+      console.log(err)
+      Swal.fire({
+        type: 'error',
+        title: 'Error',
+        text: `${err.responseJSON.message}`,
+      })
+    })
 
   // Add Task
   $("#add-task").click(event => {
     event.preventDefault()
     $("#my-day-menu").hide()
-    $("#add-task-menu").fadeIn(500)
+    $("#add-task-menu").fadeIn(200)
   })
   $("#back-add-task").click(event => {
     event.preventDefault()
     $("#add-task-menu").hide()
     showListedTask()
   })
+
+  // Search Bar
+  $('#search-bar').keyup(function () {
+    let filter = $('#search-bar').val().toUpperCase();
+    let tasks = $('#my-day-content li');
+    let data = $('#my-day-content li h5');
+    for (let i = 0; i < tasks.length; i++) {
+      if (!data[i].innerText.toUpperCase().includes(filter)) {
+        tasks[i].style.display = "none";
+      }
+      else {
+        tasks[i].style.display = ""
+      }
+    }
+  });
 
   // Add Task Form
   $("#add-task-form").submit(() => {
@@ -117,8 +153,7 @@ $(document).ready(function () {
   $("#back-archived").click(event => {
     event.preventDefault()
     $("#archived-menu").hide()
-    $("#todo-menu").fadeIn(500)
+    $("#todo-menu").fadeIn(200)
   })
-
   // End Document Ready
 })

@@ -3,8 +3,8 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('../helpers/bcrypt')
 
-const userSchema = new Schema ({
-  name : {
+const userSchema = new Schema({
+  name: {
     type: String,
     required: [true, 'Please input your name']
   },
@@ -25,8 +25,9 @@ const userSchema = new Schema ({
   }
 });
 
-userSchema.post('validate', (doc, next) => {
-  doc.password = bcrypt.hash(doc.password)
+userSchema.pre('save', function (next) {
+  this.email = this.email.toLowerCase()
+  this.password = bcrypt.hash(this.password)
   next()
 })
 

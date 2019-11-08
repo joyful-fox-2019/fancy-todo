@@ -5,15 +5,15 @@ module.exports = (req, res, next) => {
     .then(result => {
       if(!result) {
         let err = new Error('Task is not found')
-        err.name = 'tasknotfound'
-        throw err
+        err.code(400)
+        next(err)
       } else {
         if(String(result.UserId) === String(req.user.id)) {
           next()
         } else {
           let err = new Error ('You are not authorized')
-          err.name = 'unauthorized'
-          throw err
+          err.code = 403
+          next(err)
         }
       }
     })

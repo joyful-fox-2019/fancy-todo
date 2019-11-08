@@ -1,5 +1,3 @@
-'use strict'
-
 const User = require('../models/user')
 const bcrypt = require('../helpers/bcrypt')
 const jwt = require('../helpers/jwt')
@@ -12,8 +10,8 @@ class UserController {
       .then(user => {
         if (user) {
           let err = new Error('Email is already in use')
-          err.name = 'emailnotunique'
-          throw err
+          err.code = 400
+          next(err)
         } else {
           return User.create(userData)
         }
@@ -21,15 +19,15 @@ class UserController {
       .then(user => {
         res.status(201).json(user)
       })
-      .catch(err => {
-        next(err)
-      })
+      .catch(next)
   }
   static login(req, res, next) {
     User.findOne({ email: req.body.email })
       .then(user => {
         if(!user) {
-          throw new Error('User is not found')
+          let err = new Error('User is not found')
+          err.code = 401
+          next(err)
         }
         let isCorrect = bcrypt.compare(req.body.password, user.password)
         if (user && isCorrect) {
@@ -41,13 +39,11 @@ class UserController {
           })
         } else {
           let err = new Error('Email or Password is incorrect')
-          err.name = 'incorrect'
+          err.code = 401
           next(err)
         }
       })
-      .catch(err => {
-        next(err)
-      })
+      .catch(next)
   }
   static googleLogin(req, res, next) {
     let { name, email } = req.decoded
@@ -71,9 +67,7 @@ class UserController {
           isLogin: true
         })
       })
-      .catch(err => {
-        next(err)
-      })
+      .catch(next)
   }
 }
 

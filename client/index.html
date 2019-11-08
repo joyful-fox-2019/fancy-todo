@@ -10,6 +10,8 @@
   <title>To-Do-Fancy-Luky</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+    integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
@@ -52,30 +54,29 @@
             <!-- LOGIN -->
             <!-- REGISTER -->
             <div class="container" id="register-content" style="display: none">
-              <a class="nav-link active pl-0" href=""" id="trigger-login" style="color: #0645AD">
-                < Back </a>
-              <form id="register-form">
-                <div class="row justify-content-center">
-                  <h2>Get Started for Free</h2>
-                </div>
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" id="register-name" placeholder="Name">
-                </div>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" class="form-control" id="register-email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control" id="register-password" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-dark" style="width: 100%">Register</button>
-              </form>
-              <div class="row justify-content-center">
-                <span class="nav-link active" style="color: #0645AD">Or, sign in with your google account</span>
-              </div>
-              <div class="g-signin2 pb-5" data-onsuccess="onSignIn"></div>
+              <a class="nav-link active pl-0" href="" id="trigger-login" style="color: #0645AD">
+                < Back </a> <form id="register-form">
+                  <div class="row justify-content-center">
+                    <h2>Get Started for Free</h2>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="register-name" placeholder="Name">
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="register-email" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="register-password" placeholder="Password">
+                  </div>
+                  <button type="submit" class="btn btn-dark" style="width: 100%">Register</button>
+                  </form>
+                  <div class="row justify-content-center">
+                    <span class="nav-link active" style="color: #0645AD">Or, sign in with your google account</span>
+                  </div>
+                  <div class="g-signin2 pb-5" data-onsuccess="onSignIn"></div>
             </div>
             <!-- REGISTER -->
             <!-- MENU -->
@@ -83,46 +84,51 @@
               <div class="text-right">
                 <a id="signout" href="" onclick="signOut()" style="display: none">Sign Out</a>
               </div>
-              <p class="user-name" id="user-name"></p>
-              <button class="alert alert-primary" id="my-day" style="width: 100%; background-color: navy;">
+              <p class="user-name" id="user-name" style="color: #333"></p>
+              <button class="alert alert-primary" id="my-day" style="width: 100%; background-color: #f6c89f;">
                 My Day
               </button>
-              <button class="alert alert-secondary" id="archived" 
-                style="width: 100%; background-color: goldenrod;">
+              <button class="alert alert-secondary" id="archived" style="width: 100%; background-color: #4b8e8d;">
                 Archived
               </button>
+              <div class="btn btn-outline-dark mt-50" id="air-visual" style="width: 100%; margin-top: 10vh">
+
+              </div>
             </div>
             <!-- MENU -->
             <!-- MY DAY -->
             <div class="container-fluid" id="my-day-menu" style="display: none">
               <a class="nav-link active pl-0" href="" id="back-my-day" style="color: #0645AD">
-                < Back </a>
-              <div class="my-day-nav" id="my-day-nav"></div>
-              <ul class="list-unstyled my-day-content" id="my-day-content">
-
-              </ul>
-              <button class="alert alert-success" id="add-task" style="width: 100%; background-color: #333;">
-                + Add Task
-              </button>
+                < Back
+              </a> 
+            <div class="my-day-nav" id="my-day-nav" style="color: #333">
             </div>
-            <!-- MY DAY -->
-            <!-- ARCHIVED -->
-            <div class="container-fluid" id="archived-menu" style="display: none">
-              <a class="nav-link active pl-0" href="" id="back-archived" style="color: #0645AD">
-                < Back </a>
-              <ul class="list-unstyled my-day-content mt-4 ml-3" id="archived-content">
-
-              </ul>
-              <span class="btn btn-outline-dark" style="width: 100%;">
-                &copy; Aku Cinta Fase 2
-              </span>
+            <div class="d-flex justify-content-left my-3">
+              <input type="text" placeholder="Search.." id="search-bar" style="width: 95%; border-radius: 10px;">
             </div>
-            <!-- ARCHIVED -->
-            <!-- ADD TASK MENU -->
-            <div class="container mt-10" id="add-task-menu" style="display: none">
-              <a class="nav-link active pl-0" href="" id="back-add-task" style="color: #0645AD">
-                < Back </a>
-              <form id="add-task-form">
+            <ul class="list-unstyled my-day-content" id="my-day-content">
+
+            </ul>
+            <button class="alert alert-success" id="add-task" style="width: 100%; background-color: #396362;">
+              + Add Task
+            </button>
+          </div>
+          <!-- MY DAY -->
+          <!-- ARCHIVED -->
+          <div class="container-fluid" id="archived-menu" style="display: none">
+            <a class="nav-link active pl-0" href="" id="back-archived" style="color: #0645AD">
+              < Back </a> <ul class="list-unstyled my-day-content mt-4 ml-3" id="archived-content">
+
+                </ul>
+                <span class="btn btn-outline-dark" style="width: 100%;">
+                  &copy; Hacktiv To Do
+                </span>
+          </div>
+          <!-- ARCHIVED -->
+          <!-- ADD TASK MENU -->
+          <div class="container mt-10" id="add-task-menu" style="display: none">
+            <a class="nav-link active pl-0" href="" id="back-add-task" style="color: #0645AD">
+              < Back </a> <form id="add-task-form">
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
                     <div class="input-group-text alert-success">
@@ -145,25 +151,24 @@
                 <div class="text-right">
                   <button type="submit" class="btn btn-info" style="width: 30%">Submit</button>
                 </div>
-              </form>
-            </div>
-            <!-- ADD TASK MENU -->
-            <!-- EDIT TASK MENU -->
-            <div class="container" id="edit-task-menu" style="display: none">
-              <a class="nav-link active pl-0" href="" id="back-edit-task" style="color: #0645AD">
-                < Back </a>
-              <div class="edit-task-content" id="edit-task-content">
-              </div>
-            </div>
-            <!-- EDIT TASK MENU -->
+                </form>
           </div>
-          <div class="col-md-3">
+          <!-- ADD TASK MENU -->
+          <!-- EDIT TASK MENU -->
+          <div class="container" id="edit-task-menu" style="display: none">
+            <a class="nav-link active pl-0" href="" id="back-edit-task" style="color: #0645AD">
+              < Back </a> <div class="edit-task-content" id="edit-task-content">
           </div>
         </div>
+        <!-- EDIT TASK MENU -->
       </div>
       <div class="col-md-3">
       </div>
     </div>
+  </div>
+  <div class="col-md-3">
+  </div>
+  </div>
   </div>
   <footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>

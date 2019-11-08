@@ -31,7 +31,7 @@ function signOut() {
 }
 
 function webRegister(name, email, password) {
-  swal.showLoading()
+  // swal.showLoading()
   $.ajax({
     url: `http://localhost:3000/user/register`,
     method: 'POST',
@@ -44,7 +44,7 @@ function webRegister(name, email, password) {
     .done(function (response) {
       $("#register-content").hide()
       $("#login-content").fadeIn()
-      Swal.close()
+      // Swal.close()
     })
     .fail(function (err) {
       Swal.fire({
@@ -56,7 +56,7 @@ function webRegister(name, email, password) {
 }
 
 function webLogin(email, password) {
-  Swal.showLoading()
+  // Swal.showLoading()
   $.ajax({
     url: `http://localhost:3000/user/login`,
     method: 'POST',
@@ -67,7 +67,7 @@ function webLogin(email, password) {
   })
     .done(function (response) {
       loginSuccess(response)
-      Swal.close()
+      // Swal.close()
     })
     .fail(function (err) {
       Swal.fire({

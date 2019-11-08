@@ -78,7 +78,7 @@ $('body').on('click', '.deletetask', (event) => {
 
 // Submit Edited Task from Appended AJAX Data
 $('body').on('submit', "#edit-task-form", event => {
-  Swal.showLoading()
+  // Swal.showLoading()
   let id = event.currentTarget[0].value
   let title = event.currentTarget[1].value
   let description = event.currentTarget[2].value
@@ -101,7 +101,7 @@ $('body').on('submit', "#edit-task-form", event => {
       $("#edit-task-content").empty()
       $("#edit-task-menu").hide()
       showListedTask()
-      Swal.close()
+      // Swal.close()
     })
     .fail(err => {
       Swal.fire({
@@ -114,7 +114,7 @@ $('body').on('submit', "#edit-task-form", event => {
 
 // Detailed Task from Appended AJAX Data
 $('body').on('click', '.taskdetail', (event) => {
-  Swal.showLoading()
+  // Swal.showLoading()
   let taskId = event.currentTarget.id
   $.ajax({
     url: `http://localhost:3000/task/${taskId}`,
@@ -163,7 +163,7 @@ $('body').on('click', '.taskdetail', (event) => {
           </form>
         `)
       $("#edit-task-menu").fadeIn(500)
-      Swal.close()
+      // Swal.close()
     })
     .fail(err => {
       Swal.fire({
@@ -176,7 +176,7 @@ $('body').on('click', '.taskdetail', (event) => {
 
 // Archived Listed Tasks
 function showArchivedTask() {
-  Swal.showLoading()
+  // Swal.showLoading()
   $("#archived-content").empty()
   $.ajax({
     url: 'http://localhost:3000/task',
@@ -203,7 +203,7 @@ function showArchivedTask() {
         }
       }
       $("#archived-menu").fadeIn(500)
-      Swal.close()
+      // Swal.close()
     })
     .fail(err => {
       Swal.fire({
@@ -216,7 +216,7 @@ function showArchivedTask() {
 
 // My Day Listed Tasks
 function showListedTask() {
-  Swal.showLoading()
+  // Swal.showLoading()
   let todayDate = new Date().toDateString();
   $("#my-day-nav").text(`${formatDate(todayDate)}`)
   $("#my-day-content").empty()
@@ -246,7 +246,7 @@ function showListedTask() {
         }
       }
       $("#my-day-menu").fadeIn(500)
-      Swal.close()
+      // Swal.close()
     })
     .fail(err => {
       Swal.fire({

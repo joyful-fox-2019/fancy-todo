@@ -1,31 +1,26 @@
 module.exports = (err, req, res, next) => {
-  let number = null
-  let message = null
+  let code;
+  let message;
   switch (err.name) {
-    case 'emailnotunique':
-      number = 400;
-      message = err.message;
+    case 'ValidationError':
+      code = 400;
+      let arr = [];
+      for (let i in err.errors) {
+        arr.push(err.errors[i].message);
+      }
+      message = arr;
       break;
-    case 'incorrect':
-      number = 400;
-      message = err.message;
-      break;
-    case 'jsonwebtoken':
-      number = 401;
-      message = 'You are not authorized to do this action';
-      break;
-    case 'unauthorized':
-      number = 401;
-      message = err.message;
-      break;
-    case 'tasknotfound':
-      number = 404;
+    case 'JsonWebTokenError':
+      code = 401;
       message = err.message;
       break;
     default:
-      number = 500
-      message = err.message
+      code = err.code || 500;
+      message = err.message || 'Internal Server Error';
       break;
   }
-  res.status(number).json({message})
+  res.status(code).json({
+    code,
+    message
+  });
 }
