@@ -7,8 +7,20 @@ $( document ).ready(function() {
     } else {
         $(".logged-in").hide()
     }
+    $(".login").hide();
 
-    $(".login-form").hide();
+    $( '#login-now' ).click(function() {
+        $( ".register" ).fadeOut( "slow", function(){
+            $( ".login" ).show()
+        });
+    });
+
+    $( '#register-now' ).click(function() {
+        $( ".login" ).fadeOut( "slow", function(){
+            $( ".register" ).show()
+        });
+    });
+    
     $('#register-form').on('submit', function (event) {
         event.preventDefault();
         $.ajax({
@@ -17,7 +29,7 @@ $( document ).ready(function() {
             data: $(this).serialize(),
         })
             .done( data => {
-                
+                showSuccessMessage('Registration Success!')
             })
             .fail( err => {
                 showErrorMessage(err.responseText);
@@ -35,10 +47,7 @@ $( document ).ready(function() {
                 localStorage.setItem('jwt_token', token);
                 event.preventDefault();
                 
-                showSuccessMessage('Logged In');
                 location.reload();
-               
-
             })
             .fail( err => {
                 Swal.fire({
@@ -69,26 +78,7 @@ $( document ).ready(function() {
                 console.log(err);
             })
     })
-    
-    
-    console.log( "hello, world!" );
 });
-
-function getDailyCatImage() {
-    $.ajax({
-        type: "GET",
-        url: "https://api.thecatapi.com/v1/images/search"
-    })
-        .done( data => {
-            $('.daily-pic').empty().append(`
-                <img src="${data[0].url}">
-            `)
-            console.log(data[0].url)
-        })
-        .fail( err => {
-            console.log(err)
-        })
-}
 
 function showTodos(){
     $.ajax({
@@ -100,20 +90,22 @@ function showTodos(){
     })
         .done( datas => {
             for (let todo in datas) {
+                let date = new Date(datas[todo].dueDate)
+                let displayedDate = date.getDay() + ' / ' + date.getMonth() + ' / ' + date.getFullYear();
                 let id = datas[todo]._id;
                 let description = datas[todo].description || 'No Description';
-                let dueDate = datas[todo].dueDate || 'No Due Date';
+                let dueDate = displayedDate || 'No Due Date';
                 let isDone = (datas[todo].status == true) ? 'checked' : '';
               
                 $('#all-todos').append(`
-                    <tr>
+                    <tr class="list-box">
                         <th scope="row">
                             <input type="checkbox" name="status" value="${datas[todo].status}" ${isDone} onclick="checkThis('${id}', '${datas[todo].status}')">
                         </th>
                         <td onclick="editTodo('${id}')" data-toggle="modal" data-target="#editTodoModal"> ${datas[todo].name}</td>
                         <td onclick="editTodo('${id}')" data-toggle="modal" data-target="#editTodoModal">${description}</td>
                         <td onclick="editTodo('${id}')" data-toggle="modal" data-target="#editTodoModal">${dueDate}</td>
-                        <td onclick="deleteTodo('${id}')">X</td>
+                        <td class="delete-todo" onclick="deleteTodo('${id}')">DELETE</td>
                     </tr>
                 `)
             }
@@ -163,7 +155,7 @@ function editTodo(id) {
     })
         .done(data => {
             $('#editTodoName').attr("value", `${data.name}`);
-            $('#editTodoDescription').text(`${data.description}`);
+            $('#editTodoDescription').attr("value", `${data.description}`);
             $('#editDate').attr("value", `${data.dueDate}`);
 
             $('#edit-todo-form').on('submit', function(event) {
@@ -236,6 +228,7 @@ function onSignIn(googleUser) {
     })
     .done( data => {
         localStorage.setItem('jwt_token', data.token);
+        return;   
     })
     .fail( err => {
         console.log(err)

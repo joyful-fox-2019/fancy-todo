@@ -3,6 +3,7 @@ const Todo = require('../models/Todo');
 class TodoController {
     static create(req, res, next) {
         req.body.UserId = req.decoded.id;
+        
         Todo
             .create(req.body)
             .then( data => {
@@ -17,7 +18,13 @@ class TodoController {
         Todo
             .find()
             .then( datas => {
-                res.status(200).json(datas);
+                let result = [];
+                for (let todo in datas) {
+                    if (datas[todo].UserId == req.decoded.id) {
+                        result.push(datas[todo]);
+                    }
+                }
+                res.status(200).json(result);
             })
             .catch( err => {
                 res.status(500).json(err);

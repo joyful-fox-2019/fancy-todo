@@ -6,20 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="google-signin-client_id" content="351795021046-ssq7jdnlnbmjhdjndkcjc5edpphrol5e.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="styles/main.css">
     <title>Fancy Todo</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+    <nav class="navbar navbar-expand-md sticky-top">
         <a class="navbar-brand" href="#">Fancy Todo</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse hide">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-            </ul>
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item logged-out">
                     <a class="nav-link" href="#" onclick="showRegisterForm()">Sign Up</a>
@@ -41,98 +38,132 @@
         </button>
     </div>
 
-    <section class="container register-form logged-out">
-        <form method="POST" id="register-form">
-            <h3>Register</h3>
-            <div class="form-group">
-                <label for="inputName">Name</label>
-                <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp" placeholder="Enter Name" name="name" required>
+    <section class="container logged-out sign-form">
+        <div class="row p-2 animated slideInDown fadeOutUp register">
+            <div class="col-sm-6 p-5 register-form">
+                <section class="main">  
+                    <form method="POST" id="register-form" class="animated slideInDown">
+                        <fieldset class="forms">
+                            <legend>Register</legend>
+                            <div class="field-wrapper">
+                                <label>Name</label>
+                                <input type="text" value="" placeholder="Angela" id="inputName" name="name"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Email</label>
+                                <input type="text" value="" placeholder="angela@mail.com" id="inputEmail" name="email"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Password</label>
+                                <input type="password" value="" placeholder="password" id="inputPassword" name="password"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Confirm Password</label>
+                                <input type="password" value="" placeholder="confirm password" id="inputConfirmPassword"/>
+                            </div>
+                            <button class="btn-box"><span>Register</span></button>
+                        </fieldset>
+                    </form>
+                </section>
             </div>
-            <div class="form-group">
-                <label for="inputEmail">Email address</label>
-                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" name="email" required>
+            <div class="col-sm-6 p-5 d-flex flex-column justify-content-center align-items-center">
+                <h3>Already have an account?</h3>
+                <button id="login-now" class="btn-box btn-box-dark btn-size">
+                    <span>Login now</span>
+                </button>
+                <p>OR</p>
+                <button class="g-signin2 btn-size" data-onsuccess="onSignIn"></button>
             </div>
-            <div class="form-group">
-                <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password" required>
-            </div>
-            </div>
-            <div class="form-group">
-                <label for="inputConfirmPassword">Confirm Password</label>
-                <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm Password"required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    </section>
-    
-    <section class="container login-form logged-out">
-        <form method="POST" id="login-form">
-            <h3>Login</h3>
-            <div class="form-group">
-                <label for="loginEmail">Email address</label>
-                <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email" name="email">
-            </div>
-            <div class="form-group">
-                <label for="loginPassword">Password</label>
-                <input type="password" class="form-control" id="loginPassword" placeholder="Password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <span></span>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    </section>
-
-    <section class="container logged-in">
-        <h2>Todos</h2>
-        <div class="todos">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                        <th scope="col">Status</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Due Date</th>
-                        <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="all-todos">
-                    </tbody>
-                </table>
         </div>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
-            Add Todo
-        </button>
+        <div class="row p-2 animated slideInDown fadeOutUp login">
+            <div class="col-sm-6 p-5 d-flex flex-column justify-content-center align-items-center">
+                <h3>Don't have an account?</h3>
+                <button id="register-now" class="btn-box btn-box-dark btn-size">
+                    <span>Register now</span>
+                </button>
+                <p>OR</p>
+                <button class="g-signin2 btn-size" data-onsuccess="onSignIn"></button>
+            </div>
+            <div class="col-sm-6 p-5">
+                <section class="main">  
+                    <form method="POST" id="login-form" class="animated slideInDown">
+                        <fieldset class="forms">
+                            <legend>Login</legend>
+                            <div class="field-wrapper">
+                                <label>Email</label>
+                                <input type="text" value="" placeholder="angela@mail.com" id="loginEmail" name="email"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Password</label>
+                                <input type="password" value="" placeholder="password" id="loginPassword" name="password"/>
+                            </div>
+                            <button class="btn-box"><span>Login</span></button>
+                        </fieldset>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </section>
+    
+    <section class="container logged-in">
+        <br/>
+        <div class="row">
+            <div class="col">
+                <h4 class="header-box m-3">Todos</h4>
+            </div>
+            <div class="col d-flex flex-row-reverse">
+                <button class="btn-box" data-toggle="modal" data-target="#addTodoModal" style="width: 25%;">
+                    <span>Add Todo</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="todos">
+            <table class="table table-borderless mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">NAME</th>
+                        <th scope="col">DESCRIPTION</th>
+                        <th scope="col">DUE DATE</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="all-todos">
+                </tbody>
+            </table>
+        </div>
+
+        
         <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="addTodoModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Todo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" id="add-todo-form">
-                        <div class="form-group">
-                            <label for="inputName">Name</label>
-                            <input type="text" class="form-control" id="inputTodoName" placeholder="Enter Name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDescription">Description</label>
-                            <textarea class="form-control rounded-0" id="inputTodoDescription" rows="3" placeholder="Enter Description" name="description" ></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDate">Due Date</label>
-                            <input type="date" class="form-control" id="inputDate" placeholder="Enter Due Date" name="dueDate">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Todo</button>
-                    </form>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="add-todo-form">
+                            <fieldset class="forms add-todo-form">
+                                <div class="field-wrapper">
+                                    <label>Name</label>
+                                    <input type="text" value="" placeholder="Enter name" id="inputTodoName" name="name" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Description</label>
+                                    <input type="text" value="" placeholder="Enter description" id="inputTodoDescription" name="description" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Due Date</label>
+                                    <input type="date" placeholder="Enter Due Date" id="inputDate" name="dueDate"/>
+                                </div>
+                                <button class="btn-box"><span>Create Todo</span></button>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,44 +171,36 @@
         <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="editTodoModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editTodoModal">Edit Todo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" id="edit-todo-form">
-                        <div class="form-group">
-                            <label for="inputName">Name</label>
-                            <input type="text" class="form-control" id="editTodoName" placeholder="Enter Name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDescription">Description</label>
-                            <textarea class="form-control rounded-0" id="editTodoDescription" rows="3" placeholder="Enter Description" name="description" ></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDate">Due Date</label>
-                            <input type="date" class="form-control" id="editDate" placeholder="Enter Due Date" name="dueDate">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </form>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTodoModal">Edit Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="edit-todo-form">
+                            <fieldset class="forms add-todo-form">
+                                <div class="field-wrapper">
+                                    <label>Name</label>
+                                    <input type="text" placeholder="Enter name" id="editTodoName" name="name" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Description</label>
+                                    <input type="text" placeholder="Enter description" id="editTodoDescription" name="description" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Due Date</label>
+                                    <input type="date" placeholder="Enter Due Date" id="editDate" name="dueDate"/>
+                                </div>
+                                <button class="btn-box"><span>Edit Todo</span></button>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container logged-in">
-        <p>Watching cute cat videos and looking at their online pictures may not be a waste of time. A new study has found doing so could boost energy levels and increase feelings of happiness.</p>
-        <button type="button" class="btn btn-primary" onclick="getDailyCatImage()">Get your random cat pic</button>
-        <div class="daily-pic"></div>
-    </section>
-
-    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

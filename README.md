@@ -69,7 +69,6 @@
 
 * **URL**
     <_/todos>
-
 * **Method:**
     `POST` 
 

@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.register {
+    display: flex;
+    justify-content: center;
+}
+
+.abcRioButton {
+    margin: auto;
+}
+
+.navbar {
+    border-bottom: 2px solid black;
+    color: black;
+    background-color: white;
+}
+
+a {
+    color: black !important;
+    cursor: pointer;
+}
+
+main .lists-2, main .forms {
+    grid-column: span 2;
+}
+
+main .forms {
+    margin-top: 3rem;
+}
+
+body {
+    background-image: linear-gradient(#e4e4e4 1px, transparent 1px), linear-gradient(90deg, #e4e4e4 1px, transparent 1px);
+    background-size: 10px 10px, 10px 10px, 2px 2px, 2px 2px;
+    font-family: "Chelsea Market", sans-serif;
+}
+
+main {
+    max-width: 1000px;
+    margin: 4rem auto;
+    display: grid;
+    grid-row-gap: 10px;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.field-wrapper {
+    width: 100%;
+}
+
+.field-wrapper:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+
+fieldset {
+    border: 1px solid #37353f;
+    border-radius: 0 0 125px 3px/3px 85px 5px 55px;
+    padding: 2rem 2rem 1.2rem;
+    margin: 20px;
+    position: relative;
+}
+fieldset:before, fieldset:after {
+    top: 0;
+    left: 0.25%;
+    height: 100%;
+    border: inherit;
+    border-radius: 4px;
+    transform: rotate(-0.1deg) scaleX(-1);
+    z-index: -1;
+    width: 99.5%;
+}
+fieldset:after {
+    transform: rotate(-0.25deg);
+    left: 0.15%;
+}
+
+fieldset legend {
+    background: #37353f;
+    font-family: "Chelsea Market", sans-serif;
+    font-size: 1.3rem;
+    color: #fff;
+    position: absolute;
+    top: -18px;
+    padding: 6px 12px;
+    border-radius: 0 0 125px 3px/3px 85px 5px 55px;
+    transform: rotate(-1deg);
+}
+
+label {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+button, input, select {
+    font-family: "Chelsea Market", sans-serif;
+    outline: none;
+    background: transparent;
+}
+
+button:focus, input:focus, select:focus, button:active, input:active, select:active {
+    box-shadow: 0 0 0 2px rgba(150, 87, 132, 0.5);
+}
+
+input, select {
+    padding: 8px;
+    border: 1.5px solid #37353f;
+    border-radius: 0 0 125px 3px/3px 85px 5px 55px;
+    width: 100%;
+}
+input.alternative, select.alternative {
+    border-width: 0 0 1.5px 0;
+}
+
+button {
+    border: 0;
+    box-shadow: none;
+    margin-top: 1.8rem;
+}
+.btn {
+    display: inline-block;
+    padding: 8px 12px;
+    position: relative;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+}
+.btn span {
+    position: relative;
+    z-index: 2;
+}
+.btn:before, .btn:after {
+    top: 0;
+    left: 0;
+    transition: 0.2s ease;
+}
+.btn:before {
+    height: 102%;
+    width: 102%;
+    background: #d9de6e;
+    transform: translate(6px, 6px);
+}
+.btn:after {
+    height: 99%;
+    width: 99%;
+    border: 1.5px solid #37353f;
+    border-radius: 0 0 125px 3px/3px 85px 5px 55px;
+}
+.btn:hover:before {
+    transform: translate(0);
+}
+.btn:focus, .btn:active {
+    color: #fff;
+}
+.btn:focus:before, .btn:active:before {
+    transform: translate(0);
+    background: #afb42b;
+}
+
+.btn-box {
+    display: inline-block;
+    padding: 8px 20px;
+    width: 100%;
+    position: relative;
+    transition: 0.2s ease-in-out;
+    background: #fc8b93;
+    border: 1.5px solid #37353f;
+    border-radius: 0 0 125px 3px/3px 85px 5px 55px;
+    box-shadow: 3px 3px 0 0 #37353f;
+}
+.btn-box span {
+    position: relative;
+    z-index: 2;
+}
+.btn-box:hover {
+    background: rgba(252, 139, 147, 0.6);
+}
+.btn-box:focus, .btn-box:active {
+    transform: translate(3px, 3px);
+}
+.btn-box-dark {
+    background: #396afc;
+    color: #fff;
+    box-shadow: 4px 4px 0 0 rgba(57, 106, 252, 0.3);
+}
+.btn-box-dark:hover {
+    color: #37353f;
+    background: rgba(57, 106, 252, 0.3);
+}
+
+.btn-size {
+    width: 50%;
+    margin: 20px;
+}
+
+.table {
+    border: 2px solid #fc8b93;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+thead {
+    border-bottom: 2px solid rgba(57, 106, 252, 0.7);
+}
+
+.header-box {
+    width: 50%;
+    padding: 0.5rem;
+    border: 1.5px solid #c6c1da;
+    border-radius: 0 0 125px 3px/3px 85px 5px 55px;
+    background: rgba(252, 139, 147, 1);
+    text-align: center;
+    box-shadow: 5px 4px 0 0 #fff, 4px 6px 0 0 #37353f, 6.5px 5.5px 0 0 #37353f, 6.5px 2.5px 0 0 #37353f;
+}
+
+.add-todo-form {
+    margin: 0;
+    border: none;
+    padding: 1rem;
+}
+
+.delete-todo {
+    cursor: pointer;
+}
