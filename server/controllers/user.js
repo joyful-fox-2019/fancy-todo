@@ -18,8 +18,9 @@ class UserController {
     }
 
     static register(req,res){
+        // console.log(req.body)
         User.create({
-            full_name : req.body.full_name,
+            
             username : req.body.username,
             email : req.body.email,
             password : hashPassword(req.body.password)
@@ -50,6 +51,7 @@ class UserController {
     }
 
     static signin(req,res){
+        // console.log(req.body)
         User.findOne({
             username : req.body.username
         })

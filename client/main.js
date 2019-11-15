@@ -1,12 +1,14 @@
 
 $(document).ready(function(){
     if(localStorage.getItem('token')){
+        Swal.showLoading({
+            timer: 3000
+        })
         $('#opening-page').hide()
         $('#signout-button').show()
         $('#welcome-page').show()
         generateTodo()
-         $('#todolist').show()
-
+         $('#todolist').show(
     }else{
         $('#opening-page').show()
         $('#signout-button').hide()
@@ -16,9 +18,6 @@ $(document).ready(function(){
 
 function generateTodo(){
    
-    Swal.showLoading({
-        timer: 3000
-    })
     console.log('tesss')
     $.ajax({
         url : 'http://localhost:3000/todos/',
@@ -168,11 +167,7 @@ function statusDone(id){
         }
     })
     .done(_=>{
-        Swal.fire(
-            'Updated',
-            'todo succesfully updated!',
-            'success'
-          )
+    
         $('#todolist').empty()
         $('#welcome-page').show()
         generateTodo()
@@ -193,11 +188,7 @@ function statusUndone(id){
         }
     })
     .done(_=>{
-        Swal.fire(
-            'Updated',
-            'todo succesfully updated!',
-            'success'
-          )
+       
         $('#todolist').empty()
         $('#welcome-page').show()
         generateTodo()
@@ -288,6 +279,8 @@ function signOut() {
     //   console.log('User signed out.');
       localStorage.removeItem('token')
       $('#welcome-page').hide()
+      $('#todolist').empty()
+
     });
 }
 
@@ -337,9 +330,10 @@ function signin(username,password){
         $('#opening-page').hide()
         $('#login-page').hide()
         $('#signout-button').show()
-        generateTodo()
-
         localStorage.setItem("token",token)
+        generateTodo()
+        
+
     })
     .fail((err)=>{
         console.log(err)
@@ -358,7 +352,7 @@ function register(username,email,password){
     })
     .done(user => {
         
-        localStorage.setItem("token",token)
+        // localStorage.setItem("token",token)
         // pakai sweetalert
     })
     .fail((err)=>{
