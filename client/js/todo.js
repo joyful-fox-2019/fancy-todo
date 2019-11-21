@@ -1,4 +1,5 @@
 const server = 'http://localhost:3000'
+// const server = 'http://api.tududu.mardii.site'
 
 $(document).ready(function () {
 
@@ -86,7 +87,8 @@ function all () {
 function showError(message) {
   $('#error-alert').text('')
   $('#error-alert').append(`
-    <p>${message}</p>
+    <p>${message.message}:</p>
+    <p>${message.errors.join('\m')}</p>
   `)
   $('#error-alert').fadeIn()
   setTimeout(() => {
@@ -317,7 +319,7 @@ function addTodo () {
   })
   .fail(({responseJSON})=> {
     console.log(responseJSON);
-    showError(responseJSON.message.message)
+    showError(responseJSON.message)
   })
 }
 

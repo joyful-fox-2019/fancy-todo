@@ -6,7 +6,6 @@ module.exports = (err, req, res, next) => {
   if(err.name === 'ValidationError') {
     const errors = []
     for(let key in err.errors){
-      console.log(err.errors[key].message);
       errors.push(err.errors[key].message)
     }
     status = 400

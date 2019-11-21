@@ -380,9 +380,13 @@ function addTodoProject () {
       restartDetailPage()
 
     })
-    .fail(showError)
+    .fail(({ responseJSON }) => {
+      showError(responseJSON.message)
+    })
   })
-  .fail(showError)
+  .fail(({ responseJSON}) => {
+    showError(responseJSON.message)
+  })
 
 }
 
