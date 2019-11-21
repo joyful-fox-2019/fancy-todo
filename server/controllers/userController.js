@@ -251,19 +251,25 @@ class userController {
     }
 
     static googleLogin(req, res, next) {
-        const client = new OAuth2Client(process.env.GOOGLECLIENTID);
-        client.verifyIdToken({
-            idToken: req.body.id_token,
-            audience: process.env.GOOGLECLIENTID
-        })
-            .then(ticket => {
-                const payload = ticket.getPayload();
-                const token = generateToken(payload)
-                res.status(200).json(token)
-            })
-            .catch(next)
+      const client = new OAuth2Client(process.env.GOOGLECLIENTID);
+      client.verifyIdToken({
+          idToken: req.body.id_token,
+          audience: process.env.GOOGLECLIENTID
+      })
+          .then(ticket => {
+              const payload = ticket.getPayload();
+              return User.findOne({
+                  email: payload.email
+              })
+                  .then(data => {
+                      payload.id = data._id
+                      const token = generateToken(payload)
+                      res.status(200).json({token})
+                  })
+          })
+          .catch(next)
 
-    }
+  }
 }
 
 module.exports = userController

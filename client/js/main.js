@@ -360,7 +360,7 @@ function onSignIn(googleUser) {
         }
     })
     .done(token => {
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', token.token)
         checktoken()
     })
     .fail(err => {
