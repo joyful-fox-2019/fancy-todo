@@ -8,12 +8,13 @@ const mongoose = require('mongoose');
 const routes = require('./routes');
 const cors = require('cors');
 const {errorHandler} = require('./middlewares/errorHandler')
+const mongoUri = process.env.MONGO_URI
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 mongoose
-    .connect('mongodb://localhost:27017/fancytodo', {
+    .connect(mongoUri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
