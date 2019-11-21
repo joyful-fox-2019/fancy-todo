@@ -1,5 +1,5 @@
-const server = 'http://localhost:3000'
-// const server = 'http://api.tududu.mardii.site'
+// const server = 'http://localhost:3000'
+const server = 'http://api.tududu.mardii.site'
 
 $(document).ready(function () {
 
