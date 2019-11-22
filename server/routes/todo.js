@@ -5,9 +5,9 @@ const { authentication, authorization } = require('../middlewares/auth')
 router.use(authentication)
 router.post('/', TodoController.make)
 router.get('/', TodoController.readAll)
+router.get('/:id', TodoController.readOne)
 
 router.use('/:id', authorization)
-router.get('/:id', TodoController.readOne)
 router.delete('/:id', TodoController.deleteTodo)
 router.put('/:id', TodoController.updateField)
 

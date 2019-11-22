@@ -12,7 +12,7 @@ $(document).ready(function(){
 function onSignIn(googleUser) {
     let id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: "http://localhost:3000/users/googleSignIn",
+        url: "http://35.198.216.64/users/googleSignIn",
         method: 'POST',
         data: {
             token: id_token
@@ -46,7 +46,7 @@ function onSignIn(googleUser) {
 function signIn(event) {
     event.preventDefault()
     $.ajax({
-        url: "http://localhost:3000/users/login",
+        url: "http://35.198.216.64/users/login",
         method: "POST",
         data: {
             email: $('#login-email').val(),
@@ -73,7 +73,7 @@ function signIn(event) {
 function signUp(event) {
     event.preventDefault()
     $.ajax({
-        url: "http://localhost:3000/users/register",
+        url: "http://35.198.216.64/users/register",
         method: "POST",
         data: {
             email: $('#signup-email').val(),
@@ -82,13 +82,19 @@ function signUp(event) {
     })
         .done(user => {
             console.log(user)
+            Swal.fire({
+                type: 'success',
+                title: 'Registration successful',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .fail(err => {
             console.log(err)
             Swal.fire({
                 type: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: 'The email that you use is already registered in our database, please use other email.',
                 footer: '<a href>Why do I have this issue?</a>'
               })
         })
@@ -106,7 +112,7 @@ function signOut() {
 
 function showTodo() {
     $.ajax({
-        url: 'http://localhost:3000/todos/',
+        url: 'http://35.198.216.64/todos/',
         method: "GET",
         headers: {
             token: localStorage.getItem('token')
@@ -144,7 +150,7 @@ function showTodo() {
 
 function deleteTodo(id) {
     $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `http://35.198.216.64/todos/${id}`,
         method: "DELETE",
         headers: {
             token: localStorage.getItem('token')
@@ -175,7 +181,7 @@ let todoData = null // buat tampung id dari pas manggil modal
 function showUpdateWindow(id){
     todoData = id
     $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `http://35.198.216.64/todos/${id}`,
         method: "GET",
         headers: {
             token: localStorage.getItem('token')
@@ -191,7 +197,7 @@ function showUpdateWindow(id){
 function updateTodo(id) {
     id = todoData
     $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `http://35.198.216.64/todos/${id}`,
         method: 'PUT',
         headers: {
             token: localStorage.getItem('token')
@@ -232,7 +238,7 @@ function showAddTask(){
 
 function addTask(){
     $.ajax({
-        url: `http://localhost:3000/todos`,
+        url: `http://35.198.216.64/todos`,
         method: 'POST',
         headers: {
             token: localStorage.getItem('token')
@@ -267,7 +273,7 @@ function addTask(){
 
 function generateQuote(){
     $.ajax({
-        url: `http://localhost:3000/quote/`,
+        url: `http://35.198.216.64/quote/`,
         method: "GET",
         headers: {
             token: localStorage.getItem('token')

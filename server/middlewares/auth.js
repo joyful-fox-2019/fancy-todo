@@ -33,7 +33,9 @@ function authorization(req, res, next) {
         .then(todo => {
             if(todo && todo.UserId === req.loggedUser.id) {
                 next()
-            } else {
+            } else if(!todo) {
+                next({ status: 404, message: "Data not found" })
+            } else { 
                 next({ status: 401, message: "Authorization failed" })
             }
         })

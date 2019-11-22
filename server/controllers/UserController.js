@@ -11,6 +11,7 @@ class UserController {
         }
         User.create(objUser)
             .then(result => {
+                // decode kirim
                 res.status(201).json(result)
             })
             .catch(next)
@@ -23,7 +24,7 @@ class UserController {
             }
         )
             .then(user => {
-                if(comparePassword(req.body.password, user.password)) {
+                if(user && comparePassword(req.body.password, user.password)) {
                     let payload = {
                         id: user._id,
                         email: user.email

@@ -22,7 +22,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.post('save', function(err, doc, next) {
     if(err.name === 'MongoError' && err.code === 11000) {
-        next({ status: 401, message: 'Email is already registered' })
+        next({ status: 401, message: 'Email is already registered' }) 
     } else {
         next(err)
     }

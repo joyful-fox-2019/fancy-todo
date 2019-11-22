@@ -16,11 +16,15 @@ class TodoController {
             .then(result => {
                 res.status(201).json(result)
             })
-            .catch(next)
+            .catch(err => {
+                next(err)
+            })
     }
 
     static readAll(req, res, next) {
+        const { id } = req.loggedUser
         Todo.find({UserId: req.loggedUser.id})
+            .populate('User')
             .then(todos => {
                 res.status(200).json(todos)
             })
@@ -30,6 +34,7 @@ class TodoController {
     static readOne(req, res, next) {
         Todo.findById(req.params.id)
             .then(todo => {
+                //cek apakah todo userId sama dengan login.id
                 res.status(200).json(todo)
             })
             .catch(next)
@@ -43,6 +48,7 @@ class TodoController {
             status: req.body.status,
             dueDate: req.body.dueDate
         }
+        // const { name, description, status, dueDate} = req.body
         Todo.findByIdAndUpdate(id, { $set: objUpdate }, { omitUndefined: true })
             .then(result => {
                 res.status(200).json(result)

@@ -1,7 +1,12 @@
 function errorHandler(err, req, res, next) {
     const status = err.status || 500
     const message = err.message || "Internal Server Error"
-
+    // if(err.name === 'MongoError' && err.code === 11000) {
+    //     //next({ status: 401, message: 'Email is already registered' }) 
+    //     res.status(400).json({
+    //         msg: 'Email is already registered'
+    //     })
+    // } else 
     if(err.name === "Validation Error") {
         const errors = []
         for(key in err.errors) {
@@ -13,7 +18,9 @@ function errorHandler(err, req, res, next) {
         })
     } else if(err.message.name === 'JsonWebTokenError') {
         res.status(status).json({ message: err.message.message })
-    } else {
+    } 
+    
+    else {
         res.status(status).json({ message })
     }
 }
