@@ -58,23 +58,18 @@ $(document).ready(function () {
 
   // Air Visual API
   $.ajax({
-    url: 'http://localhost:3000/api',
+    url: 'http://35.197.153.90/api',
     method: 'GET'
   })
     .done(result => {
       $("#air-visual").append(`
-        <i class="fas fa-university"></i><span>  ${result.data.city}, ${result.data.country}</span><br>
-        <i class="fas fa-thermometer-half"></i><span>  ${result.data.current.weather.tp} <sup>0</sup>C</span><br>
-        <i class="fas fa-smog"></i><span> ${result.data.current.pollution.aqius} (Pollution - US AQI)</span>
+        <i class="fas fa-university"></i><span>&nbsp;&nbsp;${result.data.city}, ${result.data.country}</span><br>
+        <i class="fas fa-thermometer-half"></i><span>&nbsp;&nbsp;${Number(result.data.current.weather.tp)} <sup>o</sup>C</span><br>
+        <i class="fas fa-smog"></i><span>&nbsp;&nbsp;${result.data.current.pollution.aqius} (Pollution - US AQI)</span>
       `)
     })
     .fail(err => {
       console.log(err)
-      Swal.fire({
-        type: 'error',
-        title: 'Error',
-        text: `${err.responseJSON.message}`,
-      })
     })
 
   // Add Task
@@ -112,7 +107,7 @@ $(document).ready(function () {
     let dueDate = $("#task-date").val()
     $("#add-task-form")[0].reset()
     $.ajax({
-      url: 'http://localhost:3000/task',
+      url: 'http://35.197.153.90/task',
       method: 'POST',
       data: {
         title,

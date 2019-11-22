@@ -5,11 +5,11 @@
 
 ```
 Client Site: http://localhost:8080/
-Server Site: http://localhost:3000/
+Server Site: http://35.197.153.90 /
 npm init -y (inside root server folder)
 npm run dev (on terminal inside root server folder)
 live-server --host=localhost (on terminal inside root client folder)
-.env-template: PORT, DB_URI, JWT_SECRET, CLIENT_ID(google)
+.env-template: PORT, DB_URI, JWT_SECRET, CLIENT_ID (Google), API_KEY (Air Visual)
 ```
 
 **List of Routes User:**

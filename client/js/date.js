@@ -30,40 +30,40 @@ function formatDate(date) {
   let mm = null;
   switch (dates[1]) {
     case 'Jan':
-      mm = 'January';
+      mm = 'Jan';
       break;
     case 'Feb':
-      mm = 'February'
+      mm = 'Feb'
       break;
     case 'Mar':
-      mm = 'March'
+      mm = 'Mar'
       break;
     case 'Apr':
-      mm = 'April';
+      mm = 'Apr';
       break;
     case 'May':
       mm = 'May'
       break;
     case 'Jun':
-      mm = 'June'
+      mm = 'Jun'
       break;
     case 'Jul':
-      mm = 'July';
+      mm = 'Jul';
       break;
     case 'Aug':
-      mm = 'August'
+      mm = 'Aug'
       break;
     case 'Sep':
-      mm = 'September'
+      mm = 'Sep'
       break;
     case 'Oct':
-      mm = 'October'
+      mm = 'Oct'
       break;
     case 'Nov':
-      mm = 'November'
+      mm = 'Nov'
       break;
     case 'Dec':
-      mm = 'December'
+      mm = 'Dec'
       break;
   }
   return `${day}, ${dd} ${mm} ${yy}`

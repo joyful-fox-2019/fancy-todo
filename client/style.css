@@ -1,5 +1,5 @@
 .nav-text{
-  font-size: 80%;
+  font-size: 1.2rem;
   width: 50%;
   padding: 5% 0;
 }
@@ -29,18 +29,18 @@
 }
 
 .user-name {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
 }
 
 .my-day-nav {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 .my-day-content {
-  height: 50vh;
+  height: 40vh;
   overflow-y: auto;
 }
 

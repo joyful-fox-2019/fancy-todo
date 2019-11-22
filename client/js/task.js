@@ -12,7 +12,7 @@ $('body').on('click', '.undotask', (event) => {
     .then((result) => {
       if (result.value) {
         $.ajax({
-          url: `http://localhost:3000/task/${event.currentTarget.id}`,
+          url: `http://35.197.153.90/task/${event.currentTarget.id}`,
           method: 'PATCH',
           headers: {
             access_token: localStorage.getItem('access_token')
@@ -51,7 +51,7 @@ $('body').on('click', '.deletetask', (event) => {
     .then((result) => {
       if (result.value) {
         $.ajax({
-          url: `http://localhost:3000/task/${event.currentTarget.id}`,
+          url: `http://35.197.153.90/task/${event.currentTarget.id}`,
           method: 'DELETE',
           headers: {
             access_token: localStorage.getItem('access_token')
@@ -85,7 +85,7 @@ $('body').on('submit', "#edit-task-form", event => {
   let status = event.currentTarget[3].value
   let dueDate = new Date(event.currentTarget[4].value)
   $.ajax({
-    url: `http://localhost:3000/task/${id}`,
+    url: `http://35.197.153.90/task/${id}`,
     method: 'PUT',
     data: {
       title,
@@ -101,7 +101,6 @@ $('body').on('submit', "#edit-task-form", event => {
       $("#edit-task-content").empty()
       $("#edit-task-menu").hide()
       showListedTask()
-      // Swal.close()
     })
     .fail(err => {
       Swal.fire({
@@ -114,10 +113,9 @@ $('body').on('submit', "#edit-task-form", event => {
 
 // Detailed Task from Appended AJAX Data
 $('body').on('click', '.taskdetail', (event) => {
-  // Swal.showLoading()
   let taskId = event.currentTarget.id
   $.ajax({
-    url: `http://localhost:3000/task/${taskId}`,
+    url: `http://35.197.153.90/task/${taskId}`,
     method: 'GET',
     headers: {
       access_token: localStorage.getItem('access_token')
@@ -163,7 +161,6 @@ $('body').on('click', '.taskdetail', (event) => {
           </form>
         `)
       $("#edit-task-menu").fadeIn(500)
-      // Swal.close()
     })
     .fail(err => {
       Swal.fire({
@@ -176,10 +173,9 @@ $('body').on('click', '.taskdetail', (event) => {
 
 // Archived Listed Tasks
 function showArchivedTask() {
-  // Swal.showLoading()
   $("#archived-content").empty()
   $.ajax({
-    url: 'http://localhost:3000/task',
+    url: 'http://35.197.153.90/task',
     method: 'GET',
     headers: {
       access_token: localStorage.getItem('access_token')
@@ -191,11 +187,11 @@ function showArchivedTask() {
           $("#archived-content").append(`
           <li>
             <div class="input-group mb-3">
-              <input type="text" disabled style="pointer-events: none" class="btn btn-outline-primary ml-1 mr-1" 
-                aria-describedby="basic-addon2" value ="${tasks[i].title}" style="width: 80%">
+              <input type="text" disabled style="pointer-events: none; width: 60%" class="btn btn-outline-primary ml-1 mr-1" 
+                aria-describedby="basic-addon2" value ="${tasks[i].title.slice(0,15)}">
               <div class="input-group-append">
-                <button class="deletetask btn btn-danger mr-1" id="${tasks[i]._id}" type="button">Del</button>
-                <button class="undotask btn btn-warning" id="${tasks[i]._id}" type="button">Act</button>
+                <button class="deletetask btn btn-danger mr-1" id="${tasks[i]._id}" type="button" style="font-size: 0.8rem;">Del</button>
+                <button class="undotask btn btn-warning" id="${tasks[i]._id}" type="button" style="font-size: 0.8rem;">Act</button>
               </div>
             </div>
           </li>
@@ -203,7 +199,6 @@ function showArchivedTask() {
         }
       }
       $("#archived-menu").fadeIn(500)
-      // Swal.close()
     })
     .fail(err => {
       Swal.fire({
@@ -216,12 +211,11 @@ function showArchivedTask() {
 
 // My Day Listed Tasks
 function showListedTask() {
-  // Swal.showLoading()
   let todayDate = new Date().toDateString();
   $("#my-day-nav").text(`${formatDate(todayDate)}`)
   $("#my-day-content").empty()
   $.ajax({
-    url: 'http://localhost:3000/task',
+    url: 'http://35.197.153.90/task',
     method: 'GET',
     headers: {
       access_token: localStorage.getItem('access_token')
@@ -246,7 +240,6 @@ function showListedTask() {
         }
       }
       $("#my-day-menu").fadeIn(500)
-      // Swal.close()
     })
     .fail(err => {
       Swal.fire({

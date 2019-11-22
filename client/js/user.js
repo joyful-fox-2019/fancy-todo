@@ -1,7 +1,7 @@
 function onSignIn(googleUser) {
   const idToken = googleUser.getAuthResponse().id_token;
   $.ajax({
-    url: `http://localhost:3000/user/googleLogin`,
+    url: `http://35.197.153.90/user/googleLogin`,
     method: 'POST',
     data: {
       idToken: idToken
@@ -21,9 +21,7 @@ function onSignIn(googleUser) {
 
 function signOut() {
   const auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    
-  });
+  auth2.signOut().then(()=>{})
   localStorage.clear()
   $("#todo-menu").hide()
   $("#signout").hide()
@@ -31,9 +29,8 @@ function signOut() {
 }
 
 function webRegister(name, email, password) {
-  // swal.showLoading()
   $.ajax({
-    url: `http://localhost:3000/user/register`,
+    url: `http://35.197.153.90/user/register`,
     method: 'POST',
     data: {
       name,
@@ -44,7 +41,6 @@ function webRegister(name, email, password) {
     .done(function (response) {
       $("#register-content").hide()
       $("#login-content").fadeIn()
-      // Swal.close()
     })
     .fail(function (err) {
       Swal.fire({
@@ -56,9 +52,8 @@ function webRegister(name, email, password) {
 }
 
 function webLogin(email, password) {
-  // Swal.showLoading()
   $.ajax({
-    url: `http://localhost:3000/user/login`,
+    url: `http://35.197.153.90/user/login`,
     method: 'POST',
     data: {
       email,
@@ -67,7 +62,6 @@ function webLogin(email, password) {
   })
     .done(function (response) {
       loginSuccess(response)
-      // Swal.close()
     })
     .fail(function (err) {
       Swal.fire({
