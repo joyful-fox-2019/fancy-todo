@@ -42,7 +42,7 @@ function getWeather(city) {
             windDirection + "deg " + degToCompass(windDirection)
         );
         $(".wi-wind").addClass("towards-" + windDirection + "-deg");
-        changeBackground(iconId);
+        // changeBackground(iconId);
     });
 }
 
