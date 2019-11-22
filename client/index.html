@@ -258,7 +258,7 @@
             let password = $("#logpassword").val();
             $.ajax({
                 method: "post",
-                url: "http://localhost:3000/user/login",
+                url: "http://35.185.186.6/user/login",
                 data: {
                     email,
                     password
@@ -284,7 +284,7 @@
 
             $.ajax({
                 method: "post",
-                url: "http://localhost:3000/user/register",
+                url: "http://35.185.186.6/user/register",
                 data: {
                     name,
                     email,
@@ -312,7 +312,7 @@
             let id_token = googleUser.getAuthResponse().id_token;
             $.ajax({
                 method: "post",
-                url: "http://localhost:3000/user/logingoogle",
+                url: "http://35.185.186.6/user/logingoogle",
                 data: {
                     token: id_token
                 }
@@ -385,7 +385,7 @@
             } else {
                 $.ajax({
                     method: "post",
-                    url: "http://localhost:3000/todo/create",
+                    url: "http://35.185.186.6/todo/create",
                     data: {
                         title: title,
                         description: description,
@@ -421,7 +421,7 @@
         function findAllTodos() {
             $.ajax({
                 method: "post",
-                url: "http://localhost:3000/todo/find",
+                url: "http://35.185.186.6/todo/find",
                 data: {
                     username: localStorage.getItem("username")
                 }
@@ -453,7 +453,7 @@
         function select(id) {
             $.ajax({
                     method: "post",
-                    url: "http://localhost:3000/todo/find",
+                    url: "http://35.185.186.6/todo/find",
                     data: {
                         username: localStorage.getItem("username")
                     }
@@ -509,7 +509,7 @@
                         $(".updateTodoClass").attr("id", `id:${id}`)
                         return $.ajax({
                             method: "post",
-                            url: "http://localhost:3000/todo/findById",
+                            url: "http://35.185.186.6/todo/findById",
                             data: {
                                 id
                             }
@@ -524,7 +524,7 @@
 
                         return $.ajax({
                             method: "post",
-                            url: "http://localhost:3000/todo/findById",
+                            url: "http://35.185.186.6/todo/findById",
                             data: {
                                 id
                             }
@@ -542,7 +542,7 @@
                         $(`#${id}`).css("background-color", "white");
                         return $.ajax({
                             method: "put",
-                            url: "http://localhost:3000/todo/selected",
+                            url: "http://35.185.186.6/todo/selected",
                             data: {
                                 id: id,
                                 status: "true"
@@ -553,7 +553,7 @@
                         $(`#${id}`).css("background-color", "#1abc9c");
                         return $.ajax({
                             method: "put",
-                            url: "http://localhost:3000/todo/selected",
+                            url: "http://35.185.186.6/todo/selected",
                             data: {
                                 id: id,
                                 status: "false"
@@ -579,7 +579,7 @@
             if (id.length > 0) {
                 $.ajax({
                         method: "put",
-                        url: "http://localhost:3000/todo/update",
+                        url: "http://35.185.186.6/todo/update",
                         data: {
                             title,
                             description,
@@ -622,7 +622,7 @@
                         let idDelete = id.slice(3);
                         $.ajax({
                                 method: "delete",
-                                url: "http://localhost:3000/todo/delete",
+                                url: "http://35.185.186.6/todo/delete",
                                 data: {
                                     id: idDelete
                                 }
