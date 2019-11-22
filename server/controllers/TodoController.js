@@ -22,6 +22,29 @@ class TodoController {
             .catch(next)
     }
 
+
+    static search(req, res, next) {
+        const { q } = req.query
+            Todo.find({
+                $or: [   
+                    {
+                        name: {
+                            $regex: `${q}`, $options: 'i'
+                        }
+                    },
+                    {
+                        description: {
+                            $regex: `${q}`, $options: 'i'
+                        }
+                    }
+                ]
+            }).sort({ updatedAt: -1 })
+                .then(todos => {
+                    res.status(200).json(todos)
+                })
+                .catch(next)
+    }
+
     static findById(req, res, next) {
         let { id } = req.params
         Todo.findById(id)
