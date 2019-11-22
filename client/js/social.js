@@ -9,7 +9,7 @@ $(document).ready(()=>{
 function fetchSocial(){
     $.ajax({
         method: 'get',
-        url: `http://localhost:3000/socials`,
+        url: `http://35.240.249.106/socials`,
         headers: {
             token : localStorage.getItem('token')
         }        
