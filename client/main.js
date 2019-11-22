@@ -46,6 +46,7 @@ function login() {
 }
 
 function register() {
+    console.log("Trigger")
     let name = $("#name").val();
     let email = $("#username").val();
     let password = $("#password").val();
@@ -76,6 +77,7 @@ function register() {
 }
 
 function onSignIn(googleUser) {
+    console.log(googleUser);
     let id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
         method: "post",
