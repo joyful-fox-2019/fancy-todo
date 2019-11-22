@@ -65,7 +65,7 @@ class UserController {
 
         client.verifyIdToken({
                 idToken: req.body.token,
-                audience: "220814266651-8taprggpt281q2nl2oudu3hcdt67daeq.apps.googleusercontent.com"
+                audience: process.env.GOOGLE_CLIENT_ID
             })
             .then(ticket => {
                 payload = ticket.getPayload()
