@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href='./style//main.css' rel='stylesheet'>
+    <meta name="google-signin-client_id" content="698573351244-dtn5mu36sl3i6vnajcu6ufcul5mi6a1h.apps.googleusercontent.com">
+    <title>Fancy Todo</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-secondary">
+      <a href='#' class="navbar-brand" id='fhome'>Fancy Todo</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><small>by DreamCar</small></a>
+        </li>
+      </ul>
+      <form class="form-inline" id='formSearch'>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" id='keySearch' aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> | 
+      </form>
+      <button class='btn btn-outline-success my-2 my-sm-o fgoLogin' id='islogin'>Login</button>
+      <button class='btn btn-outline-success my-2 my-sm-o fgoLogout' id='logout'>Sign out</button>
+    </nav>
+
+
+
+
+    <div class="fluid-container">
+      <div id="login">
+        <table class="login_table">
+          <tr>
+            <td>Email:</td>
+            <td><input type="email" name="email" id="email"></td>
+          </tr>
+          <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" id="password"></td>
+          </tr>
+          <tr>
+            <td><div class="g-signin2" data-onsuccess="onSignIn"></div></td>
+            <td> OR <input type="button" value="Login" id='flogin'>
+            <input type='button' value='Register' id='fgoregister'></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="register">
+        <table class="login_table">
+          <tr>
+            <td>Username:</td>
+            <td><input type="text" name="username" id="username"></td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td><input type="email" name="email" id="emailRegister"></td>
+          </tr>
+          <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" id="passwordRegister"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input type="button" value="Login" id='fgobacklogin'>
+            <input type='button' value='Register' id='fregisterclick'>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class='mainMain'>
+        <div class="row">
+          <div class="col-4">
+            <div id='main-bar'>
+
+              <div class="social">
+                  <ul>
+                      <li><a href='http://instagram.com/dreamcarr_' target="_">Dream Car_</a></li>
+                      <li><a href="http://started.dreamcarofficial.com" target='_'>E-Commerce</a></li>
+                      <li><a href="http://newminiwpres.thinkhappy.site/" target='_'>Mini WPress</a></li>
+                      <li><a href="http://dcoverflow.dreamcarofficial.com.s3-website-ap-southeast-1.amazonaws.com/" target='_'>Dc OverFlow</a></li>
+                      <li><a href="https://kamvan-d66ed.firebaseapp.com/" target='_'>Kamban</a></li>
+                  </ul>
+              </div>
+
+              <div class="col">
+                <button class='btn btn-outline-info' id='ftodohome'>Todo</button>
+              </div>
+              <div class="col">
+                <button class='btn btn-outline-info' id='fgoproject'>Project</button>
+              </div>
+              <div class="col">
+                <button class='btn btn-outline-info notrow' id='fgonotification'>Notification | <div class='lengthNotif'></div></button>
+              </div>
+              <div class="col">
+                <button class='btn btn-outline-info' id='fshowportfolio'>Other PortFolio</button>
+              </div>
+
+
+              <div>
+                <div class="invitemember">
+
+                </div>
+
+                <div class="container2">
+                  <a href="#" class="button2 finvitelistmember" id="button-1">Invite New Member</a>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+          <div class="col-8">
+              <div id="cardLoop">
+    
+              </div>
+            <div id="todo-side-bar">
+
+
+              <div class="header">
+                <h3 id='todo'>Todo</h3>
+                <h3 id='project'>Project</h3>
+                <h3 id='notif'>Notification</h3>
+                <h3 id='other'>Other Project</h3>
+                <hr>
+              </div>
+              <div class="main-header">
+                <button class='btn btn-outline-secondary' id='createTodo'>Create New Todo</button>
+                <button class='btn btn-outline-secondary' id='createProject'>Create New Project</button>
+              </div>
+              <div class="progress">
+              </div>
+              <div class="main-body">
+                <div class="list-group" id="myList" role="tablist">
+
+                </div>
+                <div class='rowcard'>
+
+                </div>
+              </div>
+            </div>
+
+            <div id="createTodo1">
+              <div class="header">
+                <h3 id='todo'>Create New Todo</h3>
+              </div>
+              <div class="main-header">
+                <div class="modal-body">
+                    <form>
+                        <div class='form-group'>
+                            <label for='date'>Date</label>
+                            <input type='date' id='date' name='date'>
+                        </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Title :</label>
+                        <input type="text" class="form-control" id='newTitle'>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Description :</label>
+                        <textarea class="form-control" id="description"></textarea>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a id='text-errorTodo' style = 'color:red'></a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelback'>Close</button>
+                    <div id="toSaveTodo">
+                      <button type="button" class="btn btn-primary" id='save'>Save</button>
+                    </div>
+                    <div id="toSaveEditTodo">
+                      <button type="button" class="btn btn-primary" id='saveChangeTodo'>Save Change</button>                      
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+            <div id="createProject1">
+              <div class="header">
+                <h3 id='project'>Create New Project</h3>
+              </div>
+              <div class="main-header">
+                <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                          <label for="recipient-name" class="col-form-label">Project Name :</label>
+                          <input type="text" class="form-control" id='newNameProject'>
+                      </div>
+                      <div class="forMember">
+                          <div class="list-item">
+                          </div>
+                      </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a id='text-errorTodo' style = 'color:red'></a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelbackproject'>Close</button>
+                    <button type="button" class="btn btn-primary" id='saveProject'>Create Project</button>                 
+                </div>
+              </div>
+            </div>
+
+           
+            
+            <div id="todoListProject">
+              <div class="headerProject">
+                
+              </div>
+              <button class='btn btn-outline-secondary' id='createTodoProject'>Create Project Todo</button>
+              <div class="main-header">
+                <div class="modal-body">
+                  <div class="bodyMainProject">
+
+                  </div>
+                </div>
+                <div id="formTodoProject">
+                  <form>
+                      <div class='form-group'>
+                          <label for='date'>Date</label>
+                          <input type='date' id='dateProject'>
+                      </div>
+                  <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Title :</label>
+                      <input type="text" class="form-control" id='projectTitle'>
+                  </div>
+                  <div class="form-group">
+                      <label for="message-text" class="col-form-label">Description :</label>
+                      <textarea class="form-control" id="projectDescription"></textarea>
+                  </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <div class="footProject">
+                    <a id='text-errorTodo' style = 'color:red'></a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='fcancelbackk'>Close</button>
+                    <div id="saveTodoProject">
+                      <button type="button" class="btn btn-primary" id='saveTodoProject'>Save</button> 
+                    </div>
+                    <div id='editTodoProject'>
+                      <button type="button" class='btn btn-primary' id='clickEditTodoProject'>Save Change</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div id="editTodoListProject">
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="./js/main.js">
+    </script>
+  </body>
+</html>
