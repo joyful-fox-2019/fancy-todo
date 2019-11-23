@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="437507699334-j2lo98or1do45rpd4rq1f177imouq8c9.apps.googleusercontent.com">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- FROALA META -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-design-blocks/2.0.0/css/froala_blocks.min.css">
+    <!-- FROALA META -->
+    <!-- SWEET ALERT-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <style>
+    #right-side{
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+    </style>
+</head>
+<body>
+    <section class="fdb-block" id="home-page">
+        <div class="col-fill-right" style="background-image: url(https://image.freepik.com/free-vector/people-making-list-illustration_53876-43029.jpg);" id="right-side">
+        </div>
+        <div class="container py-5">
+            <div class="row" id="login-register">
+                <!-- HIDE AND SHOW -->
+
+                <!-- REGISTER FORM -->
+                <div class="container" id='register'>
+                    <div class="col-12 col-md-8 col-lg-5 col-md-3 text-center">
+                        <div class="fdb-box fdb-touch">
+                            <div class="row">
+                                <div class="col">
+                                    <h1>Register</h1>
+                                </div>
+                            </div>
+                            <form id="register-form">
+                                <div class="row">
+                                    <div class="col mt-4">
+                                    <input type="text" id="nameReg" class="form-control" placeholder="Name" style="border-radius: 25px">
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                    <input type="text" id="emailReg" class="form-control" placeholder="Email" style="border-radius: 25px">
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                    <input type="password" id="passwordReg" class="form-control mb-1" placeholder="Password" style="border-radius: 25px">
+                                    <p class="text-right" id="have-account"><a href="">Already have an account?</a></p>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                    <input id="submit-register" class="btn btn-primary" type="submit" style="border-radius: 25px"></input>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- REGISTER FORM -->
+
+                <!-- LOGIN FORM -->
+                <div class="container" id="login">
+                    <div class="col-12 col-md-8 col-lg-5 col-md-3 text-center">
+                        <div class="fdb-box fdb-touch">
+                            <div class="row">
+                                <div class="col">
+                                    <h1>Login</h1>
+                                </div>
+                            </div>
+                            <form id="login-form">
+                                <div class="row mt-4">
+                                    <div class="col">
+                                    <input id="emailLog" type="text" class="form-control" placeholder="Email" style="border-radius: 25px">
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col">
+                                        <input id="passwordLog" type="password" class="form-control mb-1" placeholder="Password" style="border-radius: 25px">
+                                        <div>
+                                            <p class="text-right" id="no-account"><a href="">Dont have any account?</a></p>
+                                            <input id="submit-login" class="btn btn-primary" type="submit" style="border-radius: 25px" value="Login">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-center">
+                                    <p class="text-center col-12">Or signin with other account</p>
+                                    <div class="g-signin2" data-onsuccess="onSignIn">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- LOGIN FORM -->
+
+                <!-- HIDE AND SHOW -->
+            </div>
+        </div>
+    </section>
+    <!-- MAIN PAGE -->
+    <section id="main-page">
+        <!-- NAVBAR -->
+        <header>
+            <div class="container">
+                <nav class="navbar navbar-expand-md">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse" id="navbarNav1">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" id="show-todo" onclick="showTodo(event)">Show Todo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" id="on-progress" onclick="getPendingTodo(event)">On Progress Todo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="" id="complete-todo" onclick="getCompleteTodo(event)">Complete Todo</a>
+                    </li>
+                    </ul>
+            
+                    <ul class="navbar-nav justify-content-end d-none d-lg-flex ml-md-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.froala.com"><i class="fab fa-slack"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.froala.com"><i class="fab fa-twitter"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.froala.com"><i class="fab fa-github"></i></a>
+                    </li>
+                    </ul>
+            
+                    <div class="btn btn-outline-primary ml-md-3" href="" onclick="signOut()">Sign out</div>
+                    
+                </div>
+            </nav>
+            </div>
+        </header>
+        <!-- NAVBAR -->
+
+        <!-- TODO -->
+        <div class="container">
+            <div class="row text-center" style="margin: 50px 0px;">
+                <div class="col" id="user-name">
+                    <!-- append welcome -->
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="insert-todo">
+                        <!-- append todo in this div -->
+                </tbody>
+            </table>
+        </div>
+        <div class="justify-content-center text-center" style="margin: 50px 0px;">
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModalCenter">Add Todo</button>
+        </div>
+        <!-- TODO -->
+
+        <!-- MODAL ADD TODO-->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalCenterTitle">Create Todo</h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Form add Todo -->
+            <form id="form-todo">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input id="title" type="text" class="form-control" placeholder="title">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Description</label>
+                    <input id="desc" type="text" class="form-control" placeholder="write todo description">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Due Date</label>
+                    <input id="due_date" type="date" class="form-control">
+                </div>
+                <input id="submit-todo" type="submit" class="btn btn-primary">
+            </form>
+              <!-- Form add Todo -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- MODAL ADD TODO-->
+
+    </section>
+    <!-- MAIN PAGE -->
+
+    <!-- EDIT TODO-->
+    <!-- Form edit Todo -->
+    <div id="modal-editTodo" class="justify-content-center container">
+        <div>
+            <div class="text-center">
+                <h1>Edit Todo</h1>
+            </div>
+            <form id="edit-form-todo">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Id</label>
+                    <input id="edit-id" type="text" class="form-control" placeholder="title">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input id="edit-title" type="text" class="form-control" placeholder="title">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Description</label>
+                    <input id="edit-desc" type="text" class="form-control" placeholder="write todo description">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Due Date</label>
+                    <input id="edit-due_date" type="date" class="form-control">
+                </div>
+                <input id="submit-edit-todo" type="submit" class="btn btn-primary">
+                <input id="submit-final-editTodo" type="submit" class="btn btn-primary" value="Mark complete">
+            </form>
+            <!-- Form edit Todo -->
+            <div class="modal-footer">
+                <input type="button" onclick="backToMainPage()" id="close-edit-todo" class="btn btn-secondary" data-dismiss="modal" value="Close">
+            </div>
+        </div>
+    </div>
+    <!-- EDIT TODO -->
+
+    <!-- GOOGLE CLIENT SCRIPT -------------------------------------------------->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+    function onSignIn(googleUser) {
+        const id_token = googleUser.getAuthResponse().id_token;
+        $.ajax({
+            method: 'POST',
+            url: 'http://localhost:3000/google-signin',
+            data:{
+                idToken: id_token
+            }
+        })
+        .done(token => {
+            localStorage.setItem('token', token.jwt_token);
+            localStorage.setItem('name', token.user.name);
+            Swal.fire('Success', 'Login Successfull', 'success')
+            $('#main-page').show()
+            $('#home-page').hide()
+        })
+        .fail(err=>{
+            Swal.fire('Error', err.msg, 'error')
+            console.log(err)
+        })
+    }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        window.location.href = 'http://localhost:8080';
+        });
+    }
+    </script>
+    <!-- GOOGLE CLIENT SCRIPT ---------------------------------------------------->
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <!-- JQUERY -->
+    <!-- BOOTSRTAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- BOOTSRTAP -->
+    <script src="./stringDate.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
