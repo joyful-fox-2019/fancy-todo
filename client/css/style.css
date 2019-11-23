@@ -1,0 +1,25 @@
+.hide {
+	display: none;
+}
+
+.fdb-block {
+	background-color: transparent;
+}
+
+.pt-min {
+	padding-top: 3em;
+}
+
+.no-cursor:hover {
+	cursor: default;
+}
+
+.jumbotron,
+#top {
+	background-color: #329ef7;
+	color: #fbfbff;
+}
+
+.navbar {
+	background-color: #0b4f6c;
+}
