@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="1064661640914-1aefku5io65dqkgj9tm0u0dmjumidkvk.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Fancy Todo</title>
+  <style>
+    #login, #register {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      /* bring your own prefixes */
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark border-bottom sticky-top" style="background-color: #DA4C3F;">
+      <a class="navbar-brand" href="#" onclick="mainTodo()">
+        <img src="./public/todo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Fancy Todo
+      </a>
+  
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+      </ul>
+      <div id="welcome">
+
+      </div>
+      <button class="btn text-white mr-3" id="logout" style="display: none;" onclick="logout()">
+        logout
+        <img src="./public/off.png" alt="" style="width: 20px;">
+      </button>
+      <!-- <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn text-white my-2 my-sm-0" type="submit">Search</button>
+      </form> -->
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- login -->
+    <form id="login" style="max-width: 100%; min-width: 50%; padding: 30px;">
+      <h3>Login</h3>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" class="form-control" placeholder="Enter email" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="Password" id="loginPassword" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="button" class="btn" onclick="showRegister()">Register</button>
+      <div class="mt-3">
+        <small>Or Login with google oauth</small>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+    </form>
+
+    <!-- register -->
+    <form id="register" style="max-width: 100%; min-width: 50%; padding: 30px; display: none;">
+      <h3>Register</h3>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" placeholder="Enter your name" id="registerName" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" placeholder="Enter your email" id="registerEmail" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="Password" id="registerPassword" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="button" class="btn" onclick="showLogin()">Login</button>
+      <div class="mt-3">
+        <small>Or Login with google oauth</small>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+    </form>
+    
+    <!-- main page -->
+    <div class="row" style="display: none;" id="mainPage">
+      <!-- projects -->
+      <div class="col-sm-3 mt-3">
+        <div class="position-fixed" id="project">
+          Projects
+          <ul id="projects">
+            
+          </ul>
+          <button class="btn mb-4" type="button" data-toggle="collapse" data-target="#collapseAddProject" aria-expanded="false" aria-controls="collapseAddProject">
+            <img src="./public/plus.png" alt="" style="width: 24px;">            
+            add project
+          </button>
+          <div class="collapse" id="collapseAddProject" style="width: 200px;">
+            <div class="card card-body">
+              <form id="addProject">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" placeholder="Enter name" id="projectName">
+                </div>
+                <button type="submit" class="btn btn-primary">Add project</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- todo -->
+      <div class="col-sm bg-white pt-3 border-left border-bottom border-right pb-3" id="todo">
+        <div class="d-flex justify-content-between">
+          <div id="title" class="mb-3">
+            
+          </div>
+          <button class="btn btn-warning" id="sendEmail">
+            Send To My Email
+          </button>
+        </div>
+        <button class="btn mb-4" type="button" data-toggle="collapse" data-target="#collapseAddTodo" aria-expanded="false" aria-controls="collapseAddTodo">
+          <img src="./public/plus.png" alt="" style="width: 24px;">
+          add todo
+        </button>
+        <div class="collapse mb-3" id="collapseAddTodo">
+          <div class="card card-body">
+            <form id="addTodo">
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" placeholder="Enter title" id="todoTitle">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <input type="text" class="form-control" placeholder="Enter description" id="todoDescription">
+              </div>
+              <button type="submit" class="btn btn-primary">Add todo</button>
+            </form>
+          </div>
+        </div>
+        <div id="todos">
+          
+        </div>
+      </div>
+      <!-- user list -->
+      <div class="col-sm-3 mt-3" id="member">
+        <div>Members:</div>
+        <ul id="members">
+          
+        </ul>
+        <button class="btn mb-4" type="button" data-toggle="collapse" data-target="#collapseAddMember" aria-expanded="false" aria-controls="collapseAddMember" id="memberCollapse">
+          <img src="./public/plus.png" alt="" style="width: 24px;">            
+          add member
+        </button>
+        <div class="collapse" id="collapseAddMember" style="width: 200px;">
+          <div class="card card-body">
+            <form id="addMember">
+              <div class="form-group">
+                <label>User Email</label>
+                <input type="email" class="form-control" placeholder="Enter email" id="memberEmail">
+              </div>
+              <button type="submit" class="btn btn-primary">Add project</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="./js/main.js"> </script>
+</body>
+</html>
