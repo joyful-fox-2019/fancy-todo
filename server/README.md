@@ -1,5 +1,5 @@
-# DEPLOY LINK
-http://imdone.arnoldtherigan.site/
+# rest-api
+
 
 ## API-DOCUMENTATION (use apiary)
 https://imdone.docs.apiary.io
