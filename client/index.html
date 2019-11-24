@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" 
+        content="909855230558-1uvf9tnts158o46b5ch2juj854lha7r3.apps.googleusercontent.com">
+    
+        <!-- DATE PICKER -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+
+        <!-- ANIMATIONS -->
+    <link href="node_modules/pnotify/dist/PNotifyBrightTheme.css" rel="stylesheet" type="text/css" />
+        
+        <!-- NOTOFICATION -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700i|Open+Sans:300&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./public/style.css">
+        
+        
+        <title>Fancy Todo</title>
+    </head>
+    <body>
+        
+        <!-- 1. LANDING-PAGE -->
+        <div id="landing-page" style="display: none;">
+                <div class="d-flex">
+                    <div class="left d-flex flex-column justify-content-center p-5">
+                        <h1>Welcome To Fancy Todo.</h1>
+                        <p>Our task list provide you to keep all your 
+                            business in one app.Try it now. For free.</p>
+                            <button class="toRegister">Try Now</button>
+                        </div>
+                        <div class="right d-flex flex-column justify-content-between align-items-center">
+                            <div class="landing-nav d-flex justify-content-end">
+                                <a class="toRegister" href="">Register</a>
+                                <a class="toLogin" href=""><i class="fas fa-user"></i>Login</a>
+                    
+                            </div>
+                <img src="./public/login.svg" alt="login">
+            </div>
+       </div>
+    </div>
+        
+    <!-- 2.LOGIN PAGE -->
+    <div id="login-page" style="display: none;">
+            <div class="landing-nav  d-flex justify-content-end"> 
+                <a href="" class="toHome" style="color: white;">Home</a>
+                <a href="" class="toRegister" style="color: white;">Register</a>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <h2 class="py-4">Login</h2>
+                <div class="login-card">
+                <form>
+                    <div class="form-group d-flex flex-column">
+                        <label for="login-email">Email address</label>
+                        <input type="text" class="form-control" id="login-email" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" class="form-control" id="login-password" >
+                    </div>
+                    <button id="id-login-btn" type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+            <span class="py-3">or</span>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-width="390" data-height="40" data-longtitle="true"></div>
+        </div>
+    </div>
+
+    
+    <!-- 3.REGITER PAGE -->
+    <div id="register-page" style="display: none;">
+            <div class="landing-nav  d-flex justify-content-end">
+                <a href="" class="toHome" style="color: white;">Home</a>
+                <a href="" class="toLogin" style="color: white;"><i class="fas fa-user"></i>Login</a>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <h2 class="py-2">Register</h2>
+                <div class="register-card">
+                    <form>
+                        <div class="form-group">
+                            <label for="register-name">Name</label>
+                            <input type="text" class="form-control" id="register-name" >
+                        </div>
+                        <div class="form-group d-flex flex-column">
+                            <label for="register-email">Email address</label>
+                            <input type="text" class="form-control" id="register-email" aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" class="form-control" id="register-password" >
+                        </div>
+                        <button id="id-register-btn" type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                </div>
+                <span class="py-3">or</span>
+                <div class="g-signin2" data-onsuccess="onSignIn" data-width="390" data-height="40" data-longtitle="true"></div>
+            </div>
+        </div>
+        
+        
+        <!-- 4.TODO PAGE -->
+        <div id="todo-page" style="display: none;">
+                <div class="landing-nav  d-flex justify-content-end" style="background-color: #0069ff;">
+                <a href="" class="toSocial" style="color: white;"><i class="fas fa-share-alt"></i>Social Media</a>
+                <a href="" class="toProject" style="color: white;"><i class="fas fa-users"></i>Project</a>
+                <a href="" class="logout" onclick="signOut()" style="color: white;"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+
+            <!-- 4.1 ADD TODO MODAL -->
+            <div id="id-todo-modal" class="fancy-modal" style="display: none;">
+                    <div class="todo-modal d-flex justify-content-center align-items-center">
+                        <div id="ohsnap"></div>
+                        <div class="animated fadeInDown form-container d-flex flex-column  justify-content-between align-items-center">
+                            <div class="close-modal text-right">
+                                <span class="close-todo-modal" style="cursor: pointer;">Cancel</span>
+                            </div>
+                            <h1>Add Todo</h1>
+                            <form action="" id="form-add-todo" class="form-todo-modal animated fadeInDown delay-0.5s d-flex flex-column justify-content-center align-items-center">
+                                <input type="text" id="input-todo-name" placeholder="Enter Todo Name">
+                                <textarea id="input-todo-desc" cols="30" rows="5" placeholder="Enter Description"></textarea>
+                                <input type="text" class="selectordate" id="input-todo-date" placeholder="Select Due Date">
+                                <input class="btn btn-primary" type="submit" value="Add New Todo">
+                            </form>
+                        </div>
+                </div>
+            </div>
+
+            <!-- 4.1 EDIT TODO MODAL -->
+            <div id="edit-todo-modal" class="fancy-modal" style="display: none;">
+                    <div class="todo-modal d-flex justify-content-center align-items-center">
+                        <div id="ohsnap"></div>
+                        <div class="animated fadeInDown form-container d-flex flex-column  justify-content-between align-items-center">
+                            <div class="close-modal d-flex justify-content-between ">
+                                <i id="delete-todo" class="fas fa-trash"></i>
+                                <span class="close-todo-modal" style="cursor: pointer;">Cancel</span>
+                            </div>
+                            <h1>Edit Todo</h1>
+                            <input style="display: none;" id="edit-todo-id">
+                            <form action="" id="form-edit-todo" class="form-todo-modal animated fadeInDown delay-0.5s d-flex flex-column justify-content-center align-items-center">
+                                <input type="text" id="edit-todo-name" placeholder="Enter Todo Name">
+                                <textarea id="edit-todo-desc" cols="30" rows="5" placeholder="Enter Description"></textarea>
+                                <input type="text" class="selectordate" id="edit-todo-date" placeholder="Select Due Date">
+                                <input class="btn btn-success" type="submit" value="Edit Todo">
+                            </form>
+                        </div>
+                </div>
+            </div>
+            
+            <div class="container mt-5">
+                <h1> Your Todos </h1>
+                <div class="search d-flex">
+                    <input type="search" id=""><div class="search-btn d-flex align-items-center justify-content-center"><i class="fas fa-search"></i></div>
+                    <button id="add-todo-btn" class="btn btn-primary ml-3">Add new todo</button>
+                </div>
+                
+                <div id="todos" class="d-flex flex-wrap mt-3">
+                    
+                    <!-- <div onclick="todoCard(todoId)" class="todo-card d-flex flex-column justify-content-between p-2">
+                        <div>
+                            <h6 class="text-center">Todo Title</h6>
+                            <span style="font-size: 10px;">Lorem ipsum dolor sit.</span>
+                        </div>
+                        <div class="date d-flex align-items-center justify-content-between">
+                            <span>12-12-2019</span>
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>     -->
+                        
+                    </div>
+                </div>
+        </div>
+
+        
+        <!-- 5.TODO-DETAIL -->
+        <div id="todo-detail" style="display: none;">
+                <div class="landing-nav  d-flex justify-content-end" style="background-color: #0069ff;">
+                        <a href="" class="toSocial" style="color: white;"><i class="fas fa-share-alt"></i>Social Media</a>
+                    </div>
+                    <div class="container d-flex flex-column mt-5">
+                        <div class="todo-title d-flex justify-content-between align-items-center">
+                            <span class="d-flex justify-content-center align-items-center"><i class="far fa-edit"></i></span>
+                            <h2>Todo Title</h2>
+                            <span class="d-flex justify-content-center align-items-center"><i class="fas fa-trash-alt"></i></span>
+                        </div>
+                        <div class="todo-desc d-flex flex-column justify-content-between">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                Temporibus reprehenderit consequuntur cupiditate ex similique. 
+                                Deserunt iusto unde consequuntur? Illo praesentium tempore libero iste. 
+                                Ipsam accusamus beatae nesciunt nihil nostrum maiores aliquid, 
+                                aliquam non distinctio deserunt eaque, aspernatur ullam possimus. 
+                                Fugiat ipsum dolores explicabo quia magnam alias inventore incidunt minus, 
+                                et ad veritatis laborum cumque quasi 
+                                voluptatem quae sint modi est pariatur aperiam laudantium neque 
+                                tempore animi? Blanditiis earum voluptatem optio autem ducimus 
+                                vitae obcaecati itaque, consequuntur quas a placeat! Voluptas 
+                                reiciendis veritatis quod accusamus qui provident, totam tempora 
+                                aperiam dignissimos eum? Architecto illo minus nesciunt obcaecati  
+                                sint consectetur reprehenderit dolores!</p>
+                                <div class="date">
+                                    <h6>2019-10-10</h6>
+                                </div>
+                            </div>
+                    
+                        </div>
+            </div>
+        </div>
+        
+        
+        <!-- 6. PROJECT PAGE -->
+        <div id="project-page" style="display: none;">
+                <div class="landing-nav  d-flex justify-content-end" style="background-color: #0069ff;">
+                    <a href="" class="toSocial" style="color: white;"><i class="fas fa-share-alt"></i>Social Media</a>
+                    <a href="" class="toTodo" style="color: white;">My Todo</a>
+                    <a href="" class="logout" style="color: white;"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+
+                <!-- 4.1 ADD PROJECT MODAL -->
+                <div id="id-project-modal" class="fancy-modal" style="display: none;">
+                        <div class="todo-modal d-flex justify-content-center align-items-center">
+                            <div id="ohsnap"></div>
+                            <div class="animated fadeInDown form-container d-flex flex-column  justify-content-between align-items-center">
+                                <div class="close-modal text-right">
+                                    <span class="close-todo-modal" style="cursor: pointer;">Cancel</span>
+                                </div>
+                                <h1>Add Project</h1>
+                                <form action="" id="form-add-project" class="form-todo-modal animated fadeInDown delay-0.5s d-flex flex-column justify-content-center align-items-center">
+                                    <input type="text" id="input-project-title" placeholder="Enter Project Title">
+                                    <textarea id="input-project-desc" cols="30" rows="5" placeholder="Enter Description"></textarea>
+                                    <input type="text" class="selectordate" id="input-project-date" placeholder="Select Due Date">
+                                    <input class="btn btn-primary" type="submit" value="Add New Project">
+                                </form>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="container mt-5">
+                    <h1> Your Project </h1>
+                    <div class="search d-flex">
+                        <input type="search" id=""><div class="search-btn d-flex align-items-center justify-content-center"><i class="fas fa-search"></i></div>
+                        <button id="add-project-btn" class="btn btn-primary ml-3">Add new Project</button>
+                    </div>
+                    
+                    <div id="projects" class="d-flex flex-wrap mt-3">
+                        
+                        <!-- <div class="todo-card d-flex flex-column justify-content-between p-2">
+                            <div>
+                                <h6 class="text-center">Todo Title</h6>
+                                <span style="font-size: 10px;">Lorem ipsum dolor sit.</span>
+                            </div>
+                            <div class="date d-flex align-items-center justify-content-between">
+                                <span>12-12-2019</span>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div> -->
+                        
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- 7. PROJECT DETAIL -->
+            
+            <div id="project-detail" style="display: none;">
+                <div class="landing-nav  d-flex justify-content-end" style="background-color: #0069ff;">
+                    <a href="" class="toSocial" style="color: white;"><i class="toSocial fas fa-share-alt"></i>Social Media</a>
+                    <a href="" class="toTodo" style="color: white;"></i>My Todo</a>
+                    <a href="" class="toProject" style="color: white;"><i class="fas fa-users"></i>Project</a>
+                    <a href="" class="logout" style="color: white;"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+
+                 <!-- 7.1.1 ADD TODO-PROJECT MODAL -->
+                 <div id="id-todo-project-modal" class="fancy-modal" style="display: none;">
+                        <div class="todo-modal d-flex justify-content-center align-items-center">
+                            <div id="ohsnap"></div>
+                            <div class="animated fadeInDown form-container d-flex flex-column  justify-content-between align-items-center">
+                                <div class="close-modal text-right">
+                                    <span class="close-todo-modal" style="cursor: pointer;">Cancel</span>
+                                </div>
+                                <h1>Add Todo</h1>
+                                <form action="" id="form-add-todo-project" class="form-todo-modal animated fadeInDown delay-0.5s d-flex flex-column justify-content-center align-items-center">
+                                    <input type="text" id="input-project-todo-name" placeholder="Enter Todo Name">
+                                    <textarea id="input-project-todo-desc" cols="30" rows="5" placeholder="Enter Description"></textarea>
+                                    <input type="text" class="selectordate" id="input-todo-project-date" placeholder="Select Due Date">
+                                    <input class="btn btn-primary" type="submit" value="Add New Todo">
+                                </form>
+                            </div>
+                    </div>
+                </div>
+
+                <!-- 7.1.2 EDIT TODO-PROJECT MODAL -->
+                <div id="edit-todo-project-modal" class="fancy-modal" style="display: none;">
+                    <div class="todo-modal d-flex justify-content-center align-items-center">
+                        <div id="ohsnap"></div>
+                        <div class="animated fadeInDown form-container d-flex flex-column  justify-content-between align-items-center">
+                            <div class="close-modal d-flex justify-content-between ">
+                                <i id="delete-todo" class="fas fa-trash"></i>
+                                <span class="close-todo-modal" style="cursor: pointer;">Cancel</span>
+                            </div>
+                            <h1>Edit Todo</h1>
+                            <input style="display: none;" id="edit-todo-project-id">
+                            <form action="" id="form-edit-todo-project" class="form-todo-modal animated fadeInDown delay-0.5s d-flex flex-column justify-content-center align-items-center">
+                                <input type="text" id="edit-todo-project-name" placeholder="Enter Todo Name">
+                                <textarea id="edit-todo-project-desc" cols="30" rows="5" placeholder="Enter Description"></textarea>
+                                <input type="text" class="selectordate" id="edit-todo-project-date" placeholder="Select Due Date">
+                                <input class="btn btn-success" type="submit" value="Edit Todo">
+                            </form>
+                        </div>
+                </div>
+            </div>
+
+                <div class="container d-flex mt-5">
+                    <h1 id="project-detail-title"></h1>
+                    <input type="text" id="project-id" style="display: none;">
+                    <span id="project-detail-duedate" class="ml-3">| 2019-10-10</span>
+                </div>
+                
+                
+                <div class="container mt-3 d-flex">
+                    
+                    <!-- 7.1 TODO  -->
+                    <div class="project-detail-card d-flex flex-column border ml-5">
+                        <div class="project-card-title">
+                            <h5>To Do</h5>
+                        </div>
+                        <div class="project-detail-add d-flex justify-content-center align-items-center">
+                            <i id="add-todo-project-btn" style="font-size: 30px;" class="mt-3 fas fa-plus-circle"></i>
+                        </div>
+                        <div id="project-todos" class="mt-3 d-flex flex-column justify-content-center align-items-center mt-2">
+                            
+                            <!-- <div class="project-todo d-flex mt-2">
+                                <div class="desc d-flex align-items-center pl-2">
+                                    <span>Lorem ipsum dolor sit amet Assumenda, corrupti!</span>
+                                </div>
+                                <div class="delete-todo d-flex justify-content-center align-items-center">
+                                    <span style="font-size: 15px; cursor: pointer;" class="text-white">x</span>
+                                </div>
+                            </div> -->
+                            
+                        </div>
+                    </div>                   
+                    
+                    <!-- 7.2 MEMBER -->
+                    <div class="project-detail-card d-flex flex-column border ml-5">
+                        <div class="project-card-title">
+                            <h5>Member</h5>
+                        </div>
+                        <div class="mt-2 project-detail-add d-flex justify-content-center align-items-center">
+                            <form id="add-member">
+                                <input id="input-member-email" type="text" placeholder="add new member"><i id="add-member-btn" class="fas fa-plus-circle"></i>
+                            </form>
+                        </div>
+                        <div id="project-member" class="d-flex flex-column justify-content-center align-items-center mt-2">
+                            
+                            <!-- <div class="project-todo d-flex mt-2">
+                                <div class="desc d-flex align-items-center pl-2">
+                                    <span>Uzai Sindiko</span>
+                                </div>
+                                <div class="delete-todo d-flex justify-content-center align-items-center">
+                                    <span style="font-size: 15px; cursor: pointer;" class="text-white">x</span>
+                                </div>
+                            </div> -->
+
+                            </div>
+                        </div>
+
+                        
+                        <!-- 7.3 DESCRIPTION -->
+                        <div class="project-detail-card d-flex flex-column border ml-5">
+                                <div class="project-card-title">
+                                    <h5>Description</h5>
+                                </div>
+                                <form id="form-project-detail-desc" class="d-flex flex-column justify-content-center align-items-center" action="">
+                                    <input type="text" id="project-desc-title" placeholder="Enter Project Title">
+                                    <textarea id="project-desc-description" cols="30" rows="10" placeholder="Enter Project Description"></textarea>
+                                    <input type="text" class="selectordate" id="project-desc-duedate" placeholder="Select Project Due Date">
+                                </form>
+                                <div>
+                                    <button id="update-project-btn" class="btn-desc mt-3">Update</button>
+                                    <button id="delete-project-btn" class="bg-danger w-50 btn-desc mt-3">Delete Project</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+
+                    <!-- SOCIAL MEDIA PAGE -->
+                    <div id="social-page">
+                        
+                        <div class="landing-nav  d-flex justify-content-end" style="background-color: #0069ff;">
+                            <a href="" class="toTodo" style="color: white;">My Todo</a>
+                            <a href="" class="toProject" style="color: white;"><i class="fas fa-users"></i>Project</a>
+                            <a href="" class="logout" style="color: white;"><i class="fas fa-sign-out-alt"></i></a>
+                        </div>
+
+                        <div class="social-container d-flex justify-content-around align-items-center">
+                            <div class="social-feed">
+                                <div class="social-feed-header">
+                                    <p>Social Feed</p>
+                                </div>
+                                <div id="id-social-todo-list">
+
+                                    <!-- <div class="social-todo-list d-flex flex-column align-items-center">
+                                        <div class="social-todo d-flex align-items-center">
+                                            <div class="user-profil-pic d-flex justify-content-center align-items-center">
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR1SgkKN2jzx-9g1BVNTg4mO2YdDLxzyk_XPQG9zjyu_bQ6xwnk" alt="">
+                                            </div>
+                                            <div class="social-content d-flex flex-column justify-content-center align-items-center">
+                                                <p>user email</p>
+                                                <h5>Todo Title</h5>
+                                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Necessitatibus, at.</p>
+                                            </div>
+                                            <div class="social-vote d-flex flex-column align-items-center">
+                                                <i class="far fa-thumbs-up"></i>
+                                                <span>5</span>
+                                                <i class="far fa-thumbs-down"></i>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+                            </div>
+
+                            <div class="social-news-container">
+                                  <div class="social-feed-header">
+                                    <p>News For Todo Inspirations</p>
+                                </div>
+                                <div id="news-list">
+                                    <!-- <div class="social-news-card">
+                                        <a href="https://www.youtube.com/" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTnUvV9j4k-SjwHmEI4o6b1k33ZGG5bzJ5G3uhgGgLqGmUa6uGo" alt=""></a>
+                                        <a href="https://www.youtube.com/" target="_blank">lorem</a>
+                                    </div> -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/6f6910560f.js" crossorigin="anonymous"></script>
+        <!-- DATE PICKER -->
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+        <!-- NOTOFICATION -->
+        <script type="text/javascript" src="node_modules/pnotify/dist/iife/PNotify.js"></script>
+        <script type="text/javascript" src="node_modules/pnotify/dist/iife/PNotifyButtons.js"></script>
+
+
+        <script src="./js/script.js"></script>
+        <script src="./js/user.js"></script>
+        <script src="./js/todo.js"></script>
+        <script src="./js/project.js"></script>
+        <script src="./js/social.js"></script>
+        <script src="./js/apis.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script>
+            function onSignIn(googleUser) {
+                let id_token = googleUser.getAuthResponse().id_token
+                $.ajax({
+                    method:'post',
+                    url: `${baseUrl}/users/googleLogin`,
+                    data : {
+                        id_token
+                    }
+                })
+                .done(response =>{
+                    localStorage.setItem('token', response.token)
+                    googleLogin()
+                })
+            }
+
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut()
+                    .then(function () {
+                        logout()
+                    }); 
+            }
+        </script>
+</body>
+</html>
