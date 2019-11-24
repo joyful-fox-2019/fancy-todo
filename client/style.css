@@ -1,0 +1,49 @@
+.nav-text{
+  font-size: 1.2rem;
+  width: 50%;
+  padding: 5% 0;
+}
+
+.g-signin2{
+  width: 100%;
+  margin-top: 5%;
+}
+
+.g-signin2 > div{
+  margin: 0 auto;
+}
+
+.alert {
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 10px
+}
+
+.alert:hover {
+  box-shadow:
+  1px 1px #fff,
+  2px 2px #fff,
+  3px 3px #fff;
+ -webkit-transform: translateX(-3px);
+ transform: translateX(-3px);
+}
+
+.user-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.my-day-nav {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.my-day-content {
+  height: 40vh;
+  overflow-y: auto;
+}
+
+.task-detail {
+ color: black
+}
