@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Google Sign In -->
+    <meta name="google-signin-client_id" content="572279729170-kbkq8t2pubhjgde75c374lgs3tne4rls.apps.googleusercontent.com">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Index HTML -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!-- Weather -->
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <!-- Container Page -->
+    <div id="content"></div>
+    
+    <!-- Modal Page Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" style="margin: 0px auto;">
+                    <!-- Sign In Form -->
+                    <form class="login100-form validate-form" method="POST">
+                        <span class="login100-form-title">
+                            Please input your data :
+                        </span>
+                        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: edison@hacktiv8.com">
+                            <input class="input100" type="text" name="signin-email" id="signin-email" placeholder="Email">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                            <input class="input100" type="password" name="signin-password" id="signin-password" placeholder="Password">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" type="button" id="signin-btn">
+                                Sign In
+                            </button>
+                        </div>
+                        <!-- Google Sign In Button -->
+                        <div class="container-login100-form-btn" style="margin: 0px auto;">
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Page Weather -->
+    <div class="modal fade" id="weatherModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" style="margin: 0px auto;">
+                    <!-- <div class="flex items-center justify-center p-8" style="height: 100px;">
+                        <div class="flex mb-4">
+                            <div class="w-full text-center">
+                                <div class="max-w-sm bg-white shadow-lg rounded p-3">
+                                    <div class="timeBlock border border-gray-100 my-2 p-2">
+                                        <h4>Date and Time</h4>
+                                        <span id="date"></span> | <span id="time"></span>
+                                    </div>
+                                    <form>
+                                        <div class="max-w-sm my-3">
+                                            <input id="location" class="w-full h-12 px-3 rounded mb-2 focus:outline-none focus:shadow-outline text-md shadow-md" type="search" placeholder="Search your location...">
+                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search Location</button>
+                                        </div>
+                                    </form> -->
+                                    <div class="w-full text-center">
+                                        <div class="justify-center"><img src="img/weather.png" width="170px" style="margin: 0 auto;" /></div>
+                                        <span id="temperature" class="text-6xl"></span><span id="unit">°C</span>
+                                        <div id="status" class="text-2xl"></div>
+                                    </div>
+                                    <table class="w-full text-center border-collapse">
+                                        <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
+                                        <tbody>
+                                            <tr class="hover:bg-grey-lighter">
+                                                <td class="py-4 px-6 border-b border-grey-light"><img width="30px" src="img/wind.png" style="margin: 0 auto;" /><span class="windSpeed"></span> <span class="windSpeedUnit">km/h</span></td>
+                                                <td class="py-4 px-6 border-b border-grey-light"><img width="30px" src="img/pressure.png" style="margin: 0 auto;" /><span class="pressure"></span></td>
+                                            </tr>
+                                            <tr class="hover:bg-grey-lighter">
+                                                <td class="py-4 px-6 border-b border-grey-light"><img width="30px" src="img/windsock.png" style="margin: 0 auto;" /><span class="windDirection"></span></td>
+                                                <td class="py-4 px-6 border-b border-grey-light"><img width="30px" src="img/humidity.png" style="margin: 0 auto;" /><span class="humidity"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="w-full text-center my-3">
+                                        <input id="celsius_F" type="checkbox" class="checkbox">
+                                        <label for="celsius_F" class="text-1xl">Celsius</label>
+                                    </div>
+                                <!-- </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script JQuery -->
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    <!-- Script Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Script Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Script Google Login -->
+	<script src="js/google.js"></script>
+    <!-- Script JS Login -->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script src="vendor/tilt/tilt.jquery.min.js"></script>
+    <!-- Script Navigate Page -->
+	<!-- <script src="js/validation.js"></script> -->
+	<script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+	<script src="js/weather.js"></script>
+</body>
+</html>

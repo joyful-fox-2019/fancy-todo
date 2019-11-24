@@ -1,0 +1,50 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+.add-todo {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.row {
+    margin-top: 80px;
+}
+.card {
+    margin-left: 40px;
+}
+
+.add-btn {
+    background: palegreen; 
+    border-radius: 10px;
+    padding: 10px;
+    float: right;
+}
+.edit-btn {
+    /* background: palegreen;  */
+    border-radius: 10px;
+    padding: 5px;
+    float: right;
+}
+.delete-btn {
+    /* background: darkred; */
+    color: white; 
+    border-radius: 10px;
+    padding: 5px;
+    float: right;
+}
+.del-btn {
+    background: darkred;
+    color: white; 
+    border-radius: 10px;
+    padding: 10px;
+    float: right;
+}
+.footer-home {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+ }
