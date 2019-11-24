@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="892845584166-gl7d7hdkqkrr49o5cnfnd7s35dsgjti5.apps.googleusercontent.com">
+
+    <title>Todo Revolution</title>
+
+     <!-- CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!--Navbar-->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" onclick="checktoken()" href="#"><img id="nav-logo" src="https://i.imgur.com/DLuYbjc.png"></a>
+        <button id="nav-register" onclick="displayRegister()" type="button" class="btn btn-danger">Register HERE!</button>
+        <button id="nav-login" onclick="displayLogin()" type="button" class="btn btn-success">Login</button>
+        <button id="nav-notifs" onclick="displayNotifications()" type="button" class="btn btn-info btn-lg"> Notifications </button>
+        <button id="nav-logout" onclick="signOut()" type="button" class="btn btn-danger btn-lg">Logout</button>
+    </nav>
+
+    <!--Login-->
+    <center>
+        <img id="logo" src="https://i.imgur.com/DLuYbjc.png">
+    </center>
+    <div id="login-form" class="login-container">
+        <center>
+            <form class="form-login">
+                <ul class="login-nav">
+                    <li class="login-nav__item active">
+                        <a href="#">Sign In</a>
+                    </li>
+                </ul>
+                <label for="login-input-user" class="login__label">
+                    Email
+                </label>
+                <input id="login-email" class="login__input" type="text" />
+
+                <label for="login-input-password" class="login__label">
+                    Password
+                </label>
+                <input id="login-password" class="login__input" type="password" /> <br>
+            <button type="submit" onclick="login(event)" class="login__submit">Sign in</button><br>
+            <p id="inlogin">or Login with:</p>
+            <div id="gsignin" class="g-signin2" data-onsuccess="onSignIn"></div> 
+            </form>
+        </center>
+    </div>
+
+    <!--Register-->
+    <center>
+        <div id="register-form" class="register-container">
+            <form class="form-login">
+                <ul class="login-nav">
+                    <li class="login-nav__item active">
+                        <a href="#">Sign Up</a>
+                    </li>
+                </ul>
+                <label for="login-input-name" class="login__label">
+                    Name
+                </label>
+                <input id="register-name" class="login__input" type="text" />
+
+                <label for="login-input-email" class="login__label">
+                    Email
+                </label>
+                <input id="register-email" class="login__input" type="text" />
+
+                <label for="login-input-password" class="login__label">
+                    Password
+                </label>
+                <input id="register-password" class="login__input" type="password" /><br><br>
+
+                <button onclick="register(event)" type="submit" class="login__submit">Sign Up</button>
+            </form>
+        </div>
+    </center>
+
+    <!--Main Container-->
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div id="sidebar">
+                    <h4 id="menu">Menu</h4> <br>
+                    <center>
+                        <button id="side-profile" onclick="displayProfile()" type="button" class="btn btn-light btn-lg side-menu">Profile</button> <br><br>
+                        <button id="side-todo" onclick="displayTodo()" type="button" class="btn btn-light btn-lg side-menu">Todo</button> <br><br>
+                        <button id="side-project" onclick="displayProject()" type="button" class="btn btn-light btn-lg side-menu">Project</button> <br><br>
+                    </center>
+                </div>
+            </div>
+            <div class="col-8">
+                <div id="home">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <center>
+                                    <!--Todo-->
+                                    <div id="todos">
+                                        <h2 id="for-border">Todo</h2><br>
+                                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#create">Create New Todo</button> <br><br>
+                                        <div id="todos-list">
+                
+                                        </div> 
+                                    </div>
+                                </center>
+                                    
+                                <!-- CreateTodo:Modal -->
+                                <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Create New Todo</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="exampleInputEmail1">Title</label>
+                                                <input class="form-control" id="input-title" placeholder="Enter title"><br>
+                                                <label for="exampleInputEmail1">Description</label>
+                                                <input class="form-control" id="input-description" placeholder="Enter description">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" onclick="createTodo()" data-dismiss="modal" class="btn btn-success">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <!-- Edit:Modal -->
+                                <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Create New Todo</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input id="edit-id" hidden>
+                                                <label for="exampleInputEmail1">Title</label>
+                                                <input class="form-control" id="edit-title" placeholder="Enter title"><br>
+                                                <label for="exampleInputEmail1">Description</label>
+                                                <input class="form-control" id="edit-description" placeholder="Enter description">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" onclick="updateTodo()" data-dismiss="modal" class="btn btn-success">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div id="users-to-follow">
+                                    <center>
+                                        <h2 id="for-border">Users to follow</h2><br>
+                                        <div id="users-list">
+                                            
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Profile-->
+                <div id="profile">
+                    <div class="container">
+                        <div class="row">
+                            <div id="todos" class="col-4">
+                                <center>
+                                    <h2 id="for-border">Following</h2><br>
+                                </center>
+                                    <div id="following-list">
+                                
+                            </div>
+               
+                          </div>
+                          <div class="col-4">
+                            <center>
+                                <h2 id="for-border">Followers</h2><br>
+                                <div id="followers-list">
+
+                                </div>
+                            </center>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Project-->
+                <center>
+                    <div id="projects">
+                        <h2 id="for-border">Project</h2><br>
+                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#createproject">Create New Project</button> <br><br>
+                </center>       
+                    <!-- CreateProject:Modal -->
+                    <div class="modal fade" id="createproject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Create New Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Name</label>
+                                    <input class="form-control" id="project-name" placeholder="Enter project's name"><br>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" onclick="createProject()" data-dismiss="modal" class="btn btn-success">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <center>
+                            <div id="projects-list">
+
+                            </div>
+                        </center>
+                    </center>
+
+                        <!--Project:Details-->
+                        <div id="indetails">
+                            <br>
+                            <div id="details-header">
+                                
+                            </div>
+                            <div id="details-project">
+                                <div class="container">
+                                    <div class="row">
+                                        <div id="list-projects" class="col-4">
+                                            <div id="create-tp-btn">
+
+                                            </div>
+                                            <div id="project-todos">
+
+                                            </div>
+                                        </div>
+                                        <div id="list-members" class="col-4">
+                                            <h4 id="for-border">Remove member: </h4>
+                                            <div id="project-members">
+
+                                            </div><br>
+                                            <h4 id="for-border">Invite to project: </h4>
+                                            <div id="project-invites">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- EditTodoProject:Modal -->
+                                    <div class="modal fade" id="edit-tp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Create New Todo</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input id="edit-tp-id" hidden>
+                                                    <label for="exampleInputEmail1">Title</label>
+                                                    <input class="form-control" id="edit-tp-title" placeholder="Enter title"><br>
+                                                    <label for="exampleInputEmail1">Description</label>
+                                                    <input class="form-control" id="edit-tp-description" placeholder="Enter description">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    <button type="button" onclick="updateTodoProject()" data-dismiss="modal" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Notifications-->
+                        <div id="notification" class="container">
+                            <div class="row">
+                                <div id="todos" class="col-4">
+                                    <center>
+                                        <h2 id="for-border">Inbox</h2><br>
+                                        <div id="inbox-list">
+                                            
+                                        </div>
+                                    </center>
+                                </div>
+
+                                <div class="col-4">
+                                    <center>
+                                        <div id="notifs-header">
+                                            
+                                        </div>
+                                        <div id="notifications">
+
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
