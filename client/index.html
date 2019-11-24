@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-signin-client_id" content="239754148921-nlpf58ao2hn3gmba34aoj22s3jvlnjcg.apps.googleusercontent.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>next!</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web" >
+  
+
+  <!-- import style.css -->
+  <link rel="stylesheet" href="css/font-awesome.css">
+  <!-- end import style.css -->
+  
+  
+  <!-- import materialize icon -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- end import materialize icon -->
+  
+  
+  
+  
+  <!-- import materialize cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- end import materialize cdn -->
+  
+  <link rel="stylesheet" href="style.css">
+  
+
+
+
+</head>
+
+
+<body>
+
+  <!-- LOGIN PAGE -->
+
+ <!-- navbar -->
+ <nav>
+    <div class="nav blue darker-4">
+      <a href="#!" class="brand-logo"><i class="next-icon material-icons">navigate_nextnavigate_next</i>next!</a>
+      <!-- right section  -->
+      <div class="right-section">
+      <ul class="right">
+        <li><a href="#"><i class="material-icons">search</i></a></li>
+        <li id="module-todo"><a href="#" onclick="showTodoList()"><i class="material-icons">view_module</i></a></li>
+          <!-- google sign out -->
+        <li><a class="signout" href="#" onclick="signOut()"><i class="material-icons">power_settings_new</i></a></li>
+      </ul>
+    </div>
+      <!-- end right section -->
+    </div>
+  </nav>
+<!-- end navbar -->
+<br>
+<br>
+
+<div class="login">
+
+ <div class="container ">
+
+  <!-- registration form -->
+    <div class="register-form" >
+    <div class="register-text row">
+        <div class="col">
+          <h4>/ register /</h4>
+          <h6>Organize it all with <B><i>next!</i></B></h6>
+        </div>
+      </div>
+
+    <div class="row">
+        <form class="col s12">
+          <div class="row">
+              <div class="input-field col s6">
+                  <i class="material-icons prefix">mail_outline</i>
+                  <input id="email-register" type="email" class="validate">
+                  <label for="email">Email</label>
+                  <span class="helper-text" data-error="incorrect email format" data-success="right"></span>
+              </div>
+            <div class="input-field col s6">
+              <i class="material-icons prefix">lock_outline</i>
+              <input type="password" id="password-register"  class="validate">
+              <label for="password-register">Password</label>
+            </div>
+          </div>
+
+          <div class="row-submit-register">
+          <div style="margin-left: 20px; display: flex;" class="margin-top:40px" id="google-login">
+              <div style="margin-left: 10px !important;" class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+          <br>
+          <button class="btn-register  white-text btn-flat" type="submit" onclick="register(event)">Register</button> 
+        </div>
+          <br>
+          <p>already have an account? Please proceed  <B>login</B>  instead</p> 
+
+        </form>
+      </div>
+    </div>
+  <!-- end registration form  -->
+
+
+
+  <!-- login form  -->
+  <div class="login-form" >
+  <div class="register-text row">
+      <div class="col">
+        <h4>/ login /</h4>
+        <h6>the <B><i>next!</i></B> thing to do is putting down those pile of stuffs</h6>
+      </div>
+    </div>
+
+  <div class="row">
+      <form class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <i class="material-icons prefix">mail_outline</i>
+                <input id="email-login" type="email" class="validate">
+                <label for="email">Email</label>
+                <span class="helper-text" data-error="incorrect email format" data-success="right"></span>
+            </div>
+          <div class="input-field col s6">
+            <i class="material-icons prefix">lock_outline</i>
+            <input type="password" id="password-login"  class="validate">
+            <label for="password-login">Password</label>
+          </div>
+        </div>
+
+        <div class="row-submit-login">
+            <div style="margin-left: 20px; display: flex;" class="margin-top:40px" id="google-login">
+                <div style="margin-left: 10px !important;" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            <br>
+            <button class="btn-register  white-text btn-flat" type="submit" onclick="login(event)">Log In</button>
+          </div>
+            <br>
+           <p>don't have any account yet? Please proceed  <B>register</B>  instead</p> 
+      </form>
+    </div>
+  </div>
+  <!-- end login form  -->
+</div>
+
+</div>
+ 
+  <!-- END LOGIN PAGE -->
+
+
+
+
+  <!-- HOME PAGE -->
+  <div class="homepage" >
+
+   
+
+
+
+
+
+<!-- main skeleton -->
+
+<div class="container">
+
+<div class="form-add-show">
+
+  <div class="add-item">
+      <div class="row">
+        <div class="container">
+      <form id="addtodo" class="col s12">
+        <div class="row">
+          <div class="container">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">add_circle_outline</i>
+          <input id="add-todo" type="text" >
+          <label for="add-todo">Add to-do</label>
+          </div>
+          <button type="submit" class="hidden"></button>
+        </div>
+        </div>
+      </form>
+    </div>
+    </div>
+    </div>
+
+
+    <ul class="collection with-header">
+        <li class="collection-header"><p class="banner"><B>To-do List</B></p></li>
+     
+        <div class="alltodos">
+        
+      </div>
+      </ul>
+          
+</div>
+
+</div> 
+
+
+<!-- end main skeleton  -->
+
+
+
+
+
+
+
+</div>
+<!-- END HOME PAGE -->
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+            
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
+  <script src="main.js"></script>
+
+ 
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+body {
+  background-size: cover;
+  zoom: 90%;
+  
+}
+
+nav {
+    background-color:#11978ce7 !important ;
+}
+
+nav .brand-logo {
+  margin-left: 35px;
+  padding: 1px !important;
+}
+
+nav .next-icon {
+  size: 80px;
+}
+
+.register-text,
+h4 {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-register {
+  border-radius: 15px;
+  background-color: #11978ce7 !important;
+  margin-left: 5px;
+}
+
+.row-submit-register,
+.row-submit-login {
+  display: flex;
+  justify-content: center;
+}
+
+.right-section {
+  margin-right: 50px;
+}
+
+.login p {
+  display: flex;
+  justify-content: center;
+  font-size: 10px;
+  margin-top: 1px;
+}
+.hidden {
+  display: none;
+}
+
+.add-item {
+  justify-content: center;
+}
+
+.collection {
+  max-width: 50%;
+}
+
+.collection-header {
+  background-image: url(img/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  object-fit: fill;
+  object-position: 50% 50;
+}
+
+.banner {
+  color: aliceblue;
+}
+
+.collection.with-header {
+  margin: auto;
+}
+
+.add-todo {
+  width: 100%;
+}
+
+.banner {
+  font-size: 20px;
+  padding-top: 7%;
+  padding-bottom: 0% ;
+}
+
+.clickable {
+  cursor: pointer;
+}

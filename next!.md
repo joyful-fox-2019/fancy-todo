@@ -79,8 +79,8 @@ body :
 
 
 - **Success Response :**
-	- **code**  : 201
-	- **content example :**
+	**code**  : 201
+	**content example :**
 
 ```
  {
@@ -109,8 +109,8 @@ body :
 
 
 - **Success Response :**
-	- **code**  : 200
-	- **content example :**
+	**code**  : 200
+	**content example :**
 
 ```
  {
@@ -125,17 +125,17 @@ body :
 
 
 
-> Find All Todos per User by Id
+> Find All Todos per UserId
 
 - **URL**
-`http://localhost:3000/todo
+`http://localhost:3000/todo?userId`
 - **Method**
 `GET`
 - **Data Params :** none
 
 - **Success Response :**
-	- **code**  : 200
-	- **content example :**
+	**code**  : 200
+	**content example :**
 
 ```
  {
@@ -181,8 +181,8 @@ body :
 - **Data Params :** none
 
 - **Success Response :**
-	- **code**  : 200
-	- **content example :**
+	**code**  : 200
+	**content example :**
 
 ```
 {
@@ -219,8 +219,8 @@ body :
 
 
 - **Success Response :**
-	- **code**  : 201
-	- **content example :**
+	**code**  : 201
+	**content example :**
 
 ```
  {
@@ -244,8 +244,8 @@ body :
 - **Data Params :** none
 
 - **Success Response :**
-	- **code**  : 200
-	- **content example :**
+	**code**  : 200
+	**content example :**
 
 ```
 {
@@ -280,8 +280,8 @@ body :
 
 
 - **Success Response :**
-	- **code**  : 200
-	- **content example :**
+	**code**  : 200
+	**content example :**
 
 ```
  {
