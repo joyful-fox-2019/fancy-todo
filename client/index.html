@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- sdk google signin -->
     <meta name="google-signin-client_id" content="628697528399-tm5hqkb025uttnahfoj889flu2jg3hvm.apps.googleusercontent.com">
-    <title>Project week 1</title>
+    <title>Fancy Todo</title>
     <!-- ini bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -16,22 +16,38 @@
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=2518083844949332&autoLogAppEvents=1"></script>
     <link rel="stylesheet" href="./style.css">
+    <meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Your Website Title" />
+    <meta property="og:description"   content="Your description" />
+    <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
     <!-- ini untuk icon -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
 </head>
 <body>    
-    <nav class="navbar navbar-light bg-dark text-light">
-        <a class="navbar-brand " style="font-size: 300%;">Fancy Todo</a>
-        <form class="form-inline">
-            <a class="btn btn-outline-success my-2 my-sm-0" href="" onclick="signOut();"> Sign out </a>            
+    <nav class="navbar navbar-light bg-dark text-light" style="background-color: #FE5F55 !important;">
+        <a class="navbar-brand " style="font-size: 250%; font-family: 'Titillium Web', sans-serif;
+        ">Fancy Todo</a>
+        <form class="form-inline" >
+            <div class="d-flex justify-content-between">
+                <!-- ini login google -->
+                <div id="google" class="g-signin2 pl-3 mr-3" data-onsuccess="onSignIn"></div> 
+                <!-- ini login facebook -->
+                <div id="facebook"  data-scope="email, public_profile"
+                    onlogin="checkLoginState();"  class="fb-login-button container pt-1" data-size="medium" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>  
+                <div id="status"></div>   
+            </div> 
+            <a id="logout" style="display: none;" class="btn my-2 my-sm-0" href="" onclick="signOut();"> Sign out </a>            
         </form>
     </nav>
 
     <!-- fornt-page start -->
-    <div id="front-page">
-        <div style="width: 90%; margin:10px auto ;">
-            <div style="width: 50%; margin: 10px auto;">
-                <h4 class="display-4 text-center" style="padding-bottom: 10px;" >Get Start For Free</h4>
+    <div id="front-page" class="container">
+        <div style="width: 90%; margin:10px auto ;" class="row">
+            <div style="width: 50%; margin: 10px auto; background-color: #F0B67F;" class="border border-light rounded p-5">
+                <h4 class="display-4 text-center" style="padding-bottom: 10px; " >Get Start For Free</h4>
                 <form id="register" >
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
@@ -42,13 +58,13 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input id="password" type="password" class="form-control" required placeholder="Password">
                     </div>       
-                    <div class="form-inline" style="margin: 5px auto;">
-                        <button  type="submit" class="btn btn-secondary">Register</button> 
-                        <button id='to_login' class="btn btn-secondary ml-3">To login page</button>                       
-                    </div>                      
+                    <div class="form-inline pt-2" style="margin: 5px auto;">
+                        <button  type="submit" class="btn">Register</button> 
+                        <button id='to_login' class="btn  ml-3">To login page</button>                                                                   
+                    </div>                                          
                 </form>
 
-                <form id="login" >
+                <form id="login" style="display: none;">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
                         <input id="email_login" type="email" class="form-control" required aria-describedby="emailHelp" placeholder="Enter email">                        
@@ -58,24 +74,19 @@
                         <input id="password_login" type="password" class="form-control" required placeholder="Password">
                     </div>       
                     <div class="form-inline" style="margin: 5px auto;">
-                        <button  type="submit" class="btn btn-secondary">login</button>
-                        <!-- ini login google -->
-                    <div id="google" class="g-signin2 pl-3 mr-3" data-onsuccess="onSignIn"></div> 
-                    <!-- ini login facebook -->
-                    <div  data-scope="email, public_profile"
-                        onlogin="checkLoginState();"  class="fb-login-button" data-size="medium" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>  
-                        <div id="status"></div>
+                        <button  type="submit" class="btn ">Sign in</button> 
+                        <button id='to_register' class="btn  ml-3">To Register page</button>      
                     </div>   
                 </form>
             </div>  
-             
+                 
          </div> 
     </div> 
 
     <!-- front-page end -->
 
     <!-- main-page start-->
-    <div id="main-page" >
+    <div id="main-page" style="display: none;" >
         <section>
             <div class="container ">
                 <div class="row">
@@ -134,7 +145,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Todays Activity</h5>
                                         <p class="card-text">It seems that you have no activity, do you want to add new todo list ?</p>
-                                        <button class="btn btn-secondary" id="add-button">
+                                        <button class="btn " id="add-button">
                                             <i class="glyphicon glyphicon-plus-sign"  ></i>
                                             Add Activity</button>
                                     </div>
@@ -154,8 +165,8 @@
                                                 <input type="time" class="form-control" required id="input_time" placeholder="input time">
                                             </div>                                
                                             <div class="col-auto my-1 pl-3 pt-0 pb-0">
-                                                <button type="submit" class="btn btn-secondary">Add</button>
-                                                <button class="btn btn-secondary">Cencel</button>
+                                                <button type="submit" class="btn ">Add</button>
+                                                <button class="btn ">Cencel</button>
                                             </div>
                                         </div>
                                     </form>

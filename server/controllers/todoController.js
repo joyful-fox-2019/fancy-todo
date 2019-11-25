@@ -1,9 +1,5 @@
 `use strict`
 const Todo = require('../models/todo')
-const comparePassword = require('../helpers/comparePassword')
-const generateToken = require('../helpers/generateToken')
-const verifyJwt = require('../helpers/verifyJwt')
-const User = require('../models/user')
 const moment = require('moment')
 
 class todoController{

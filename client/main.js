@@ -1,18 +1,14 @@
 $(document).ready( () => {
-    //$('#front-page').hide()
-    if(localStorage.getItem('token')){
-        $('#main-page').show()
-        $('#register').hide()    
-        $('#front-page').hide()
-        $('#login').hide() 
-    }  
-    $('#register').show()    
-    $('#main-page').hide()
-    $('#login').hide() 
+    ceckStatus()         
     $('#to_login').click(function(event) {
         event.preventDefault()
         $('#register').hide() 
         $('#login').show() 
+    })
+    $('#to_register').click(function(event) {
+        event.preventDefault()
+        $('#register').show() 
+        $('#login').hide() 
     })
     $('#empty-todo').hide()   
     $('#register').submit( event => {
@@ -62,8 +58,7 @@ $(document).ready( () => {
                 'success'
               )
             localStorage.setItem("token", data.token)
-            $('#main-page').show()
-            $('#front-page').hide()  
+            ceckStatus()   
         })
         .fail( err => {
             Swal.fire({
@@ -576,8 +571,7 @@ function onSignIn(googleUser) {
     })
     .done( data => {
         localStorage.setItem("token", data.token)
-        $('#main-page').show()
-        $('#front-page').hide()
+        ceckStatus()    
     })
     .done (function() {
         viewTodoToday()
@@ -589,10 +583,7 @@ function onSignIn(googleUser) {
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-        $('#register').show()    
-        $('#front-page').show()  
-        $('#main-page').hide()
-        $('#login').hide() 
+        ceckStatus()   
         localStorage.removeItem("token")
     console.log('User signed out.');
     });
@@ -623,10 +614,8 @@ function statusChangeCallback(response) {
                 }
             })
             .done( data => {
-                localStorage.setItem("token", data.token)
-                
-                $('#main-page').show()
-                $('#front-page').hide()
+                localStorage.setItem("token", data.token)                
+                ceckStatus()    
             })
             .done (function() {
                 viewTodoToday()
@@ -657,4 +646,19 @@ window.fbAsyncInit = function() {
    fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'facebook-jssdk'));
 
- 
+ function ceckStatus() {
+    if(localStorage.getItem('token')){
+        $('#main-page').show()
+        // $('#register').hide()    
+        $('#front-page').hide()
+        // $('#login').hide()
+        $('#logout').show() 
+        $('#google').hide()
+        $('#facebook').hide()
+    } else {
+        $('#register').show()
+        $('#logout').hide()
+        $('#google').show()
+        $('#facebook').show()       
+    } 
+ }

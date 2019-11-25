@@ -4,8 +4,7 @@ const comparePassword = require('../helpers/comparePassword')
 const generateToken = require('../helpers/generateToken')
 
 
-class userController{
-    
+class userController{    
     static register(req, res, next) {
         User.create({
             email : req.body.email,
