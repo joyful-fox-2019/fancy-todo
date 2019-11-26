@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="163019021233-i4ddev11u6284in4j8tgepkbar2ghsr7.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="./style/style.css">
+  <title>Fancy To Do</title>
+</head>
+<body>
+  <div>
+    <div class="landingpage" style="margin-top: 20px;">
+      <div class="loginpage" >
+        <div class="ui middle aligned center aligned grid">
+            <div class="six wide column">
+              <div style="background-color:#00b5ad; width: 500px; height: 500px; border-radius: 50%;">
+                <img src="./src/logo.png" alt="" style="width: 300px; height: 300px; margin-top: 18vh;;">
+              </div>
+            </div>
+          <div class="six wide column">
+            <h2 class="ui image header">
+              <div class="content">
+                Log-in to your Fancy To Do
+              </div>
+            </h2>
+            <form action="" method="get" class="ui large form">
+              <div class="ui stacked secondary  segment">
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="mail icon"></i>
+                    <input type="text" name="email" placeholder="Fitra@gmail.com" id="loginmail">
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" placeholder="Password" id="loginpassword">
+                  </div>
+                </div>
+                <div class="ui fluid large teal submit button" id="btn-login">Login</div>
+              </div>
+        
+              <div class="ui error message"></div>
+        
+            </form>
+            
+            <div class="ui message">
+              Dont Have An Account? Please <a href="#" id="toRegister">Register</a>
+              <br>
+              Or Sign in With
+              <div style="padding-left: 140pt;">
+                  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  
+
+      <div class="registerpage" style="display: none;">
+      <div class="ui middle aligned center aligned grid" >
+          <div class="six wide column">
+            <div style="background-color:#00b5ad; width: 500px; height: 500px; border-radius: 50%;">
+              <img src="./src/logo.png" alt="" style="width: 300px; height: 300px; margin-top: 18vh;;">
+            </div>
+          </div>
+          <div class="six wide column">
+            <h2 class="ui image header">
+              <div class="content">
+                Register to your Fancy To Do
+              </div>
+            </h2>
+            <form action="" method="get" class="ui large form">
+              <div class="ui stacked secondary  segment">
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input type="text" name="username" placeholder="akbfitra" id="regisname">
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="mail icon"></i>
+                    <input type="text" name="email" placeholder="Fitra@gmail.com" id="regismail">
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" placeholder="Password" id="regispassword">
+                  </div>
+                </div>
+                <div class="ui fluid large teal submit button" id="btn-register">Register</div>
+              </div>
+            </form>
+        
+            <div class="ui message">
+              Already Have Account? Please <a href="#" id="toLogin">Login</a>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+    
+    <div class="mainpage">
+
+      <!-- navbar-----------  -->
+      <div id="navbar">
+        <div class="ui container">
+          <div class="ui grey fixed inverted menu">
+            <a href="#" class="header item">
+              <img class="logo" src="./src/logo.png">
+              Fancy Todo
+            </a>
+            <a href="#" class="item">Home</a>
+            <div class="right menu">
+              <div class="item">
+                <div class="ui icon input">
+                  <input type="text" placeholder="Search...">
+                  <i class="search link icon"></i>
+                </div>
+              </div>
+              <div class="item usertoken">
+
+              </div>
+              <a class="ui item" onclick="signOut()">
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- body todo page -->
+
+      <div id="bodytodopage" style="margin-top: 100px; margin-left: 10px; margin-right: 10px;">
+        <div class="ui three column divided grid">
+            <div class="stretched row">
+              <div class="column">
+                <div class="ui segment">
+                  <h1 class="yourtodolist">List Your To Do</h1>
+                  <button class="addtodo ui primary basic button" id="showmodal">
+                    <i class="icon mail"></i>
+                    Add Todo
+                  </button>
+                  <!-- modal form todo -->
+                  <div class="ui small modal test">
+                    <div class="ui middle aligned center aligned grid">
+                      <div class="column">
+                        <h2 class="ui blue image header">
+                          <div class="content">
+                            Add To Do List
+                          </div>
+                        </h2>
+                        <form class="ui mini form">
+                          <div class="ui segment">
+                            <div class="field">
+                              <label>Title</label>
+                              <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="title" placeholder="berenang" id="titletodo">
+                              </div>
+                            </div>
+                            <div class="field">
+                              <label>Description</label>
+                              <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="description" placeholder="berenang bersama teman teman" id="descriptiontodo">
+                              </div>
+                            </div>
+                            <div class="field">
+                              <label>Due date</label>
+                              <div class="ui calendar" id="duedate">
+                                <div class="ui input left icon">
+                                  <i class="calendar icon"></i>
+                                  <input type="text" placeholder="Date" id="duedatetodo">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="actions">
+                              <div class="ui positive labeled icon button" id="btn-add-todo">
+                                Yep, Add To Do <i class="checkmark icon"></i>
+                              </div>
+                              <div class="ui black deny button">
+                                  cancel
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal form todo -->
+
+                  <div id="todolist">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui segment">
+                  <h1 class="yourtodolist">List Your Project</h1>
+                  <button class="addtodo ui teal basic button" onclick="createproject()">
+                    <i class="icon mail"></i>
+                    Create Project
+                  </button>
+
+                  <div id="projectlist"></div>
+                </div>
+                
+              </div>
+              <div class="column">
+                <div class="ui segment">
+                  <h1 class="yourtodolist">List Project To Do</h1>
+                  <div id="btn-add-todo-project"></div>
+                  <div id="todolistproject"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- tutup mainpage -->
+    </div>
+    <!-- tutup mainpage -->
+      
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+  <script src="semantic/dist/semantic.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="./script/script.js"></script>
+  <script src="./script/landingpage.js"></script>
+  <script src="./script/login.js"></script>
+  <script src="./script/todolist.js"></script>
+  <script src="./script/project.js"></script>
+</body>
+</html>
+
+
