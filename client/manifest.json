@@ -1,0 +1,16 @@
+{
+  "name": "FancyTodo",
+  "short_name": "FancyTodo",
+  "theme_color": "#F3F3F3",
+  "background_color": "#F3F3F3",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
