@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta
+    name="google-signin-client_id"
+    content="73466446457-o33l3k8s3dpakj1ekpsiuf6c0ibqonf1.apps.googleusercontent.com">
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+    crossorigin="anonymous">
+  <link 
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>fancy-todo</title>
+</head>
+<body>
+  <div id="nav-section">
+    <nav class="navbar navbar-inverse navbar-global navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Fancy ToDo</a>
+          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newTodoModal"><i class="fas fa-plus-square"></i> Create Todo</button>
+        </div>
+        <div class="row">
+          <div id="username" class="nav-item mx-4" style="color: white; cursor: pointer;"></div>
+          <div class="nav-item mr-2" style="color: white; cursor: pointer;" onclick="signOut(event)">
+            <a><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="newTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="addTodo(event)">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" id="name-todo" placeholder="Input title">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" class="form-control" id="desc-todo" placeholder="Input description">
+            </div>
+            <div class="form-group">
+              <label>Due Date</label>
+              <input type="date" class="form-control" id="duedate-todo">
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="login-page" class="mt-5" style="text-align: center;">
+    <div class="container-fluid loginbg">
+      <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-12 login-box">
+        <div>
+          <p class="login-title text-center">Login to Todo Web App</p>
+        </div>
+        <div class="login-third-party-login">
+          <p class="login-button-info-text login-info-text text-center">EASILY USING</p>
+          <div class="login-button-container container-fluid">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <button class="login-facebook login-button">
+                  <span class="header-sprite login-fb-logo"></span>
+                  <!-- react-text: 78 -->FACEBOOK<!-- /react-text -->
+              </button>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <button class="login-google login-button customGPlusSignIn" id="gPlusLogin">
+                  <span class="header-sprite login-gplus-logo"></span>
+                    <!-- react-text: 81 -->GOOGLE<!-- /react-text -->
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="login-info-text text-center">- OR USING EMAIL -</p>
+        <form class="login-login-form" onsubmit="login(event)">
+          <fieldset class="login-input-container">
+            <div class="login-input-item">
+              <input id="email-login" type="email" class="login-user-input-email login-user-input" placeholder="Your Email Address">
+            </div>
+            <div class="login-input-item">
+              <input id="pass-login" type="password" class="login-user-input-password login-user-input" placeholder="Enter Password">
+            </div>
+          </fieldset>
+          <fieldset class="login-login-button-container">
+            <button class="login-login-button">Log in</button>
+          </fieldset>
+        </form>
+        <div class="login-link-container">
+          <div class="login-right-links">
+            <span class="login-info-text">New to Todos?</span>
+            <a id="linkToRegister" class="login-create-account-link login-link" href="#">Create Account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="register-page" style="text-align: center; margin-top: 100px;">
+    <div class="container-fluid loginbg">
+      <div class="col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-12 login-box">
+        <div>
+          <p class="login-title text-center">Sign up, it’s free</p>
+        </div>
+        <div class="form">
+          <form onsubmit="register(event)">
+            <div class="field">
+              <label for="name"> Name</label>
+              <input type="text" id="name-register" placeholder="Your name"/>
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input type="email" id="email-register" placeholder="Email address"/>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input type="password" id="pass-register" placeholder="Your password"/>
+            </div>
+            <div class="field mb-4">
+              <label for="rpassword">Repeat Password</label>
+              <input type="password" id="rpassword" placeholder="Enter your password again"/>
+            </div>
+            <button>Sign Up</button>
+          </form>
+        </div>
+        <div class="login-link-container">
+          <div class="login-right-links">
+            <span class="login-info-text">Already have account?</span>
+            <a id="linkToLogin" class="login-create-account-link login-link" href="#">Log in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-page" class="main mt-3">
+    <main>
+      <h1>My ToDo List</h1>
+    </main>
+    <ul id="todo-list" class="mt-3">
+    </ul>
+  </div>
+
+
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous">
+  </script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous">
+  </script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous">
+  </script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="scripts/navigation.js"></script>
+  <script src="scripts/data.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
