@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="google-signin-client_id" content="910242603213-655i85vj0orm2aatricugv7kjm22789v.apps.googleusercontent.com">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- login -->
+  <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+
+  <!-- Link Pendukung -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/menuUtama.css">
+  <link rel="stylesheet" href="css/project.css">
+  <link rel="stylesheet" href="css/todo.css">
+
+  <title>PROCOL</title>
+</head>
+<body>
+  <div id="notlogin">
+    <!-- login & register -->
+    <div class="wrap_bg">
+      <div id="main" class="login_wrap singUpActive">
+        <div class="login_question_wrap">
+          <div class="question_singUp ">
+            <h2 class="title">Don't have an account?</h2>
+            <p>
+              Create here and make your own todo or colaborating with others
+            </p>
+            <a href="javascript:void(0)" id="signUpBtn" class="btn btn_rounded">Sing up</a>
+          </div>
+          <div class="question_login ">
+            <h2 class="title">Have an account?</h2>
+            <p>
+              Let's login here and init -(y)our live
+            </p>
+            <a href="javascript:void(0)" id="loginBtn" class="btn btn_rounded">Log in</a>
+          </div>
+          <div class="action_singUp">
+            <form id="form-signup">
+              <fieldset>
+                <legend class="title">Sing Up</legend>
+                <div class="input_block">
+                  <div class="input_wrap">
+                    <input type="text" id="sing_name" class="input" placeholder="Full Name">
+                    <!-- <label for="sing_name" class="label_name"></label> -->
+                  </div>
+                  <div class="input_wrap">
+                    <input type="text" id="sing_email" class="input" placeholder="Email">
+                    <!-- <label for="sing_email" class="label_mail"></label> -->
+                  </div>
+                  <div class="input_wrap">
+                    <input type="password" id="sing_pass" class="input" placeholder="Password">
+                    <!-- <label for="sing_pass" class="label_pass"></label> -->
+                  </div>
+                </div>
+                <div class="row center">
+                  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                  <input type="submit" value="Sing Up" class="btn btn_red">
+                </div>
+              </fieldset>
+            </form>
+          </div>
+            <div class="action_login">
+              <form id="form-login">
+                <fieldset>
+                  <legend class="title">Log in</legend>
+                  <div class="input_block">
+                    <div class="input_wrap">
+                      <input type="text" id="mail" class="input" placeholder="Email">
+                      <!-- <label for="sing_pass" class="label_mail"></label> -->
+                    </div>
+                    <div class="input_wrap">
+                      <input type="password" id="pass" class="input" placeholder="Password">
+                      <!-- <label for="sing_pass" class="label_pass"></label> -->
+                    </div>
+                  </div>
+                  <div class="row center">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <input type="submit" value="Login" class="btn btn_red">
+                  </div>
+                  <!-- <a href="#" class="forgotPass">Forgot password?</a> -->
+                </fieldset>
+              </form>
+            </div>
+          </div>
+          <div class="login_action_wrap ">
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="donelogin">
+    <!-- menu utama -->
+    <main>
+      <aside class="left-side hidden hideNav col">
+        <div class="logo">
+          <img src="./img/logo.png" alt="PROCOL" id="logo">
+        </div>
+
+        <div class="mt-5">
+          <h1 class="left-title">
+            Project List:
+          </h1>
+        </div>
+
+        <!-- list project -->
+        <div id="listproject">
+          
+        </div>
+        
+      </aside>
+      <aside class="right-side col">
+        <div class="links-con row">
+          <div id="addButton">
+              <!-- addButton -->
+          </div>
+          <button class="nav" onclick="todoList()">Home</button>
+          <button class="nav" id="logout">Logout</button>
+        </div>
+        <div class="row card-list">
+          <div class="card-todo col-6">
+            <h1>On Progress</h1>
+            <ul id="ulOnProgress">
+              <!-- list todo on progress -->
+            </ul>
+          </div>
+          <div class="card-todo col-6">
+            <h1>Done</h1>
+            <ul id="ulDone">
+              <!-- list todo done -->
+            </ul>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Trigger the modal add to do text -->
+    <!-- Modal -->
+    <div id="addTodoModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add To Do</h4>
+          </div>
+          <div class="modal-body" id="addTodoForm">
+            <form id="addtodotext" style="text-align: center">
+              <div class="mt-4">
+                <input type="text" id="title" class="form-control" placeholder="Title">
+              </div>
+              <div class="mt-4">
+                <textarea form="addtodotext" id="description" placeholder="Description"></textarea>
+              </div>
+              <div class="mt-4">
+                <label>
+                  Due Date: 
+                <input type="date" id="duedate">
+                </label>
+              </div>
+              <hr>
+              <div class="mt-4" id="submitTodo">
+                <!-- button submit -->
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Trigger the modal add to do text -->
+  <!-- -------------------------------- -->
+
+  <!-- Trigger the modal add to do text -->
+  <!-- Modal -->
+  <div id="detailTodoModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Detail To Do</h4>
+          </div>
+          <div class="modal-body" id="detailTodoData">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Trigger the modal detail to do text -->
+  <!-- -------------------------------- -->
+
+  <!-- Trigger the modal add project -->
+  <!-- Modal -->
+  <div id="projectModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add Project</h4>
+          </div>
+          <div class="modal-body" id="projectForm">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- Trigger the modal add project -->
+  <!-- -------------------------------- -->
+
+  <!-- Script -->  
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="script/main.js"></script>
+  <script src="script/login.js"></script>
+  <script src="script/todo.js"></script>
+  <script src="script/project.js"></script>
+  <!-- <script src="script/function.js"></script> -->
+
+</body>
+</html>
