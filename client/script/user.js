@@ -1,5 +1,5 @@
-// const host = `http://localhost:3000`
-const host = `https://sap-todo-api.sigitariprasetyo.xyz`
+const host = `http://localhost:3000`
+// const host = `https://sap-todo-api.sigitariprasetyo.xyz`
 
 
 $(document).ready(function () {
@@ -212,15 +212,15 @@ function onSignIn(googleUser) {
 function signOut() {
   const auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
-    localStorage.removeItem('token')
-    localStorage.removeItem('username')
-    $('.tbody').empty()
-    $('.listToday').empty()
-    $('.userLog').empty()
-    $('#email').val('')
-    $('#password').val('')
-    isAuth()
   });
+  localStorage.removeItem('token')
+  localStorage.removeItem('username')
+  $('.tbody').empty()
+  $('.listToday').empty()
+  $('.userLog').empty()
+  $('#email').val('')
+  $('#password').val('')
+  isAuth()
   Swal.fire({
     type: 'success',
     title: 'Sign out successfully',
