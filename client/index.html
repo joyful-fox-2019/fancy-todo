@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todoism</title>
+  <meta name="google-signin-client_id" content="5002843329-bmi2gqhk468ddeqasm7smj8n6p280t6u.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light px-5 mt-5">
+    <a class="navbar-brand pl-5" href="" onclick="redirectToHome(event)">Todoism</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse px-5" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li id="register" class="nav-item">
+          <a class="nav-link mx-3" href="" onclick="displayRegistrationForm(event)">Register</a>
+        </li>
+        <li id="sign-in" class="nav-item">
+          <a class="nav-link mx-3" href="" onclick="displaySignInForm(event)">Sign in</a>
+        </li>
+        <li id="sign-out" class="nav-item">
+          <a class="nav-link" href="" onclick="signOut(event)">Sign out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  
+  <!-- Registration Form -->
+
+  <div id="registration-form" class="regis-signin-form">
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+
+        <form>
+          <div class="col">
+            <input type="text" class="form-control" id="register-name" placeholder="Name" name="name" required>
+          </div>
+
+          <div class="col">
+            <input type="text" class="form-control" id="register-email" placeholder="Email" name="email" required>
+          </div>
+
+          <div class="col">
+            <input type="password" class="form-control" id="register-password" placeholder="Password" name="password"
+            required>
+          </div>
+          
+          <div class="submit-button">
+            <button type="submit" class="inside btn-dark btn" onclick="register(event)">Register</button>
+            <br>
+          </div>
+          
+          <div id="g-signin-div">
+            <p>Or sign in using your Google Account:</p>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+          
+        </form>
+
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sign In Form -->
+  
+  <div id="signin-form" class="regis-signin-form">
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        
+        <form>
+          <div class="col">
+            <input type="text" class="form-control" id="signin-email" placeholder="Email" name="email" required>
+          </div>
+          
+          <div class="col">
+            <input type="password" class="form-control" id="signin-password" placeholder="Password" name="password"
+            required>
+          </div>
+
+          <div class="submit-button">
+            <button type="submit" class="inside btn-dark btn" onclick="signin(event)">Sign in</button>
+            <br>
+          </div>
+          
+          <div id="g-signin-div">
+            <p>Or sign in using your Google Account:</p>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+          
+        </form>
+
+      </div>
+    </div>
+  </div>
+  
+  <!-- Barrier -->
+
+  <div class="barrier m-5"></div>
+
+  <!-- Add a Todo Item -->
+  <div id="todo-input" class="container pb-2">
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header bg-dark" id="headingOne">
+          <h5 class="text-center mb-0">
+            <button class=" btn btn-link text-white" data-toggle="collapse" data-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+              Add a new task
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            <form>
+
+              <div class="col my-3">
+                <input type="text" class="text-center form-control" id="todo-add-title" placeholder="Title" required>
+              </div>
+
+              <div class="col my-3">
+                <input type="text" class="text-center form-control" id="todo-add-description" placeholder="Description"
+                  required>
+              </div>
+
+              <div class="row d-flex justify-content-center">
+                <div id="date-form" class="col-md-3 mx-3">
+                  <input id="datepicker" class="text-center" placeholder="Due date" />
+                </div>
+              </div>
+
+              <div class=" text-center submit-button mt-4 mb-3">
+                <button type="submit" class="inside btn-dark btn" onclick="createTodo(event)">Submit</button>
+                <br>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit a todo item -->
+
+  <div id="todo-input-update" class="container pb-2"></div>
+
+  <!-- Barrier -->
+
+  <div class="barrier m-5"></div>
+
+  <!-- Todo Items -->
+  <div id="todo-container" class="container pb-2">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="text-center">#</th>
+          <th scope="col" class="text-center font-weight-normal">Title</th>
+          <th scope="col" class="text-center font-weight-normal">Description</th>
+          <th scope="col" class="text-center font-weight-normal">Due Date</th>
+          <th scope="col" class="text-center font-weight-normal">Completed</th>
+          <th scope="col" class="text-center font-weight-normal">Options</th>
+        </tr>
+      </thead>
+      <tbody id="todo-items">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Barrier -->
+
+  <div class="barrier m-5"></div>
+
+  <script>
+    $('#datepicker').datepicker({
+      uiLibrary: 'bootstrap4'
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
