@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" href="src/todo.png">
+  <meta name="google-signin-client_id" content="201927191650-ftsniddfcq1nh3ij9t4srjbvaop19cgv.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Special+Elite&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="style/style.css">
+  <title>Fancy-Todo</title>
+</head>
+<body style="font-family: 'Montserrat', sans-serif;margin-bottom: 0">
+  <section>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="navbar-brand"
+        style="cursor: pointer; color: white;font-family: 'Special Elite', cursive;font-size: 35px;margin: 0 50px -10px;" onclick="showToday()">
+        Fancy-Todo <img src="./src/todo.png" style="width: 70px; height: 30px;margin-bottom: 15px;"></div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        <div class="userLog " style="color: white; margin-top: 10px;"></div>
+        <div class="dropdown ml-3 mr-2">
+          <button class="btn btn-sm btn-outline-danger dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item changeName" type="button" onclick="changeName()">Change Your Name</button>
+            <button type="button" class="signOut dropdown-item btn btn-outline-danger" style="margin: auto;" onclick="signOut()"><i class="fas fa-sign-out-alt"> Sign Out</i></button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </section>
+
+  <section class="login">
+    <div class="container" style="height: 50vh; width: 45%;">
+      <div class="card text-center shadow rounded" style="margin-top: 7rem; padding: 3rem 0;">
+        <h2 style="margin-bottom: 3rem;font-family: 'Special Elite', cursive;">Sign In</h2>
+        <form id="formLogin">
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-6">
+              <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-6">
+              <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-4">
+              <button type="submit" id="login" class="login btn btn-block btn-primary" style=" margin:auto"><i class="fas fa-sign-in-alt" style="margin-right: 10px"></i>Sign in</button>
+            </div>
+          </div>
+          <br>
+          <div class="form-group row justify-content-center">
+            <div>
+              <p class="small">Have Google acount?</p>
+              <div style="margin-left: 7px;">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="form-group row justify-content-center">
+          <div>
+            <p class="small">OR</p>
+            <button class="btn btn-outline-primary" style="margin: auto" onclick="signUpForm()">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="register">
+    <div class="container" style="height: 50vh; width: 45%;">
+      <div class="card text-center shadow rounded" style="margin-top: 7rem; padding: 3rem 0;">
+        <h2 style="margin-bottom: 3rem;font-family: 'Special Elite', cursive;">Sign Up</h2>
+        <form id="formRegister">
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="usernameRegis" placeholder="Username">
+            </div>
+          </div>
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-6">
+              <input type="email" class="form-control" id="emailRegis" placeholder="Email">
+            </div>
+          </div>
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-6">
+              <input type="password" class="form-control" id="passwordRegis" placeholder="Password">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row justify-content-center">
+            <div class="col-sm-4">
+              <button type="submit" id="register" class="btn btn-block btn-primary"><i class="fas fa-user" style="margin-right: 10px;"></i> Create Account</button>
+            </div>
+          </div><br>
+          <div class="form-group row justify-content-center">
+            <div>
+              <p class="small">Have Google acount?</p>
+              <div style="margin-left: 7px;">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="form-group row justify-content-center">
+          <div>
+            <p class="small">OR</p>
+            <button class="btn btn-outline-primary" onclick="signInForm()">Sign In</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home" style="margin: 30px 5%">
+    <div class="row" style="overflow: hidden;">
+      <div class="col-sm-4">
+        <div class="card shadow rounded" style="min-height: 79.4vh;max-height: 79.4vh;overflow-y: scroll;">
+          <div class="card-body">
+            <div class="search form-inline my-1 mr-sm-0">
+              <button class="btn btn-outline-primary ml-2 my-sm-2" style="width: 100%" type="submit" onclick="createProject()"><i class="fas fa-plus-circle"></i> Create Project</button>
+            </div><br>
+            <div class="form-inline">
+              <h4 style="font-family: 'Special Elite', cursive;">List Project</h4>
+            </div>
+            <hr>
+            <div class="project"></div>
+            <div class="noDataProject"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-8 todoUser">
+        <div class="card shadow rounded" style="min-height: 79.4vh;max-height: 79.4vh;overflow-y: scroll;">
+          <div class="card-body">
+            <div class="search form-inline my-1 mr-sm-0">
+              <input class="form-control ml-sm-0" id="search" type="search" placeholder="Search by title" aria-label="Search" required>
+              <button class="btn btn-outline-primary ml-2 my-sm-2" onclick="searchTodoUser()"><i class="fas fa-search"></i></button>
+              <button class="btn btn-outline-primary ml-2 my-sm-2" type="submit" onclick="addTodo()"><i class="fas fa-plus-circle"></i> Add TODO</button>
+              <button class="btn btn-outline-primary ml-2 my-sm-2" type="submit" onclick="getAllTodos()"><i class="fas fa-list"></i> All</button>
+            </div><br>
+            <table class="table table-striped">
+              <div class="title"></div>
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Due Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody class="listTodo"></tbody>
+            </table>
+            <div class="noData"></div>
+          </div><hr>
+          <div class="status ml-3">
+            <p><span class="btn btn-success"></span> Done</p>
+            <p><span class="btn btn-warning"></span> Pending</p>
+          </div>  
+        </div>
+      </div>
+
+      <div class="col-sm-8 projectDetail">
+        <div class="card shadow rounded" style="min-height: 79.4vh;max-height: 79.4vh;overflow-y: scroll;">
+          <div class="card-body">
+            
+            <div class="projectName"></div>
+            
+            <table class="table table-striped">
+              <div>
+                <h5 style="font-family: 'Special Elite', cursive;">List Project Members's</h5>
+              </div>
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody class="listMember"></tbody>
+            </table><br>
+            <div class="search form-inline my-1 mr-sm-0">
+              <input class="form-control ml-sm-0" id="searchTodoProject" type="search" placeholder="Search by title" aria-label="Search"
+                required>
+              <button class="btn btn-outline-primary ml-2 my-sm-2" onclick="searchTodo()"><i class="fas fa-search"></i></button>
+              <button class="btn btn-outline-primary ml-2 my-sm-2" type="submit" onclick="addTodoProject()"><i
+                  class="fas fa-plus-circle"></i> Add TODO Project</button>
+            </div><br>
+            <table class="table table-striped">
+              <div><h5 style="font-family: 'Special Elite', cursive;">List Project TODO's</h5></div>
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Due Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody class="todoProject"></tbody>
+            </table>
+            <div class="noData"></div>
+          </div>
+          <hr>
+          <div class="status ml-3">
+            <p><span class="btn btn-success"></span> Done</p>
+            <p><span class="btn btn-warning"></span> Pending</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="bg-dark footer" style="text-align:center !important;color: white;padding: 5px;">
+    <p style="margin: 5px;padding: 3px;">@portofolio | Fancy-Todo | Sigit Ari Prasetyo</p>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/795a62140a.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+  <script src="./script/user.js"></script>
+  <script src="./script/todo.js"></script>
+  <script src="./script/project.js"></script>
+</body>
+</html>
