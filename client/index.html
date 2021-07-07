@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="363312962120-8816i0cd9scie6fhe1f2u36kn1aq8pn2.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./helpers/toast/jquery.toast.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link href="bootstrap/js/bootstrap-modal.js" rel="stylesheet" media="screen">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <div id="navbar">
+        <ul>
+          <li>
+              <a href="#" onclick="showMainPage()">
+                  <i class="fa fa-home"> Fancy Todo</i>
+              </a>
+          </li>
+          <li>
+              <a href="#" onclick="showAddTodo()">
+                  <i class="fa fa-plus-square"> Add Todo</i>
+              </a>
+          </li>
+          <li>
+              <a href="#" onclick="signOut()">
+                  <span class="glyphicon glyphicon-log-out"></span> Log out
+                </a>
+          </li>
+          </ul> 
+    </div>
+    <!-- ============================================================== -->
+    <div id="add-todo" style="width: 80%; margin: auto;">
+      <br>
+      <br>
+        <form id="add-todo">
+            <div class="form-group">
+              <label>To Do Title</label>
+              <input type="text" class="form-control" id="todo-name" placeholder="Enter your to do">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" id="todo-description" placeholder="Describe your to do" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" class="form-control" id="todo-dueDate" "></input>
+            </div>
+            <button onclick="addTodo()" type="submit" class="btn btn-primary" >Add Todo</button>
+          </form>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <div id="login-page">
+            <div class="login-wrap">
+                    <div class="login-html">
+                      <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+                      <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                      <div class="login-form">
+                        <div class="sign-in-htm">
+                            <form id="login">
+                              <div class="group">
+                                <label for="user" class="label">Email</label>
+                                <input id="email-login" type="email" class="input">
+                              </div>
+                              <div class="group">
+                                <label for="pass" class="label">Password</label>
+                                <input id="pass-login" type="password" class="input" data-type="password">
+                              </div>
+                              <div class="group">
+                                <input id="check" type="checkbox" class="check" checked>
+                                <label for="check"><span class="icon"></span> Keep me Signed in</label>
+                              </div>
+                              <div class="group">
+                                <input type="submit" class="button"  value="Sign In">
+                              </div>
+                            </form>
+                            <div class="lg-google">
+                            <div data-onsuccess="onSuccess"  id="my-signin2"></div>
+                            </div>
+                          <div class="hr"></div>
+                          <div class="foot-lnk">
+                            <a href="#forgot">Forgot Password?</a>
+                          </div>
+                        </div>
+                        <div class="sign-up-htm">
+                          <form id="register">
+                              <div class="group">
+                                  <label for="user" class="label">Name</label>
+                                  <input id="name" type="text" class="input">
+                                </div>
+                                <div class="group">
+                                  <label for="pass" class="label">Password</label>
+                                  <input id="pass-signup" type="password" class="input" data-type="password">
+                                </div>
+                                <div class="group">
+                                  <label for="email" class="label">Email Address</label>
+                                  <input id="email-signup" type="email" class="input">
+                                </div>
+                                <div class="group">
+                                  <button type="submit" class="button"><a href="#" >Sign Up</a></button>
+                                </div>      
+                          </form>
+                          <div class="hr"></div>
+                          <div class="foot-lnk">
+                            <label for="tab-1">Already Member?</a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+    </div>
+
+    <!-- =========================================================== -->
+    <div id="main-page">
+      <br>
+      <br>
+      <h1 style="text-align: center;">Your Todo List...</h1>
+      <div id="random-quotes" style="text-align: center;">
+        <p>as</p>
+      </div>
+      <div id="showAll" class="card-deck" style="margin: 50px">
+      </div>
+    </div>
+    <!-- =========================================================== -->
+
+
+
+    <!-- ====================================================== -->
+
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+     <script
+     src="https://code.jquery.com/jquery-3.4.1.min.js"
+     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+     crossorigin="anonymous"></script>
+     <script src="./helpers/toast/jquery.toast.min.js"></script>
+     <script src="./js/main.js"></script>
+     <script src="./js/login.js"></script>
+     <script src="./js/todo.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+ 
+     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+</body>
+</html>
