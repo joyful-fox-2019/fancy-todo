@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="351795021046-ssq7jdnlnbmjhdjndkcjc5edpphrol5e.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md sticky-top">
+        <a class="navbar-brand" href="#">Fancy Todo</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb" aria-expanded="true">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse hide">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item logged-out">
+                    <a class="nav-link" href="#" onclick="showRegisterForm()">Sign Up</a>
+                </li>
+                <li class="nav-item logged-out">
+                    <a class="nav-link" href="#" onclick="showLoginForm()">Login</a>
+                </li>
+                </li>
+                <li class="nav-item logged-in">
+                    <a class="nav-link" href="#" onclick="signOut()" id="log-out-button">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="alert alert-warning alert-dismissible fade show error-message" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <section class="container logged-out sign-form">
+        <div class="row p-2 animated slideInDown fadeOutUp register">
+            <div class="col-sm-6 p-5 register-form">
+                <section class="main">  
+                    <form method="POST" id="register-form" class="animated slideInDown">
+                        <fieldset class="forms">
+                            <legend>Register</legend>
+                            <div class="field-wrapper">
+                                <label>Name</label>
+                                <input type="text" value="" placeholder="Angela" id="inputName" name="name"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Email</label>
+                                <input type="text" value="" placeholder="angela@mail.com" id="inputEmail" name="email"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Password</label>
+                                <input type="password" value="" placeholder="password" id="inputPassword" name="password"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Confirm Password</label>
+                                <input type="password" value="" placeholder="confirm password" id="inputConfirmPassword"/>
+                            </div>
+                            <button class="btn-box"><span>Register</span></button>
+                        </fieldset>
+                    </form>
+                </section>
+            </div>
+            <div class="col-sm-6 p-5 d-flex flex-column justify-content-center align-items-center">
+                <h3>Already have an account?</h3>
+                <button id="login-now" class="btn-box btn-box-dark btn-size">
+                    <span>Login now</span>
+                </button>
+                <p>OR</p>
+                <button class="g-signin2 btn-size" data-onsuccess="onSignIn"></button>
+            </div>
+        </div>
+
+        <div class="row p-2 animated slideInDown fadeOutUp login">
+            <div class="col-sm-6 p-5 d-flex flex-column justify-content-center align-items-center">
+                <h3>Don't have an account?</h3>
+                <button id="register-now" class="btn-box btn-box-dark btn-size">
+                    <span>Register now</span>
+                </button>
+                <p>OR</p>
+                <button class="g-signin2 btn-size" data-onsuccess="onSignIn"></button>
+            </div>
+            <div class="col-sm-6 p-5">
+                <section class="main">  
+                    <form method="POST" id="login-form" class="animated slideInDown">
+                        <fieldset class="forms">
+                            <legend>Login</legend>
+                            <div class="field-wrapper">
+                                <label>Email</label>
+                                <input type="text" value="" placeholder="angela@mail.com" id="loginEmail" name="email"/>
+                            </div>
+                            <div class="field-wrapper">
+                                <label>Password</label>
+                                <input type="password" value="" placeholder="password" id="loginPassword" name="password"/>
+                            </div>
+                            <button class="btn-box"><span>Login</span></button>
+                        </fieldset>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </section>
+    
+    <section class="container logged-in">
+        <br/>
+        <div class="row">
+            <div class="col">
+                <h4 class="header-box m-3">Todos</h4>
+            </div>
+            <div class="col d-flex flex-row-reverse">
+                <button class="btn-box" data-toggle="modal" data-target="#addTodoModal" style="width: 25%;">
+                    <span>Add Todo</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="todos">
+            <table class="table table-borderless mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">NAME</th>
+                        <th scope="col">DESCRIPTION</th>
+                        <th scope="col">DUE DATE</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="all-todos">
+                </tbody>
+            </table>
+        </div>
+
+        
+        <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="addTodoModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="add-todo-form">
+                            <fieldset class="forms add-todo-form">
+                                <div class="field-wrapper">
+                                    <label>Name</label>
+                                    <input type="text" value="" placeholder="Enter name" id="inputTodoName" name="name" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Description</label>
+                                    <input type="text" value="" placeholder="Enter description" id="inputTodoDescription" name="description" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Due Date</label>
+                                    <input type="date" placeholder="Enter Due Date" id="inputDate" name="dueDate"/>
+                                </div>
+                                <button class="btn-box"><span>Create Todo</span></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="editTodoModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTodoModal">Edit Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" id="edit-todo-form">
+                            <fieldset class="forms add-todo-form">
+                                <div class="field-wrapper">
+                                    <label>Name</label>
+                                    <input type="text" placeholder="Enter name" id="editTodoName" name="name" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Description</label>
+                                    <input type="text" placeholder="Enter description" id="editTodoDescription" name="description" required/>
+                                </div>
+                                <div class="field-wrapper">
+                                    <label>Due Date</label>
+                                    <input type="date" placeholder="Enter Due Date" id="editDate" name="dueDate"/>
+                                </div>
+                                <button class="btn-box"><span>Edit Todo</span></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
